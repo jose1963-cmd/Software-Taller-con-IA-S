@@ -204,6 +204,24 @@ margin-top:10px;
 #modalClienteBox input{
 margin:4px 0 10px;
 }
+.version-app{
+position:absolute;
+top:8px;
+right:12px;
+font-size:12px;
+color:#aab4c8;
+font-weight:bold;
+background:#0b1220;
+border:1px solid #3b4a63;
+border-radius:8px;
+padding:4px 8px;
+z-index:10;
+}
+.version-app button{
+all:unset;
+cursor:pointer;
+}
+
 .aviso-modal{
 background:#2a1a00;
 border-left:4px solid #ff7a1a;
@@ -216,6 +234,8 @@ color:#ffd580;
 </style>
 </head>
 <body>
+
+<div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">R78</button></div>
 
 <h1 id="tituloApp">TALLERES AUTOBORJA</h1>
 
@@ -434,6 +454,15 @@ GUARDAR OT
 
 <script>
 
+const APP_VERSION="R78";
+const COPIA_VERSION=3;
+const APP_FECHA="14/06/2026";
+const APP_NOTAS="Copia completa V3: OT, clientes, vehículos, artículos y contadores. Base preparada para importaciones masivas.";
+
+function mostrarVersion(){
+alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
+}
+
 const STORAGE="RECEPCION_TALLER_PRO";
 
 let ots=[];
@@ -536,7 +565,8 @@ return ot.estado==="FINALIZADO" ? (ot.fechaFinalizacion || ot.fecha) : ot.fecha;
 function guardar(){
 try{
 localStorage.setItem(STORAGE,JSON.stringify({
-version:3,
+version:APP_VERSION,
+copiaVersion:COPIA_VERSION,
 fechaGuardado:new Date().toISOString(),
 ots:ots,
 contadores:contadores,
@@ -615,24 +645,38 @@ showTab('inicio');
 }
 }
 
-function exportarCopia(){
-const copia={
-version:3,
+function generarCopiaCompleta(){
+return {
+version:COPIA_VERSION,
+appVersion:APP_VERSION,
 fechaCopia:new Date().toISOString(),
-ots:ots,
-contadores:contadores,
-clientes:clientes,
-vehiculos:vehiculos,
-articulos:articulos
+ots:Array.isArray(ots) ? ots : [],
+contadores:contadores || {agenda:0,ot:0,factura:0},
+clientes:clientes || {},
+vehiculos:vehiculos || {},
+articulos:Array.isArray(articulos) ? articulos : [],
+resumen:{
+ot:(Array.isArray(ots) ? ots.length : 0),
+clientes:Object.keys(clientes || {}).length,
+vehiculos:Object.keys(vehiculos || {}).length,
+articulos:(Array.isArray(articulos) ? articulos.length : 0),
+agenda:(contadores && contadores.agenda) || 0,
+ordenesTrabajo:(contadores && contadores.ot) || 0,
+facturas:(contadores && contadores.factura) || 0
+}
 };
+}
 
+function exportarCopia(){
+const copia=generarCopiaCompleta();
 const datos=JSON.stringify(copia,null,2);
 const blob=new Blob([datos],{type:"application/json"});
 const url=URL.createObjectURL(blob);
 
 const a=document.createElement("a");
 a.href=url;
-a.download="copia_autoborja_ot.json";
+const sello=new Date().toISOString().slice(0,16).replace(/[-:T]/g,"");
+a.download="copia_autoborja_ot_v3_"+sello+".json";
 document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
@@ -664,10 +708,10 @@ vehiculos={};
 articulos=[];
 completarNumeracionExistente();
 }else if(datos && Array.isArray(datos.ots)){
-ots=datos.ots;
+ots=Array.isArray(datos.ots) ? datos.ots : [];
 contadores=datos.contadores || {agenda:0,ot:0,factura:0};
-clientes=datos.clientes || {};
-vehiculos=datos.vehiculos || {};
+clientes=(datos.clientes && typeof datos.clientes==="object") ? datos.clientes : {};
+vehiculos=(datos.vehiculos && typeof datos.vehiculos==="object") ? datos.vehiculos : {};
 articulos=Array.isArray(datos.articulos) ? datos.articulos : [];
 completarNumeracionExistente();
 }else{
@@ -1952,6 +1996,7 @@ estado.style.color="white";
 document.getElementById("estado")
 .addEventListener("change",actualizarColorEstado);
 actualizarColorEstado();
+document.getElementById("versionApp").querySelector("button").textContent=APP_VERSION;
 showTab('inicio');
 
 </script>
