@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Autoborja</title>
+<link rel="apple-touch-icon" href="icono 1024x1024.png">
+<style>
+body{font-family:Arial,sans-serif;background:#0f1728;margin:0;padding:16px;color:#e8edf7}
+.card{background:#1c2940;padding:18px;border-radius:18px;max-width:700px;margin:0 auto 18px;box-shadow:0 2px 10px #0004;border:2px solid #ff7a1a}
+h1{text-align:center;color:#ff7a1a;background:#0b1220;margin:-16px -16px 16px;padding:22px 10px;font-size:26px}
+h2{margin:8px 0 14px;color:#ffffff}
+.tabs{display:flex;gap:8px;max-width:700px;margin:0 auto 14px}
+.tabs button{
+flex:1;
+background:#1c2940;
+color:#e8edf7;
+border:1px solid #ff7a1a;
+}
+
+.tabs button{
+transition:0.15s;
+}
+
+.tabs button.activo{
+border:4px solid white;
+transform:scale(1.08);
+box-shadow:0 0 12px white;
+}
+input,textarea,select,button{width:100%;box-sizing:border-box;padding:13px;margin:6px 0 12px;border-radius:12px;border:1px solid #3b4a63;font-size:16px;
+background:#101827;color:#e8edf7}
+button{background:#ff7a1a;color:#0f1728;font-weight:bold;border:none}
+button.secondary{background:#344d7a;color:white}
+button.green{background:#28a745;color:white}
+button.danger{background:#b00020;color:white}
+.acciones{
+display:flex;
+gap:6px;
+margin-top:10px;
+}
+
+.acciones button{
+margin:0;
+padding:10px 6px;
+font-size:13px;
+flex:1;
+}
+label{font-weight:bold;color:#ff7a1a}
+.hidden{display:none}
+.item{background:#101827;color:#e8edf7;padding:12px;margin-top:10px;border-radius:12px;border-left:5px solid #ff7a1a}
+.row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+align-items:start;
+}
+
+.row input{
+width:100%;
+max-width:100%;
+}
+.results button{background:#101827;color:#e8edf7;text-align:left;border-radius:0;margin:0;border-bottom:1px solid #3b4a63}
+.notice{background:#10281d;border-left:5px solid #28a745;padding:10px;border-radius:10px;margin-bottom:12px;font-weight:bold;color:#e8edf7}
+input[type="datetime-local"]{min-width:0;font-size:14px;padding:12px 8px}
+
+@media(max-width:520px){
+.row{grid-template-columns:1fr}
+}
+#estado{
+font-weight:bold;
+}
+
+#estado option{
+font-weight:bold;
+}
+
+.estado-citado{
+background:#2196f3;
+color:white;
+}
+
+.estado-entaller{
+background:#ff7a1a;
+color:white;
+}
+
+.estado-finalizado{
+background:#28a745;
+color:white;
+}
+
+/* Modal cámara OCR */
+#modalCamara{
+display:none;
+position:fixed;
+top:0;left:0;right:0;bottom:0;
+background:#000d;
+z-index:10000;
+overflow-y:auto;
+padding:16px;
+}
+#modalCamaraBox{
+background:#0f1728;
+border:2px solid #ff7a1a;
+border-radius:18px;
+padding:16px;
+max-width:500px;
+margin:20px auto;
+}
+#modalCamaraBox h2{
+color:#ff7a1a;
+margin-top:0;
+text-align:center;
+}
+#videoOCR{
+width:100%;
+border-radius:12px;
+border:2px solid #3b4a63;
+background:#000;
+display:block;
+max-height:260px;
+object-fit:cover;
+}
+#overlayMat{
+text-align:center;
+font-size:28px;
+font-weight:bold;
+letter-spacing:6px;
+color:#ff7a1a;
+background:#0f1728;
+border-radius:10px;
+padding:12px 6px;
+margin:10px 0;
+min-height:54px;
+border:2px solid #ff7a1a;
+}
+#estadoOCR{
+text-align:center;
+font-size:14px;
+color:#aab4c8;
+margin-bottom:10px;
+min-height:20px;
+}
+#panelHistorialCamara{
+background:#101827;
+border-radius:12px;
+padding:10px;
+margin-top:10px;
+border:1px solid #3b4a63;
+display:none;
+}
+#panelHistorialCamara h3{
+color:#ff7a1a;
+margin:0 0 8px;
+font-size:15px;
+}
+#listadoHistCamara{
+font-size:13px;
+color:#e8edf7;
+max-height:160px;
+overflow-y:auto;
+}
+.item-hist-cam{
+border-left:3px solid #ff7a1a;
+padding:6px 8px;
+margin-bottom:6px;
+background:#1c2940;
+border-radius:8px;
+}
+#botoneraCamara{
+display:flex;
+gap:10px;
+margin-top:12px;
+}
+
+/* Modal ficha cliente */
+#modalCliente{
+display:none;
+position:fixed;
+top:0;left:0;right:0;bottom:0;
+background:#000a;
+z-index:9999;
+overflow-y:auto;
+padding:20px;
+}
+#modalClienteBox{
+background:#1c2940;
+border:2px solid #ff7a1a;
+border-radius:18px;
+padding:20px;
+max-width:500px;
+margin:40px auto;
+}
+#modalClienteBox h2{
+color:#ff7a1a;
+margin-top:0;
+}
+#modalClienteBox label{
+font-weight:bold;
+color:#ff7a1a;
+display:block;
+margin-top:10px;
+}
+#modalClienteBox input{
+margin:4px 0 10px;
+}
+.aviso-modal{
+background:#2a1a00;
+border-left:4px solid #ff7a1a;
+padding:10px;
+border-radius:8px;
+font-size:14px;
+margin-bottom:14px;
+color:#ffd580;
+}
+</style>
+</head>
+<body>
+
+<h1 id="tituloApp">TALLERES AUTOBORJA</h1>
+
+<div id="tabs" class="tabs">
+
+<button onclick="showTab('nueva')">NUEVA OT</button>
+<button onclick="showTab('agenda')">AGENDA</button>
+<button onclick="showTab('taller')">TALLER</button>
+<button onclick="showTab('historial')">HISTORIAL</button>
+</div>
+
+<div id="inicio" class="card hidden">
+<h1 style="text-align:center;font-size:32px;color:#ff7a1a;">
+BIENVENIDO
+</h1>
+
+<h2 style="text-align:center;">
+TALLERES AUTOBORJA
+</h2>
+
+<p style="text-align:center;margin-top:40px;">
+Gestión de órdenes de trabajo
+</p>
+
+<button class="green"
+onclick="showTab('nueva')"
+style="width:100%;font-size:24px;padding:20px;margin-top:40px;">
+NUEVA OT
+</button>
+
+<button class="secondary" onclick="exportarCopia()" type="button">
+EXPORTAR COPIA
+</button>
+
+<input type="file" id="backupFile" accept=".json" style="display:none" onchange="importarCopia(event)">
+
+<button class="secondary" onclick="document.getElementById('backupFile').click()" type="button">
+IMPORTAR COPIA
+</button>
+
+<input type="file" id="importClientesFile" accept=".csv" style="display:none">
+
+<button class="secondary" onclick="importarClientesCSVDesdeInicio()" type="button">
+IMPORTAR CLIENTES CSV
+</button>
+
+<input type="file" id="importVehiculosFile" accept=".csv" style="display:none">
+
+<button class="secondary" onclick="importarVehiculosCSVDesdeInicio()" type="button">
+IMPORTAR VEHÍCULOS CSV
+</button>
+
+<input type="file" id="importArticulosFile" accept=".csv" style="display:none">
+
+<button class="secondary" onclick="importarArticulosCSVDesdeInicio()" type="button">
+IMPORTAR ARTÍCULOS CSV
+</button>
+
+<button class="secondary" onclick="showTab('almacen')" type="button">
+📦 ALMACÉN
+</button>
+
+<button class="danger" onclick="resetearPrograma()" type="button">
+BORRAR PRUEBAS / EMPEZAR DE CERO
+</button>
+</div>
+
+<div id="nueva" class="card hidden">
+<h2>Nueva Orden</h2>
+
+<label>Matrícula *</label>
+<div style="display:flex;gap:8px;align-items:flex-start;">
+<input id="matricula" placeholder="0000ABC" style="flex:1;margin:6px 0 12px;">
+<button type="button" onclick="abrirCamara()" style="flex:0 0 auto;width:auto;padding:13px 16px;margin:6px 0 12px;font-size:20px;line-height:1;" title="Seleccionar foto de matrícula">📷</button>
+</div>
+<button onclick="buscarMatricula()" type="button">BUSCAR MATRÍCULA</button>
+
+
+
+<div id="aviso" class="notice hidden"></div>
+
+<label>Cliente *</label>
+<input id="cliente" placeholder="Nombre y apellidos">
+
+<label>Teléfono</label>
+<input id="telefono" type="tel" inputmode="numeric" maxlength="9" placeholder="Teléfono">
+
+<label>Marca</label>
+<input id="marca" placeholder="Escribe marca">
+<div id="marcaResultados" class="results"></div>
+
+<label>Modelo</label>
+<input id="modelo" placeholder="Escribe modelo">
+<div id="modeloResultados" class="results"></div>
+
+<div class="row">
+<div>
+<label>KM</label>
+<input id="km" type="number" inputmode="numeric" placeholder="KM">
+</div>
+<div>
+<label>Fecha / cita</label>
+<input id="fecha" type="datetime-local">
+</div>
+</div>
+
+<label>Estado</label>
+<select id="estado" onchange="irGuardar()">
+<option>CITADO</option>
+<option>EN TALLER</option>
+<option>FINALIZADO</option>
+</select>
+<label>Trabajos *</label>
+<textarea id="trabajos" rows="5"></textarea>
+
+<label>Observaciones</label>
+<textarea id="observaciones" rows="4"></textarea>
+
+<button id="btnGuardar" class="green" onclick="guardarOT()" type="button">
+GUARDAR OT
+</button>
+
+</div>
+
+<div id="historial" class="card hidden">
+<h2>Historial</h2>
+<div id="filtroTabs" style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
+  <button type="button" id="ftbMatricula" onclick="setFiltro('matricula')" style="flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;">MATRÍCULA</button>
+  <button type="button" id="ftbCliente"   onclick="setFiltro('cliente')"   style="flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;">CLIENTE</button>
+  <button type="button" id="ftbFecha"     onclick="setFiltro('fecha')"     style="flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;">FECHA</button>
+  <button type="button" id="ftbFactura"   onclick="setFiltro('factura')"   style="flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;">Nº FACTURA</button>
+</div>
+<input id="buscar" placeholder="Buscar matrícula..." oninput="renderHistorial()" style="display:block;">
+<div id="lista"></div>
+</div>
+
+<div id="agenda" class="card hidden">
+<h2>Agenda</h2>
+<div id="agendaLista"></div>
+</div>
+<div id="taller" class="card hidden">
+<h2>Taller</h2>
+<div id="tallerLista"><p>No hay vehículos en taller.</p></div>
+</div>
+<div id="almacen" class="card hidden">
+<h2>📦 Almacén</h2>
+<button type="button" class="secondary" onclick="showTab('inicio')" style="margin-bottom:10px;">⬅️ VOLVER A INICIO</button>
+<input id="buscarArticulo" placeholder="Buscar por referencia o descripción..." oninput="renderAlmacen()" style="display:block;">
+<div id="almacenLista"></div>
+</div>
+<!-- Modal cámara OCR matrícula -->
+<!-- Input oculto para captura de foto nativa iOS -->
+<input type="file" id="inputFotoCamara" accept="image/*" style="display:none" onchange="procesarFotoMatricula(event)">
+
+<div id="modalCamara">
+<div id="modalCamaraBox">
+  <h2>📷 ESCÁNER DE MATRÍCULA</h2>
+  <div id="overlayMat">— — — — — —</div>
+  <div id="estadoOCR">Procesando imagen...</div>
+  <div id="previewFoto" style="display:none;margin:10px 0;">
+    <img id="imgPreview" style="width:100%;border-radius:10px;border:2px solid #3b4a63;">
+  </div>
+  <div id="panelHistorialCamara">
+    <h3>📁 HISTORIAL DEL VEHÍCULO</h3>
+    <div id="listadoHistCamara"></div>
+  </div>
+  <div id="botoneraCamara">
+    <button type="button" class="green" id="btnAceptarCamara" onclick="aceptarMatriculaEscaneada()" style="margin:0;display:none;">✅ ACEPTAR</button>
+    <button type="button" id="btnRepetirFoto" onclick="repetirFoto()" style="margin:0;display:none;background:#344d7a;color:white;">🔄 REPETIR</button>
+    <button type="button" class="danger" onclick="cerrarCamara()" style="margin:0;">❌ CERRAR</button>
+  </div>
+</div>
+</div>
+
+<!-- Modal ficha cliente para facturación -->
+<div id="modalCliente">
+<div id="modalClienteBox">
+  <h2>📋 FICHA DE CLIENTE</h2>
+  <div class="aviso-modal">
+    ⚠️ Para emitir una factura válida es obligatorio completar el NIF/NIE y la dirección del cliente.<br>Estos datos quedan guardados para futuras facturas.
+  </div>
+  <div id="modalClienteNombre" style="font-weight:bold;font-size:17px;color:#fff;margin-bottom:10px;"></div>
+
+  <label>NIF / NIE *</label>
+  <input id="mcNif" placeholder="12345678A" maxlength="20" oninput="calcularLetraNif(this)">
+
+  <label>Dirección *</label>
+  <input id="mcDireccion" placeholder="Calle, número, piso...">
+
+  <label>C. Postal - Ciudad</label>
+  <input id="mcPoblacion" placeholder="50540 - Borja">
+
+  <div style="display:flex;gap:10px;">
+    <div style="flex:1;">
+      <label>Móvil</label>
+      <input id="mcMovil" type="tel" inputmode="numeric" maxlength="9" placeholder="600000000">
+    </div>
+    <div style="flex:1;">
+      <label>Tfno</label>
+      <input id="mcTfno" type="tel" inputmode="numeric" maxlength="9" placeholder="976000000">
+    </div>
+  </div>
+
+  <label>E-mail</label>
+  <input id="mcEmail" type="email" placeholder="cliente@correo.com">
+
+  <label>Observaciones</label>
+  <textarea id="mcObservaciones" placeholder="Notas sobre el cliente..." rows="3" style="width:100%;box-sizing:border-box;resize:vertical;"></textarea>
+
+  <div style="display:flex;gap:10px;margin-top:14px;">
+    <button type="button" class="green" onclick="confirmarFicha()" style="margin:0;">GUARDAR Y CONTINUAR</button>
+    <button type="button" class="danger" onclick="cancelarFicha()" style="margin:0;flex:0.5;">CANCELAR</button>
+  </div>
+</div>
+</div>
+
+<script>
+
+const STORAGE="RECEPCION_TALLER_PRO";
+
+let ots=[];
+let contadores={agenda:0,ot:0,factura:0};
+let clientes={};  // clave: nombre normalizado → {codigo,nombre,nif,direccion,poblacion,movil,tfno,email,observaciones}
+let vehiculos={}; // clave: matrícula → {matricula,cliente,marca,modelo,...}
+let articulos=[]; // array de {referencia,descripcion,proveedor,familia,precio_compra,margen_pct,precio_venta,iva,stock,stock_minimo,observaciones}
+
+try{
+const guardado=JSON.parse(localStorage.getItem(STORAGE)||"[]");
+
+if(Array.isArray(guardado)){
+ots=guardado;
+}else{
+ots=Array.isArray(guardado.ots) ? guardado.ots : [];
+contadores=guardado.contadores || {agenda:0,ot:0,factura:0};
+clientes=guardado.clientes || {};
+vehiculos=guardado.vehiculos || {};
+articulos=Array.isArray(guardado.articulos) ? guardado.articulos : [];
+}
+}catch(e){
+ots=[];
+contadores={agenda:0,ot:0,factura:0};
+clientes={};
+vehiculos={};
+articulos=[];
+}
+
+let editandoId=null;
+let _otPendienteGuardar=null;  // OT en espera de confirmar ficha cliente
+
+const MARCAS=[
+"SEAT","VOLKSWAGEN","AUDI","SKODA","BMW","MERCEDES",
+"PEUGEOT","RENAULT","CITROEN","OPEL","FORD","TOYOTA",
+"NISSAN","KIA","HYUNDAI","DACIA","FIAT","MAZDA"
+
+];const MODELOS={
+"ABARTH":["500","595","695"],
+"ALFA ROMEO":["147","156","159","GIULIA","GIULIETTA","MITO","STELVIO","TONALE"],
+"AUDI":["A1","A3","A4","A5","A6","A7","A8","Q2","Q3","Q5","Q7","Q8","TT"],
+"BMW":["SERIE 1","SERIE 2","SERIE 3","SERIE 4","SERIE 5","X1","X3","X5","X6"],
+"CITROEN":["C1","C2","C3","C3 AIRCROSS","C4","C4 CACTUS","C5","BERLINGO","JUMPY","JUMPER"],
+"CUPRA":["ATECA","BORN","FORMENTOR","LEON"],
+"DACIA":["DUSTER","JOGGER","LOGAN","SANDERO","SPRING"],
+"FIAT":["500","500L","500X","DOBLO","DUCATO","PANDA","PUNTO","TIPO"],
+"FORD":["B-MAX","C-MAX","FIESTA","FOCUS","KUGA","MONDEO","PUMA","RANGER","S-MAX","TOURNEO","TRANSIT"],
+"HONDA":["ACCORD","CIVIC","CR-V","HR-V","JAZZ"],
+"HYUNDAI":["BAYON","GETZ","I10","I20","I30","IONIQ","KONA","SANTA FE","TUCSON"],
+"KIA":["CARENS","CEED","NIRO","PICANTO","RIO","SORENTO","SPORTAGE","STONIC","XCEED"],
+"MAZDA":["2","3","5","6","CX-3","CX-30","CX-5","MX-5"],
+"MERCEDES":["CLASE A","CLASE B","CLASE C","CLASE E","CLA","GLA","GLB","GLC","GLE","SPRINTER","VITO"],
+"MINI":["MINI","CLUBMAN","COUNTRYMAN"],
+"MITSUBISHI":["ASX","COLT","ECLIPSE CROSS","L200","MONTERO","OUTLANDER","SPACE STAR"],
+"NISSAN":["JUKE","LEAF","MICRA","NAVARA","NOTE","NV200","PULSAR","QASHQAI","X-TRAIL"],
+"OPEL":["ADAM","AGILA","ANTARA","ASTRA","COMBO","CORSA","CROSSLAND","GRANDLAND","INSIGNIA","MERIVA","MOKKA","MOVANO","VECTRA","VIVARO","ZAFIRA"],
+"PEUGEOT":["106","107","108","206","207","208","2008","307","308","3008","407","508","5008","PARTNER","RIFTER","BOXER","EXPERT"],
+"PORSCHE":["911","BOXSTER","CAYENNE","CAYMAN","MACAN","PANAMERA"],
+"RENAULT":["ARKANA","CAPTUR","CLIO","KADJAR","KANGOO","LAGUNA","MASTER","MEGANE","SCENIC","TRAFIC","TWINGO","ZOE"],
+"SEAT":["ALHAMBRA","ALTEA","ARONA","ATECA","CORDOBA","EXEO","IBIZA","LEON","TARRACO","TOLEDO"],
+"SKODA":["FABIA","KAMIQ","KAROQ","KODIAQ","OCTAVIA","RAPID","SCALA","SUPERB","YETI"],
+"SMART":["FORTWO","FORFOUR"],
+"SUBARU":["FORESTER","IMPREZA","LEGACY","OUTBACK","XV"],
+"SUZUKI":["ALTO","BALENO","IGNIS","JIMNY","S-CROSS","SWIFT","VITARA"],
+"TESLA":["MODEL 3","MODEL S","MODEL X","MODEL Y"],
+"TOYOTA":["AURIS","AVENSIS","AYGO","C-HR","COROLLA","HILUX","LAND CRUISER","PRIUS","PROACE","RAV4","VERSO","YARIS","YARIS CROSS"],
+"VOLKSWAGEN":["AMAROK","BEETLE","CADDY","CRAFTER","GOLF","PASSAT","POLO","T-CROSS","T-ROC","TIGUAN","TOUAREG","TOURAN","TRANSPORTER"],
+"VOLVO":["C30","S40","S60","S80","V40","V50","V60","V70","XC40","XC60","XC90"]
+};
+
+function formatearFecha(fecha){
+
+if(!fecha) return "SIN CITA";
+
+const d=new Date(fecha);
+
+const dia=String(d.getDate()).padStart(2,"0");
+const mes=String(d.getMonth()+1).padStart(2,"0");
+const año=d.getFullYear();
+
+const hora=d.getHours();
+const min=String(d.getMinutes()).padStart(2,"0");
+
+return `${dia}/${mes}/${año} - ${hora}:${min}h`;
+
+}
+function ahoraLocalInput(){
+const d=new Date();
+const yyyy=d.getFullYear();
+const mm=String(d.getMonth()+1).padStart(2,"0");
+const dd=String(d.getDate()).padStart(2,"0");
+const hh=String(d.getHours()).padStart(2,"0");
+const mi=String(d.getMinutes()).padStart(2,"0");
+return `${yyyy}-${mm}-${dd}T${hh}:${mi}`;
+}
+
+function fechaDocumento(ot){
+return ot.estado==="FINALIZADO" ? (ot.fechaFinalizacion || ot.fecha) : ot.fecha;
+}
+
+function guardar(){
+try{
+localStorage.setItem(STORAGE,JSON.stringify({
+version:3,
+fechaGuardado:new Date().toISOString(),
+ots:ots,
+contadores:contadores,
+clientes:clientes,
+vehiculos:vehiculos,
+articulos:articulos
+}));
+return true;
+}catch(e){
+alert("ERROR CRÍTICO: NO SE HAN PODIDO GUARDAR LOS DATOS. Exporta una copia y no cierres la app hasta resolverlo.");
+console.error(e);
+return false;
+}
+}
+
+function siguienteNumero(tipo){
+contadores[tipo]=(contadores[tipo]||0)+1;
+return contadores[tipo];
+}
+
+function formatearNumero(prefijo,numero){
+if(!numero) return "SIN Nº";
+return prefijo+"-"+String(numero).padStart(4,"0");
+}
+
+function referenciaOT(ot){
+if(ot.estado==="CITADO") return formatearNumero("A",ot.numeroAgenda);
+if(ot.estado==="EN TALLER") return formatearNumero("OT",ot.numeroOT);
+if(ot.estado==="FINALIZADO") return formatearNumero("FAC",ot.numeroFactura);
+return "SIN Nº";
+}
+
+function asegurarNumeracion(ot){
+const esFichaCliente=ot.trabajos==="IMPORTADO DESDE CSV" && !ot.fecha;
+if(esFichaCliente) return;
+
+if(ot.estado==="CITADO" && !ot.numeroAgenda){
+ot.numeroAgenda=siguienteNumero("agenda");
+}
+
+if(ot.estado==="EN TALLER" && !ot.numeroOT){
+ot.numeroOT=siguienteNumero("ot");
+}
+
+if(ot.estado==="FINALIZADO" && !ot.numeroFactura){
+ot.numeroFactura=siguienteNumero("factura");
+}
+}
+
+function completarNumeracionExistente(){
+ots
+.slice()
+.sort((a,b)=>(a.id||0)-(b.id||0))
+.forEach(ot=>asegurarNumeracion(ot));
+}
+
+function resetearPrograma(){
+const texto=prompt("PELIGRO: esto borra OTs, clientes, vehículos y almacén, y reinicia A, OT y FAC desde 0001. Se descargará antes una copia. Para confirmar escribe BORRAR TODO");
+
+if(texto!=="BORRAR TODO"){
+alert("OPERACIÓN CANCELADA");
+return;
+}
+
+exportarCopia();
+
+ots=[];
+contadores={agenda:0,ot:0,factura:0};
+clientes={};
+vehiculos={};
+articulos=[];
+editandoId=null;
+if(guardar()){
+alert("PROGRAMA REINICIADO. LA PRÓXIMA OT EMPEZARÁ EN 0001");
+showTab('inicio');
+}
+}
+
+function exportarCopia(){
+const copia={
+version:3,
+fechaCopia:new Date().toISOString(),
+ots:ots,
+contadores:contadores,
+clientes:clientes,
+vehiculos:vehiculos,
+articulos:articulos
+};
+
+const datos=JSON.stringify(copia,null,2);
+const blob=new Blob([datos],{type:"application/json"});
+const url=URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+a.href=url;
+a.download="copia_autoborja_ot.json";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+
+URL.revokeObjectURL(url);
+}
+
+function importarCopia(event){
+const file=event.target.files[0];
+if(!file)return;
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+try{
+const datos=JSON.parse(e.target.result);
+
+if(!confirm("Vas a sustituir los datos actuales por esta copia. Antes se descargará una copia de seguridad del estado actual. ¿Continuar?")){
+event.target.value="";
+return;
+}
+exportarCopia();
+
+if(Array.isArray(datos)){
+ots=datos;
+contadores={agenda:0,ot:0,factura:0};
+clientes={};
+vehiculos={};
+articulos=[];
+completarNumeracionExistente();
+}else if(datos && Array.isArray(datos.ots)){
+ots=datos.ots;
+contadores=datos.contadores || {agenda:0,ot:0,factura:0};
+clientes=datos.clientes || {};
+vehiculos=datos.vehiculos || {};
+articulos=Array.isArray(datos.articulos) ? datos.articulos : [];
+completarNumeracionExistente();
+}else{
+alert("COPIA NO VÁLIDA");
+event.target.value="";
+return;
+}
+
+if(guardar()){
+alert("COPIA IMPORTADA CORRECTAMENTE");
+showTab('inicio');
+}
+
+}catch(error){
+alert("ERROR AL IMPORTAR COPIA");
+console.error(error);
+}
+
+event.target.value="";
+};
+
+reader.readAsText(file,"UTF-8");
+}
+
+
+function irGuardar(){
+setTimeout(()=>{
+document.getElementById("btnGuardar").scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+},150);
+}
+
+function showTab(id){
+
+document.getElementById("inicio").classList.add("hidden");
+document.getElementById("nueva").classList.add("hidden");
+document.getElementById("historial").classList.add("hidden");
+document.getElementById("agenda").classList.add("hidden");
+document.getElementById("taller").classList.add("hidden");
+document.getElementById("almacen").classList.add("hidden");
+
+document.getElementById(id).classList.remove("hidden");
+
+const titulo=document.getElementById("tituloApp");
+
+document.getElementById("tabs").style.display =
+(id==="inicio"||id==="almacen") ? "none" : "flex";
+
+document.querySelectorAll("#tabs button").forEach(btn=>{
+btn.classList.remove("activo");
+});
+
+if(id==="inicio"){
+titulo.style.background="#0f1728";
+titulo.style.color="#ff7a1a";
+}
+
+if(id==="almacen"){
+titulo.style.background="#37474f";
+titulo.style.color="#ff7a1a";
+}
+
+if(id==="nueva"){
+document.querySelectorAll("#tabs button")[0].classList.add("activo");
+titulo.style.background="#ff7a1a";
+titulo.style.color="#0f1728";
+}
+
+if(id==="agenda"){
+document.querySelectorAll("#tabs button")[1].classList.add("activo");
+titulo.style.background="#2196f3";
+titulo.style.color="white";
+}
+
+if(id==="taller"){
+document.querySelectorAll("#tabs button")[2].classList.add("activo");
+titulo.style.background="#9c27b0";
+titulo.style.color="white";
+}
+
+if(id==="historial"){
+document.querySelectorAll("#tabs button")[3].classList.add("activo");
+titulo.style.background="#28a745";
+titulo.style.color="white";
+}
+
+if(id==="historial"){ setFiltro(filtroActivo); }
+if(id==="agenda") renderAgenda();
+if(id==="taller") renderTaller();
+if(id==="almacen") renderAlmacen();
+}
+function normalizar(t){
+return (t || "").toUpperCase();
+}
+function mostrarMarcas(){
+const texto=normalizar(document.getElementById("marca").value);
+const box=document.getElementById("marcaResultados");
+box.innerHTML="";
+
+MARCAS
+.filter(m=>m.includes(texto))
+.forEach(m=>{
+box.innerHTML+=`
+<button type="button" onclick="elegirMarca('${m}')">${m}</button>
+`;
+});
+}
+
+function elegirMarca(marca){
+document.getElementById("marca").value=marca;
+document.getElementById("marcaResultados").innerHTML="";
+document.getElementById("modelo").value="";
+mostrarModelos();
+}
+
+function mostrarModelos(){
+const marca=document.getElementById("marca").value.toUpperCase();
+const texto=normalizar(document.getElementById("modelo").value);
+const box=document.getElementById("modeloResultados");
+box.innerHTML="";
+
+const lista=MODELOS[marca]||[];
+
+lista
+.filter(m=>m.includes(texto))
+.forEach(m=>{
+box.innerHTML+=`
+<button type="button" onclick="elegirModelo('${m}')">${m}</button>
+`;
+});
+}
+
+function elegirModelo(modelo){
+document.getElementById("modelo").value=modelo;
+document.getElementById("modeloResultados").innerHTML="";
+}
+function buscarMatricula(){
+
+const mat=document.getElementById("matricula")
+.value.trim().toUpperCase();
+
+if(!mat)return;
+
+const ot=[...ots]
+.reverse()
+.find(x=>x.matricula===mat);
+
+if(ot){
+document.getElementById("cliente").value=ot.cliente||"";
+document.getElementById("telefono").value=ot.telefono||"";
+document.getElementById("marca").value=ot.marca||"";
+document.getElementById("modelo").value=ot.modelo||"";
+document.getElementById("aviso").classList.remove("hidden");
+document.getElementById("aviso").innerText="DATOS RECUPERADOS";
+return;
+}
+
+// Sin OTs previas: buscar en vehículos/clientes importados por CSV
+const veh=buscarFichaVehiculo(mat);
+if(veh){
+document.getElementById("cliente").value=veh.cliente||"";
+document.getElementById("marca").value=veh.marca||"";
+document.getElementById("modelo").value=veh.modelo||"";
+
+const ficha=buscarFichaCliente(veh.cliente);
+if(ficha){
+document.getElementById("telefono").value=ficha.movil||ficha.tfno||"";
+}
+
+document.getElementById("aviso").classList.remove("hidden");
+document.getElementById("aviso").innerText="DATOS RECUPERADOS (FICHA IMPORTADA)";
+return;
+}
+
+document.getElementById("aviso").classList.remove("hidden");
+document.getElementById("aviso").innerText=
+"MATRÍCULA NO ENCONTRADA";
+}
+
+function guardarOT(){
+
+const ot={
+id:Date.now(),
+matricula:document.getElementById("matricula").value.trim().toUpperCase(),
+cliente:document.getElementById("cliente").value.trim().toUpperCase(),
+telefono:document.getElementById("telefono").value.trim(),
+marca:document.getElementById("marca").value.trim().toUpperCase(),
+modelo:document.getElementById("modelo").value.trim().toUpperCase(),
+km:document.getElementById("km").value.trim(),
+fecha:document.getElementById("fecha").value,
+estado:document.getElementById("estado").value,
+trabajos:document.getElementById("trabajos").value.trim().toUpperCase(),
+observaciones:document.getElementById("observaciones").value.trim().toUpperCase()
+};
+
+if(!ot.matricula||!ot.cliente||!ot.trabajos){
+alert("FALTAN DATOS OBLIGATORIOS");
+return;
+}
+
+// Si es FINALIZADO, comprobar ficha de cliente
+if(ot.estado==="FINALIZADO"){
+const fichaExistente=buscarFichaCliente(ot.cliente);
+if(!fichaExistente || !fichaExistente.nif || !fichaExistente.direccion){
+// Guardar OT en espera y abrir modal
+_otPendienteGuardar=ot;
+abrirModalCliente(ot.cliente, fichaExistente);
+return;
+}
+// Ficha completa: enlazar datos a la OT
+ot.nif=fichaExistente.nif;
+ot.direccion=fichaExistente.direccion;
+ot.poblacion=fichaExistente.poblacion||"";
+}
+
+_completarGuardadoOT(ot);
+}
+
+function _completarGuardadoOT(ot){
+if(editandoId){
+const anterior=ots.find(x=>x.id===editandoId) || {};
+ot.id=editandoId;
+ot.numeroAgenda=anterior.numeroAgenda;
+ot.numeroOT=anterior.numeroOT;
+ot.numeroFactura=anterior.numeroFactura;
+
+// Fecha real de factura/finalización: se fija al pasar a FINALIZADO y luego se conserva.
+if(ot.estado==="FINALIZADO"){
+if(anterior.estado==="FINALIZADO" && anterior.fechaFinalizacion){
+ot.fechaFinalizacion=anterior.fechaFinalizacion;
+}else{
+ot.fechaFinalizacion=ahoraLocalInput();
+}
+}else{
+ot.fechaFinalizacion=anterior.fechaFinalizacion;
+}
+
+// Preservar datos fiscales si ya existían y no llegan nuevos
+if(!ot.nif && anterior.nif) ot.nif=anterior.nif;
+if(!ot.direccion && anterior.direccion) ot.direccion=anterior.direccion;
+if(!ot.poblacion && anterior.poblacion) ot.poblacion=anterior.poblacion;
+asegurarNumeracion(ot);
+ots=ots.map(x=>x.id===editandoId ? ot : x);
+editandoId=null;
+alert("OT ACTUALIZADA: "+referenciaOT(ot));
+}else{
+if(ot.estado==="FINALIZADO" && !ot.fechaFinalizacion){
+ot.fechaFinalizacion=ahoraLocalInput();
+}
+asegurarNumeracion(ot);
+ots.push(ot);
+alert("OT GUARDADA: "+referenciaOT(ot));
+}
+if(!guardar()) return;
+
+document.getElementById("matricula").value="";
+document.getElementById("cliente").value="";
+document.getElementById("telefono").value="";
+document.getElementById("marca").value="";
+document.getElementById("modelo").value="";
+document.getElementById("km").value="";
+document.getElementById("fecha").value="";
+document.getElementById("estado").value="CITADO";
+actualizarColorEstado();
+document.getElementById("trabajos").value="";
+document.getElementById("observaciones").value="";
+
+showTab('inicio');
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+}
+// ── FICHA DE CLIENTE ──────────────────────────────────────────
+function claveCliente(nombre){
+return (nombre||"").trim().toUpperCase();
+}
+
+function buscarFichaCliente(nombre){
+return clientes[claveCliente(nombre)] || null;
+}
+
+function guardarFichaCliente(nombre,nif,direccion,poblacion,movil,tfno,email,observaciones){
+const clave=claveCliente(nombre);
+const existente=clientes[clave]||{};
+clientes[clave]={
+codigo:existente.codigo||generarCodigoCliente(),
+nombre:clave,
+nif:(nif||"").trim().toUpperCase(),
+direccion:(direccion||"").trim(),
+poblacion:(poblacion||"").trim(),
+movil:(movil||"").trim(),
+tfno:(tfno||"").trim(),
+email:(email||"").trim(),
+observaciones:(observaciones||"").trim()
+};
+guardar();
+}
+
+// ── CÓDIGO DE CLIENTE (C0001, C0002...) ──────────────────────
+function generarCodigoCliente(){
+let max=0;
+Object.values(clientes).forEach(c=>{
+const m=(c.codigo||"").match(/^C(\d{4,})$/);
+if(m){
+const n=parseInt(m[1],10);
+if(n>max) max=n;
+}
+});
+return "C"+String(max+1).padStart(4,"0");
+}
+
+// ── VEHÍCULOS (matrícula → ficha técnica) ────────────────────
+function buscarFichaVehiculo(matricula){
+return vehiculos[(matricula||"").trim().toUpperCase()] || null;
+}
+
+function guardarFichaVehiculo(datos){
+const clave=(datos.matricula||"").trim().toUpperCase();
+if(!clave) return;
+vehiculos[clave]={
+matricula:clave,
+bastidor:(datos.bastidor||"").trim().toUpperCase(),
+cliente:(datos.cliente||"").trim().toUpperCase(),
+marca:(datos.marca||"").trim().toUpperCase(),
+modelo:(datos.modelo||"").trim().toUpperCase(),
+combustible:(datos.combustible||"").trim().toUpperCase(),
+cilindrada:(datos.cilindrada||"").trim(),
+kw:(datos.kw||"").trim(),
+cv:(datos.cv||"").trim(),
+fechaMatriculacion:(datos.fechaMatriculacion||"").trim(),
+color:(datos.color||"").trim().toUpperCase(),
+observaciones:(datos.observaciones||"").trim()
+};
+}
+
+// ── IMPORTACIÓN CSV: CLIENTES ────────────────────────────────
+// Formato esperado (cabecera fila 1, separador ;):
+// nombre;direccion;poblacion;nif;movil;tfno;email;observaciones
+function importarClientesCSVDesdeInicio(){
+const fileInput=document.getElementById("importClientesFile");
+fileInput.onchange=function(e){
+procesarClientesCSV(e.target.files[0]);
+fileInput.value="";
+};
+fileInput.click();
+}
+
+function procesarClientesCSV(file){
+if(!file){
+alert("SELECCIONA UN ARCHIVO CSV");
+return;
+}
+const reader=new FileReader();
+reader.onload=function(e){
+const texto=e.target.result;
+const lineas=texto.split(/\r?\n/).filter(l=>l.trim()!=="");
+if(lineas.length<2){
+alert("EL CSV ESTÁ VACÍO O NO TIENE DATOS");
+return;
+}
+const cabeceras=lineas[0].split(";").map(h=>h.trim().toLowerCase());
+let importados=0;
+for(let i=1;i<lineas.length;i++){
+const valores=lineas[i].split(";").map(v=>v.trim());
+const registro={};
+cabeceras.forEach((cabecera,index)=>{
+registro[cabecera]=valores[index]||"";
+});
+if(registro.nombre){
+guardarFichaCliente(
+registro.nombre,
+registro.nif||"",
+registro.direccion||"",
+registro.poblacion||"",
+registro.movil||"",
+registro.tfno||"",
+registro.email||"",
+registro.observaciones||""
+);
+importados++;
+}
+}
+guardar();
+alert("CLIENTES IMPORTADOS: "+importados);
+};
+reader.readAsText(file,"UTF-8");
+}
+
+// ── IMPORTACIÓN CSV: VEHÍCULOS ───────────────────────────────
+// Formato esperado (cabecera fila 1, separador ;):
+// matricula;bastidor;clientes;marca;modelo;combustible;cilindrada_cc;kw;cv;fecha_matriculacion;color;observaciones
+function importarVehiculosCSVDesdeInicio(){
+const fileInput=document.getElementById("importVehiculosFile");
+fileInput.onchange=function(e){
+procesarVehiculosCSV(e.target.files[0]);
+fileInput.value="";
+};
+fileInput.click();
+}
+
+function procesarVehiculosCSV(file){
+if(!file){
+alert("SELECCIONA UN ARCHIVO CSV");
+return;
+}
+const reader=new FileReader();
+reader.onload=function(e){
+const texto=e.target.result;
+const lineas=texto.split(/\r?\n/).filter(l=>l.trim()!=="");
+if(lineas.length<2){
+alert("EL CSV ESTÁ VACÍO O NO TIENE DATOS");
+return;
+}
+const cabeceras=lineas[0].split(";").map(h=>h.trim().toLowerCase());
+let importados=0;
+for(let i=1;i<lineas.length;i++){
+const valores=lineas[i].split(";").map(v=>v.trim());
+const registro={};
+cabeceras.forEach((cabecera,index)=>{
+registro[cabecera]=valores[index]||"";
+});
+if(registro.matricula){
+guardarFichaVehiculo({
+matricula:registro.matricula,
+bastidor:registro.bastidor||"",
+cliente:registro.clientes||"",
+marca:registro.marca||"",
+modelo:registro.modelo||"",
+combustible:registro.combustible||"",
+cilindrada:registro.cilindrada_cc||"",
+kw:registro.kw||"",
+cv:registro.cv||"",
+fechaMatriculacion:registro.fecha_matriculacion||"",
+color:registro.color||"",
+observaciones:registro.observaciones||""
+});
+importados++;
+}
+}
+guardar();
+alert("VEHÍCULOS IMPORTADOS: "+importados);
+};
+reader.readAsText(file,"UTF-8");
+}
+
+// ── ALMACÉN: ARTÍCULOS ───────────────────────────────────────
+// Formato esperado (cabecera fila 1, separador ;):
+// referencia;descripcion;proveedor;familia;precio_compra;margen_pct;precio_venta;iva;stock;stock_minimo;observaciones
+function importarArticulosCSVDesdeInicio(){
+const fileInput=document.getElementById("importArticulosFile");
+fileInput.onchange=function(e){
+procesarArticulosCSV(e.target.files[0]);
+fileInput.value="";
+};
+fileInput.click();
+}
+
+function numero(valor){
+if(valor===undefined||valor===null||valor==="") return null;
+const n=parseFloat(String(valor).replace(",","."));
+return isNaN(n) ? null : n;
+}
+
+function procesarArticulosCSV(file){
+if(!file){
+alert("SELECCIONA UN ARCHIVO CSV");
+return;
+}
+const reader=new FileReader();
+reader.onload=function(e){
+const texto=e.target.result;
+const lineas=texto.split(/\r?\n/).filter(l=>l.trim()!=="");
+if(lineas.length<2){
+alert("EL CSV ESTÁ VACÍO O NO TIENE DATOS");
+return;
+}
+const cabeceras=lineas[0].split(";").map(h=>h.trim().toLowerCase());
+let importados=0;
+for(let i=1;i<lineas.length;i++){
+const valores=lineas[i].split(";").map(v=>v.trim());
+const registro={};
+cabeceras.forEach((cabecera,index)=>{
+registro[cabecera]=valores[index]||"";
+});
+if(!registro.referencia || !registro.descripcion || !registro.proveedor) continue;
+
+const precioCompra=numero(registro.precio_compra);
+const margenPct=numero(registro.margen_pct);
+let precioVenta=numero(registro.precio_venta);
+
+if(precioVenta===null && precioCompra!==null && margenPct!==null){
+precioVenta=Math.round(precioCompra*(1+margenPct/100)*100)/100;
+}
+
+const articulo={
+referencia:registro.referencia.trim().toUpperCase(),
+descripcion:registro.descripcion.trim().toUpperCase(),
+proveedor:registro.proveedor.trim().toUpperCase(),
+familia:(registro.familia||"").trim().toUpperCase(),
+precio_compra:precioCompra,
+margen_pct:margenPct,
+precio_venta:precioVenta,
+iva:numero(registro.iva)!==null ? numero(registro.iva) : 21,
+stock:numero(registro.stock)!==null ? numero(registro.stock) : 0,
+stock_minimo:numero(registro.stock_minimo)!==null ? numero(registro.stock_minimo) : 0,
+observaciones:(registro.observaciones||"").trim()
+};
+
+// Si ya existe la misma referencia+proveedor, actualizar; si no, añadir
+const existente=articulos.find(a=>
+a.referencia===articulo.referencia && a.proveedor===articulo.proveedor
+);
+if(existente){
+Object.assign(existente,articulo);
+}else{
+articulos.push(articulo);
+}
+importados++;
+}
+guardar();
+alert("ARTÍCULOS IMPORTADOS: "+importados);
+};
+reader.readAsText(file,"UTF-8");
+}
+
+function renderAlmacen(){
+const lista=document.getElementById("almacenLista");
+const texto=(document.getElementById("buscarArticulo").value||"").trim().toUpperCase();
+
+if(!texto){
+lista.innerHTML="<p>Escribe una referencia o descripción para buscar.</p>";
+return;
+}
+
+const coincidencias=articulos.filter(a=>
+a.referencia.includes(texto) || a.descripcion.includes(texto)
+);
+
+if(coincidencias.length===0){
+lista.innerHTML="<p>SIN RESULTADOS</p>";
+return;
+}
+
+// Agrupar por referencia
+const grupos={};
+coincidencias.forEach(a=>{
+if(!grupos[a.referencia]) grupos[a.referencia]=[];
+grupos[a.referencia].push(a);
+});
+
+let html="";
+Object.keys(grupos).sort().forEach(ref=>{
+const items=grupos[ref];
+html+=`<div class="item" style="border-left-color:#ff7a1a">`;
+html+=`<b>${ref}</b> — ${items[0].descripcion}<br>`;
+if(items[0].familia) html+=`Familia: ${items[0].familia}<br>`;
+items.forEach(a=>{
+const roturaStock=a.stock<=a.stock_minimo;
+const avisoStock=roturaStock
+? `<span style="color:#ff5252">⚠️ STOCK: ${a.stock} (mín. ${a.stock_minimo})</span>`
+: `STOCK: ${a.stock}`;
+html+=`<div style="margin-top:6px;padding-top:6px;border-top:1px solid #3b4a63;">`;
+html+=`Proveedor: <b>${a.proveedor}</b><br>`;
+html+=`PVP: ${a.precio_venta!==null ? a.precio_venta.toFixed(2)+" €" : "—"}`;
+html+=` &nbsp;|&nbsp; Coste: ${a.precio_compra!==null ? a.precio_compra.toFixed(2)+" €" : "—"}`;
+html+=` &nbsp;|&nbsp; IVA: ${a.iva}%<br>`;
+html+=avisoStock;
+if(a.observaciones) html+=`<br><i>${a.observaciones}</i>`;
+html+=`</div>`;
+});
+html+=`</div>`;
+});
+
+lista.innerHTML=html;
+}
+
+// ── CÁLCULO AUTOMÁTICO LETRA NIF/NIE ─────────────────────────
+function calcularLetraNif(input){
+const LETRAS="TRWAGMYFPDXBNJZSQVHLCKE";
+let val=input.value.toUpperCase().replace(/\s/g,"");
+
+// NIE: sustituir letra inicial por número
+if(/^[XYZ]/.test(val)){
+val=val.replace("X","0").replace("Y","1").replace("Z","2");
+}
+
+// Extraer solo los dígitos del valor
+const soloNumeros=val.replace(/[^0-9]/g,"");
+
+if(soloNumeros.length===8){
+const letra=LETRAS[parseInt(soloNumeros,10)%23];
+// Recomponer: si era NIE restaurar la letra inicial
+let nifFinal=input.value.toUpperCase().replace(/\s/g,"");
+// Quitar letra final si ya hay una
+nifFinal=nifFinal.replace(/[A-Z]$/,"");
+input.value=nifFinal+letra;
+}else{
+input.value=input.value.toUpperCase();
+}
+}
+// ── FIN CÁLCULO NIF ───────────────────────────────────────────
+
+function abrirModalCliente(nombreCliente, fichaExistente){
+document.getElementById("modalClienteNombre").textContent=
+"Cliente: "+nombreCliente;
+document.getElementById("mcNif").value=
+fichaExistente ? (fichaExistente.nif||"") : "";
+document.getElementById("mcDireccion").value=
+fichaExistente ? (fichaExistente.direccion||"") : "";
+document.getElementById("mcPoblacion").value=
+fichaExistente ? (fichaExistente.poblacion||"") : "";
+document.getElementById("mcMovil").value=
+fichaExistente ? (fichaExistente.movil||"") : "";
+document.getElementById("mcTfno").value=
+fichaExistente ? (fichaExistente.tfno||"") : "";
+document.getElementById("mcEmail").value=
+fichaExistente ? (fichaExistente.email||"") : "";
+document.getElementById("mcObservaciones").value=
+fichaExistente ? (fichaExistente.observaciones||"") : "";
+document.getElementById("modalCliente").style.display="block";
+setTimeout(()=>document.getElementById("mcNif").focus(),200);
+}
+
+function editarFichaCliente(nombreCliente){
+const ficha=buscarFichaCliente(nombreCliente)||{};
+_otPendienteGuardar=null; // no hay OT pendiente, solo edición de ficha
+document.getElementById("modalClienteNombre").textContent="Cliente: "+nombreCliente;
+document.getElementById("mcNif").value=ficha.nif||"";
+document.getElementById("mcDireccion").value=ficha.direccion||"";
+document.getElementById("mcPoblacion").value=ficha.poblacion||"";
+document.getElementById("mcMovil").value=ficha.movil||"";
+document.getElementById("mcTfno").value=ficha.tfno||"";
+document.getElementById("mcEmail").value=ficha.email||"";
+document.getElementById("mcObservaciones").value=ficha.observaciones||"";
+// Guardamos el nombre para que confirmarFicha sepa a quién actualizar
+document.getElementById("modalCliente").dataset.clienteEdicion=nombreCliente;
+document.getElementById("modalCliente").style.display="block";
+setTimeout(()=>document.getElementById("mcNif").focus(),200);
+}
+
+function confirmarFicha(){
+const nif=document.getElementById("mcNif").value.trim().toUpperCase();
+const dir=document.getElementById("mcDireccion").value.trim();
+const pob=document.getElementById("mcPoblacion").value.trim();
+const movil=document.getElementById("mcMovil").value.trim();
+const tfno=document.getElementById("mcTfno").value.trim();
+const email=document.getElementById("mcEmail").value.trim();
+const obs=document.getElementById("mcObservaciones").value.trim();
+
+if(!nif||!dir){
+alert("NIF/NIE Y DIRECCIÓN SON OBLIGATORIOS PARA EMITIR FACTURA");
+return;
+}
+
+const ot=_otPendienteGuardar;
+
+// Caso 1: edición de ficha desde historial (sin OT pendiente)
+if(!ot){
+const nombreEdicion=document.getElementById("modalCliente").dataset.clienteEdicion||"";
+if(nombreEdicion){
+guardarFichaCliente(nombreEdicion,nif,dir,pob,movil,tfno,email,obs);
+// Actualizar también todas las OTs de ese cliente que sean FINALIZADO
+ots=ots.map(x=>{
+if(x.estado==="FINALIZADO" && claveCliente(x.cliente)===claveCliente(nombreEdicion)){
+return {...x, nif, direccion:dir, poblacion:pob};
+}
+return x;
+});
+guardar();
+alert("FICHA ACTUALIZADA CORRECTAMENTE");
+document.getElementById("modalCliente").style.display="none";
+renderHistorial();
+}
+return;
+}
+
+// Caso 2: OT pendiente de guardar
+guardarFichaCliente(ot.cliente,nif,dir,pob,movil,tfno,email,obs);
+ot.nif=nif;
+ot.direccion=dir;
+ot.poblacion=pob;
+
+document.getElementById("modalCliente").style.display="none";
+_otPendienteGuardar=null;
+_completarGuardadoOT(ot);
+}
+
+function cancelarFicha(){
+document.getElementById("modalCliente").style.display="none";
+_otPendienteGuardar=null;
+}
+// ── FIN FICHA DE CLIENTE ──────────────────────────────────────
+
+function colorEstado(estado){
+if(estado==="CITADO") return "#2196f3";
+if(estado==="EN TALLER") return "#ff7a1a";
+if(estado==="FINALIZADO") return "#28a745";
+return "#ff7a1a";
+}
+let filtroActivo="matricula";
+
+function setFiltro(tipo){
+filtroActivo=tipo;
+
+// Actualizar estilos de pestañas
+["matricula","cliente","fecha","factura"].forEach(t=>{
+const btn=document.getElementById("ftb"+t.charAt(0).toUpperCase()+t.slice(1));
+if(btn){
+btn.style.background= t===tipo ? "#ff7a1a" : "#1c2940";
+btn.style.color=       t===tipo ? "#0f1728" : "#e8edf7";
+btn.style.border=      t===tipo ? "2px solid #ff7a1a" : "2px solid #3b4a63";
+btn.style.fontWeight=  t===tipo ? "bold" : "normal";
+}
+});
+
+const buscar=document.getElementById("buscar");
+if(tipo==="fecha"){
+buscar.style.display="none";
+buscar.value="";
+}else{
+buscar.style.display="block";
+buscar.value="";
+const placeholder={
+matricula:"Buscar matrícula...",
+cliente:"Buscar por nombre de cliente...",
+factura:"Buscar nº factura (ej: 8)..."
+};
+buscar.placeholder=placeholder[tipo]||"";
+buscar.focus();
+}
+
+renderHistorial();
+}
+
+function renderHistorial(){
+
+const texto=document.getElementById("buscar")
+.value.trim().toUpperCase();
+
+const lista=document.getElementById("lista");
+lista.innerHTML="";
+
+// Ordenar siempre por número de factura descendente
+const base=ots
+.filter(ot=>ot.estado==="FINALIZADO")
+.sort((a,b)=>(b.numeroFactura||0)-(a.numeroFactura||0));
+
+let filtradas;
+
+if(filtroActivo==="matricula"){
+filtradas=base.filter(ot=>
+!texto || normalizar(ot.matricula).includes(texto)
+);
+}else if(filtroActivo==="cliente"){
+filtradas=base.filter(ot=>
+!texto || normalizar(ot.cliente).startsWith(texto)
+);
+}else if(filtroActivo==="factura"){
+filtradas=base.filter(ot=>{
+if(!texto) return true;
+const num=String(ot.numeroFactura||"");
+const ref=normalizar(referenciaOT(ot));
+return num.includes(texto) || ref.includes(texto);
+});
+}else{
+// filtroActivo === "fecha": agrupar por día, más reciente primero
+// Reutilizamos base ya ordenada por factura, pero aquí ordenamos por fecha descendente
+const porFecha=[...ots]
+.filter(ot=>ot.estado==="FINALIZADO")
+.sort((a,b)=>{
+const fa=fechaDocumento(a) ? new Date(fechaDocumento(a)).getTime() : a.id;
+const fb=fechaDocumento(b) ? new Date(fechaDocumento(b)).getTime() : b.id;
+return fb-fa;
+});
+filtradas=porFecha;
+}
+
+if(filtradas.length===0){
+lista.innerHTML="<p>No hay órdenes.</p>";
+return;
+}
+
+function etiquetaDia(fechaStr){
+if(!fechaStr) return "SIN FECHA";
+const d=new Date(fechaStr);
+const hoy=new Date();
+const ayer=new Date(); ayer.setDate(hoy.getDate()-1);
+const fmt=f=>f.toISOString().slice(0,10);
+if(fmt(d)===fmt(hoy)) return "HOY";
+if(fmt(d)===fmt(ayer)) return "AYER";
+const dia=String(d.getDate()).padStart(2,"0");
+const mes=String(d.getMonth()+1).padStart(2,"0");
+const año=d.getFullYear();
+return `${dia}/${mes}/${año}`;
+}
+
+function tarjetaOT(ot){
+const ficha=buscarFichaCliente(ot.cliente)||{};
+const nif=ot.nif||ficha.nif||"";
+const direccion=ot.direccion||ficha.direccion||"";
+const poblacion=ot.poblacion||ficha.poblacion||"";
+const esFactura=ot.estado==="FINALIZADO";
+
+const bloqueFactura=esFactura ? `
+<span style="color:#ffd580">NIF/NIE: ${nif||"⚠️ SIN NIF"}</span><br>
+<span style="color:#ffd580">Dir: ${direccion||"⚠️ SIN DIRECCIÓN"}</span><br>
+${poblacion ? `<span style="color:#ffd580">${poblacion}</span><br>` : ""}
+` : "";
+
+return `
+<div class="item" style="border-left-color:${colorEstado(ot.estado)}">
+<b>${referenciaOT(ot)}</b><br>
+<b>${ot.matricula}</b><br>
+${ot.cliente}<br>
+${ot.telefono}<br>
+${bloqueFactura}
+${ot.marca} ${ot.modelo}<br>
+KM: ${ot.km}<br>
+Estado: ${ot.estado}<br>
+${ot.estado==="FINALIZADO" ? "Fecha FAC" : "Fecha"}: ${formatearFecha(fechaDocumento(ot))}<br>
+<br>
+<b>TRABAJOS:</b><br>
+${ot.trabajos || "SIN TRABAJOS"}<br>
+<br>
+<b>OBSERVACIONES:</b><br>
+${ot.observaciones || "SIN OBSERVACIONES"}
+<br><br>
+<div class="acciones">
+<button onclick="editarOT(${ot.id})">EDITAR</button>
+<button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
+<button class="green" onclick="enviarWhatsApp(${ot.id})">WHATSAPP</button>
+${esFactura ? `<button style="background:#7b2fff;color:white;margin:0;" onclick="editarFichaCliente('${ot.cliente.replace(/'/g,"\\'")}')">FICHA</button>` : ""}
+</div>
+</div>
+`;
+}
+
+if(filtroActivo==="fecha"){
+let diaActual="";
+filtradas.forEach(ot=>{
+const etiqueta=etiquetaDia(fechaDocumento(ot));
+if(etiqueta!==diaActual){
+diaActual=etiqueta;
+lista.innerHTML+=`<div style="background:#ff7a1a;color:#0f1728;font-weight:bold;padding:7px 12px;border-radius:10px;margin-top:14px;margin-bottom:4px;font-size:15px;">${etiqueta}</div>`;
+}
+lista.innerHTML+=tarjetaOT(ot);
+});
+}else{
+filtradas.forEach(ot=>{
+lista.innerHTML+=tarjetaOT(ot);
+});
+}
+}
+function renderAgenda(){
+const agenda=document.getElementById("agendaLista");
+agenda.innerHTML="";
+
+const conFecha=ots
+.filter(ot=>ot.fecha && ot.estado==="CITADO")
+.sort((a,b)=>a.fecha.localeCompare(b.fecha));
+
+if(conFecha.length===0){
+agenda.innerHTML="<p>No hay citas.</p>";
+return;
+}
+
+conFecha.forEach(ot=>{
+agenda.innerHTML+=`
+<div class="item" style="border-left-color:${colorEstado(ot.estado)}">
+<b>${referenciaOT(ot)} - ${formatearFecha(ot.fecha)}</b><br>
+${ot.matricula}<br>
+${ot.cliente}<br>
+${ot.telefono}<br>
+${ot.marca} ${ot.modelo}<br>
+Estado: ${ot.estado}<br>
+<br>
+<b>TRABAJOS:</b><br>
+${ot.trabajos || "SIN TRABAJOS"}<br>
+<br>
+<b>OBSERVACIONES:</b><br>
+${ot.observaciones || "SIN OBSERVACIONES"}
+<br><br>
+<div class="acciones">
+<button onclick="editarOT(${ot.id})">EDITAR</button>
+<button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
+<button class="green" onclick="enviarWhatsApp(${ot.id})">WHATSAPP</button>
+</div>
+</div>
+`;
+});
+}
+function renderTaller(){
+const taller=document.getElementById("tallerLista");
+taller.innerHTML="";
+
+const enTaller=ots
+.filter(ot=>ot.estado==="EN TALLER")
+.sort((a,b)=>{
+const fechaA=a.fecha ? new Date(a.fecha).getTime() : 0;
+const fechaB=b.fecha ? new Date(b.fecha).getTime() : 0;
+return fechaB-fechaA;
+});
+
+if(enTaller.length===0){
+taller.innerHTML="<p>No hay vehículos en taller.</p>";
+return;
+}
+
+enTaller.forEach(ot=>{
+taller.innerHTML+=`
+<div class="item" style="border-left-color:${colorEstado(ot.estado)}">
+<b>${referenciaOT(ot)}</b><br>
+<b>${ot.matricula}</b><br>
+${ot.cliente}<br>
+${ot.telefono}<br>
+${ot.marca} ${ot.modelo}<br>
+Estado: ${ot.estado}<br>
+<br>
+<b>TRABAJOS:</b><br>
+${ot.trabajos || "SIN TRABAJOS"}<br>
+<br>
+<b>OBSERVACIONES:</b><br>
+${ot.observaciones || "SIN OBSERVACIONES"}
+<br><br>
+<div class="acciones">
+<button onclick="editarOT(${ot.id})">EDITAR</button>
+<button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
+<button class="green" onclick="enviarWhatsApp(${ot.id})">WHATSAPP</button>
+</div>
+</div>
+`;
+});
+}
+function editarOT(id){
+
+const ot=ots.find(x=>x.id===id);
+
+if(!ot)return;
+
+editandoId=id;
+
+document.getElementById("matricula").value=ot.matricula||"";
+document.getElementById("cliente").value=ot.cliente||"";
+document.getElementById("telefono").value=ot.telefono||"";
+document.getElementById("marca").value=ot.marca||"";
+document.getElementById("modelo").value=ot.modelo||"";
+document.getElementById("km").value=ot.km||"";
+document.getElementById("fecha").value=ot.fecha||"";
+document.getElementById("estado").value=ot.estado||"";
+actualizarColorEstado();
+document.getElementById("trabajos").value=ot.trabajos||"";
+document.getElementById("observaciones").value=ot.observaciones||"";
+
+showTab('nueva');
+
+document.getElementById("aviso").classList.remove("hidden");
+document.getElementById("aviso").innerText=
+"✏️ EDITANDO OT: " + ot.matricula;
+}
+
+// Al editar, preservar nif/direccion/poblacion de la OT original
+// (ya se hace vía _completarGuardadoOT que los lee de la ficha o de _otPendienteGuardar)
+
+function limpiarTelefonoWhatsApp(telefono){
+let numero=(telefono||"").replace(/\D/g,"");
+
+if(numero.startsWith("00")){
+numero=numero.substring(2);
+}
+
+if(numero.length===9){
+numero="34"+numero;
+}
+
+return numero;
+}
+
+function textoWhatsApp(ot){
+const titulo=ot.estado==="CITADO" ? "Recordatorio de cita" :
+ot.estado==="EN TALLER" ? "Orden de trabajo" :
+"Trabajo finalizado";
+
+return `TALLERES AUTOBORJA
+
+${titulo}
+
+Número: ${referenciaOT(ot)}
+Fecha: ${formatearFecha(fechaDocumento(ot))}
+Matrícula: ${ot.matricula}
+Cliente: ${ot.cliente}
+Vehículo: ${ot.marca} ${ot.modelo}
+
+Trabajos:
+${ot.trabajos || "SIN TRABAJOS"}
+
+Gracias.`;
+}
+
+function enviarWhatsApp(id){
+const ot=ots.find(x=>x.id===id);
+if(!ot)return;
+
+const numero=limpiarTelefonoWhatsApp(ot.telefono);
+
+if(!numero || numero.length<11){
+alert("NO HAY TELÉFONO VÁLIDO PARA WHATSAPP");
+return;
+}
+
+const mensaje=encodeURIComponent(textoWhatsApp(ot));
+const url="https://wa.me/"+numero+"?text="+mensaje;
+window.location.href=url;
+}
+
+function imprimir(id){
+
+const ot=ots.find(x=>x.id===id);
+if(!ot)return;
+
+// Para facturas, asegurarse de tener los datos fiscales
+// (pueden estar en la OT o en la ficha del cliente)
+const ficha=buscarFichaCliente(ot.cliente)||{};
+const nif=ot.nif||ficha.nif||"";
+const direccion=ot.direccion||ficha.direccion||"";
+const poblacion=ot.poblacion||ficha.poblacion||"";
+const emailCliente=ficha.email||"";
+
+const anterior=document.getElementById("zonaImpresion");
+if(anterior) anterior.remove();
+
+const esFactura=ot.estado==="FINALIZADO";
+const tituloPrint=ot.estado==="CITADO" ? "CITA PENDIENTE" :
+                  esFactura ? "FACTURA" : "ORDEN DE TRABAJO";
+
+const bloqueCliente=esFactura ? `
+<p><b>Cliente:</b> ${ot.cliente}</p>
+<p><b>NIF/NIE:</b> ${nif||"—"}</p>
+<p><b>Dirección:</b> ${direccion||"—"}</p>
+${poblacion ? `<p><b>Población:</b> ${poblacion}</p>` : ""}
+<p><b>Teléfono:</b> ${ot.telefono}</p>
+${emailCliente ? `<p><b>E-mail:</b> ${emailCliente}</p>` : ""}
+` : `
+<p><b>Cliente:</b> ${ot.cliente}</p>
+<p><b>Teléfono:</b> ${ot.telefono}</p>
+`;
+
+const zona=document.createElement("div");
+zona.id="zonaImpresion";
+zona.innerHTML=`
+<style>
+#zonaImpresion{display:none}
+@media print{
+body{background:white!important;color:black!important}
+body > *:not(#zonaImpresion){display:none!important}
+#zonaImpresion{display:block!important;font-family:Arial;padding:20px;color:black}
+#zonaImpresion h1{text-align:center;color:black;background:white}
+.box{border:1px solid #333;padding:10px;margin:10px 0}
+.linea-fiscal{border-top:1px solid #999;padding-top:8px;margin-top:8px}
+}
+</style>
+
+<h1>${tituloPrint}</h1>
+<p><b>Número:</b> ${referenciaOT(ot)}</p>
+<p><b>${esFactura ? "Fecha factura" : "Fecha"}:</b> ${formatearFecha(fechaDocumento(ot))}</p>
+<p><b>Matrícula:</b> ${ot.matricula}</p>
+${bloqueCliente}
+<p><b>Vehículo:</b> ${ot.marca} ${ot.modelo}</p>
+<p><b>KM:</b> ${ot.km}</p>
+<p><b>Estado:</b> ${ot.estado}</p>
+
+<h3>Trabajos</h3>
+<div class="box">${ot.trabajos || ""}</div>
+
+<h3>Observaciones</h3>
+<div class="box">${ot.observaciones || ""}</div>
+
+<p>Firma cliente: __________________________</p>
+`;
+
+document.body.appendChild(zona);
+
+setTimeout(()=>{
+window.print();
+},1000);
+
+}
+
+function inicializarPrueba(){
+
+if(ots.length>0)return;
+
+ots.push({
+id:Date.now(),
+matricula:"0000ASD",
+cliente:"JOSE AGOIZ DUARTE",
+telefono:"600000000",
+marca:"OPEL",
+modelo:"ZAFIRA",
+km:"350000",
+fecha:"",
+estado:"CITADO",
+trabajos:"PRUEBA INICIAL",
+observaciones:"REGISTRO DE PRUEBA"
+});
+
+guardar();
+}
+
+// ══════════════════════════════════════════════════════
+// MÓDULO OCR — PLATE RECOGNIZER API
+// ══════════════════════════════════════════════════════
+
+const PLATE_TOKEN="0fe93fa4d4ed7ad906d040fb28eb36c3ee4cdc8f";
+let _ocrMatriculaDetectada=null;
+
+function abrirCamara(){
+  document.getElementById("inputFotoCamara").click();
+}
+
+function procesarFotoMatricula(event){
+  const file=event.target.files[0];
+  if(!file) return;
+
+  const modal=document.getElementById("modalCamara");
+  const overlay=document.getElementById("overlayMat");
+  const estadoEl=document.getElementById("estadoOCR");
+  const panel=document.getElementById("panelHistorialCamara");
+  const btnAceptar=document.getElementById("btnAceptarCamara");
+  const btnRepetir=document.getElementById("btnRepetirFoto");
+  const previewDiv=document.getElementById("previewFoto");
+  const imgPreview=document.getElementById("imgPreview");
+
+  _ocrMatriculaDetectada=null;
+  overlay.textContent="— — — — — —";
+  overlay.style.color="#ff7a1a";
+  estadoEl.textContent="Analizando matrícula...";
+  panel.style.display="none";
+  btnAceptar.style.display="none";
+  btnRepetir.style.display="none";
+  modal.style.display="block";
+
+  const urlFoto=URL.createObjectURL(file);
+  imgPreview.src=urlFoto;
+  previewDiv.style.display="block";
+
+  // Enviar a Plate Recognizer API
+  const formData=new FormData();
+  formData.append("upload",file);
+  formData.append("regions","es"); // España
+
+  fetch("https://api.platerecognizer.com/v1/plate-reader/",{
+    method:"POST",
+    headers:{"Authorization":"Token "+PLATE_TOKEN},
+    body:formData
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    URL.revokeObjectURL(urlFoto);
+    if(data.results && data.results.length>0){
+      const mat=data.results[0].plate.toUpperCase();
+      _ocrMatriculaDetectada=mat;
+      overlay.textContent=mat;
+      overlay.style.color="#28a745";
+      estadoEl.textContent="✅ Matrícula detectada";
+      _mostrarHistorialCamara(mat);
+      btnRepetir.style.display="block";
+    }else{
+      overlay.textContent="NO DETECTADA";
+      overlay.style.color="#b00020";
+      estadoEl.textContent="⚠️ No se pudo leer la matrícula. Intenta con mejor ángulo y luz.";
+      btnRepetir.style.display="block";
+    }
+  })
+  .catch(function(){
+    URL.revokeObjectURL(urlFoto);
+    overlay.textContent="ERROR";
+    overlay.style.color="#b00020";
+    estadoEl.textContent="⚠️ Error de conexión. Verifica que tienes internet.";
+    btnRepetir.style.display="block";
+  });
+
+  event.target.value="";
+}
+
+function repetirFoto(){
+  document.getElementById("modalCamara").style.display="none";
+  document.getElementById("previewFoto").style.display="none";
+  setTimeout(function(){
+    document.getElementById("inputFotoCamara").click();
+  },300);
+}
+
+function _mostrarHistorialCamara(matricula){
+  const panel=document.getElementById("panelHistorialCamara");
+  const lista=document.getElementById("listadoHistCamara");
+  const btnAceptar=document.getElementById("btnAceptarCamara");
+
+  const historial=[...ots]
+    .filter(x=>x.matricula===matricula)
+    .sort((a,b)=>(b.id||0)-(a.id||0))
+    .slice(0,5);
+
+  if(historial.length===0){
+    lista.innerHTML="<p style='color:#aab4c8;font-size:13px;margin:4px 0;'>Matrícula nueva — sin historial previo.</p>";
+  }else{
+    lista.innerHTML=historial.map(ot=>`
+      <div class="item-hist-cam">
+        <b>${referenciaOT(ot)}</b> — ${formatearFecha(ot.fecha)}<br>
+        ${ot.cliente}<br>
+        ${ot.marca} ${ot.modelo}<br>
+        <span style="color:#aab4c8;">${(ot.trabajos||"").substring(0,80)}${(ot.trabajos||"").length>80?"...":""}</span>
+      </div>
+    `).join("");
+  }
+
+  panel.style.display="block";
+  btnAceptar.style.display="block";
+}
+
+function aceptarMatriculaEscaneada(){
+  if(!_ocrMatriculaDetectada) return;
+  const mat=_ocrMatriculaDetectada;
+  cerrarCamara();
+
+  document.getElementById("matricula").value=mat;
+
+  const ot=[...ots].reverse().find(x=>x.matricula===mat);
+  const aviso=document.getElementById("aviso");
+  aviso.classList.remove("hidden");
+
+  if(ot){
+    document.getElementById("cliente").value=ot.cliente||"";
+    document.getElementById("telefono").value=ot.telefono||"";
+    document.getElementById("marca").value=ot.marca||"";
+    document.getElementById("modelo").value=ot.modelo||"";
+    aviso.innerText="📷 DATOS RECUPERADOS: "+mat+" — "+ot.cliente;
+  }else{
+    aviso.innerText="📷 MATRÍCULA ESCANEADA: "+mat+" — Vehículo nuevo, completa los datos";
+  }
+}
+
+function cerrarCamara(){
+  document.getElementById("modalCamara").style.display="none";
+  document.getElementById("previewFoto").style.display="none";
+  _ocrMatriculaDetectada=null;
+}
+
+// ══════════════════════════════════════════════════════
+// FIN MÓDULO OCR
+// ══════════════════════════════════════════════════════
+
+completarNumeracionExistente();
+guardar();
+
+document.getElementById("marca").addEventListener("input",mostrarMarcas);
+document.getElementById("marca").addEventListener("focus",mostrarMarcas);
+document.getElementById("modelo").addEventListener("input",mostrarModelos);
+document.getElementById("modelo").addEventListener("focus",mostrarModelos);
+function actualizarColorEstado(){
+
+const estado=document.getElementById("estado");
+
+if(estado.value==="CITADO"){
+estado.style.background="#2196f3";
+estado.style.color="white";
+}
+
+if(estado.value==="EN TALLER"){
+estado.style.background="#ff7a1a";
+estado.style.color="white";
+}
+
+if(estado.value==="FINALIZADO"){
+estado.style.background="#28a745";
+estado.style.color="white";
+}
+}
+document.getElementById("estado")
+.addEventListener("change",actualizarColorEstado);
+actualizarColorEstado();
+showTab('inicio');
+
+</script>
+</body>
+</html>
