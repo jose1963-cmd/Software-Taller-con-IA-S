@@ -393,7 +393,15 @@ GUARDAR OT
   <button type="button" class="secondary" onclick="showTab('inicio')" style="margin:0;flex:1;">⬅️ INICIO</button>
   <button type="button" class="green" onclick="abrirModalNuevoArticulo()" style="margin:0;flex:1;">➕ NUEVO ARTÍCULO</button>
 </div>
-<input id="buscarArticulo" placeholder="Buscar por referencia o descripción..." oninput="renderAlmacen()" style="display:block;">
+<div style="display:flex;gap:8px;margin-bottom:0;">
+  <select id="campoBusquedaArticulo" onchange="renderAlmacen()" style="flex:0 0 auto;width:auto;margin:6px 0 12px;padding:13px 10px;font-size:15px;background:#101827;color:#ff7a1a;border:1px solid #ff7a1a;border-radius:12px;font-weight:bold;">
+    <option value="referencia">REFERENCIA</option>
+    <option value="descripcion">DESCRIPCIÓN</option>
+    <option value="proveedor">PROVEEDOR</option>
+    <option value="familia">FAMILIA</option>
+  </select>
+  <input id="buscarArticulo" placeholder="Buscar..." oninput="renderAlmacen()" style="flex:1;margin:6px 0 12px;">
+</div>
 <div id="almacenLista"></div>
 </div>
 <!-- Modal cámara OCR matrícula -->
@@ -513,10 +521,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R82";
+const APP_VERSION="R83";
 const COPIA_VERSION=3;
 const APP_FECHA="16/06/2026";
-const APP_NOTAS="R82: PVP recalcula al cambiar coste; banner morado modo edición OT con botón cancelar; eliminar OT individual desde historial/agenda/taller; aviso última copia/guardado en pantalla inicio.";
+const APP_NOTAS="R83: Búsqueda Almacén por campo seleccionable: REFERENCIA, DESCRIPCIÓN, PROVEEDOR o FAMILIA.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -1331,15 +1339,17 @@ reader.readAsText(file,"UTF-8");
 function renderAlmacen(){
 const lista=document.getElementById("almacenLista");
 const texto=(document.getElementById("buscarArticulo").value||"").trim().toUpperCase();
+const campo=(document.getElementById("campoBusquedaArticulo").value)||"referencia";
 
 if(!texto){
-lista.innerHTML="<p style='color:#aab4c8;'>Escribe una referencia o descripción para buscar.<br><br>Usa <b>NUEVO ARTÍCULO</b> para añadir artículos manualmente.</p>";
+lista.innerHTML="<p style='color:#aab4c8;'>Escribe texto para buscar por <b>"+campo.toUpperCase()+"</b>.<br><br>Usa <b>NUEVO ARTÍCULO</b> para añadir artículos manualmente.</p>";
 return;
 }
 
-const coincidencias=articulos.filter(a=>
-a.referencia.includes(texto) || a.descripcion.includes(texto)
-);
+const coincidencias=articulos.filter(a=>{
+const valor=(a[campo]||"").toUpperCase();
+return valor.includes(texto);
+});
 
 if(coincidencias.length===0){
 lista.innerHTML="<p>SIN RESULTADOS</p>";
