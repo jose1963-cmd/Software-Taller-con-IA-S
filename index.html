@@ -266,6 +266,7 @@ style="width:100%;font-size:24px;padding:20px;margin-top:40px;">
 NUEVA OT
 </button>
 
+<div id="avisoCopia" style="background:#2a1a00;border-left:4px solid #ff7a1a;padding:10px 14px;border-radius:10px;margin-bottom:6px;font-size:13px;color:#ffd580;"></div>
 <button class="secondary" onclick="exportarCopia()" type="button">
 EXPORTAR COPIA
 </button>
@@ -305,6 +306,12 @@ BORRAR PRUEBAS / EMPEZAR DE CERO
 
 <div id="nueva" class="card hidden">
 <h2>Nueva Orden</h2>
+
+<!-- Banner visible solo en modo edición -->
+<div id="bannerEdicion" style="display:none;background:#7b2fff;color:white;font-weight:bold;font-size:15px;padding:12px 14px;border-radius:12px;margin-bottom:12px;text-align:center;">
+  ✏️ MODO EDICIÓN — <span id="bannerEdicionRef"></span>
+  <button type="button" onclick="cancelarEdicion()" style="width:auto;padding:6px 14px;margin:0 0 0 12px;font-size:13px;background:white;color:#7b2fff;border-radius:8px;">✕ CANCELAR</button>
+</div>
 
 <label>Matrícula *</label>
 <div style="display:flex;gap:8px;align-items:flex-start;">
@@ -428,7 +435,7 @@ GUARDAR OT
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
     <div>
       <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Precio compra (€)</label>
-      <input id="maPcomp" type="number" step="0.01" min="0" placeholder="0.00">
+      <input id="maPcomp" type="number" step="0.01" min="0" placeholder="0.00" oninput="calcularPVP()">
     </div>
     <div>
       <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Margen (%)</label>
@@ -506,10 +513,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R80";
+const APP_VERSION="R81";
 const COPIA_VERSION=3;
 const APP_FECHA="16/06/2026";
-const APP_NOTAS="R80: Almacén con edición manual de artículos — botón EDITAR por fila proveedor, modal completo con todos los campos, NUEVO ARTÍCULO manual, ELIMINAR con confirmación.";
+const APP_NOTAS="R81: PVP recalcula al cambiar coste; banner morado modo edición OT con botón cancelar; eliminar OT individual desde historial/agenda/taller; aviso última copia/guardado en pantalla inicio.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -734,6 +741,32 @@ a.click();
 document.body.removeChild(a);
 
 URL.revokeObjectURL(url);
+actualizarAvisoCopia();
+}
+
+function actualizarAvisoCopia(){
+const div=document.getElementById("avisoCopia");
+if(!div) return;
+try{
+const datos=JSON.parse(localStorage.getItem("RECEPCION_TALLER_PRO")||"{}");
+const fecha=datos.fechaGuardado ? new Date(datos.fechaGuardado) : null;
+if(fecha){
+const ahora=new Date();
+const diff=Math.floor((ahora-fecha)/60000); // minutos
+let texto;
+if(diff<2) texto="hace un momento";
+else if(diff<60) texto="hace "+diff+" min";
+else if(diff<1440) texto="hace "+Math.floor(diff/60)+"h "+( diff%60)+"min";
+else texto="hace "+Math.floor(diff/1440)+" día(s)";
+div.textContent="💾 Último guardado automático: "+texto+" — OTs: "+(Array.isArray(datos.ots)?datos.ots.length:0)+" | Clientes: "+Object.keys(datos.clientes||{}).length+" | Artículos: "+(Array.isArray(datos.articulos)?datos.articulos.length:0);
+div.style.display="block";
+}else{
+div.textContent="⚠️ Sin datos de copia guardada aún.";
+div.style.display="block";
+}
+}catch(e){
+div.style.display="none";
+}
 }
 
 function importarCopia(event){
@@ -856,6 +889,7 @@ if(id==="historial"){ setFiltro(filtroActivo); }
 if(id==="agenda") renderAgenda();
 if(id==="taller") renderTaller();
 if(id==="almacen") renderAlmacen();
+if(id==="inicio") actualizarAvisoCopia();
 }
 function normalizar(t){
 return (t || "").toUpperCase();
@@ -1010,6 +1044,7 @@ if(!ot.poblacion && anterior.poblacion) ot.poblacion=anterior.poblacion;
 asegurarNumeracion(ot);
 ots=ots.map(x=>x.id===editandoId ? ot : x);
 editandoId=null;
+document.getElementById("bannerEdicion").style.display="none";
 alert("OT ACTUALIZADA: "+referenciaOT(ot));
 }else{
 if(ot.estado==="FINALIZADO" && !ot.fechaFinalizacion){
@@ -1721,6 +1756,7 @@ ${ot.observaciones || "SIN OBSERVACIONES"}
 <button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
 <button class="green" onclick="enviarWhatsApp(${ot.id})">WHATSAPP</button>
 ${esFactura ? `<button style="background:#7b2fff;color:white;margin:0;" onclick="editarFichaCliente('${ot.cliente.replace(/'/g,"\\'")}')">FICHA</button>` : ""}
+<button class="danger" onclick="eliminarOT(${ot.id})" style="margin:0;">🗑</button>
 </div>
 </div>
 `;
@@ -1775,6 +1811,7 @@ ${ot.observaciones || "SIN OBSERVACIONES"}
 <button onclick="editarOT(${ot.id})">EDITAR</button>
 <button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
 <button class="green" onclick="enviarWhatsApp(${ot.id})">WHATSAPP</button>
+<button class="danger" onclick="eliminarOT(${ot.id})" style="margin:0;">🗑</button>
 </div>
 </div>
 `;
@@ -1817,6 +1854,7 @@ ${ot.observaciones || "SIN OBSERVACIONES"}
 <button onclick="editarOT(${ot.id})">EDITAR</button>
 <button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
 <button class="green" onclick="enviarWhatsApp(${ot.id})">WHATSAPP</button>
+<button class="danger" onclick="eliminarOT(${ot.id})" style="margin:0;">🗑</button>
 </div>
 </div>
 `;
@@ -1844,13 +1882,61 @@ document.getElementById("observaciones").value=ot.observaciones||"";
 
 showTab('nueva');
 
-document.getElementById("aviso").classList.remove("hidden");
-document.getElementById("aviso").innerText=
-"✏️ EDITANDO OT: " + ot.matricula;
+document.getElementById("aviso").classList.add("hidden");
+// Mostrar banner morado de edición
+const banner=document.getElementById("bannerEdicion");
+document.getElementById("bannerEdicionRef").textContent=referenciaOT(ot)+" — "+ot.matricula;
+banner.style.display="block";
+// Scroll al top del formulario
+window.scrollTo({top:0,behavior:"smooth"});
 }
 
 // Al editar, preservar nif/direccion/poblacion de la OT original
 // (ya se hace vía _completarGuardadoOT que los lee de la ficha o de _otPendienteGuardar)
+
+// ── ELIMINAR OT INDIVIDUAL ────────────────────────────────────
+function eliminarOT(id){
+const ot=ots.find(x=>x.id===id);
+if(!ot) return;
+const ref=referenciaOT(ot);
+if(!confirm("¿ELIMINAR "+ref+" — "+ot.matricula+" ("+ot.cliente+")?
+
+Esta acción no se puede deshacer.")) return;
+ots=ots.filter(x=>x.id!==id);
+guardar();
+// Refrescar la vista activa
+const activas=["agenda","taller","historial"];
+activas.forEach(v=>{
+const el=document.getElementById(v);
+if(el && !el.classList.contains("hidden")){
+if(v==="agenda") renderAgenda();
+if(v==="taller") renderTaller();
+if(v==="historial") renderHistorial();
+}
+});
+alert("OT ELIMINADA: "+ref);
+}
+// ── FIN ELIMINAR OT ───────────────────────────────────────────
+
+// ── CANCELAR EDICIÓN ─────────────────────────────────────────
+function cancelarEdicion(){
+editandoId=null;
+document.getElementById("bannerEdicion").style.display="none";
+document.getElementById("aviso").classList.add("hidden");
+document.getElementById("matricula").value="";
+document.getElementById("cliente").value="";
+document.getElementById("telefono").value="";
+document.getElementById("marca").value="";
+document.getElementById("modelo").value="";
+document.getElementById("km").value="";
+document.getElementById("fecha").value="";
+document.getElementById("estado").value="CITADO";
+actualizarColorEstado();
+document.getElementById("trabajos").value="";
+document.getElementById("observaciones").value="";
+showTab("inicio");
+}
+// ── FIN CANCELAR EDICIÓN ─────────────────────────────────────
 
 function limpiarTelefonoWhatsApp(telefono){
 let numero=(telefono||"").replace(/\D/g,"");
