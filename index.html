@@ -235,7 +235,7 @@ color:#ffd580;
 </head>
 <body>
 
-<div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">R78</button></div>
+<div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">R91</button></div>
 
 <h1 id="tituloApp">TALLERES AUTOBORJA</h1>
 
@@ -297,12 +297,19 @@ BORRAR PRUEBAS / EMPEZAR DE CERO
 </div>
 
 <div id="nueva" class="card hidden">
-<h2>Nueva Orden</h2>
+<h2 id="tituloFormulario">Nueva Orden</h2>
 
 <!-- Banner visible solo en modo edición -->
 <div id="bannerEdicion" style="display:none;background:#7b2fff;color:white;font-weight:bold;font-size:15px;padding:12px 14px;border-radius:12px;margin-bottom:12px;text-align:center;">
   ✏️ MODO EDICIÓN — <span id="bannerEdicionRef"></span>
   <button type="button" onclick="cancelarEdicion()" style="width:auto;padding:6px 14px;margin:0 0 0 12px;font-size:13px;background:white;color:#7b2fff;border-radius:8px;">✕ CANCELAR</button>
+</div>
+
+<div id="panelRectificativa" style="display:none;background:#2a0015;border:2px solid #b00020;border-radius:14px;padding:12px;margin-bottom:12px;color:#ffd6e7;">
+  <div id="tituloRectificativa" style="font-weight:bold;font-size:18px;color:white;margin-bottom:8px;">FACTURA RECTIFICATIVA</div>
+  <div id="datosFacturaOriginal" style="font-size:14px;line-height:1.45;margin-bottom:10px;"></div>
+  <label style="color:#ff9cff;">Motivo de rectificación *</label>
+  <textarea id="motivoRectificativa" rows="3" placeholder="Ej: Corrección de importe, abono de pieza, corrección de concepto..." style="border:1px solid #b00020;"></textarea>
 </div>
 
 <label>Matrícula *</label>
@@ -513,10 +520,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R90";
+const APP_VERSION="R91";
 const COPIA_VERSION=3;
 const APP_FECHA="16/06/2026";
-const APP_NOTAS="R90: Facturas sin EDITAR técnico ni BORRAR; EDITAR abre ficha cliente y FREC genera rectificativa.";
+const APP_NOTAS="R91: FREC abre formulario específico de factura rectificativa, copia la factura original y exige motivo.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -1008,6 +1015,15 @@ alert("FALTAN DATOS OBLIGATORIOS");
 return;
 }
 
+if(rectificandoId){
+const motivo=(document.getElementById("motivoRectificativa") ? document.getElementById("motivoRectificativa").value.trim().toUpperCase() : "");
+if(!motivo){
+alert("FALTA EL MOTIVO DE RECTIFICACIÓN");
+return;
+}
+ot.motivoRectificativa=motivo;
+}
+
 // Si es FINALIZADO, comprobar ficha de cliente
 if(ot.estado==="FINALIZADO"){
 const fichaExistente=buscarFichaCliente(ot.cliente);
@@ -1062,6 +1078,7 @@ ots=ots.map(x=>x.id===editandoId ? ot : x);
 editandoId=null;
 rectificandoId=null;
 document.getElementById("bannerEdicion").style.display="none";
+prepararFormularioNormal();
 actualizarTextoBotonGuardar();
 alert("OT ACTUALIZADA: "+referenciaOT(ot));
 }else if(rectificandoId){
@@ -1077,6 +1094,7 @@ ot.esRectificativa=true;
 ot.facturaRectificada=referenciaOT(original);
 ot.facturaRectificadaId=original.id;
 ot.fechaFinalizacion=ahoraLocalInput();
+ot.motivoRectificativa=ot.motivoRectificativa || (document.getElementById("motivoRectificativa") ? document.getElementById("motivoRectificativa").value.trim().toUpperCase() : "");
 sincronizarFiscalDesdeFicha(ot);
 asegurarNumeracion(ot);
 ots.push(ot);
@@ -1105,6 +1123,7 @@ actualizarColorEstado();
 actualizarTextoBotonGuardar();
 document.getElementById("trabajos").value="";
 document.getElementById("observaciones").value="";
+prepararFormularioNormal();
 
 showTab('inicio');
 
@@ -1825,7 +1844,7 @@ const direccion=ot.direccion||ficha.direccion||"";
 const poblacion=ot.poblacion||ficha.poblacion||"";
 const esFactura=ot.estado==="FINALIZADO";
 
-const bloqueRectificativa=(esFactura && ot.esRectificativa) ? `<span style="color:#ff9cff;font-weight:bold;">Rectifica: ${ot.facturaRectificada||"FACTURA ORIGEN"}</span><br>` : "";
+const bloqueRectificativa=(esFactura && ot.esRectificativa) ? `<span style="color:#ff9cff;font-weight:bold;">Rectifica: ${ot.facturaRectificada||"FACTURA ORIGEN"}</span><br>${ot.motivoRectificativa ? `<span style="color:#ff9cff;">Motivo: ${ot.motivoRectificativa}</span><br>` : ""}` : "";
 
 const bloqueFactura=esFactura ? `
 ${bloqueRectificativa}
@@ -1976,9 +1995,18 @@ return;
 rectificandoId=id;
 editandoId=null;
 
+asegurarFichaClienteDesdeOT(original);
+
+const refOriginal=referenciaOT(original);
+const ficha=buscarFichaCliente(original.cliente)||{};
+const nif=original.nif||ficha.nif||"";
+const direccion=original.direccion||ficha.direccion||"";
+const poblacion=original.poblacion||ficha.poblacion||"";
+
+// Copia visual y editable de la factura original. La FAC original queda intacta.
 document.getElementById("matricula").value=original.matricula||"";
 document.getElementById("cliente").value=original.cliente||"";
-document.getElementById("telefono").value=original.telefono||"";
+document.getElementById("telefono").value=original.telefono||ficha.movil||ficha.tfno||"";
 document.getElementById("marca").value=original.marca||"";
 document.getElementById("modelo").value=original.modelo||"";
 document.getElementById("km").value=original.km||"";
@@ -1987,13 +2015,35 @@ document.getElementById("estado").value="FINALIZADO";
 actualizarColorEstado();
 actualizarTextoBotonGuardar();
 document.getElementById("trabajos").value=original.trabajos||"";
-document.getElementById("observaciones").value=(original.observaciones||"")+"\n\nRECTIFICA "+referenciaOT(original)+": ";
+document.getElementById("observaciones").value=original.observaciones||"";
+
+const titulo=document.getElementById("tituloFormulario");
+if(titulo) titulo.textContent="FACTURA RECTIFICATIVA DE "+refOriginal;
+
+const banner=document.getElementById("bannerEdicion");
+if(banner) banner.style.display="none";
+
+const panel=document.getElementById("panelRectificativa");
+const tituloRec=document.getElementById("tituloRectificativa");
+const datos=document.getElementById("datosFacturaOriginal");
+const motivo=document.getElementById("motivoRectificativa");
+if(tituloRec) tituloRec.textContent="FACTURA RECTIFICATIVA DE "+refOriginal;
+if(datos){
+datos.innerHTML=`
+<b>Factura original:</b> ${refOriginal}<br>
+<b>Fecha original:</b> ${formatearFecha(fechaDocumento(original))}<br>
+<b>Cliente:</b> ${original.cliente||""}<br>
+<b>NIF/NIE:</b> ${nif||"—"}<br>
+<b>Dirección:</b> ${direccion||"—"}${poblacion ? "<br><b>Población:</b> "+poblacion : ""}<br>
+<b>Matrícula:</b> ${original.matricula||""}<br>
+<b>Vehículo:</b> ${(original.marca||"")+" "+(original.modelo||"")}
+`;
+}
+if(motivo) motivo.value="";
+if(panel) panel.style.display="block";
 
 showTab('nueva');
 document.getElementById("aviso").classList.add("hidden");
-const banner=document.getElementById("bannerEdicion");
-document.getElementById("bannerEdicionRef").textContent="CREANDO FREC sobre "+referenciaOT(original)+" — "+original.matricula;
-banner.style.display="block";
 window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -2025,6 +2075,7 @@ document.getElementById("trabajos").value=ot.trabajos||"";
 document.getElementById("observaciones").value=ot.observaciones||"";
 
 showTab('nueva');
+prepararFormularioNormal(ot.estado==="FINALIZADO" ? "Editar factura" : "Editar orden");
 
 document.getElementById("aviso").classList.add("hidden");
 // Mostrar banner morado de edición
@@ -2189,6 +2240,7 @@ body > *:not(#zonaImpresion){display:none!important}
 <h1>${tituloPrint}</h1>
 <p><b>Número:</b> ${referenciaOT(ot)}</p>
 ${ot.esRectificativa ? `<p><b>Rectifica:</b> ${ot.facturaRectificada||"—"}</p>` : ""}
+${ot.esRectificativa && ot.motivoRectificativa ? `<p><b>Motivo rectificación:</b> ${ot.motivoRectificativa}</p>` : ""}
 <p><b>${esFactura ? "Fecha factura" : "Fecha"}:</b> ${formatearFecha(fechaDocumento(ot))}</p>
 <p><b>Matrícula:</b> ${ot.matricula}</p>
 ${bloqueCliente}
@@ -2402,6 +2454,15 @@ if(estado.value==="FINALIZADO"){
 estado.style.background="#28a745";
 estado.style.color="white";
 }
+}
+
+function prepararFormularioNormal(titulo){
+const h=document.getElementById("tituloFormulario");
+if(h) h.textContent=titulo||"Nueva Orden";
+const panel=document.getElementById("panelRectificativa");
+if(panel) panel.style.display="none";
+const motivo=document.getElementById("motivoRectificativa");
+if(motivo) motivo.value="";
 }
 
 function actualizarTextoBotonGuardar(){
