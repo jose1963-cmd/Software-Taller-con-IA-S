@@ -248,21 +248,17 @@ color:#ffd580;
 </div>
 
 <div id="inicio" class="card hidden">
-<h1 style="text-align:center;font-size:32px;color:#ff7a1a;">
-BIENVENIDO
+<h1 style="text-align:center;font-size:30px;color:#ff7a1a;margin-bottom:6px;letter-spacing:1px;">
+BIENVENIDO A GESTIÓN
 </h1>
 
-<h2 style="text-align:center;">
+<h2 style="text-align:center;font-size:25px;margin:0 0 22px;color:#ffffff;letter-spacing:0.5px;">
 TALLERES AUTOBORJA
 </h2>
 
-<p style="text-align:center;margin-top:40px;">
-Gestión de órdenes de trabajo
-</p>
-
 <button class="green"
 onclick="showTab('nueva')"
-style="width:100%;font-size:24px;padding:20px;margin-top:40px;">
+style="width:100%;font-size:24px;padding:20px;margin-top:10px;">
 NUEVA OT
 </button>
 
@@ -350,7 +346,7 @@ BORRAR PRUEBAS / EMPEZAR DE CERO
 </div>
 
 <label>Estado</label>
-<select id="estado" onchange="irGuardar()">
+<select id="estado" onchange="irGuardar();actualizarTextoBotonGuardar();">
 <option>CITADO</option>
 <option>EN TALLER</option>
 <option>FINALIZADO</option>
@@ -521,10 +517,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R84";
+const APP_VERSION="R87";
 const COPIA_VERSION=3;
 const APP_FECHA="16/06/2026";
-const APP_NOTAS="R84: Historial renombrado a FACTURACIÓN, bloqueo de borrado en facturas y creación de facturas rectificativas FREC.";
+const APP_NOTAS="R87: Portada compacta y optimizada: Bienvenido a gestión, manteniendo Talleres Autoborja como identidad visual.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -1029,6 +1025,8 @@ return;
 ot.nif=fichaExistente.nif;
 ot.direccion=fichaExistente.direccion;
 ot.poblacion=fichaExistente.poblacion||"";
+ot.telefono=fichaExistente.movil||fichaExistente.tfno||ot.telefono||"";
+ot.email=fichaExistente.email||"";
 }
 
 _completarGuardadoOT(ot);
@@ -1061,11 +1059,14 @@ ot.fechaFinalizacion=anterior.fechaFinalizacion;
 if(!ot.nif && anterior.nif) ot.nif=anterior.nif;
 if(!ot.direccion && anterior.direccion) ot.direccion=anterior.direccion;
 if(!ot.poblacion && anterior.poblacion) ot.poblacion=anterior.poblacion;
+if(!ot.email && anterior.email) ot.email=anterior.email;
+sincronizarFiscalDesdeFicha(ot);
 asegurarNumeracion(ot);
 ots=ots.map(x=>x.id===editandoId ? ot : x);
 editandoId=null;
 rectificandoId=null;
 document.getElementById("bannerEdicion").style.display="none";
+actualizarTextoBotonGuardar();
 alert("OT ACTUALIZADA: "+referenciaOT(ot));
 }else if(rectificandoId){
 const original=ots.find(x=>x.id===rectificandoId);
@@ -1080,6 +1081,7 @@ ot.esRectificativa=true;
 ot.facturaRectificada=referenciaOT(original);
 ot.facturaRectificadaId=original.id;
 ot.fechaFinalizacion=ahoraLocalInput();
+sincronizarFiscalDesdeFicha(ot);
 asegurarNumeracion(ot);
 ots.push(ot);
 alert("FACTURA RECTIFICATIVA CREADA: "+referenciaOT(ot)+" sobre "+ot.facturaRectificada);
@@ -1088,6 +1090,7 @@ rectificandoId=null;
 if(ot.estado==="FINALIZADO" && !ot.fechaFinalizacion){
 ot.fechaFinalizacion=ahoraLocalInput();
 }
+sincronizarFiscalDesdeFicha(ot);
 asegurarNumeracion(ot);
 ots.push(ot);
 alert("OT GUARDADA: "+referenciaOT(ot));
@@ -1103,6 +1106,7 @@ document.getElementById("km").value="";
 document.getElementById("fecha").value="";
 document.getElementById("estado").value="CITADO";
 actualizarColorEstado();
+actualizarTextoBotonGuardar();
 document.getElementById("trabajos").value="";
 document.getElementById("observaciones").value="";
 
@@ -1567,22 +1571,16 @@ input.value=input.value.toUpperCase();
 // ── FIN CÁLCULO NIF ───────────────────────────────────────────
 
 function abrirModalCliente(nombreCliente, fichaExistente){
-document.getElementById("modalClienteNombre").textContent=
-"Cliente: "+nombreCliente;
-document.getElementById("mcNif").value=
-fichaExistente ? (fichaExistente.nif||"") : "";
-document.getElementById("mcDireccion").value=
-fichaExistente ? (fichaExistente.direccion||"") : "";
-document.getElementById("mcPoblacion").value=
-fichaExistente ? (fichaExistente.poblacion||"") : "";
-document.getElementById("mcMovil").value=
-fichaExistente ? (fichaExistente.movil||"") : "";
-document.getElementById("mcTfno").value=
-fichaExistente ? (fichaExistente.tfno||"") : "";
-document.getElementById("mcEmail").value=
-fichaExistente ? (fichaExistente.email||"") : "";
-document.getElementById("mcObservaciones").value=
-fichaExistente ? (fichaExistente.observaciones||"") : "";
+const ficha=fichaExistente || buscarFichaCliente(nombreCliente) || {};
+document.getElementById("modalCliente").dataset.clienteEdicion=nombreCliente;
+document.getElementById("modalClienteNombre").textContent="Cliente: "+nombreCliente;
+document.getElementById("mcNif").value=ficha.nif||"";
+document.getElementById("mcDireccion").value=ficha.direccion||"";
+document.getElementById("mcPoblacion").value=ficha.poblacion||"";
+document.getElementById("mcMovil").value=ficha.movil||"";
+document.getElementById("mcTfno").value=ficha.tfno||"";
+document.getElementById("mcEmail").value=ficha.email||"";
+document.getElementById("mcObservaciones").value=ficha.observaciones||"";
 document.getElementById("modalCliente").style.display="block";
 setTimeout(()=>document.getElementById("mcNif").focus(),200);
 }
@@ -1602,6 +1600,27 @@ document.getElementById("mcObservaciones").value=ficha.observaciones||"";
 document.getElementById("modalCliente").dataset.clienteEdicion=nombreCliente;
 document.getElementById("modalCliente").style.display="block";
 setTimeout(()=>document.getElementById("mcNif").focus(),200);
+}
+
+function sincronizarFacturasCliente(nombreCliente){
+const ficha=buscarFichaCliente(nombreCliente);
+if(!ficha) return 0;
+let actualizadas=0;
+ots=ots.map(x=>{
+if(x.estado==="FINALIZADO" && claveCliente(x.cliente)===claveCliente(nombreCliente)){
+actualizadas++;
+return {
+...x,
+nif:ficha.nif||x.nif||"",
+direccion:ficha.direccion||x.direccion||"",
+poblacion:ficha.poblacion||x.poblacion||"",
+telefono:ficha.movil||ficha.tfno||x.telefono||"",
+email:ficha.email||x.email||""
+};
+}
+return x;
+});
+return actualizadas;
 }
 
 function confirmarFicha(){
@@ -1625,15 +1644,9 @@ if(!ot){
 const nombreEdicion=document.getElementById("modalCliente").dataset.clienteEdicion||"";
 if(nombreEdicion){
 guardarFichaCliente(nombreEdicion,nif,dir,pob,movil,tfno,email,obs);
-// Actualizar también todas las OTs de ese cliente que sean FINALIZADO
-ots=ots.map(x=>{
-if(x.estado==="FINALIZADO" && claveCliente(x.cliente)===claveCliente(nombreEdicion)){
-return {...x, nif, direccion:dir, poblacion:pob};
-}
-return x;
-});
+const n=sincronizarFacturasCliente(nombreEdicion);
 guardar();
-alert("FICHA ACTUALIZADA CORRECTAMENTE");
+alert("FICHA ACTUALIZADA CORRECTAMENTE"+(n ? " — FACTURAS ACTUALIZADAS: "+n : ""));
 document.getElementById("modalCliente").style.display="none";
 renderHistorial();
 }
@@ -1645,6 +1658,8 @@ guardarFichaCliente(ot.cliente,nif,dir,pob,movil,tfno,email,obs);
 ot.nif=nif;
 ot.direccion=dir;
 ot.poblacion=pob;
+ot.telefono=movil||tfno||ot.telefono||"";
+ot.email=email;
 
 document.getElementById("modalCliente").style.display="none";
 _otPendienteGuardar=null;
@@ -1804,9 +1819,8 @@ ${ot.observaciones || "SIN OBSERVACIONES"}
 <button onclick="editarOT(${ot.id})">EDITAR</button>
 <button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
 <button class="green" onclick="enviarWhatsApp(${ot.id})">WHATSAPP</button>
-${esFactura && !ot.esRectificativa ? `<button style="background:#7b2fff;color:white;margin:0;" onclick="rectificarFactura(${ot.id})">FREC</button>` : ""}
-${esFactura ? `<button style="background:#344d7a;color:white;margin:0;" onclick="editarFichaCliente('${ot.cliente.replace(/'/g,"\\'")}')">FICHA</button>` : ""}
-${!esFactura ? `<button class="danger" onclick="eliminarOT(${ot.id})" style="margin:0;">🗑</button>` : ""}
+${esFactura ? `<button style="background:#7b2fff;color:white;margin:0;" onclick="editarFichaCliente('${ot.cliente.replace(/'/g,"\\'")}')">FICHA</button>` : ""}
+<button class="danger" onclick="eliminarOT(${ot.id})" style="margin:0;">🗑</button>
 </div>
 </div>
 `;
@@ -1929,6 +1943,7 @@ document.getElementById("km").value=original.km||"";
 document.getElementById("fecha").value=ahoraLocalInput();
 document.getElementById("estado").value="FINALIZADO";
 actualizarColorEstado();
+actualizarTextoBotonGuardar();
 document.getElementById("trabajos").value=original.trabajos||"";
 document.getElementById("observaciones").value=(original.observaciones||"")+"\n\nRECTIFICA "+referenciaOT(original)+": ";
 
@@ -1946,6 +1961,11 @@ const ot=ots.find(x=>x.id===id);
 
 if(!ot)return;
 
+if(ot.estado==="FINALIZADO"){
+sincronizarFiscalDesdeFicha(ot);
+guardar();
+}
+
 editandoId=id;
 
 document.getElementById("matricula").value=ot.matricula||"";
@@ -1957,6 +1977,7 @@ document.getElementById("km").value=ot.km||"";
 document.getElementById("fecha").value=ot.fecha||"";
 document.getElementById("estado").value=ot.estado||"";
 actualizarColorEstado();
+actualizarTextoBotonGuardar();
 document.getElementById("trabajos").value=ot.trabajos||"";
 document.getElementById("observaciones").value=ot.observaciones||"";
 
@@ -2005,6 +2026,7 @@ function cancelarEdicion(){
 editandoId=null;
 rectificandoId=null;
 document.getElementById("bannerEdicion").style.display="none";
+actualizarTextoBotonGuardar();
 document.getElementById("aviso").classList.add("hidden");
 document.getElementById("matricula").value="";
 document.getElementById("cliente").value="";
@@ -2015,6 +2037,7 @@ document.getElementById("km").value="";
 document.getElementById("fecha").value="";
 document.getElementById("estado").value="CITADO";
 actualizarColorEstado();
+actualizarTextoBotonGuardar();
 document.getElementById("trabajos").value="";
 document.getElementById("observaciones").value="";
 showTab("inicio");
@@ -2337,9 +2360,36 @@ estado.style.background="#28a745";
 estado.style.color="white";
 }
 }
+
+function actualizarTextoBotonGuardar(){
+const btn=document.getElementById("btnGuardar");
+const estado=document.getElementById("estado").value;
+if(!btn) return;
+if(rectificandoId){
+btn.textContent="GUARDAR FREC";
+}else if(estado==="FINALIZADO"){
+btn.textContent="GUARDAR FACTURA";
+}else{
+btn.textContent="GUARDAR OT";
+}
+}
+
+function sincronizarFiscalDesdeFicha(ot){
+if(!ot || ot.estado!=="FINALIZADO") return ot;
+const ficha=buscarFichaCliente(ot.cliente);
+if(ficha){
+if(ficha.nif) ot.nif=ficha.nif;
+if(ficha.direccion) ot.direccion=ficha.direccion;
+ot.poblacion=ficha.poblacion||ot.poblacion||"";
+ot.telefono=ficha.movil||ficha.tfno||ot.telefono||"";
+ot.email=ficha.email||ot.email||"";
+}
+return ot;
+}
 document.getElementById("estado")
 .addEventListener("change",actualizarColorEstado);
 actualizarColorEstado();
+actualizarTextoBotonGuardar();
 document.getElementById("versionApp").querySelector("button").textContent=APP_VERSION;
 showTab('inicio');
 
