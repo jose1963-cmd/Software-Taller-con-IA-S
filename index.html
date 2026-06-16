@@ -235,7 +235,7 @@ color:#ffd580;
 </head>
 <body>
 
-<div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">R91</button></div>
+<div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">R92</button></div>
 
 <h1 id="tituloApp">TALLERES AUTOBORJA</h1>
 
@@ -520,10 +520,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R91";
+const APP_VERSION="R92";
 const COPIA_VERSION=3;
 const APP_FECHA="16/06/2026";
-const APP_NOTAS="R91: FREC abre formulario específico de factura rectificativa, copia la factura original y exige motivo.";
+const APP_NOTAS="R92: Corrige título principal al crear FREC: FACTURA RECTIFICATIVA DE FAC y oculta modo edición.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -2043,6 +2043,13 @@ if(motivo) motivo.value="";
 if(panel) panel.style.display="block";
 
 showTab('nueva');
+// Refuerzo visual: al entrar por FREC no debe quedar nunca "Nueva Orden" ni "Modo edición".
+const tituloFinal=document.getElementById("tituloFormulario");
+if(tituloFinal) tituloFinal.textContent="FACTURA RECTIFICATIVA DE "+refOriginal;
+const bannerFinal=document.getElementById("bannerEdicion");
+if(bannerFinal) bannerFinal.style.display="none";
+if(panel) panel.style.display="block";
+actualizarTextoBotonGuardar();
 document.getElementById("aviso").classList.add("hidden");
 window.scrollTo({top:0,behavior:"smooth"});
 }
