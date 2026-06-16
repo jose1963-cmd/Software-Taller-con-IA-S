@@ -513,10 +513,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R89";
+const APP_VERSION="R90";
 const COPIA_VERSION=3;
 const APP_FECHA="16/06/2026";
-const APP_NOTAS="R89: Pestaña FACTURAS optimizada para móvil, sin botón borrar y con FREC.";
+const APP_NOTAS="R90: Facturas sin EDITAR técnico ni BORRAR; EDITAR abre ficha cliente y FREC genera rectificativa.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -1853,11 +1853,16 @@ ${ot.trabajos || "SIN TRABAJOS"}<br>
 ${ot.observaciones || "SIN OBSERVACIONES"}
 <br><br>
 <div class="acciones">
+${esFactura ? `
+<button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
+<button style="background:#344d7a;color:white;margin:0;" onclick="editarFichaClienteFactura(${ot.id},'${ot.cliente.replace(/'/g,"\\'")}')">EDITAR</button>
+<button style="background:#7b2fff;color:white;margin:0;" onclick="rectificarFactura(${ot.id})">FREC</button>
+` : `
 <button onclick="editarOT(${ot.id})">EDITAR</button>
 <button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
 <button class="green" onclick="enviarWhatsApp(${ot.id})">WHATSAPP</button>
-${esFactura ? `<button style="background:#7b2fff;color:white;margin:0;" onclick="editarFichaCliente('${ot.cliente.replace(/'/g,"\\'")}')">FICHA</button>` : ""}
 <button class="danger" onclick="eliminarOT(${ot.id})" style="margin:0;">🗑</button>
+`}
 </div>
 </div>
 `;
