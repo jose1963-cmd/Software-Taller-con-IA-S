@@ -382,7 +382,10 @@ GUARDAR OT
 </div>
 <div id="almacen" class="card hidden">
 <h2>📦 Almacén</h2>
-<button type="button" class="secondary" onclick="showTab('inicio')" style="margin-bottom:10px;">⬅️ VOLVER A INICIO</button>
+<div style="display:flex;gap:8px;margin-bottom:10px;">
+  <button type="button" class="secondary" onclick="showTab('inicio')" style="margin:0;flex:1;">⬅️ INICIO</button>
+  <button type="button" class="green" onclick="abrirModalNuevoArticulo()" style="margin:0;flex:1;">➕ NUEVO ARTÍCULO</button>
+</div>
 <input id="buscarArticulo" placeholder="Buscar por referencia o descripción..." oninput="renderAlmacen()" style="display:block;">
 <div id="almacenLista"></div>
 </div>
@@ -406,6 +409,55 @@ GUARDAR OT
     <button type="button" class="green" id="btnAceptarCamara" onclick="aceptarMatriculaEscaneada()" style="margin:0;display:none;">✅ ACEPTAR</button>
     <button type="button" id="btnRepetirFoto" onclick="repetirFoto()" style="margin:0;display:none;background:#344d7a;color:white;">🔄 REPETIR</button>
     <button type="button" class="danger" onclick="cerrarCamara()" style="margin:0;">❌ CERRAR</button>
+  </div>
+</div>
+</div>
+
+<!-- Modal edición artículo almacén -->
+<div id="modalArticulo" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000a;z-index:9999;overflow-y:auto;padding:20px;">
+<div style="background:#1c2940;border:2px solid #ff7a1a;border-radius:18px;padding:20px;max-width:500px;margin:40px auto;">
+  <h2 id="modalArticuloTitulo" style="color:#ff7a1a;margin-top:0;">✏️ ARTÍCULO</h2>
+  <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Referencia *</label>
+  <input id="maRef" placeholder="REF-001" style="margin:4px 0 10px;">
+  <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Descripción *</label>
+  <input id="maDesc" placeholder="Descripción del artículo">
+  <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Proveedor *</label>
+  <input id="maProv" placeholder="Nombre del proveedor">
+  <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Familia</label>
+  <input id="maFam" placeholder="Filtros, Aceites, Frenos...">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+    <div>
+      <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Precio compra (€)</label>
+      <input id="maPcomp" type="number" step="0.01" min="0" placeholder="0.00">
+    </div>
+    <div>
+      <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Margen (%)</label>
+      <input id="maMargen" type="number" step="0.1" min="0" placeholder="30" oninput="calcularPVP()">
+    </div>
+  </div>
+  <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Precio venta (€)</label>
+  <input id="maPventa" type="number" step="0.01" min="0" placeholder="0.00">
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+    <div>
+      <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">IVA (%)</label>
+      <input id="maIva" type="number" step="1" min="0" value="21" placeholder="21">
+    </div>
+    <div>
+      <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Stock</label>
+      <input id="maStock" type="number" step="1" min="0" placeholder="0">
+    </div>
+    <div>
+      <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Stock mín.</label>
+      <input id="maStockMin" type="number" step="1" min="0" placeholder="0">
+    </div>
+  </div>
+  <label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Observaciones</label>
+  <textarea id="maObs" rows="2" placeholder="Notas..." style="width:100%;box-sizing:border-box;resize:vertical;"></textarea>
+  <input type="hidden" id="maClaveOriginal">
+  <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;">
+    <button type="button" class="green" onclick="guardarArticuloModal()" style="margin:0;flex:2;">💾 GUARDAR</button>
+    <button type="button" class="danger" onclick="eliminarArticuloModal()" style="margin:0;flex:1;">🗑 ELIMINAR</button>
+    <button type="button" class="secondary" onclick="cerrarModalArticulo()" style="margin:0;flex:1;">CANCELAR</button>
   </div>
 </div>
 </div>
@@ -454,10 +506,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R78";
+const APP_VERSION="R80";
 const COPIA_VERSION=3;
-const APP_FECHA="14/06/2026";
-const APP_NOTAS="Copia completa V3: OT, clientes, vehículos, artículos y contadores. Base preparada para importaciones masivas.";
+const APP_FECHA="16/06/2026";
+const APP_NOTAS="R80: Almacén con edición manual de artículos — botón EDITAR por fila proveedor, modal completo con todos los campos, NUEVO ARTÍCULO manual, ELIMINAR con confirmación.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -1246,7 +1298,7 @@ const lista=document.getElementById("almacenLista");
 const texto=(document.getElementById("buscarArticulo").value||"").trim().toUpperCase();
 
 if(!texto){
-lista.innerHTML="<p>Escribe una referencia o descripción para buscar.</p>";
+lista.innerHTML="<p style='color:#aab4c8;'>Escribe una referencia o descripción para buscar.<br><br>Usa <b>NUEVO ARTÍCULO</b> para añadir artículos manualmente.</p>";
 return;
 }
 
@@ -1271,19 +1323,24 @@ Object.keys(grupos).sort().forEach(ref=>{
 const items=grupos[ref];
 html+=`<div class="item" style="border-left-color:#ff7a1a">`;
 html+=`<b>${ref}</b> — ${items[0].descripcion}<br>`;
-if(items[0].familia) html+=`Familia: ${items[0].familia}<br>`;
+if(items[0].familia) html+=`<span style="color:#aab4c8;font-size:13px;">Familia: ${items[0].familia}</span><br>`;
 items.forEach(a=>{
-const roturaStock=a.stock<=a.stock_minimo;
+const roturaStock=a.stock!==null && a.stock_minimo!==null && a.stock<=a.stock_minimo;
 const avisoStock=roturaStock
-? `<span style="color:#ff5252">⚠️ STOCK: ${a.stock} (mín. ${a.stock_minimo})</span>`
-: `STOCK: ${a.stock}`;
-html+=`<div style="margin-top:6px;padding-top:6px;border-top:1px solid #3b4a63;">`;
+? `<span style="color:#ff5252;font-weight:bold;">⚠️ STOCK: ${a.stock} (mín. ${a.stock_minimo})</span>`
+: `<span style="color:#28a745;">STOCK: ${a.stock!==null?a.stock:"—"}</span>`;
+const claveEsc=CSS.escape ? (a.referencia+"|||"+a.proveedor) : (a.referencia+"|||"+a.proveedor);
+const claveJS=(a.referencia+"|||"+a.proveedor).replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+html+=`<div style="margin-top:8px;padding-top:8px;border-top:1px solid #3b4a63;display:flex;align-items:flex-start;gap:10px;">`;
+html+=`<div style="flex:1;">`;
 html+=`Proveedor: <b>${a.proveedor}</b><br>`;
-html+=`PVP: ${a.precio_venta!==null ? a.precio_venta.toFixed(2)+" €" : "—"}`;
+html+=`PVP: <b>${a.precio_venta!==null ? a.precio_venta.toFixed(2)+" €" : "—"}</b>`;
 html+=` &nbsp;|&nbsp; Coste: ${a.precio_compra!==null ? a.precio_compra.toFixed(2)+" €" : "—"}`;
 html+=` &nbsp;|&nbsp; IVA: ${a.iva}%<br>`;
 html+=avisoStock;
-if(a.observaciones) html+=`<br><i>${a.observaciones}</i>`;
+if(a.observaciones) html+=`<br><span style="color:#aab4c8;font-size:13px;"><i>${a.observaciones}</i></span>`;
+html+=`</div>`;
+html+=`<button type="button" onclick="abrirModalEditarArticulo('${claveJS}')" style="width:auto;padding:8px 12px;margin:0;flex:0 0 auto;font-size:13px;background:#344d7a;color:white;">✏️ EDITAR</button>`;
 html+=`</div>`;
 });
 html+=`</div>`;
@@ -1291,6 +1348,122 @@ html+=`</div>`;
 
 lista.innerHTML=html;
 }
+
+// ── MODAL ARTÍCULO ────────────────────────────────────────────
+function abrirModalNuevoArticulo(){
+document.getElementById("modalArticuloTitulo").textContent="➕ NUEVO ARTÍCULO";
+document.getElementById("maRef").value="";
+document.getElementById("maDesc").value="";
+document.getElementById("maProv").value="";
+document.getElementById("maFam").value="";
+document.getElementById("maPcomp").value="";
+document.getElementById("maMargen").value="";
+document.getElementById("maPventa").value="";
+document.getElementById("maIva").value="21";
+document.getElementById("maStock").value="0";
+document.getElementById("maStockMin").value="0";
+document.getElementById("maObs").value="";
+document.getElementById("maClaveOriginal").value="";
+// Ocultar botón eliminar en modo nuevo
+document.querySelector("#modalArticulo button.danger").style.display="none";
+document.getElementById("modalArticulo").style.display="block";
+setTimeout(()=>document.getElementById("maRef").focus(),200);
+}
+
+function abrirModalEditarArticulo(clave){
+const [ref,prov]=clave.split("|||");
+const a=articulos.find(x=>x.referencia===ref && x.proveedor===prov);
+if(!a){alert("ARTÍCULO NO ENCONTRADO");return;}
+document.getElementById("modalArticuloTitulo").textContent="✏️ EDITAR ARTÍCULO";
+document.getElementById("maRef").value=a.referencia||"";
+document.getElementById("maDesc").value=a.descripcion||"";
+document.getElementById("maProv").value=a.proveedor||"";
+document.getElementById("maFam").value=a.familia||"";
+document.getElementById("maPcomp").value=a.precio_compra!==null?a.precio_compra:"";
+document.getElementById("maMargen").value=a.margen_pct!==null?a.margen_pct:"";
+document.getElementById("maPventa").value=a.precio_venta!==null?a.precio_venta:"";
+document.getElementById("maIva").value=a.iva!==null?a.iva:21;
+document.getElementById("maStock").value=a.stock!==null?a.stock:0;
+document.getElementById("maStockMin").value=a.stock_minimo!==null?a.stock_minimo:0;
+document.getElementById("maObs").value=a.observaciones||"";
+document.getElementById("maClaveOriginal").value=clave;
+// Mostrar botón eliminar en modo edición
+document.querySelector("#modalArticulo button.danger").style.display="block";
+document.getElementById("modalArticulo").style.display="block";
+}
+
+function calcularPVP(){
+const pcomp=parseFloat(document.getElementById("maPcomp").value)||0;
+const margen=parseFloat(document.getElementById("maMargen").value);
+if(pcomp>0 && !isNaN(margen)){
+const pvp=Math.round(pcomp*(1+margen/100)*100)/100;
+document.getElementById("maPventa").value=pvp.toFixed(2);
+}
+}
+
+function guardarArticuloModal(){
+const ref=(document.getElementById("maRef").value||"").trim().toUpperCase();
+const desc=(document.getElementById("maDesc").value||"").trim().toUpperCase();
+const prov=(document.getElementById("maProv").value||"").trim().toUpperCase();
+if(!ref||!desc||!prov){
+alert("REFERENCIA, DESCRIPCIÓN Y PROVEEDOR SON OBLIGATORIOS");
+return;
+}
+const precioCompra=numero(document.getElementById("maPcomp").value);
+const margenPct=numero(document.getElementById("maMargen").value);
+let precioVenta=numero(document.getElementById("maPventa").value);
+if(precioVenta===null && precioCompra!==null && margenPct!==null){
+precioVenta=Math.round(precioCompra*(1+margenPct/100)*100)/100;
+}
+const art={
+referencia:ref,
+descripcion:desc,
+proveedor:prov,
+familia:(document.getElementById("maFam").value||"").trim().toUpperCase(),
+precio_compra:precioCompra,
+margen_pct:margenPct,
+precio_venta:precioVenta,
+iva:numero(document.getElementById("maIva").value)!==null?numero(document.getElementById("maIva").value):21,
+stock:numero(document.getElementById("maStock").value)!==null?numero(document.getElementById("maStock").value):0,
+stock_minimo:numero(document.getElementById("maStockMin").value)!==null?numero(document.getElementById("maStockMin").value):0,
+observaciones:(document.getElementById("maObs").value||"").trim()
+};
+const claveOrig=document.getElementById("maClaveOriginal").value;
+if(claveOrig){
+// Edición: eliminar el original y añadir el nuevo (puede haber cambiado ref o proveedor)
+const [refOrig,provOrig]=claveOrig.split("|||");
+const idx=articulos.findIndex(x=>x.referencia===refOrig && x.proveedor===provOrig);
+if(idx>=0) articulos.splice(idx,1);
+}
+// Comprobar si ya existe esa combinación ref+prov (para no duplicar)
+const existente=articulos.findIndex(x=>x.referencia===art.referencia && x.proveedor===art.proveedor);
+if(existente>=0){
+Object.assign(articulos[existente],art);
+}else{
+articulos.push(art);
+}
+guardar();
+cerrarModalArticulo();
+renderAlmacen();
+alert("ARTÍCULO GUARDADO: "+ref+" / "+prov);
+}
+
+function eliminarArticuloModal(){
+const clave=document.getElementById("maClaveOriginal").value;
+if(!clave) return;
+const [ref,prov]=clave.split("|||");
+if(!confirm("¿ELIMINAR EL ARTÍCULO "+ref+" / "+prov+"? Esta acción no se puede deshacer.")) return;
+articulos=articulos.filter(x=>!(x.referencia===ref && x.proveedor===prov));
+guardar();
+cerrarModalArticulo();
+renderAlmacen();
+alert("ARTÍCULO ELIMINADO");
+}
+
+function cerrarModalArticulo(){
+document.getElementById("modalArticulo").style.display="none";
+}
+// ── FIN MODAL ARTÍCULO ────────────────────────────────────────
 
 // ── CÁLCULO AUTOMÁTICO LETRA NIF/NIE ─────────────────────────
 function calcularLetraNif(input){
