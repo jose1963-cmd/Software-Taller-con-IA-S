@@ -513,10 +513,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R81";
+const APP_VERSION="R82";
 const COPIA_VERSION=3;
 const APP_FECHA="16/06/2026";
-const APP_NOTAS="R81: PVP recalcula al cambiar coste; banner morado modo edición OT con botón cancelar; eliminar OT individual desde historial/agenda/taller; aviso última copia/guardado en pantalla inicio.";
+const APP_NOTAS="R82: PVP recalcula al cambiar coste; banner morado modo edición OT con botón cancelar; eliminar OT individual desde historial/agenda/taller; aviso última copia/guardado en pantalla inicio.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -1899,9 +1899,7 @@ function eliminarOT(id){
 const ot=ots.find(x=>x.id===id);
 if(!ot) return;
 const ref=referenciaOT(ot);
-if(!confirm("¿ELIMINAR "+ref+" — "+ot.matricula+" ("+ot.cliente+")?
-
-Esta acción no se puede deshacer.")) return;
+if(!confirm("¿ELIMINAR "+ref+" — "+ot.matricula+" ("+ot.cliente+")? Esta acción no se puede deshacer.")) return;
 ots=ots.filter(x=>x.id!==id);
 guardar();
 // Refrescar la vista activa
