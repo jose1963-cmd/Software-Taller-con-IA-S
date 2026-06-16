@@ -244,7 +244,7 @@ color:#ffd580;
 <button onclick="showTab('nueva')">NUEVA OT</button>
 <button onclick="showTab('agenda')">AGENDA</button>
 <button onclick="showTab('taller')">TALLER</button>
-<button onclick="showTab('historial')">HISTORIAL</button>
+<button onclick="showTab('historial')">FACTURACIÓN</button>
 </div>
 
 <div id="inicio" class="card hidden">
@@ -368,7 +368,7 @@ GUARDAR OT
 </div>
 
 <div id="historial" class="card hidden">
-<h2>Historial</h2>
+<h2>Facturación</h2>
 <div id="filtroTabs" style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
   <button type="button" id="ftbMatricula" onclick="setFiltro('matricula')" style="flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;">MATRÍCULA</button>
   <button type="button" id="ftbCliente"   onclick="setFiltro('cliente')"   style="flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;">CLIENTE</button>
@@ -521,10 +521,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R83";
+const APP_VERSION="R84";
 const COPIA_VERSION=3;
 const APP_FECHA="16/06/2026";
-const APP_NOTAS="R83: Búsqueda Almacén por campo seleccionable: REFERENCIA, DESCRIPCIÓN, PROVEEDOR o FAMILIA.";
+const APP_NOTAS="R84: Historial renombrado a FACTURACIÓN, bloqueo de borrado en facturas y creación de facturas rectificativas FREC.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -533,7 +533,7 @@ alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
 const STORAGE="RECEPCION_TALLER_PRO";
 
 let ots=[];
-let contadores={agenda:0,ot:0,factura:0};
+let contadores={agenda:0,ot:0,factura:0,rectificativa:0};
 let clientes={};  // clave: nombre normalizado → {codigo,nombre,nif,direccion,poblacion,movil,tfno,email,observaciones}
 let vehiculos={}; // clave: matrícula → {matricula,cliente,marca,modelo,...}
 let articulos=[]; // array de {referencia,descripcion,proveedor,familia,precio_compra,margen_pct,precio_venta,iva,stock,stock_minimo,observaciones}
@@ -545,20 +545,22 @@ if(Array.isArray(guardado)){
 ots=guardado;
 }else{
 ots=Array.isArray(guardado.ots) ? guardado.ots : [];
-contadores=guardado.contadores || {agenda:0,ot:0,factura:0};
+contadores=guardado.contadores || {agenda:0,ot:0,factura:0,rectificativa:0};
+if(contadores.rectificativa===undefined) contadores.rectificativa=0;
 clientes=guardado.clientes || {};
 vehiculos=guardado.vehiculos || {};
 articulos=Array.isArray(guardado.articulos) ? guardado.articulos : [];
 }
 }catch(e){
 ots=[];
-contadores={agenda:0,ot:0,factura:0};
+contadores={agenda:0,ot:0,factura:0,rectificativa:0};
 clientes={};
 vehiculos={};
 articulos=[];
 }
 
 let editandoId=null;
+let rectificandoId=null;
 let _otPendienteGuardar=null;  // OT en espera de confirmar ficha cliente
 
 const MARCAS=[
@@ -662,6 +664,7 @@ return prefijo+"-"+String(numero).padStart(4,"0");
 function referenciaOT(ot){
 if(ot.estado==="CITADO") return formatearNumero("A",ot.numeroAgenda);
 if(ot.estado==="EN TALLER") return formatearNumero("OT",ot.numeroOT);
+if(ot.estado==="FINALIZADO" && ot.esRectificativa) return formatearNumero("FREC",ot.numeroRectificativa);
 if(ot.estado==="FINALIZADO") return formatearNumero("FAC",ot.numeroFactura);
 return "SIN Nº";
 }
@@ -678,7 +681,11 @@ if(ot.estado==="EN TALLER" && !ot.numeroOT){
 ot.numeroOT=siguienteNumero("ot");
 }
 
-if(ot.estado==="FINALIZADO" && !ot.numeroFactura){
+if(ot.estado==="FINALIZADO" && ot.esRectificativa && !ot.numeroRectificativa){
+ot.numeroRectificativa=siguienteNumero("rectificativa");
+}
+
+if(ot.estado==="FINALIZADO" && !ot.esRectificativa && !ot.numeroFactura){
 ot.numeroFactura=siguienteNumero("factura");
 }
 }
@@ -691,7 +698,7 @@ ots
 }
 
 function resetearPrograma(){
-const texto=prompt("PELIGRO: esto borra OTs, clientes, vehículos y almacén, y reinicia A, OT y FAC desde 0001. Se descargará antes una copia. Para confirmar escribe BORRAR TODO");
+const texto=prompt("PELIGRO: esto borra OTs, clientes, vehículos y almacén, y reinicia A, OT, FAC y FREC desde 0001. Se descargará antes una copia. Para confirmar escribe BORRAR TODO");
 
 if(texto!=="BORRAR TODO"){
 alert("OPERACIÓN CANCELADA");
@@ -701,7 +708,7 @@ return;
 exportarCopia();
 
 ots=[];
-contadores={agenda:0,ot:0,factura:0};
+contadores={agenda:0,ot:0,factura:0,rectificativa:0};
 clientes={};
 vehiculos={};
 articulos=[];
@@ -718,7 +725,7 @@ version:COPIA_VERSION,
 appVersion:APP_VERSION,
 fechaCopia:new Date().toISOString(),
 ots:Array.isArray(ots) ? ots : [],
-contadores:contadores || {agenda:0,ot:0,factura:0},
+contadores:contadores || {agenda:0,ot:0,factura:0,rectificativa:0},
 clientes:clientes || {},
 vehiculos:vehiculos || {},
 articulos:Array.isArray(articulos) ? articulos : [],
@@ -729,7 +736,8 @@ vehiculos:Object.keys(vehiculos || {}).length,
 articulos:(Array.isArray(articulos) ? articulos.length : 0),
 agenda:(contadores && contadores.agenda) || 0,
 ordenesTrabajo:(contadores && contadores.ot) || 0,
-facturas:(contadores && contadores.factura) || 0
+facturas:(contadores && contadores.factura) || 0,
+rectificativas:(contadores && contadores.rectificativa) || 0
 }
 };
 }
@@ -795,7 +803,7 @@ exportarCopia();
 
 if(Array.isArray(datos)){
 ots=datos;
-contadores={agenda:0,ot:0,factura:0};
+contadores={agenda:0,ot:0,factura:0,rectificativa:0};
 clientes={};
 vehiculos={};
 articulos=[];
@@ -1033,6 +1041,10 @@ ot.id=editandoId;
 ot.numeroAgenda=anterior.numeroAgenda;
 ot.numeroOT=anterior.numeroOT;
 ot.numeroFactura=anterior.numeroFactura;
+ot.numeroRectificativa=anterior.numeroRectificativa;
+ot.esRectificativa=anterior.esRectificativa || false;
+ot.facturaRectificada=anterior.facturaRectificada || "";
+ot.facturaRectificadaId=anterior.facturaRectificadaId || null;
 
 // Fecha real de factura/finalización: se fija al pasar a FINALIZADO y luego se conserva.
 if(ot.estado==="FINALIZADO"){
@@ -1052,8 +1064,26 @@ if(!ot.poblacion && anterior.poblacion) ot.poblacion=anterior.poblacion;
 asegurarNumeracion(ot);
 ots=ots.map(x=>x.id===editandoId ? ot : x);
 editandoId=null;
+rectificandoId=null;
 document.getElementById("bannerEdicion").style.display="none";
 alert("OT ACTUALIZADA: "+referenciaOT(ot));
+}else if(rectificandoId){
+const original=ots.find(x=>x.id===rectificandoId);
+if(!original){
+alert("NO SE ENCUENTRA LA FACTURA ORIGINAL");
+rectificandoId=null;
+return;
+}
+ot.id=Date.now();
+ot.estado="FINALIZADO";
+ot.esRectificativa=true;
+ot.facturaRectificada=referenciaOT(original);
+ot.facturaRectificadaId=original.id;
+ot.fechaFinalizacion=ahoraLocalInput();
+asegurarNumeracion(ot);
+ots.push(ot);
+alert("FACTURA RECTIFICATIVA CREADA: "+referenciaOT(ot)+" sobre "+ot.facturaRectificada);
+rectificandoId=null;
 }else{
 if(ot.estado==="FINALIZADO" && !ot.fechaFinalizacion){
 ot.fechaFinalizacion=ahoraLocalInput();
@@ -1676,10 +1706,14 @@ const texto=document.getElementById("buscar")
 const lista=document.getElementById("lista");
 lista.innerHTML="";
 
-// Ordenar siempre por número de factura descendente
+// Ordenar facturación por fecha real de emisión, más reciente primero
 const base=ots
 .filter(ot=>ot.estado==="FINALIZADO")
-.sort((a,b)=>(b.numeroFactura||0)-(a.numeroFactura||0));
+.sort((a,b)=>{
+const fa=fechaDocumento(a) ? new Date(fechaDocumento(a)).getTime() : a.id;
+const fb=fechaDocumento(b) ? new Date(fechaDocumento(b)).getTime() : b.id;
+return fb-fa;
+});
 
 let filtradas;
 
@@ -1694,9 +1728,11 @@ filtradas=base.filter(ot=>
 }else if(filtroActivo==="factura"){
 filtradas=base.filter(ot=>{
 if(!texto) return true;
-const num=String(ot.numeroFactura||"");
+const numFac=String(ot.numeroFactura||"");
+const numFrec=String(ot.numeroRectificativa||"");
 const ref=normalizar(referenciaOT(ot));
-return num.includes(texto) || ref.includes(texto);
+const rectifica=normalizar(ot.facturaRectificada||"");
+return numFac.includes(texto) || numFrec.includes(texto) || ref.includes(texto) || rectifica.includes(texto);
 });
 }else{
 // filtroActivo === "fecha": agrupar por día, más reciente primero
@@ -1737,7 +1773,10 @@ const direccion=ot.direccion||ficha.direccion||"";
 const poblacion=ot.poblacion||ficha.poblacion||"";
 const esFactura=ot.estado==="FINALIZADO";
 
+const bloqueRectificativa=(esFactura && ot.esRectificativa) ? `<span style="color:#ff9cff;font-weight:bold;">Rectifica: ${ot.facturaRectificada||"FACTURA ORIGEN"}</span><br>` : "";
+
 const bloqueFactura=esFactura ? `
+${bloqueRectificativa}
 <span style="color:#ffd580">NIF/NIE: ${nif||"⚠️ SIN NIF"}</span><br>
 <span style="color:#ffd580">Dir: ${direccion||"⚠️ SIN DIRECCIÓN"}</span><br>
 ${poblacion ? `<span style="color:#ffd580">${poblacion}</span><br>` : ""}
@@ -1765,8 +1804,9 @@ ${ot.observaciones || "SIN OBSERVACIONES"}
 <button onclick="editarOT(${ot.id})">EDITAR</button>
 <button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
 <button class="green" onclick="enviarWhatsApp(${ot.id})">WHATSAPP</button>
-${esFactura ? `<button style="background:#7b2fff;color:white;margin:0;" onclick="editarFichaCliente('${ot.cliente.replace(/'/g,"\\'")}')">FICHA</button>` : ""}
-<button class="danger" onclick="eliminarOT(${ot.id})" style="margin:0;">🗑</button>
+${esFactura && !ot.esRectificativa ? `<button style="background:#7b2fff;color:white;margin:0;" onclick="rectificarFactura(${ot.id})">FREC</button>` : ""}
+${esFactura ? `<button style="background:#344d7a;color:white;margin:0;" onclick="editarFichaCliente('${ot.cliente.replace(/'/g,"\\'")}')">FICHA</button>` : ""}
+${!esFactura ? `<button class="danger" onclick="eliminarOT(${ot.id})" style="margin:0;">🗑</button>` : ""}
 </div>
 </div>
 `;
@@ -1870,6 +1910,36 @@ ${ot.observaciones || "SIN OBSERVACIONES"}
 `;
 });
 }
+function rectificarFactura(id){
+const original=ots.find(x=>x.id===id);
+if(!original) return;
+if(original.estado!=="FINALIZADO"){
+alert("SOLO SE PUEDE RECTIFICAR UNA FACTURA YA EMITIDA");
+return;
+}
+rectificandoId=id;
+editandoId=null;
+
+document.getElementById("matricula").value=original.matricula||"";
+document.getElementById("cliente").value=original.cliente||"";
+document.getElementById("telefono").value=original.telefono||"";
+document.getElementById("marca").value=original.marca||"";
+document.getElementById("modelo").value=original.modelo||"";
+document.getElementById("km").value=original.km||"";
+document.getElementById("fecha").value=ahoraLocalInput();
+document.getElementById("estado").value="FINALIZADO";
+actualizarColorEstado();
+document.getElementById("trabajos").value=original.trabajos||"";
+document.getElementById("observaciones").value=(original.observaciones||"")+"\n\nRECTIFICA "+referenciaOT(original)+": ";
+
+showTab('nueva');
+document.getElementById("aviso").classList.add("hidden");
+const banner=document.getElementById("bannerEdicion");
+document.getElementById("bannerEdicionRef").textContent="CREANDO FREC sobre "+referenciaOT(original)+" — "+original.matricula;
+banner.style.display="block";
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
 function editarOT(id){
 
 const ot=ots.find(x=>x.id===id);
@@ -1909,6 +1979,10 @@ function eliminarOT(id){
 const ot=ots.find(x=>x.id===id);
 if(!ot) return;
 const ref=referenciaOT(ot);
+if(ot.estado==="FINALIZADO"){
+alert("NO SE PUEDE BORRAR UNA FACTURA EMITIDA. Crea una FREC si hay que corregirla.");
+return;
+}
 if(!confirm("¿ELIMINAR "+ref+" — "+ot.matricula+" ("+ot.cliente+")? Esta acción no se puede deshacer.")) return;
 ots=ots.filter(x=>x.id!==id);
 guardar();
@@ -1929,6 +2003,7 @@ alert("OT ELIMINADA: "+ref);
 // ── CANCELAR EDICIÓN ─────────────────────────────────────────
 function cancelarEdicion(){
 editandoId=null;
+rectificandoId=null;
 document.getElementById("bannerEdicion").style.display="none";
 document.getElementById("aviso").classList.add("hidden");
 document.getElementById("matricula").value="";
@@ -2015,6 +2090,7 @@ if(anterior) anterior.remove();
 
 const esFactura=ot.estado==="FINALIZADO";
 const tituloPrint=ot.estado==="CITADO" ? "CITA PENDIENTE" :
+                  (esFactura && ot.esRectificativa) ? "FACTURA RECTIFICATIVA" :
                   esFactura ? "FACTURA" : "ORDEN DE TRABAJO";
 
 const bloqueCliente=esFactura ? `
@@ -2046,6 +2122,7 @@ body > *:not(#zonaImpresion){display:none!important}
 
 <h1>${tituloPrint}</h1>
 <p><b>Número:</b> ${referenciaOT(ot)}</p>
+${ot.esRectificativa ? `<p><b>Rectifica:</b> ${ot.facturaRectificada||"—"}</p>` : ""}
 <p><b>${esFactura ? "Fecha factura" : "Fecha"}:</b> ${formatearFecha(fechaDocumento(ot))}</p>
 <p><b>Matrícula:</b> ${ot.matricula}</p>
 ${bloqueCliente}
