@@ -520,10 +520,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R92";
+const APP_VERSION="R91";
 const COPIA_VERSION=3;
 const APP_FECHA="16/06/2026";
-const APP_NOTAS="R92: FREC muestra también trabajos y observaciones de la factura original en el panel superior.";
+const APP_NOTAS="R91: FREC abre formulario específico de factura rectificativa, copia la factura original y exige motivo.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -908,15 +908,6 @@ if(id==="inicio") actualizarAvisoCopia();
 }
 function normalizar(t){
 return (t || "").toUpperCase();
-}
-
-function htmlSeguro(t){
-return String(t || "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#39;");
 }
 function mostrarMarcas(){
 const texto=normalizar(document.getElementById("marca").value);
@@ -2039,19 +2030,13 @@ const motivo=document.getElementById("motivoRectificativa");
 if(tituloRec) tituloRec.textContent="FACTURA RECTIFICATIVA DE "+refOriginal;
 if(datos){
 datos.innerHTML=`
-<b>Factura original:</b> ${htmlSeguro(refOriginal)}<br>
-<b>Fecha original:</b> ${htmlSeguro(formatearFecha(fechaDocumento(original)))}<br>
-<b>Cliente:</b> ${htmlSeguro(original.cliente||"")}<br>
-<b>NIF/NIE:</b> ${htmlSeguro(nif||"—")}<br>
-<b>Dirección:</b> ${htmlSeguro(direccion||"—")}${poblacion ? "<br><b>Población:</b> "+htmlSeguro(poblacion) : ""}<br>
-<b>Matrícula:</b> ${htmlSeguro(original.matricula||"")}<br>
-<b>Vehículo:</b> ${htmlSeguro(((original.marca||"")+" "+(original.modelo||"")).trim())}
-<div style="margin-top:12px;padding-top:10px;border-top:1px solid #b00020;">
-<b>TRABAJOS ORIGINALES:</b><br>
-<div style="white-space:pre-wrap;background:#101827;border:1px solid #b00020;border-radius:10px;padding:8px;margin-top:4px;">${htmlSeguro(original.trabajos||"SIN TRABAJOS")}</div>
-<b style="display:block;margin-top:10px;">OBSERVACIONES ORIGINALES:</b>
-<div style="white-space:pre-wrap;background:#101827;border:1px solid #b00020;border-radius:10px;padding:8px;margin-top:4px;">${htmlSeguro(original.observaciones||"SIN OBSERVACIONES")}</div>
-</div>
+<b>Factura original:</b> ${refOriginal}<br>
+<b>Fecha original:</b> ${formatearFecha(fechaDocumento(original))}<br>
+<b>Cliente:</b> ${original.cliente||""}<br>
+<b>NIF/NIE:</b> ${nif||"—"}<br>
+<b>Dirección:</b> ${direccion||"—"}${poblacion ? "<br><b>Población:</b> "+poblacion : ""}<br>
+<b>Matrícula:</b> ${original.matricula||""}<br>
+<b>Vehículo:</b> ${(original.marca||"")+" "+(original.modelo||"")}
 `;
 }
 if(motivo) motivo.value="";
