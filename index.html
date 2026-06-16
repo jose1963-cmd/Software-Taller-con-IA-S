@@ -244,7 +244,7 @@ color:#ffd580;
 <button onclick="showTab('nueva')">NUEVA OT</button>
 <button onclick="showTab('agenda')">AGENDA</button>
 <button onclick="showTab('taller')">TALLER</button>
-<button onclick="showTab('historial')">FACTURACIÓN</button>
+<button onclick="showTab('historial')">FACTURAS</button>
 </div>
 
 <div id="inicio" class="card hidden">
@@ -252,13 +252,9 @@ color:#ffd580;
 BIENVENIDO A GESTIÓN
 </h1>
 
-<h2 style="text-align:center;font-size:25px;margin:0 0 22px;color:#ffffff;letter-spacing:0.5px;">
-TALLERES AUTOBORJA
-</h2>
-
 <button class="green"
 onclick="showTab('nueva')"
-style="width:100%;font-size:24px;padding:20px;margin-top:10px;">
+style="width:100%;font-size:24px;padding:20px;margin-top:18px;">
 NUEVA OT
 </button>
 
@@ -364,7 +360,7 @@ GUARDAR OT
 </div>
 
 <div id="historial" class="card hidden">
-<h2>Facturación</h2>
+<h2>Facturas</h2>
 <div id="filtroTabs" style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
   <button type="button" id="ftbMatricula" onclick="setFiltro('matricula')" style="flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;">MATRÍCULA</button>
   <button type="button" id="ftbCliente"   onclick="setFiltro('cliente')"   style="flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;">CLIENTE</button>
@@ -517,10 +513,10 @@ GUARDAR OT
 
 <script>
 
-const APP_VERSION="R87";
+const APP_VERSION="R89";
 const COPIA_VERSION=3;
 const APP_FECHA="16/06/2026";
-const APP_NOTAS="R87: Portada compacta y optimizada: Bienvenido a gestión, manteniendo Talleres Autoborja como identidad visual.";
+const APP_NOTAS="R89: Pestaña FACTURAS optimizada para móvil, sin botón borrar y con FREC.";
 
 function mostrarVersion(){
 alert(APP_VERSION+"\n"+APP_FECHA+"\n"+APP_NOTAS);
@@ -1570,6 +1566,39 @@ input.value=input.value.toUpperCase();
 }
 // ── FIN CÁLCULO NIF ───────────────────────────────────────────
 
+
+function fichaDesdeOT(ot){
+if(!ot) return null;
+return {
+nif:ot.nif||"",
+direccion:ot.direccion||"",
+poblacion:ot.poblacion||"",
+movil:ot.telefono||"",
+tfno:"",
+email:ot.email||"",
+observaciones:""
+};
+}
+
+function asegurarFichaClienteDesdeOT(ot){
+if(!ot || !ot.cliente) return null;
+let ficha=buscarFichaCliente(ot.cliente);
+if(!ficha && (ot.nif||ot.direccion||ot.poblacion||ot.telefono||ot.email)){
+guardarFichaCliente(
+ot.cliente,
+ot.nif||"",
+ot.direccion||"",
+ot.poblacion||"",
+ot.telefono||"",
+"",
+ot.email||"",
+""
+);
+ficha=buscarFichaCliente(ot.cliente);
+}
+return ficha;
+}
+
 function abrirModalCliente(nombreCliente, fichaExistente){
 const ficha=fichaExistente || buscarFichaCliente(nombreCliente) || {};
 document.getElementById("modalCliente").dataset.clienteEdicion=nombreCliente;
@@ -1586,18 +1615,26 @@ setTimeout(()=>document.getElementById("mcNif").focus(),200);
 }
 
 function editarFichaCliente(nombreCliente){
-const ficha=buscarFichaCliente(nombreCliente)||{};
+const ot=[...ots].reverse().find(x=>claveCliente(x.cliente)===claveCliente(nombreCliente) && x.estado==="FINALIZADO");
+editarFichaClienteFactura(ot ? ot.id : null, nombreCliente);
+}
+
+function editarFichaClienteFactura(id,nombreCliente){
+const ot=id ? ots.find(x=>x.id===id) : null;
+const nombre=(ot && ot.cliente) ? ot.cliente : nombreCliente;
+const ficha=buscarFichaCliente(nombre) || asegurarFichaClienteDesdeOT(ot) || fichaDesdeOT(ot) || {};
 _otPendienteGuardar=null; // no hay OT pendiente, solo edición de ficha
-document.getElementById("modalClienteNombre").textContent="Cliente: "+nombreCliente;
+
+document.getElementById("modalClienteNombre").textContent="Cliente: "+nombre;
 document.getElementById("mcNif").value=ficha.nif||"";
 document.getElementById("mcDireccion").value=ficha.direccion||"";
 document.getElementById("mcPoblacion").value=ficha.poblacion||"";
-document.getElementById("mcMovil").value=ficha.movil||"";
+document.getElementById("mcMovil").value=ficha.movil||ficha.telefono||"";
 document.getElementById("mcTfno").value=ficha.tfno||"";
 document.getElementById("mcEmail").value=ficha.email||"";
 document.getElementById("mcObservaciones").value=ficha.observaciones||"";
 // Guardamos el nombre para que confirmarFicha sepa a quién actualizar
-document.getElementById("modalCliente").dataset.clienteEdicion=nombreCliente;
+document.getElementById("modalCliente").dataset.clienteEdicion=nombre;
 document.getElementById("modalCliente").style.display="block";
 setTimeout(()=>document.getElementById("mcNif").focus(),200);
 }
@@ -1962,6 +1999,7 @@ const ot=ots.find(x=>x.id===id);
 if(!ot)return;
 
 if(ot.estado==="FINALIZADO"){
+asegurarFichaClienteDesdeOT(ot);
 sincronizarFiscalDesdeFicha(ot);
 guardar();
 }
