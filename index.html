@@ -54,7 +54,7 @@
 .ch-correc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ch-correc-grid label{font-size:13px;color:#ff7a1a;margin:0;font-weight:bold}
 .ch-correc-grid input{margin:2px 0 6px;font-size:15px}
-.ch-export-btn{background:#344d7a!important;color:white!important;margin-top:10px!important;font-size:14px!important;padding:10px!important}</style></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC07</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+.ch-export-btn{background:#344d7a!important;color:white!important;margin-top:10px!important;font-size:14px!important;padding:10px!important}</style></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC06</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -266,10 +266,10 @@ setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 // ============================================================
 // 2. CONSTANTES Y VARIABLES GLOBALES
 // ============================================================
-const APP_VERSION="AC07";
+const APP_VERSION="AC06";
 const COPIA_VERSION=4;
-const APP_FECHA="23/06/2026";
-const APP_NOTAS="AC07: Fix crítico PWA iOS - alert()/prompt() nativos reemplazados por modales en showTab guard y solicitarAccesoR138.";
+const APP_FECHA="22/06/2026";
+const APP_NOTAS="AC06: Control Horario filtrado por operario logado. Informe Control Presencia en Herramientas.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -979,24 +979,20 @@ recuperarAccesoR203();
 function solicitarAccesoR138(destino){
 const guardado=obtenerCodigoAccesoR202();
 if(guardado){
-mostrarModalInput("Código de entrada (escribe RECUPERAR si lo has olvidado):","",function(codigo){
+const codigo=prompt("Código de entrada a AutoBorja. Escribe RECUPERAR si lo has olvidado:");
 if(codigo===null) return;
 const normalizado=normalizarCodigoR138(codigo);
 if(normalizado==="RECUPERAR"){
-recuperarAccesoR203();
+if(!recuperarAccesoR203()) return;
 return;
 }
 if(normalizado!==guardado){
-mostrarModalAlerta("CÓDIGO INCORRECTO");
+alert("CÓDIGO INCORRECTO");
 return;
 }
-accesoR138="gestion";
-showTab("portadaGestion");
-});
-} else {
-accesoR138="gestion";
-showTab("portadaGestion");
 }
+accesoR138="gestion";
+showTab("portadaGestion");
 }
 function inicialesOperarioR203(nombre){
 const partes=String(nombre||"").trim().normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().split(/\s+/).filter(Boolean);
@@ -1026,11 +1022,11 @@ showTab("inicio");
 function showTab(id){
 const pantallasGestion=["nueva","presupuesto","historial","agenda","taller","prefactura","estadisticas","ganancias","inventario","mas"];
 if(pantallasGestion.includes(id) && accesoR138!=="gestion"){
-mostrarModalAlerta("ACCESO BLOQUEADO. ENTRA DESDE AUTOBORJA.");
+alert("ACCESO BLOQUEADO. ENTRA DESDE AUTOBORJA.");
 id="inicio";
 }
 if((id==="herramientas"||id==="seguridad"||id==="almacen") && accesoR138!=="gestion" && accesoR138!=="herramientas"){
-mostrarModalAlerta("ACCESO BLOQUEADO. ENTRA DESDE AUTOBORJA.");
+alert("ACCESO BLOQUEADO. ENTRA DESDE AUTOBORJA.");
 id="inicio";
 }
 if(id==="inicio"){ accesoR138=""; operarioSeleccionadoR139=null; }
