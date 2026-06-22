@@ -1,6 +1,25 @@
 <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Autoborja</title><link rel="apple-touch-icon" href="icono.png"><style>body{font-family:Arial,sans-serif;background:#0f1728;margin:0;padding:16px;color:#e8edf7}.card{background:#1c2940;padding:18px;border-radius:18px;max-width:700px;margin:0 auto 18px;box-shadow:0 2px 10px #0004;border:2px solid #ff7a1a}h1{text-align:center;color:#ff7a1a;background:#0b1220;margin:-16px -16px 16px;padding:22px 10px;font-size:26px}h2{margin:8px 0 14px;color:#ffffff}.tabs{display:flex;gap:8px;max-width:700px;margin:0 auto 14px}.tabs button{flex:1;background:#1c2940;color:#e8edf7;border:1px solid #ff7a1a;transition:0.15s}.tabs button.activo{border:4px solid white;transform:scale(1.08);box-shadow:0 0 12px white}input,textarea,select,button{width:100%;box-sizing:border-box;padding:13px;margin:6px 0 12px;border-radius:12px;border:1px solid #3b4a63;font-size:16px;background:#101827;color:#e8edf7}button{background:#ff7a1a;color:#0f1728;font-weight:bold;border:none}button.secondary{background:#344d7a;color:white}button.green{background:#28a745;color:white}button.danger{background:#b00020;color:white}.acciones{display:flex;gap:6px;margin-top:10px}.acciones button{margin:0;padding:10px 6px;font-size:13px;flex:1}label{font-weight:bold;color:#ff7a1a}.hidden{display:none}.item{background:#101827;color:#e8edf7;padding:12px;margin-top:10px;border-radius:12px;border-left:5px solid #ff7a1a}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}.row input{width:100%;max-width:100%}.results button{background:#101827;color:#e8edf7;text-align:left;border-radius:0;margin:0;border-bottom:1px solid #3b4a63}.notice{background:#10281d;border-left:5px solid #28a745;padding:10px;border-radius:10px;margin-bottom:12px;font-weight:bold;color:#e8edf7}input[type="datetime-local"]{min-width:0;font-size:14px;padding:12px 8px}@media(max-width:520px){.row{grid-template-columns:1fr}}#estado{font-weight:bold}#estado option{font-weight:bold}.estado-citado{background:#2196f3;color:white}.estado-entaller{background:#ff7a1a;color:white}.estado-finalizado{background:#28a745;color:white}#modalCamara{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000d;z-index:10000;overflow-y:auto;padding:16px}#modalCamaraBox{background:#0f1728;border:2px solid #ff7a1a;border-radius:18px;padding:16px;max-width:500px;margin:20px auto}#modalCamaraBox h2{color:#ff7a1a;margin-top:0;text-align:center}#videoOCR{width:100%;border-radius:12px;border:2px solid #3b4a63;background:#000;display:block;max-height:260px;object-fit:cover}#overlayMat{text-align:center;font-size:28px;font-weight:bold;letter-spacing:6px;color:#ff7a1a;background:#0f1728;border-radius:10px;padding:12px 6px;margin:10px 0;min-height:54px;border:2px solid #ff7a1a}#estadoOCR{text-align:center;font-size:14px;color:#aab4c8;margin-bottom:10px;min-height:20px}#panelHistorialCamara{background:#101827;border-radius:12px;padding:10px;margin-top:10px;border:1px solid #3b4a63;display:none}#panelHistorialCamara h3{color:#ff7a1a;margin:0 0 8px;font-size:15px}#listadoHistCamara{font-size:13px;color:#e8edf7;max-height:160px;overflow-y:auto}.item-hist-cam{border-left:3px solid #ff7a1a;padding:6px 8px;margin-bottom:6px;background:#1c2940;border-radius:8px}#botoneraCamara{display:flex;gap:10px;margin-top:12px}#modalCliente{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000a;z-index:9999;overflow-y:auto;padding:20px}#modalClienteBox{background:#1c2940;border:2px solid #ff7a1a;border-radius:18px;padding:20px;max-width:500px;margin:40px auto}#modalClienteBox h2{color:#ff7a1a;margin-top:0}#modalClienteBox label{font-weight:bold;color:#ff7a1a;display:block;margin-top:10px}#modalClienteBox input{margin:4px 0 10px}.version-app{position:absolute;top:8px;right:12px;font-size:12px;color:#aab4c8;font-weight:bold;background:#0b1220;border:1px solid #3b4a63;border-radius:8px;padding:4px 8px;z-index:10}.version-app button{all:unset;cursor:pointer}.resumen-frec{background:#101827;border:2px solid #ff7a1a;border-radius:14px;padding:12px;margin-bottom:12px;color:#e8edf7}.resumen-frec h3{margin:0 0 10px;color:#ff7a1a;font-size:17px}.resumen-frec .mini{background:#0b1220;border:1px solid #3b4a63;border-radius:10px;padding:10px;margin:8px 0;white-space:pre-wrap;line-height:1.35}.resumen-frec .aviso{background:#16233a;border-left:4px solid #2196f3;padding:9px;border-radius:8px;font-size:13px;color:#cfe3ff;margin-bottom:10px}.aviso-modal{background:#2a1a00;border-left:4px solid #ff7a1a;padding:10px;border-radius:8px;font-size:14px;margin-bottom:14px;color:#ffd580}.lineas-panel{background:#101827;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin-top:16px}.lineas-panel h3{color:#ff7a1a;margin:0 0 8px}.lineas-tabla{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}#contenedorLineas{overflow-x:auto}.lineas-concepto{white-space:pre-wrap;line-height:1.35}.lineas-ref{font-weight:bold;color:#ff7a1a;white-space:nowrap}.lineas-tabla th{text-align:left;color:#aab4c8;font-weight:normal;border-bottom:1px solid #3b4a63;padding:6px 4px}.lineas-tabla td{padding:6px 4px;border-bottom:1px solid #2a3a55}.lineas-tabla .eliminar{background:none;border:none;color:#b00020;font-size:18px;cursor:pointer;padding:0 4px;width:auto;margin:0}.lineas-totales{display:flex;gap:20px;flex-wrap:wrap;margin-top:10px;font-weight:bold}.lineas-totales span{background:#0b1220;padding:6px 12px;border-radius:8px}.btn-anadir{background:#344d7a;color:white;margin:4px 4px 4px 0;padding:8px 14px;font-size:14px;width:auto;display:inline-block}#modalSeleccionArticulo{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000a;z-index:9999;padding:20px;overflow-y:auto}#modalSeleccionArticuloBox{background:#1c2940;border:2px solid #ff7a1a;border-radius:18px;padding:20px;max-width:600px;margin:40px auto}#modalSeleccionArticuloBox h2{color:#ff7a1a;margin-top:0}.lista-articulos-modal{max-height:300px;overflow-y:auto}.lista-articulos-modal button{background:#101827;color:#e8edf7;border-bottom:1px solid #3b4a63;border-radius:0;margin:0;text-align:left;padding:10px}#tituloApp{font-size:clamp(34px,8.8vw,48px);line-height:1.05;letter-spacing:1px;padding:26px 8px;margin:-16px -16px 16px;white-space:normal;word-break:keep-all}.inicio-gestion{display:flex;gap:10px;align-items:stretch;margin-top:6px;margin-bottom:12px}.inicio-gestion .btn-gestion{flex:1 1 100%;font-size:24px;padding:20px;margin:0;width:100%}.inicio-gestion .btn-fecha{flex:0 0 112px;font-size:14px;line-height:1.2;padding:10px 8px;margin:0;background:#344d7a;color:white}.cabecera-formulario{display:flex;align-items:center;gap:12px;margin-bottom:16px}.cabecera-formulario .btn-inicio{width:auto;padding:8px 16px;margin:0;flex:0 0 auto}.cabecera-formulario h2{margin:0;color:#ffffff}.fecha-formulario{background:#344d7a;color:white;border-radius:14px;padding:12px 18px;font-size:24px;font-weight:bold;flex:1;text-align:center;line-height:1.1;box-sizing:border-box}.separador-materiales-print{font-weight:bold;border-top:1px solid #aaa;border-bottom:1px solid #aaa;padding:6px 4px;background:#f7f7f7;letter-spacing:.5px}.vehiculo-panel{background:#101827;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin:10px 0 14px}.vehiculo-panel h3{color:#ff7a1a;margin:0 0 10px;font-size:17px}.vehiculo-panel .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.vehiculo-panel textarea{min-height:70px}.historial-vehiculo{background:#0b1220;border-left:4px solid #2196f3;border-radius:10px;padding:10px;margin:10px 0 0;font-size:14px;line-height:1.35}.historial-vehiculo h4{margin:0 0 8px;color:#cfe3ff}.aviso-mantenimiento{background:#2a1a00;border-left:4px solid #ff7a1a;padding:8px;border-radius:8px;margin:6px 0;color:#ffd580;font-weight:bold}.aviso-mantenimiento.ok{background:#10281d;border-left-color:#28a745;color:#b9ffd0;font-weight:normal}.agenda-mini{position:relative;background:#101827;border-left:5px solid #2196f3;border-radius:12px;padding:9px 64px 9px 12px;margin-top:8px;min-height:66px;box-shadow:0 1px 6px #0003}.agenda-mini .fecha{font-size:15px;font-weight:bold;color:#cfe3ff;line-height:1.2}.agenda-mini .mat{font-size:18px;font-weight:bold;color:#ffffff;letter-spacing:.5px;line-height:1.25}.agenda-mini .cli{font-size:15px;color:#e8edf7;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.agenda-edit{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:46px;height:46px;margin:0;padding:0;border-radius:14px;background:#344d7a;color:white;font-size:24px;display:flex;align-items:center;justify-content:center}.agenda-detalle{margin-top:8px;padding-top:8px;border-top:1px solid #3b4a63;font-size:14px;line-height:1.45;color:#e8edf7}.btn-presupuesto-rapido{background:#28a745!important;color:white!important;border-radius:13px!important;font-size:17px!important;padding:13px!important;margin:10px auto 0!important;width:78%!important;display:block!important}.presupuesto-card-pendiente{border-left-color:#00a6a6!important;background:#0f2730!important}.presupuesto-card-convertido{border-left-color:#ff7a1a!important;background:#2a1a00!important}.presupuesto-card-rechazado{border-left-color:#777!important;background:#20242b!important;color:#d0d3d8!important}.estado-presupuesto{display:inline-block;margin-top:6px;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:bold;letter-spacing:.3px}.estado-presupuesto.pendiente{background:#00a6a6;color:white}.estado-presupuesto.convertido{background:#ff7a1a;color:#0f1728}.estado-presupuesto.rechazado{background:#777;color:white}.presupuesto-acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.presupuesto-acciones button{margin:0;flex:1;min-width:120px;padding:11px 8px;font-size:14px}.presupuesto-datos{font-size:14px;line-height:1.45;margin-top:8px}.presupuesto-ref{font-size:16px;color:#fff;font-weight:bold}.presupuesto-mat{font-size:19px;color:#fff;font-weight:bold;letter-spacing:.5px}.presupuesto-trabajo{margin-top:8px;border-top:1px solid #3b4a63;padding-top:8px}.paneles-extra-ot{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.paneles-extra-ot button{flex:1;min-width:150px;margin:0;padding:12px 8px;font-size:14px}.acciones{flex-wrap:wrap}.acciones button{min-width:82px;white-space:normal;line-height:1.15}.acciones.ot-acciones button{min-width:90px;font-size:12px;padding:10px 5px}.acciones.ot-acciones .btn-prefactura{background:#28a745;color:white}.acciones.ot-acciones .btn-rentabilidad-ot{background:#9c27b0;color:white}.acciones.ot-acciones .btn-prefactura.compacto,.acciones.ot-acciones .btn-rentabilidad-ot.compacto{flex:1 1 0;min-width:118px;font-size:12px;padding:10px 6px;min-height:48px;display:flex;align-items:center;justify-content:center;text-align:center}.ot-acciones-par-r134{display:flex;gap:8px;width:100%;margin:0;align-items:stretch}.ot-acciones-par-r134 button{flex:1 1 0!important;width:0!important;min-width:0!important;min-height:48px!important;margin:0!important;padding:10px 6px!important;font-size:13px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;line-height:1.12!important}.ot-acciones-par-r134 .btn-prefactura{background:#28a745;color:white}.ot-acciones-par-r134 .btn-rentabilidad-ot{background:#9c27b0;color:white}.acciones.ot-acciones .btn-anular{background:#b00020;color:white}.agenda-mini{padding:7px 50px 7px 10px!important;min-height:54px!important;margin-top:6px!important}.agenda-mini .fecha{font-size:13px!important}.agenda-mini .mat{font-size:17px!important}.agenda-mini .cli{font-size:14px!important}.agenda-edit{width:38px!important;height:38px!important;border-radius:12px!important;font-size:20px!important;right:8px!important}.lineas-tabla{min-width:620px!important;table-layout:fixed}.lineas-tabla th:nth-child(1),.lineas-tabla td:nth-child(1){width:70px}.lineas-tabla th:nth-child(2),.lineas-tabla td:nth-child(2){width:270px}.lineas-concepto{white-space:normal!important;word-break:break-word;overflow-wrap:anywhere;line-height:1.25}.lineas-ref{white-space:normal!important;word-break:break-word;font-size:12px}.ot-card-r120{padding:10px 12px!important;margin-top:8px!important}.ot-top-r120{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.ot-ref-r120{font-size:15px;color:#ffd580;font-weight:bold;white-space:nowrap}.ot-mat-r120{font-size:22px;font-weight:bold;color:#fff;letter-spacing:.7px;line-height:1.05}.ot-cli-r120{font-size:15px;color:#e8edf7;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px}.ot-veh-r120{font-size:13px;color:#aab4c8;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:270px}.ot-meta-r120{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;font-size:12px;color:#cfe3ff}.ot-chip-r120{background:#0b1220;border:1px solid #3b4a63;border-radius:999px;padding:4px 7px;line-height:1.1}.ot-total-r120{font-weight:bold;color:#28a745;font-size:16px;text-align:right;white-space:nowrap}.ot-origen-r120{margin-top:7px;padding:7px 9px;border-radius:10px;background:#2a1a00;color:#ffd580;font-weight:bold;font-size:13px;line-height:1.25}.ot-detalle-r120{margin-top:9px;border-top:1px solid #3b4a63;padding-top:8px}.ot-ver-r120{background:#344d7a!important;color:white!important;margin:8px 0 0!important;padding:9px!important;font-size:14px!important}.ot-anular-zona-r120{margin-top:8px;text-align:right}.ot-anular-zona-r120 button{width:auto!important;padding:7px 11px!important;font-size:12px!important;margin:0!important;background:#4a1b25!important;color:#ffd6d6!important}.aviso.localizado-r120{background:#10281d;border-left-color:#28a745;color:#b9ffd0;line-height:1.35}.agenda-mini.agenda-24{border-left-color:#ff2d2d!important;background:#3a1014!important}.agenda-mini.agenda-24 .fecha{color:#ffd6d6!important}.agenda-mini.agenda-48{border-left-color:#ffb000!important;background:#33240a!important}.agenda-mini.agenda-48 .fecha{color:#ffe2a6!important}.agenda-mini.agenda-72{border-left-color:#28a745!important;background:#10281d!important}.agenda-mini.agenda-72 .fecha{color:#b9ffd0!important}.agenda-mini.agenda-tarde{border-left-color:#2196f3!important}.operario-ot-form{background:#101827;border:1px solid #3b4a63;border-radius:12px;padding:10px 12px;margin:8px 0 12px}.operario-ot-form label{display:block;margin:0 0 4px}.operario-chip-r122{display:inline-block;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:bold;line-height:1.1;white-space:nowrap;border:1px solid #ffffff33}.operario-chip-r122.sin{background:#20242b;color:#cfd6e6}.operario-chip-r122.jose{background:#1e3a8a;color:white}.operario-chip-r122.javier{background:#14532d;color:white}.operario-chip-r122.domingo{background:#7c2d12;color:white}.operario-chip-r122.jorge{background:#581c87;color:white}.operario-chip-r122.ruben{background:#7f1d1d;color:white}.ot-ref-line-r122{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.ot-final-acciones-r123{display:flex;gap:8px;margin-top:8px;align-items:stretch}.ot-final-acciones-r123 button{margin:0!important;border-radius:12px!important;line-height:1.15!important}.ot-exportar-r123{flex:1;background:#344d7a!important;color:white!important;font-size:13px!important;padding:10px 8px!important}.ot-anular-r123{flex:0 0 96px;background:#4a1b25!important;color:#ffd6d6!important;font-size:11px!important;padding:8px 6px!important}@media(max-width:420px){.ot-anular-r123{flex-basis:82px;font-size:10px!important}.ot-exportar-r123{font-size:12px!important}}@media(max-width:420px){.lineas-tabla{min-width:560px!important;font-size:12px}.lineas-tabla th:nth-child(1),.lineas-tabla td:nth-child(1){width:56px}.lineas-tabla th:nth-child(2),.lineas-tabla td:nth-child(2){width:240px}.ot-cli-r120{max-width:190px}.ot-veh-r120{max-width:220px}}@media(max-width:520px){.vehiculo-panel .mini-grid{grid-template-columns:1fr}}@media(max-width:420px){#tituloApp{font-size:34px}.inicio-gestion .btn-gestion{font-size:22px}.inicio-gestion .btn-fecha{flex-basis:102px;font-size:13px}.fecha-formulario{font-size:20px;padding:12px 10px}}.ot-final-acciones-r123{display:flex;gap:8px;margin-top:8px;align-items:stretch;flex-wrap:wrap}.ot-final-acciones-r123 button{margin:0!important;border-radius:12px!important;line-height:1.15!important}.ot-final-acciones-r123 .ot-exportar-r123{flex:1 1 170px;background:#344d7a!important;color:white!important;font-size:13px!important;padding:10px 8px!important}.ot-final-acciones-r123 .ot-anular-r123{flex:0 0 auto;width:auto!important;background:#4a1b25!important;color:#ffd6d6!important;font-size:12px!important;padding:8px 12px!important}.operario-input-row-r124{display:flex;gap:8px;align-items:stretch}.operario-input-row-r124 select{flex:1;margin:0 0 8px}.operario-input-row-r124 button{flex:0 0 auto;width:auto;margin:0 0 8px;padding:8px 12px;font-size:13px;background:#344d7a;color:white}.ot-operario-r124{margin-top:3px}.ot-final-acciones-r124-visible{display:flex;gap:8px;margin-top:9px;align-items:stretch;flex-wrap:wrap}.ot-final-acciones-r124-visible button{margin:0!important;border-radius:12px!important;line-height:1.15!important}.ot-final-acciones-r124-visible .ot-exportar-r123{flex:1 1 170px;background:#344d7a!important;color:white!important;font-size:13px!important;padding:10px 8px!important}.ot-final-acciones-r124-visible .ot-anular-r123{flex:0 0 auto;width:auto!important;background:#4a1b25!important;color:#ffd6d6!important;font-size:12px!important;padding:8px 12px!important}.ot-operario-r124{display:flex;gap:5px;flex-wrap:wrap;align-items:center}.ot-operario-r124 .operario-chip-r122{margin-top:3px}.cabecera-seccion-r132{display:flex;align-items:center;gap:12px;margin-bottom:10px}.cabecera-seccion-r132 .btn-inicio-seccion-r132{width:auto;padding:8px 16px;margin:0;flex:0 0 auto}.cabecera-seccion-r132 h2{margin:0;color:#ffffff}.buscador-doc-r132{background:#0f1728;border:2px solid #3b4a63;border-radius:16px;padding:10px;margin:0 0 14px;box-shadow:inset 0 0 0 1px #0003}.buscador-tabs-r132{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}.buscador-tabs-r132 button{flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;min-width:78px}.buscador-tabs-r132 button.activo{background:#ff7a1a!important;color:#0f1728!important;border-color:#ff7a1a!important;font-weight:bold}.buscador-tabs-r132 button.morado.activo{background:#7b2fff!important;color:white!important;border-color:#7b2fff!important}.buscador-doc-r132 input{margin:0}@media(max-width:420px){.buscador-tabs-r132 button{font-size:12px;min-width:68px}.cabecera-seccion-r132{gap:8px}.cabecera-seccion-r132 .btn-inicio-seccion-r132{padding:8px 12px}}.portada-r138{display:grid;gap:12px;margin-top:6px}.portada-r138 button{margin:0;padding:21px 14px;font-size:22px;line-height:1.15}.portada-r138 .btn-herramientas-r138{background:#344d7a;color:white}.portada-r138 .btn-salir-r138{background:#4a1b25;color:#ffd6d6}.herramientas-r138 h2{text-align:center;color:#ff7a1a;margin-bottom:18px}.herramientas-r138 .volver-r138{width:auto;padding:9px 14px;margin:0 0 14px;background:#344d7a;color:white}.herramientas-r138 .grupo-r138{display:grid;gap:2px}.herramientas-r138 .grupo-r138 button{margin:5px 0}@media(max-width:420px){.portada-r138 button{font-size:20px;padding:19px 12px}}
 .portal-acceso-r202{text-align:center}.portal-acceso-r202 .subtitulo-r202{color:#aab4c8;font-size:14px;line-height:1.35;margin:-4px 0 14px}.icon-grid-r202{display:grid;grid-template-columns:1fr;gap:12px}.icon-btn-r202{display:flex!important;align-items:center;justify-content:center;gap:14px;min-height:92px;margin:0!important;border-radius:20px!important;font-size:18px!important;line-height:1.1!important;box-shadow:0 2px 10px #0004}.icon-btn-r202 .ico-r202{font-size:48px;line-height:1;display:block;filter:drop-shadow(0 2px 2px #0006)}.icon-btn-r202 .txt-r202{display:block;text-align:left}.icon-btn-r202 .txt-r202 b{display:block;font-size:19px}.icon-btn-r202 .txt-r202 span{display:block;font-size:12px;color:#dbe7ff;font-weight:normal;margin-top:4px}.icon-btn-r202.verde{background:#28a745;color:white}.icon-btn-r202.azul{background:#2196f3;color:white}.icon-btn-r202.morado{background:#7b2fff;color:white}.icon-btn-r202.gris{background:#344d7a;color:white}.icon-btn-r202.naranja{background:#ff7a1a;color:#0f1728}.icon-btn-r202.rojo{background:#4a1b25;color:#ffd6d6}.icon-btn-r202:active{transform:scale(.98)}@media(min-width:560px){.icon-grid-r202{grid-template-columns:1fr 1fr}.icon-grid-r202 .ancho-r202{grid-column:1/-1}}@media(max-width:420px){.icon-btn-r202{min-height:86px}.icon-btn-r202 .ico-r202{font-size:44px}.icon-btn-r202 .txt-r202 b{font-size:17px}}
 .portada-r138 .btn-operarios-r139{background:#2196f3;color:white}.operarios-r139 h2{text-align:center;color:#ff7a1a;margin-bottom:18px}.operario-lista-r139{display:grid;gap:8px;margin-top:10px}.operario-lista-r139 button{margin:0;background:#101827;color:#e8edf7;border:1px solid #3b4a63;text-align:left;padding:14px}.operario-card-r139{background:#101827;border-left:5px solid #2196f3;border-radius:12px;padding:12px;margin-top:10px}.operario-card-r139 .ref{color:#ffd580;font-weight:bold}.operario-card-r139 .mat{font-size:21px;font-weight:bold;color:#fff;letter-spacing:.5px}.operario-card-r139 .mini{color:#aab4c8;font-size:13px;line-height:1.35}.operario-card-r139 .trabajo{border-top:1px solid #3b4a63;margin-top:8px;padding-top:8px;white-space:pre-wrap;line-height:1.3}.operario-lineas-r140{margin-top:10px;border-top:1px solid #3b4a63;padding-top:8px}.operario-lineas-r140 h4{margin:8px 0 6px;color:#ffd580;font-size:15px}.operario-lineas-r140 table{width:100%;border-collapse:collapse;font-size:13px}.operario-lineas-r140 th{color:#aab4c8;font-weight:normal;text-align:left;border-bottom:1px solid #3b4a63;padding:5px 4px}.operario-lineas-r140 td{border-bottom:1px solid #2a3a55;padding:6px 4px;vertical-align:top}.operario-lineas-r140 .ref{color:#ff7a1a;font-weight:bold;width:76px;word-break:break-word}.operario-lineas-r140 .uds{text-align:center;width:44px;color:#fff;font-weight:bold}.apuntes-operario-r140{margin-top:10px;background:#0b1220;border:1px solid #3b4a63;border-radius:10px;padding:9px;white-space:pre-wrap;line-height:1.35}.btn-apunte-r140{background:#344d7a!important;color:white!important;margin-top:10px!important}
+/* ===== CRONÓMETRO POR OT AC05 ===== */
+.crono-panel{background:#0b1220;border:2px solid #2196f3;border-radius:14px;padding:12px;margin-top:10px}
+.crono-display{font-size:38px;font-weight:bold;color:#2196f3;text-align:center;letter-spacing:3px;font-variant-numeric:tabular-nums;margin:6px 0}
+.crono-estado{text-align:center;font-size:12px;color:#aab4c8;margin-bottom:10px}
+.crono-btns{display:flex;gap:8px}
+.crono-btns button{margin:0;flex:1;font-size:14px;padding:12px 8px}
+.crono-historial{margin-top:8px;font-size:12px;color:#aab4c8;border-top:1px solid #3b4a63;padding-top:6px;max-height:90px;overflow-y:auto}
+.crono-historial .int{padding:2px 0;border-bottom:1px solid #2a3a55}
+.crono-total{text-align:center;font-size:15px;font-weight:bold;color:#28a745;margin-top:6px;padding:6px;background:#10281d;border-radius:8px}
+/* ===== PANEL TIEMPO REAL GESTIÓN AC05 ===== */
+.tiempo-panel-gestion{background:#101827;border:2px solid #9c27b0;border-radius:14px;padding:12px;margin-top:10px}
+.tiempo-panel-gestion h4{color:#9c27b0;margin:0 0 8px;font-size:15px}
+.tiempo-fila-g{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #2a3a55;font-size:13px}
+.tiempo-fila-g:last-child{border-bottom:none}
+.tiempo-fila-g .etiq{color:#aab4c8}
+.tiempo-fila-g .val-pres{color:#ffd580;font-weight:bold}
+.tiempo-fila-g .val-real{color:#2196f3;font-weight:bold}
+.tiempo-fila-g .desv-ok{color:#28a745;font-weight:bold}
+.tiempo-fila-g .desv-mal{color:#ff4444;font-weight:bold}
 /* ===== MODAL INPUT/ALERT iOS-SAFE ===== */
 #modalInputOverlay,#modalAlertaOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000b;z-index:20000;align-items:center;justify-content:center;padding:20px}
 #modalInputOverlay.activo,#modalAlertaOverlay.activo{display:flex}
@@ -35,7 +54,7 @@
 .ch-correc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ch-correc-grid label{font-size:13px;color:#ff7a1a;margin:0;font-weight:bold}
 .ch-correc-grid input{margin:2px 0 6px;font-size:15px}
-.ch-export-btn{background:#344d7a!important;color:white!important;margin-top:10px!important;font-size:14px!important;padding:10px!important}</style></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC04</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+.ch-export-btn{background:#344d7a!important;color:white!important;margin-top:10px!important;font-size:14px!important;padding:10px!important}</style></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC05</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -246,10 +265,10 @@ setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 // ============================================================
 // 2. CONSTANTES Y VARIABLES GLOBALES
 // ============================================================
-const APP_VERSION="AC04";
+const APP_VERSION="AC05";
 const COPIA_VERSION=4;
 const APP_FECHA="22/06/2026";
-const APP_NOTAS="AC04: Control Horario completo (botón inteligente + corrección), modales iOS para acceso operario y nuevo operario, fotos separadas del STORAGE principal, CSV export fichajes.";
+const APP_NOTAS="AC05: Operario solo ve sus OT. Cronómetro por OT con pausas. Panel tiempo real vs presupuestado en gestión.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -838,6 +857,7 @@ return `<div class="operario-card-r139">
 <div class="mini">📞 ${htmlSeguro(ot.telefono||"SIN TELÉFONO")}<br>📅 ${htmlSeguro(formatearFecha(fechaDocumento(ot)))}<br>🚗 ${htmlSeguro(veh)}${ot.km?"<br>KM "+htmlSeguro(ot.km):""}${total>0?"<br>💶 "+total.toFixed(2)+" €":""}</div>
 <div style="margin-top:7px;">${etiquetaOperarioOT(ot)}</div>
 ${bloqueLineasOperarioR140(ot)}
+${cronoPanelHTML(ot,nombre)}
 ${apuntesOperarioR140(ot,nombre)}
 <button type="button" class="btn-apunte-r140" onclick="anadirLineaManualOperarioR140(${ot.id},'${jsSeguro(nombre)}')">➕ AÑADIR LÍNEA MANUAL</button>
 </div>`;
@@ -850,6 +870,16 @@ function renderOperariosR139(){
 const lista=document.getElementById("operariosListaR139");
 const detalle=document.getElementById("operariosOTR139");
 if(!lista || !detalle) return;
+// AC05: si hay operario logado, solo ve sus propias OT
+if(operarioSeleccionadoR139 && accesoR138==="operario"){
+lista.innerHTML="";
+const datos=otsDeOperarioR139(operarioSeleccionadoR139);
+detalle.innerHTML=`<div style="background:#101827;border-left:5px solid #2196f3;border-radius:12px;padding:10px 14px;margin-bottom:14px;"><span style="color:#aab4c8;font-size:13px;">Operario</span><br><b style="font-size:20px;color:#fff;">${htmlSeguro(operarioSeleccionadoR139)}</b></div>`+
+(datos.length ? datos.map(ot=>crearTarjetaOperarioR139(ot,operarioSeleccionadoR139)).join("") : "<p style=\'color:#aab4c8;\'>No tienes O.T. activas asignadas.</p>");
+cronoArrancarTick();
+return;
+}
+// Acceso desde gestión: lista completa para supervisión
 const ops=operariosConOTActivasR139();
 if(!ops.length){
 lista.innerHTML="<p>No hay operarios registrados.</p>";
@@ -861,7 +891,7 @@ const n=otsDeOperarioR139(op).length;
 return `<button type="button" onclick="abrirOperarioR139('${jsSeguro(op)}')">${htmlSeguro(op)}<br><span style="color:#aab4c8;font-size:13px;">O.T. activas asignadas: ${n}</span></button>`;
 }).join("");
 if(!operarioSeleccionadoR139){
-detalle.innerHTML="<p style='color:#aab4c8;margin-top:14px;'>Pulsa un operario para ver sus O.T. activas.</p>";
+detalle.innerHTML="<p style=\'color:#aab4c8;margin-top:14px;\'>Pulsa un operario para ver sus O.T. activas.</p>";
 return;
 }
 const datos=otsDeOperarioR139(operarioSeleccionadoR139);
@@ -1601,7 +1631,8 @@ const abierto=!!detalleOTAbierto[ot.id];
 const veh=[ot.marca,ot.modelo].filter(Boolean).join(" ") || "Vehículo sin modelo";
 const bloqueOrigen=presupuestoOrigen ? `<div class="ot-origen-r120">📋 ${htmlSeguro(referenciaOT(presupuestoOrigen))} → ${htmlSeguro(ref)} · ${(totalActual-totalOrigen>=0?"+":"")+(totalActual-totalOrigen).toFixed(2)} € sobre presupuesto</div>` : "";
 const detalle=abierto ? `<div class="ot-detalle-r120">
-${crearBloqueLineasR120(ot)}<br><br>
+${crearBloqueLineasR120(ot)}
+${panelTiempoRealGestion(ot)}<br><br>
 <b>OBSERVACIONES:</b><br>${htmlSeguro(ot.observaciones||"SIN OBSERVACIONES")}
 <div class="acciones ot-acciones" style="margin-top:10px;">
 <button onclick="editarOT(${ot.id})">EDITAR</button>
@@ -4241,6 +4272,158 @@ const el=document.getElementById(id);
 if(el) el.addEventListener("input",actualizarHistorialVehiculoFormulario);
 });
 document.getElementById("versionApp").querySelector("button").textContent=APP_VERSION;
+// ============================================================
+// CRONÓMETRO POR OT AC05
+// ============================================================
+const CRONO_KEY=STORAGE+"_CRONO";
+let cronoData={};
+let _cronoTick=null;
+function cronoCargar(){
+try{ const r=localStorage.getItem(CRONO_KEY); cronoData=r?JSON.parse(r):{}; }catch(e){ cronoData={}; }
+}
+function cronoGuardar(){
+try{ localStorage.setItem(CRONO_KEY,JSON.stringify(cronoData)); }catch(e){ console.warn("Crono no guardado",e); }
+}
+function cronoKey(otId,operario){ return String(otId)+"__"+normalizarOperario(operario); }
+function cronoGet(otId,operario){
+const k=cronoKey(otId,operario);
+if(!cronoData[k]) cronoData[k]={intervalos:[],corriendo:false,inicioActual:null};
+return cronoData[k];
+}
+function cronoMinutosTotal(otId,operario){
+const c=cronoGet(otId,operario);
+let mins=0;
+(c.intervalos||[]).forEach(iv=>{ if(iv.inicio&&iv.fin) mins+=(new Date(iv.fin)-new Date(iv.inicio))/60000; });
+if(c.corriendo&&c.inicioActual) mins+=(Date.now()-new Date(c.inicioActual))/60000;
+return mins;
+}
+function cronoFormatear(mins){
+const m=Math.floor(mins);
+const h=Math.floor(m/60);
+return h+"h "+String(m%60).padStart(2,"0")+"m";
+}
+function cronoFormatearHMS(mins){
+const s=Math.floor(mins*60);
+const h=Math.floor(s/3600);
+const m=String(Math.floor((s%3600)/60)).padStart(2,"0");
+const ss=String(s%60).padStart(2,"0");
+return h+":"+m+":"+ss;
+}
+function cronoIniciar(otId,nombre){
+cronoCargar();
+const c=cronoGet(otId,nombre);
+if(c.corriendo) return;
+c.corriendo=true;
+c.inicioActual=new Date().toISOString();
+cronoGuardar();
+cronoRefrescarPanel(otId,nombre);
+cronoArrancarTick();
+}
+function cronoPausar(otId,nombre){
+cronoCargar();
+const c=cronoGet(otId,nombre);
+if(!c.corriendo) return;
+c.intervalos.push({inicio:c.inicioActual,fin:new Date().toISOString()});
+c.corriendo=false;
+c.inicioActual=null;
+cronoGuardar();
+cronoRefrescarPanel(otId,nombre);
+}
+function cronoFinalizar(otId,nombre){
+cronoPausar(otId,nombre);
+const mins=cronoMinutosTotal(otId,nombre);
+const ot=ots.find(x=>x.id===otId);
+if(ot){
+if(!ot.tiemposOperario) ot.tiemposOperario={};
+ot.tiemposOperario[normalizarOperario(nombre)]={mins:Math.round(mins*10)/10,texto:cronoFormatear(mins),fecha:new Date().toISOString()};
+guardar();
+}
+cronoRefrescarPanel(otId,nombre);
+}
+function cronoNombrePanel(otId,nombre){
+return "crp_"+String(otId)+"_"+normalizarOperario(nombre).replace(/[^A-Z0-9]/g,"_");
+}
+function cronoPanelHTML(ot,nombre){
+cronoCargar();
+const c=cronoGet(ot.id,nombre);
+const mins=cronoMinutosTotal(ot.id,nombre);
+const pid=cronoNombrePanel(ot.id,nombre);
+const nomSafe=jsSeguro(nombre);
+let btns="";
+if(!c.corriendo){
+btns+=`<button type="button" class="green" onclick="cronoIniciar(${ot.id},\'${nomSafe}\')">▶ INICIAR</button>`;
+if((c.intervalos||[]).length>0){
+btns+=`<button type="button" class="danger" onclick="cronoFinalizar(${ot.id},\'${nomSafe}\')">✅ CERRAR</button>`;
+}
+}else{
+btns+=`<button type="button" style="background:#ffb000;color:#0f1728;margin:0;flex:1;font-size:14px;padding:12px 8px;border-radius:12px;" onclick="cronoPausar(${ot.id},\'${nomSafe}\')">⏸ PAUSAR</button>`;
+btns+=`<button type="button" class="danger" onclick="cronoFinalizar(${ot.id},\'${nomSafe}\')">⏹ FINALIZAR</button>`;
+}
+const hist=(c.intervalos||[]).map((iv,i)=>{
+if(!iv.inicio||!iv.fin) return "";
+const dur=Math.round((new Date(iv.fin)-new Date(iv.inicio))/60000);
+return `<div class="int">Tramo ${i+1}: ${iv.inicio.slice(11,16)} → ${iv.fin.slice(11,16)} (${dur} min)</div>`;
+}).join("")||"<div style=\'color:#aab4c8\'>Sin tramos aún.</div>";
+const estado=c.corriendo?"🟢 EN CURSO":"⚪ DETENIDO";
+return `<div class="crono-panel" id="${pid}">
+<div style="color:#2196f3;font-size:13px;font-weight:bold;margin-bottom:2px;">⏱ TIEMPO EN ESTA OT</div>
+<div class="crono-display" id="${pid}_d">${cronoFormatearHMS(mins)}</div>
+<div class="crono-estado">${estado}</div>
+<div class="crono-btns">${btns}</div>
+<div class="crono-historial">${hist}</div>
+${mins>0?`<div class="crono-total">Acumulado: ${cronoFormatear(mins)}</div>`:""}
+</div>`;
+}
+function cronoRefrescarPanel(otId,nombre){
+const pid=cronoNombrePanel(otId,nombre);
+const panel=document.getElementById(pid);
+if(!panel){ renderOperariosR139(); return; }
+const c=cronoGet(otId,nombre);
+const mins=cronoMinutosTotal(otId,nombre);
+const disp=document.getElementById(pid+"_d");
+if(disp) disp.textContent=cronoFormatearHMS(mins);
+}
+function cronoArrancarTick(){
+if(_cronoTick) return;
+_cronoTick=setInterval(()=>{
+const op=operarioSeleccionadoR139;
+if(!op) return;
+const enPantalla=document.getElementById("operarios");
+if(!enPantalla||enPantalla.classList.contains("hidden")) return;
+otsDeOperarioR139(op).forEach(ot=>{
+const c=cronoGet(ot.id,op);
+if(c.corriendo){
+const pid=cronoNombrePanel(ot.id,op);
+const disp=document.getElementById(pid+"_d");
+if(disp) disp.textContent=cronoFormatearHMS(cronoMinutosTotal(ot.id,op));
+}
+});
+},1000);
+}
+cronoCargar();
+// ============================================================
+// PANEL TIEMPO REAL EN GESTIÓN AC05
+// ============================================================
+function panelTiempoRealGestion(ot){
+if(!ot.tiemposOperario||!Object.keys(ot.tiemposOperario).length) return "";
+const lineasMO=(ot.lineas||[]).filter(l=>l.tipo==="mano_obra");
+const totalPresMins=lineasMO.reduce((s,l)=>s+(Number(l.cantidad)||0)*60,0);
+let rows="";
+Object.entries(ot.tiemposOperario).forEach(([op,dat])=>{
+const realMins=dat.mins||0;
+let desvHTML="";
+if(totalPresMins>0){
+const desvMins=realMins-totalPresMins;
+const desvStr=(desvMins>=0?"+":"")+Math.round(desvMins)+"min";
+desvHTML=`<span class="${desvMins>15?"desv-mal":"desv-ok"}">${desvStr}</span>`;
+}
+rows+=`<div class="tiempo-fila-g"><span class="etiq">${htmlSeguro(op)}</span><span class="val-real">⏱ ${htmlSeguro(dat.texto||"—")}</span>${desvHTML}</div>`;
+});
+if(totalPresMins>0){
+rows+=`<div class="tiempo-fila-g"><span class="etiq">MO presupuestada</span><span class="val-pres">📋 ${cronoFormatear(totalPresMins)}</span></div>`;
+}
+return `<div class="tiempo-panel-gestion"><h4>⏱ TIEMPOS DE TRABAJO</h4>${rows}</div>`;
+}
 // ============================================================
 // MODAL INPUT / ALERTA iOS-SAFE
 // ============================================================
