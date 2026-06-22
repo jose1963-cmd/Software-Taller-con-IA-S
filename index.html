@@ -279,7 +279,7 @@ input[type="datetime-local"]{min-width:0;font-size:14px;padding:12px 8px}
 </head>
 <body>
 
-<div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">R141</button></div>
+<div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">R142</button></div>
 
 <h1 id="tituloApp">TALLERES AUTOBORJA</h1>
 
@@ -976,10 +976,10 @@ function toggleHistorialVehiculo(){
 // ============================================================
 // 2. CONSTANTES Y VARIABLES GLOBALES
 // ============================================================
-const APP_VERSION="R141";
+const APP_VERSION="R142";
 const COPIA_VERSION=4;
 const APP_FECHA="22/06/2026";
-const APP_NOTAS="R141: acceso a OPERARIOS por PIN de 2 letras (JA/JD/JP/JR/RM). Vista personal de O.T. por operario con campo tiempo real editable por línea de mano de obra. Fix visual botones CONTROL HORARIO.";
+const APP_NOTAS="R142: botón directo EMITIR FACTURA en tarjeta de pre-factura. Abre el formulario ya con estado FACTURA listo para guardar.";
 
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
@@ -1983,7 +1983,9 @@ function crearTarjetaOT(ot){
       <button style="background:#344d7a;color:white;margin:0;" onclick="editarFichaClienteFactura(${ot.id},'${htmlSeguro(ot.cliente).replace(/'/g,"\\'")}')">EDITAR</button>
       <button style="background:#7b2fff;color:white;margin:0;" onclick="rectificarFactura(${ot.id})">FREC</button>`;
   }else{
+    const btnEmitir=esPrefactura(ot) ? `<button class="btn-prefactura" onclick="emitirFacturaDesdePreR142(${ot.id})">🧾 EMITIR FACTURA</button>` : "";
     botones=`<button onclick="editarOT(${ot.id})">EDITAR</button>
+      ${btnEmitir}
       <button class="secondary" onclick="imprimir(${ot.id})">IMPRIMIR</button>
       <button class="secondary" onclick="editarOT(${ot.id});setTimeout(()=>document.getElementById('panelFotos').scrollIntoView({behavior:'smooth',block:'start'}),300)">📷 FOTOS</button>
       <button class="green" onclick="enviarWhatsApp(${ot.id})">WHATSAPP</button>
@@ -3353,6 +3355,18 @@ function _completarGuardadoOT(ot){
   showTab('inicio');
   window.scrollTo({top:0,behavior:"smooth"});
   guardandoOT=false;
+}
+
+function emitirFacturaDesdePreR142(id){
+  editarOT(id);
+  const estado=document.getElementById("estado");
+  if(estado){
+    estado.value="FACTURA";
+    actualizarColorEstado();
+    actualizarTextoBotonGuardar();
+    actualizarVisibilidadPorEstado();
+  }
+  irGuardar();
 }
 
 function editarOT(id){
