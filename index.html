@@ -239,8 +239,23 @@ input[type="datetime-local"]{min-width:0;font-size:14px;padding:12px 8px}
 .box-fichaje-r140 button{width:100%;margin:0;padding:18px 14px;font-size:19px;background:#0f766e;color:white;border-radius:14px}
 .fichajes-r140 h2{text-align:center;color:#ff7a1a;margin-bottom:14px}
 .fichajes-r140 select,.fichajes-r140 input[type=month]{margin:0 0 10px}
-.fichajes-r140 .grid-fichar-r140{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
-.fichajes-r140 .grid-fichar-r140 button{margin:0;padding:16px 6px;font-size:15px}
+.fichajes-r140 .grid-fichar-r140{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;box-sizing:border-box}
+.fichajes-r140 .grid-fichar-r140 button{margin:0;padding:22px 4px;font-size:14px;font-weight:700;box-sizing:border-box;width:100%;min-height:64px}
+
+/* R141: modal PIN */
+.modal-pin-r141{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;z-index:9999}
+.modal-pin-r141 .contenido{background:#131f36;border:2px solid #ff7a1a;border-radius:18px;padding:28px 22px;max-width:340px;width:90%;text-align:center}
+.modal-pin-r141 h3{color:#ff7a1a;margin:0 0 8px;font-size:20px}
+.modal-pin-r141 p{color:#aab4c8;font-size:13px;margin:0 0 16px}
+.modal-pin-r141 input{text-align:center;font-size:32px;font-weight:bold;letter-spacing:10px;text-transform:uppercase;width:100%;margin:0 0 14px;box-sizing:border-box}
+.modal-pin-r141 .fila{display:flex;gap:8px}
+.modal-pin-r141 .fila button{flex:1;margin:0}
+/* R141: vista OT operario */
+.ot-operario-r141{border:2px solid #ff7a1a;border-radius:14px;padding:14px;margin-top:12px}
+.ot-operario-r141 .titulo-ot{color:#ff7a1a;font-size:16px;font-weight:bold;margin:0 0 8px}
+.linea-mo-r141{background:#0f1728;border-left:4px solid #0f766e;border-radius:8px;padding:10px;margin:8px 0}
+.linea-mo-r141 label{display:block;color:#aab4c8;font-size:11px;margin:6px 0 3px}
+.linea-mo-r141 input{margin:0;padding:10px;font-size:16px;width:100%;box-sizing:border-box}
 .ficha-hoy-r140{background:#101827;border-left:5px solid #0f766e;border-radius:12px;padding:12px;margin-bottom:18px}
 .ficha-hoy-r140 p{margin:4px 0}
 .tabla-fichajes-r140{width:100%;border-collapse:collapse;font-size:12px}
@@ -264,7 +279,7 @@ input[type="datetime-local"]{min-width:0;font-size:14px;padding:12px 8px}
 </head>
 <body>
 
-<div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">R140</button></div>
+<div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">R141</button></div>
 
 <h1 id="tituloApp">TALLERES AUTOBORJA</h1>
 
@@ -279,7 +294,7 @@ input[type="datetime-local"]{min-width:0;font-size:14px;padding:12px 8px}
 <div class="portada-r138">
 <button class="green" onclick="solicitarAccesoR138('gestion')" type="button">🔒 GESTIÓN EMPRESA</button>
 <button class="btn-herramientas-r138" onclick="solicitarAccesoR138('herramientas')" type="button">🔒 HERRAMIENTAS</button>
-<button class="btn-operarios-r139" onclick="showTab('operarios')" type="button">👨‍🔧 OPERARIOS</button>
+<button class="btn-operarios-r139" onclick="pedirPINR141()" type="button">👨‍🔧 OPERARIOS</button>
 <button class="btn-salir-r138" onclick="salirSeguro()" type="button">🚪 SALIR</button>
 </div>
 <div class="box-fichaje-r140">
@@ -961,10 +976,10 @@ function toggleHistorialVehiculo(){
 // ============================================================
 // 2. CONSTANTES Y VARIABLES GLOBALES
 // ============================================================
-const APP_VERSION="R140";
+const APP_VERSION="R141";
 const COPIA_VERSION=4;
-const APP_FECHA="21/06/2026";
-const APP_NOTAS="R140: añade CONTROL HORARIO en portada (acceso directo, sin contraseña). Fichaje básico de entrada/salida mañana y tarde por operario, historial filtrable por mes y exportación a CSV.";
+const APP_FECHA="22/06/2026";
+const APP_NOTAS="R141: acceso a OPERARIOS por PIN de 2 letras (JA/JD/JP/JR/RM). Vista personal de O.T. por operario con campo tiempo real editable por línea de mano de obra. Fix visual botones CONTROL HORARIO.";
 
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
@@ -992,6 +1007,8 @@ let guardandoOT=false;
 let agendaExpandidaId=null;
 let detalleOTAbierto={};
 let operarioSeleccionadoR139=null;
+let operarioActualR141=null;
+const PINES_R141={"JA":"JOSE AGOIZ","JD":"JOSE DOMINGO TENA","JP":"JAVIER PABLO HAUET","JR":"JORGE RUBIANO","RM":"RUBÉN MOGA"};
 let accesoR138="";
 
 const MARCAS=["ABARTH","ALFA ROMEO","ALPINE","AUDI","BMW","BYD","CITROEN","CUPRA","DACIA","DAIHATSU","DS AUTOMOBILES","FIAT","FORD","GENESIS","HONDA","HYUNDAI","INFINITI","ISUZU","JAGUAR","JAECOO","KGM","KIA","LAND ROVER","LEXUS","LYNK & CO","MAZDA","MERCEDES","MG","MINI","MITSUBISHI","NISSAN","OPEL","PEUGEOT","POLESTAR","PORSCHE","RENAULT","SEAT","SKODA","SMART","SSANGYONG","SUBARU","SUZUKI","TESLA","TOYOTA","VOLKSWAGEN","VOLVO"];
@@ -1565,6 +1582,31 @@ function renderOperariosR139(){
   const lista=document.getElementById("operariosListaR139");
   const detalle=document.getElementById("operariosOTR139");
   if(!lista || !detalle) return;
+
+  // Vista personal (operario identificado por PIN)
+  if(operarioActualR141){
+    lista.innerHTML=`<p style="color:#ff7a1a;font-weight:bold;font-size:15px;margin-bottom:14px;">👨‍🔧 ${htmlSeguro(operarioActualR141)}</p>`;
+    const datos=otsDeOperarioR139(operarioActualR141);
+    if(!datos.length){
+      detalle.innerHTML="<p style='color:#aab4c8;margin-top:8px;'>No tienes O.T. activas asignadas.</p>";
+      return;
+    }
+    detalle.innerHTML=`<h3 style="color:#ff7a1a;margin-top:6px;">${datos.length} O.T. ACTIVA${datos.length!==1?"S":""}</h3>`+
+      datos.map(ot=>{
+        const total=calcularTotalesLineas(ot.lineas||[]).total;
+        const veh=[ot.marca,ot.modelo].filter(Boolean).join(" ")||"Sin modelo";
+        return `<div class="operario-card-r139" onclick="abrirOTModoOperarioR141('${jsSeguro(ot.id)}')" style="cursor:pointer;">
+          <div class="ref">${htmlSeguro(referenciaOT(ot))}</div>
+          <div class="mat">${htmlSeguro(ot.matricula||"SIN MATRÍCULA")}</div>
+          <div>${htmlSeguro(ot.cliente||"SIN CLIENTE")}</div>
+          <div class="mini">📅 ${htmlSeguro(formatearFecha(fechaDocumento(ot)))}<br>🚗 ${htmlSeguro(veh)}${total>0?"<br>💶 "+total.toFixed(2)+" €":""}</div>
+          <div class="trabajo">${htmlSeguro(resumenLineasOperarioR139(ot,operarioActualR141))}</div>
+        </div>`;
+      }).join("");
+    return;
+  }
+
+  // Vista general (sin PIN — admin)
   const ops=operariosConOTActivasR139();
   if(!ops.length){
     lista.innerHTML="<p>No hay operarios registrados.</p>";
@@ -1582,6 +1624,84 @@ function renderOperariosR139(){
   const datos=otsDeOperarioR139(operarioSeleccionadoR139);
   detalle.innerHTML=`<h3 style="color:#ff7a1a;margin-top:18px;">${htmlSeguro(operarioSeleccionadoR139)} · ${datos.length} O.T.</h3>`+
     (datos.length ? datos.map(ot=>crearTarjetaOperarioR139(ot,operarioSeleccionadoR139)).join("") : "<p>No tiene O.T. activas asignadas.</p>");
+}
+
+// ============================================================
+// R141: PIN OPERARIOS + VISTA OT MODO OPERARIO + TIEMPO REAL
+// ============================================================
+
+function pedirPINR141(){
+  const anterior=document.getElementById("modalPinR141");
+  if(anterior) anterior.remove();
+  const div=document.createElement("div");
+  div.id="modalPinR141";
+  div.className="modal-pin-r141";
+  div.innerHTML=`<div class="contenido">
+    <h3>👨‍🔧 ACCESO OPERARIOS</h3>
+    <p>Introduce tu PIN (tus iniciales)</p>
+    <input id="inputPinR141" type="text" maxlength="4" placeholder="ej: JA"
+      autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false">
+    <div class="fila">
+      <button class="secondary" onclick="document.getElementById('modalPinR141').remove()" type="button">CANCELAR</button>
+      <button class="green" onclick="validarPINR141()" type="button">ENTRAR</button>
+    </div>
+  </div>`;
+  document.body.appendChild(div);
+  div.querySelector("#inputPinR141").addEventListener("keydown",e=>{ if(e.key==="Enter") validarPINR141(); });
+  setTimeout(()=>{ const inp=document.getElementById("inputPinR141"); if(inp) inp.focus(); },120);
+}
+
+function validarPINR141(){
+  const pin=(document.getElementById("inputPinR141").value||"").trim().toUpperCase();
+  const nombre=PINES_R141[pin];
+  if(!nombre){
+    alert("PIN INCORRECTO.\nInténtalo de nuevo.");
+    const inp=document.getElementById("inputPinR141");
+    if(inp){ inp.value=""; inp.focus(); }
+    return;
+  }
+  const modal=document.getElementById("modalPinR141");
+  if(modal) modal.remove();
+  operarioActualR141=normalizarOperario(nombre);
+  showTab("operarios");
+}
+
+function abrirOTModoOperarioR141(otId){
+  const ot=ots.find(x=>x.id===otId);
+  if(!ot || !operarioActualR141) return;
+  const detalle=document.getElementById("operariosOTR139");
+  const veh=[ot.marca,ot.modelo].filter(Boolean).join(" ")||"Sin modelo";
+  const lineasMO=(ot.lineas||[]).map((l,i)=>({l,i})).filter(({l})=>l && l.tipo==="mano_obra" && normalizarOperario(l.operario)===operarioActualR141);
+  const htmlLineas=lineasMO.map(({l,i})=>`
+    <div class="linea-mo-r141">
+      <b>${htmlSeguro(l.referencia||l.codigo_mo||"MO")} — ${htmlSeguro(l.descripcion||"")}</b>
+      <label>Tiempo asignado: ${htmlSeguro(String(l.cantidad||"—"))} h</label>
+      <label>⏱ Tiempo real (escribe tu tiempo):</label>
+      <input type="text" inputmode="decimal" placeholder="ej: 2.5"
+        value="${htmlSeguro(l.tiempoReal||"")}"
+        oninput="guardarTiempoRealR141('${jsSeguro(otId)}',${i},this.value)">
+    </div>`).join("");
+  detalle.innerHTML=`
+    <button class="secondary" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;"
+      onclick="renderOperariosR139()">⬅️ MIS O.T.</button>
+    <div class="ot-operario-r141">
+      <div class="titulo-ot">${htmlSeguro(referenciaOT(ot))} — ${htmlSeguro(ot.matricula||"SIN MATRÍCULA")}</div>
+      <div>${htmlSeguro(ot.cliente||"SIN CLIENTE")} · ${htmlSeguro(veh)}</div>
+      <div style="margin:8px 0;color:#aab4c8;font-size:13px;">📅 ${htmlSeguro(formatearFecha(fechaDocumento(ot)))}</div>
+      <hr style="border-color:#2a3650;margin:10px 0">
+      ${lineasMO.length
+        ? `<h4 style="color:#0f766e;margin:0 0 6px;">TUS LÍNEAS DE TRABAJO</h4>${htmlLineas}`
+        : `<p style="color:#aab4c8;">No tienes líneas de mano de obra asignadas en esta O.T.</p>`}
+      <button class="secondary" type="button" style="margin-top:16px;"
+        onclick="imprimir('${jsSeguro(otId)}')">🖨️ IMPRIMIR O.T.</button>
+    </div>`;
+}
+
+function guardarTiempoRealR141(otId,lineaIdx,valor){
+  const ot=ots.find(x=>x.id===otId);
+  if(!ot || !ot.lineas || !ot.lineas[lineaIdx]) return;
+  ot.lineas[lineaIdx].tiempoReal=valor.trim();
+  guardar();
 }
 
 // ============================================================
@@ -1733,7 +1853,7 @@ function showTab(id){
     alert("ACCESO BLOQUEADO. ENTRA DESDE HERRAMIENTAS.");
     id="inicio";
   }
-  if(id==="inicio"){ accesoR138=""; operarioSeleccionadoR139=null; }
+  if(id==="inicio"){ accesoR138=""; operarioSeleccionadoR139=null; operarioActualR141=null; }
   ["inicio","operarios","herramientas","fichajes","nueva","presupuesto","historial","agenda","taller","prefactura","almacen","estadisticas","ganancias","inventario","mas"].forEach(t=>{
     const el=document.getElementById(t);
     if(el) el.classList.toggle("hidden", t!==id);
