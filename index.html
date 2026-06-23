@@ -21,13 +21,13 @@
 .tiempo-fila-g .desv-ok{color:#28a745;font-weight:bold}
 .tiempo-fila-g .desv-mal{color:#ff4444;font-weight:bold}
 /* ===== MODAL INPUT/ALERT iOS-SAFE ===== */
-#modalInputOverlay,#modalAlertaOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000b;z-index:20000;align-items:center;justify-content:center;padding:20px}
+#modalInputOverlay,#modalAlertaOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000b;z-index:20000;align-items:flex-start;justify-content:center;padding:12px 16px}
 #modalInputOverlay.activo,#modalAlertaOverlay.activo{display:flex}
-#modalInputBox,#modalAlertaBox{background:#1c2940;border:2px solid #ff7a1a;border-radius:18px;padding:22px;width:100%;max-width:400px}
-#modalInputBox h3,#modalAlertaBox h3{color:#ff7a1a;margin:0 0 14px;font-size:17px;text-align:center}
-#modalInputCampo{margin:0 0 14px}
+#modalInputBox,#modalAlertaBox{background:#1c2940;border:2px solid #ff7a1a;border-radius:18px;padding:16px;width:100%;max-width:400px;margin-top:10px}
+#modalInputBox h3,#modalAlertaBox h3{color:#ff7a1a;margin:0 0 10px;font-size:16px;text-align:center}
+#modalInputCampo{margin:0 0 10px;padding:11px;font-size:16px}
 #modalInputBotones,#modalAlertaBotones{display:flex;gap:10px}
-#modalInputBotones button,#modalAlertaBotones button{margin:0;flex:1}
+#modalInputBotones button,#modalAlertaBotones button{margin:0;flex:1;padding:13px}
 /* ===== CONTROL HORARIO AC04 ===== */
 .ch-operario-nombre{font-size:22px;font-weight:bold;color:#fff;text-align:center;margin:6px 0 14px;letter-spacing:.5px}
 .ch-reloj{font-size:36px;font-weight:bold;color:#ff7a1a;text-align:center;margin:0 0 4px;letter-spacing:2px;font-variant-numeric:tabular-nums}
@@ -265,10 +265,10 @@ setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 // ============================================================
 // 2. CONSTANTES Y VARIABLES GLOBALES
 // ============================================================
-const APP_VERSION="AC08";
+const APP_VERSION="AC08b";
 const COPIA_VERSION=4;
 const APP_FECHA="23/06/2026";
-const APP_NOTAS="AC08: Líneas manuales del operario se acumulan en Observaciones de la OT.";
+const APP_NOTAS="AC08d: Fix tab nav activo al editar: PRESUPUESTO resalta botón PRESUPUESTO, CITA resalta AGENDA, etc.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -1046,7 +1046,13 @@ const botones=document.querySelectorAll("#tabs button");
 if(id==="agenda"){ botones[0].classList.add("activo"); titulo.style.background="#2196f3"; titulo.style.color="white"; }
 else if(id==="presupuesto"){ botones[1].classList.add("activo"); titulo.style.background="#00a6a6"; titulo.style.color="white"; }
 else if(id==="taller"){ botones[2].classList.add("activo"); titulo.style.background="#ff7a1a"; titulo.style.color="#0f1728"; }
-else if(id==="nueva"){ botones[2].classList.add("activo"); titulo.style.background="#ff7a1a"; titulo.style.color="#0f1728"; if(!editandoId && !rectificandoId && !mantenerEstadoAlAbrirFormulario){ document.getElementById("estado").value="OT"; actualizarColorEstado(); actualizarTextoBotonGuardar(); actualizarVisibilidadPorEstado(); } }
+else if(id==="nueva"){
+const estadoFormulario=estadoCanonico(document.getElementById("estado")?.value||"OT");
+if(estadoFormulario==="PRESUPUESTO"){ botones[1].classList.add("activo"); titulo.style.background="#00a6a6"; titulo.style.color="white"; }
+else if(estadoFormulario==="CITA"){ botones[0].classList.add("activo"); titulo.style.background="#2196f3"; titulo.style.color="white"; }
+else if(["PREFACTURA","FACTURA"].includes(estadoFormulario)){ botones[3].classList.add("activo"); titulo.style.background="#344d7a"; titulo.style.color="white"; }
+else { botones[2].classList.add("activo"); titulo.style.background="#ff7a1a"; titulo.style.color="#0f1728"; }
+if(!editandoId && !rectificandoId && !mantenerEstadoAlAbrirFormulario){ document.getElementById("estado").value="OT"; actualizarColorEstado(); actualizarTextoBotonGuardar(); actualizarVisibilidadPorEstado(); } }
 else if(["mas","historial","estadisticas","ganancias","inventario","prefactura"].includes(id)){ botones[3].classList.add("activo"); titulo.style.background=id==="historial"?"#28a745":(id==="prefactura"?"#344d7a":"#344d7a"); titulo.style.color="white"; }
 else { titulo.style.background="#0f1728"; titulo.style.color="#ff7a1a"; }
 if(id==="nueva") actualizarBotonFechaGestion();
@@ -2209,12 +2215,14 @@ fotoExpedienteKey: fotoExpedienteKeyActual || ""
 const estadoDoc=estadoCanonico(ot.estado);
 const requiereLineas=(estadoDoc==="PRESUPUESTO"||estadoDoc==="OT"||estadoDoc==="PREFACTURA"||estadoDoc==="FACTURA");
 const lineasValidas=(ot.lineas||[]).some(l=>l && (l.descripcion||"").trim());
+const trabajosValidos=!!(ot.trabajos && ot.trabajos.trim());
+const contenidoValido=lineasValidas||trabajosValidos;
 if(requiereLineas && !ot.trabajos){
 const mano=(ot.lineas||[]).filter(l=>l && l.tipo==="mano_obra" && (l.descripcion||"").trim()).map(l=>l.descripcion.trim().toUpperCase());
 ot.trabajos=mano.length ? mano.join("\n") : "TRABAJOS DETALLADOS EN LÍNEAS";
 }
 if(ot.operarioAsignado) guardarOperario(ot.operarioAsignado,false);
-if(!ot.matricula||!ot.cliente||(!requiereLineas && !ot.trabajos)|| (requiereLineas && !lineasValidas)){
+if(!ot.matricula||!ot.cliente||(!requiereLineas && !ot.trabajos)|| (requiereLineas && !contenidoValido)){
 guardandoOT=false;
 alert(requiereLineas ? "FALTAN DATOS OBLIGATORIOS: matrícula, cliente y al menos una línea." : "FALTAN DATOS OBLIGATORIOS");
 return;
@@ -2366,6 +2374,27 @@ if(!ot.nif && anterior.nif) ot.nif=anterior.nif;
 if(!ot.direccion && anterior.direccion) ot.direccion=anterior.direccion;
 if(!ot.poblacion && anterior.poblacion) ot.poblacion=anterior.poblacion;
 if(!ot.email && anterior.email) ot.email=anterior.email;
+// Preservar apuntesOperario del anterior (no se editan desde el formulario)
+if(anterior.apuntesOperario && typeof anterior.apuntesOperario==="object"){
+ot.apuntesOperario=anterior.apuntesOperario;
+}
+// Si el anterior tenía líneas manuales acumuladas en observaciones, no perderlas al editar
+if(anterior.apuntesOperario && typeof anterior.apuntesOperario==="object"){
+const tieneApuntes=Object.values(anterior.apuntesOperario).some(arr=>Array.isArray(arr)&&arr.length>0);
+if(tieneApuntes && (ot.observaciones||"").trim()===(anterior.observaciones||"").trim()){
+// El gestor no tocó las observaciones, conservar tal cual
+ot.observaciones=anterior.observaciones||"";
+}else if(tieneApuntes && !(ot.observaciones||"").includes("[") ){
+// El gestor editó las observaciones pero el operario había añadido líneas: añadir al final
+const obsFormulario=(ot.observaciones||"").trim();
+const obsAnterior=(anterior.observaciones||"");
+// Extraer solo las líneas del operario del anterior
+const lineasOp=obsAnterior.split("\n").filter(l=>/^\[/.test(l.trim()));
+if(lineasOp.length){
+ot.observaciones=(obsFormulario+(obsFormulario?"\n":"")+lineasOp.join("\n")).trim();
+}
+}
+}
 sincronizarFiscalDesdeFicha(ot);
 asegurarNumeracion(ot);
 if(convertirPresupuestoATrabajo){
@@ -4501,8 +4530,9 @@ const campo=document.getElementById("modalInputCampo");
 campo.value=valorInicial||"";
 _modalInputCb=callback;
 const ov=document.getElementById("modalInputOverlay");
+ov.scrollTop=0;
 ov.classList.add("activo");
-setTimeout(()=>campo.focus(),120);
+setTimeout(()=>{ov.scrollTop=0;campo.focus();},80);
 }
 function modalInputConfirmar(){
 const val=document.getElementById("modalInputCampo").value;
