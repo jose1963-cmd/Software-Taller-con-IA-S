@@ -54,7 +54,7 @@
 .ch-correc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ch-correc-grid label{font-size:13px;color:#ff7a1a;margin:0;font-weight:bold}
 .ch-correc-grid input{margin:2px 0 6px;font-size:15px}
-.ch-export-btn{background:#344d7a!important;color:white!important;margin-top:10px!important;font-size:14px!important;padding:10px!important}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC12</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+.ch-export-btn{background:#344d7a!important;color:white!important;margin-top:10px!important;font-size:14px!important;padding:10px!important}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC13</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -265,10 +265,10 @@ setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 // ============================================================
 // 2. CONSTANTES Y VARIABLES GLOBALES
 // ============================================================
-const APP_VERSION="AC12";
+const APP_VERSION="AC13";
 const COPIA_VERSION=4;
 const APP_FECHA="25/06/2026";
-const APP_NOTAS="AC12: Nombres de cliente en MAYÚSCULAS. Ficha bancaria: nombre banco, forma pago y vencimiento libres con sugerencias. BIC automático desde IBAN.";
+const APP_NOTAS="AC13: Nombres de cliente en MAYÚSCULAS. Ficha bancaria: nombre banco, forma pago y vencimiento libres con sugerencias. BIC automático desde IBAN.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -3224,7 +3224,7 @@ const reader=new FileReader();
 reader.onload=function(e){
 try{
 const wb=XLSX.read(e.target.result,{type:"array"});
-// ---- CLIENTES ----
+// ---- CLIENTES desde CLIENTES_ORDENADOS (fuente maestra) ----
 const wsC=wb.Sheets["CLIENTES_ORDENADOS"];
 if(!wsC){alert("NO SE ENCONTRÓ LA HOJA 'CLIENTES_ORDENADOS' EN EL ARCHIVO.");return;}
 const rowsC=XLSX.utils.sheet_to_json(wsC,{defval:""});
@@ -3234,6 +3234,7 @@ const nombre=String(r["NOMBRE"]||"").trim();
 if(!nombre)return;
 const clave=claveCliente(nombre);
 const existente=clientes[clave]||{};
+// Preservar solo codigo y observaciones manuales; todo lo demás viene del Excel
 clientes[clave]={
 codigo:existente.codigo||generarCodigoCliente(),
 nombre:clave,
@@ -3243,9 +3244,10 @@ poblacion:String(r["CIUDAD"]||"").trim(),
 movil:String(r["MOVIL"]||"").trim(),
 tfno:String(r["TELEFONO"]||"").trim(),
 email:String(r["EMAIL"]||"").trim(),
-observaciones:"",
+observaciones:existente.observaciones||"",
 formapago:String(r["FORMA_PAGO"]||"").trim(),
-diaspago:"",
+diaspago:existente.diaspago||"",
+nombre_banco:existente.nombre_banco||"",
 ccc:String(r["CCC"]||"").trim(),
 bic:String(r["BIC"]||"").trim().toUpperCase(),
 sepa_mandato:String(r["SEPA_MANDATO"]||"").trim(),
@@ -3254,7 +3256,8 @@ sepa_tipo:String(r["SEPA_TIPO"]||"").trim()
 };
 importadosC++;
 });
-// ---- VEHÍCULOS ----
+// ---- VEHÍCULOS desde CLIENTES_VEHICULOS ----
+// Escritura directa sin merge: el Excel siempre gana sobre localStorage
 const wsV=wb.Sheets["CLIENTES_VEHICULOS"];
 if(!wsV){alert("NO SE ENCONTRÓ LA HOJA 'CLIENTES_VEHICULOS' EN EL ARCHIVO.");return;}
 const rowsV=XLSX.utils.sheet_to_json(wsV,{defval:""});
@@ -3264,23 +3267,32 @@ const tipo=String(r["TIPO_VINCULO"]||"").trim();
 if(tipo==="HUERFANO"){omitidosV++;return;}
 const matricula=String(r["MATRICULA"]||"").trim().toUpperCase();
 if(!matricula)return;
-const clienteNombre=String(r["CLIENTE_NOMBRE"]||"").trim();
-guardarFichaVehiculo({
+const clienteNombre=String(r["CLIENTE_NOMBRE"]||"").trim().toUpperCase();
+const anterior=vehiculos[matricula]||{};
+// Escritura directa: preservar solo datos mecánicos introducidos manualmente
+vehiculos[matricula]={
 matricula:matricula,
-bastidor:"",
 cliente:clienteNombre,
-telefono:String(r["MOVIL"]||r["TELEFONO"]||"").trim(),
-marca:String(r["MARCA"]||"").trim(),
-modelo:String(r["MODELO"]||"").trim(),
-combustible:"",
-cambio:"",
-cilindrada:"",
-kw:"",
-cv:"",
+marca:String(r["MARCA"]||"").trim().toUpperCase(),
+modelo:String(r["MODELO"]||"").trim().toUpperCase(),
 fechaMatriculacion:String(r["FECHA_MATRICULACION"]||"").trim(),
-color:"",
-observaciones:""
-});
+telefono:String(r["MOVIL"]||r["TELEFONO"]||"").trim(),
+// Campos mecánicos: preservar si ya existen (introducidos manualmente)
+bastidor:anterior.bastidor||"",
+combustible:anterior.combustible||"",
+cambio:anterior.cambio||"",
+cilindrada:anterior.cilindrada||"",
+kw:anterior.kw||"",
+cv:anterior.cv||"",
+color:anterior.color||"",
+proximaItv:anterior.proximaItv||"",
+aceiteKm:anterior.aceiteKm||"",
+aceiteFecha:anterior.aceiteFecha||"",
+distribucionKm:anterior.distribucionKm||"",
+distribucionFecha:anterior.distribucionFecha||"",
+notasVehiculo:anterior.notasVehiculo||"",
+observaciones:anterior.observaciones||""
+};
 importadosV++;
 });
 guardar();
