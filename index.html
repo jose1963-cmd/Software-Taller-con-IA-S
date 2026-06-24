@@ -265,7 +265,7 @@ setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 // ============================================================
 // 2. CONSTANTES Y VARIABLES GLOBALES
 // ============================================================
-const APP_VERSION="AC13";
+const APP_VERSION="AC14";
 const COPIA_VERSION=4;
 const APP_FECHA="25/06/2026";
 const APP_NOTAS="AC13: Nombres de cliente en MAYÚSCULAS. Ficha bancaria: nombre banco, forma pago y vencimiento libres con sugerencias. BIC automático desde IBAN.";
@@ -1133,10 +1133,26 @@ bloqueRectificativa=`<span style="color:#ff9cff;font-weight:bold;">Rectifica: ${
 if(ot.motivoRectificativa) bloqueRectificativa+=`<span style="color:#ff9cff;">Motivo: ${htmlSeguro(ot.motivoRectificativa)}</span><br>`;
 }
 let bloqueFactura="";
-if(facturaEmitida){
-bloqueFactura=`${bloqueRectificativa}<span style="color:#ffd580">NIF/NIE: ${htmlSeguro(nif||"⚠️ SIN NIF")}</span><br>
-<span style="color:#ffd580">Dir: ${htmlSeguro(direccion||"⚠️ SIN DIRECCIÓN")}</span><br>
-${poblacion ? `<span style="color:#ffd580">${htmlSeguro(poblacion)}</span><br>` : ""}`;
+if(facturaEmitida || esPrefactura(ot)){
+var movil=ficha.movil||ot.telefono||"";
+var tfno=ficha.tfno||"";
+var email=ficha.email||"";
+var cif=nif||(ficha.nif||"");
+var telMostrar=(movil&&tfno&&movil!==tfno) ? movil+" / "+tfno : (movil||tfno||ot.telefono||"");
+var linCab="";
+linCab+="<div style=\"background:#0d1f3a;border:1px solid #2a3a55;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:13px;line-height:1.7;\">";
+linCab+="<div style=\"color:#ff7a1a;font-weight:bold;font-size:12px;margin-bottom:4px;\">\u{1F4CB} DATOS DE FACTURACIÓN</div>";
+linCab+=bloqueRectificativa;
+linCab+="<span style=\"color:#ffffff;font-weight:bold;\">"+htmlSeguro(ot.cliente)+"</span><br>";
+if(direccion) linCab+="<span style=\"color:#cfe3ff;\">"+htmlSeguro(direccion)+"</span><br>";
+else linCab+="<span style=\"color:#ff4444;\">\u26a0\ufe0f SIN DIRECCI\u00d3N</span><br>";
+if(poblacion) linCab+="<span style=\"color:#cfe3ff;\">"+htmlSeguro(poblacion)+"</span><br>";
+if(cif) linCab+="<span style=\"color:#ffd580;\">NIF/CIF: "+htmlSeguro(cif)+"</span><br>";
+else linCab+="<span style=\"color:#ff4444;\">\u26a0\ufe0f SIN NIF/CIF</span><br>";
+if(telMostrar) linCab+="<span style=\"color:#aab4c8;\">\u{1F4DE} "+htmlSeguro(telMostrar)+"</span><br>";
+if(email) linCab+="<span style=\"color:#aab4c8;\">\u2709\ufe0f "+htmlSeguro(email)+"</span>";
+linCab+="</div>";
+bloqueFactura=linCab;
 }
 let bloqueTotales="";
 if(facturaEmitida && ot.total!==undefined && ot.total!==null){
