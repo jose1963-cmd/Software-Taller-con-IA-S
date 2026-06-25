@@ -398,7 +398,7 @@ function exportarInformeDiagnostico(){
   URL.revokeObjectURL(url);
 }
 
-</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC21</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC22</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -715,10 +715,10 @@ setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 // ============================================================
 // 2. CONSTANTES Y VARIABLES GLOBALES
 // ============================================================
-const APP_VERSION="AC21";
+const APP_VERSION="AC22";
 const COPIA_VERSION=4;
 const APP_FECHA="25/06/2026";
-const APP_NOTAS="AC21: Fix diagnóstico y optimización — sección ahora visible y con control de acceso correcto.";
+const APP_NOTAS="AC22: Stock corregido al pasar Presupuesto a OT y validación fuerte de copias antes de importar.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -885,19 +885,70 @@ articuloInterno:Number.isFinite(Number(c.articuloInterno)) ? Number(c.articuloIn
 };
 }
 function validarCopia(datos){
+const MAX_COPIA_BYTES=4.8*1024*1024;
+const MAX_FOTOS_TOTAL=180;
+const MAX_FOTO_CHARS=450000;
+const MAX_ITEMS={ots:15000,clientes:20000,vehiculos:30000,articulos:50000,operarios:200};
+try{
+const bytes=tamanoBytesTexto(JSON.stringify(datos));
+if(bytes>MAX_COPIA_BYTES) return {ok:false,msg:"COPIA NO VÁLIDA: tamaño excesivo para iPhone/localStorage. Importa solo tras aligerar fotos o datos."};
+}catch(e){ return {ok:false,msg:"COPIA NO VÁLIDA: no se puede medir el tamaño del archivo."}; }
 if(Array.isArray(datos)){
-return {ok:true,tipo:"antigua",ots:datos,contadores:{agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0},clientes:{},vehiculos:{},articulos:[],fotosExpedientes:{},operarios:[]};
+if(datos.length>MAX_ITEMS.ots) return {ok:false,msg:"COPIA ANTIGUA NO VÁLIDA: demasiados expedientes para esta versión."};
+if(!datos.every(o=>o && typeof o==="object" && !Array.isArray(o))) return {ok:false,msg:"COPIA ANTIGUA NO VÁLIDA: contiene registros dañados."};
+return {ok:true,tipo:"antigua",ots:sanitizarOtsCopia(datos),contadores:{agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0},clientes:{},vehiculos:{},articulos:[],fotosExpedientes:{},operarios:[]};
 }
 if(!datos || typeof datos!=="object" || !Array.isArray(datos.ots)) return {ok:false,msg:"COPIA NO VÁLIDA: no contiene lista de OTs."};
+if(datos.ots.length>MAX_ITEMS.ots) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados expedientes."};
 if(datos.contadores!==undefined && typeof datos.contadores!=="object") return {ok:false,msg:"COPIA NO VÁLIDA: contadores dañados."};
 if(datos.clientes!==undefined && (typeof datos.clientes!=="object" || Array.isArray(datos.clientes))) return {ok:false,msg:"COPIA NO VÁLIDA: clientes dañado."};
 if(datos.vehiculos!==undefined && (typeof datos.vehiculos!=="object" || Array.isArray(datos.vehiculos))) return {ok:false,msg:"COPIA NO VÁLIDA: vehículos dañado."};
 if(datos.articulos!==undefined && !Array.isArray(datos.articulos)) return {ok:false,msg:"COPIA NO VÁLIDA: artículos dañado."};
 if(datos.fotosExpedientes!==undefined && (typeof datos.fotosExpedientes!=="object" || Array.isArray(datos.fotosExpedientes))) return {ok:false,msg:"COPIA NO VÁLIDA: fotos dañadas."};
 if(datos.operarios!==undefined && !Array.isArray(datos.operarios)) return {ok:false,msg:"COPIA NO VÁLIDA: operarios dañados."};
-const otsValidas=datos.ots.every(o=>o && typeof o==="object");
+const clientes=datos.clientes||{};
+const vehiculos=datos.vehiculos||{};
+const articulos=datos.articulos||[];
+const fotosExpedientes=datos.fotosExpedientes||{};
+const operarios=datos.operarios||[];
+if(Object.keys(clientes).length>MAX_ITEMS.clientes) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados clientes."};
+if(Object.keys(vehiculos).length>MAX_ITEMS.vehiculos) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados vehículos."};
+if(articulos.length>MAX_ITEMS.articulos) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados artículos."};
+if(operarios.length>MAX_ITEMS.operarios) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados operarios."};
+const otsValidas=datos.ots.every(o=>o && typeof o==="object" && !Array.isArray(o));
 if(!otsValidas) return {ok:false,msg:"COPIA NO VÁLIDA: hay OTs dañadas."};
-return {ok:true,tipo:"v4",ots:datos.ots,contadores:normalizarContadores(datos.contadores),clientes:datos.clientes||{},vehiculos:datos.vehiculos||{},articulos:datos.articulos||[],fotosExpedientes:datos.fotosExpedientes||{},operarios:datos.operarios||[]};
+const estadosValidos=new Set(["CITA","CITADO","PRESUPUESTO","OT","EN TALLER","PREFACTURA","FACTURA","FINALIZADO","OT_ANULADA","OT ANULADA","ANULADA"]);
+const estadoMalo=datos.ots.find(o=>o.estado && !estadosValidos.has(String(o.estado).toUpperCase()));
+if(estadoMalo) return {ok:false,msg:"COPIA NO VÁLIDA: contiene estados desconocidos. Revisa la copia antes de importar."};
+const ids=datos.ots.map(o=>o.id).filter(Boolean);
+if(_buscarDuplicados(ids).length) return {ok:false,msg:"COPIA NO VÁLIDA: contiene IDs duplicados. Importación bloqueada para evitar corrupción."};
+const facs=datos.ots.filter(o=>o && o.numeroFactura).map(o=>String(o.numeroFactura));
+if(_buscarDuplicados(facs).length) return {ok:false,msg:"COPIA NO VÁLIDA: contiene números de factura duplicados."};
+let totalFotos=0;
+for(const k of Object.keys(fotosExpedientes)){
+const arr=fotosExpedientes[k];
+if(!Array.isArray(arr)) return {ok:false,msg:"COPIA NO VÁLIDA: expediente fotográfico dañado."};
+totalFotos+=arr.length;
+if(totalFotos>MAX_FOTOS_TOTAL) return {ok:false,msg:"COPIA NO VÁLIDA: demasiadas fotos para iPhone/localStorage. Exporta y aligera fotos antes."};
+for(const f of arr){
+if(!f || typeof f!=="object" || typeof f.data!=="string") return {ok:false,msg:"COPIA NO VÁLIDA: una foto está dañada."};
+if(f.data.length>MAX_FOTO_CHARS) return {ok:false,msg:"COPIA NO VÁLIDA: contiene fotos demasiado pesadas."};
+}
+}
+const artsValidos=articulos.every(a=>a && typeof a==="object" && (a.descripcion||a.referencia));
+if(!artsValidos) return {ok:false,msg:"COPIA NO VÁLIDA: contiene artículos vacíos o dañados."};
+const opsValidos=operarios.every(op=>typeof op==="string" && op.trim().length>0);
+if(!opsValidos) return {ok:false,msg:"COPIA NO VÁLIDA: lista de operarios dañada."};
+return {ok:true,tipo:"v4",ots:sanitizarOtsCopia(datos.ots),contadores:normalizarContadores(datos.contadores),clientes:clientes,vehiculos:vehiculos,articulos:articulos,fotosExpedientes:fotosExpedientes,operarios:operarios};
+}
+function sanitizarOtsCopia(lista){
+return (lista||[]).map(o=>{
+const r={...o};
+r.estado=estadoCanonico(r.estado);
+if(!Array.isArray(r.lineas)) r.lineas=[];
+if(r.stockDescontado!==true) r.stockDescontado=false;
+return r;
+});
 }
 function generarIdUnico(){
 let id;
@@ -1902,7 +1953,9 @@ presupuesto.presupuestoEstado="CONVERTIDO_OT";
 presupuesto.otVinculadaId=ot.id;
 presupuesto.otVinculadaRef="";
 asegurarNumeracion(ot);
-descontarStockOT(ot);
+// AC22: NO se descuenta stock al pasar Presupuesto a OT.
+// El stock solo se mueve al emitir FACTURA/FREC para evitar doble descuento.
+ot.stockDescontado=false;
 presupuesto.otVinculadaRef=referenciaOT(ot);
 ots.push(ot);
 guardar();
