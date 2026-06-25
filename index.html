@@ -163,12 +163,14 @@ function _analizarSistema(){
   const clientesSinTel=Object.values(clientes).filter(c=>!c.movil&&!c.tfno).length;
   const clientesSinDir=Object.values(clientes).filter(c=>!c.direccion).length;
   // Detectar duplicados de clientes con criterio conservador.
-  // AC28: duplicados de clientes solo por campos identificativos; nombres/apellidos no generan error.
+  // AC31: diagnóstico de clientes centrado en integridad real del programa.
+  // IBAN/CCC NO se comprueba: puede ser la cuenta de Talleres Autoborja en compañías/renting/aseguradoras.
   const duplicadosClientes=_buscarDuplicadosClientesInteligente(clientes);
-  if(duplicadosClientes.seguros.length) errores.push({cat:"CLIENTES",msg:`Duplicados casi seguros: ${duplicadosClientes.seguros.slice(0,5).join(" / ")}${duplicadosClientes.seguros.length>5?"...":""}`});
-  if(duplicadosClientes.revisar.length) advertencias.push({cat:"CLIENTES",msg:`Posibles clientes duplicados a revisar: ${duplicadosClientes.revisar.slice(0,5).join(" / ")}${duplicadosClientes.revisar.length>5?"...":""}`});
-  if(clientesSinNif) advertencias.push({cat:"CLIENTES",msg:`${clientesSinNif} cliente(s) sin NIF/NIE (necesario para facturas)`});
+  if(duplicadosClientes.seguros.length) errores.push({cat:"CLIENTES",msg:`Duplicados reales por NIF/CIF: ${duplicadosClientes.seguros.slice(0,5).join(" / ")}${duplicadosClientes.seguros.length>5?"...":""}`});
+  if(duplicadosClientes.revisar.length) advertencias.push({cat:"CLIENTES",msg:`Datos compartidos a revisar sin bloquear: ${duplicadosClientes.revisar.slice(0,5).join(" / ")}${duplicadosClientes.revisar.length>5?"...":""}`});
+  if(clientesSinNif) errores.push({cat:"CLIENTES",msg:`${clientesSinNif} cliente(s) sin NIF/NIE/CIF. En esta base debe quedar a cero.`,fix:null});
   if(clientesSinDir) advertencias.push({cat:"CLIENTES",msg:`${clientesSinDir} cliente(s) sin dirección`});
+  info.push({cat:"CLIENTES",msg:"IBAN/CCC excluido del diagnóstico: no identifica duplicados y puede repetirse correctamente en compañías/renting/aseguradoras."});
   info.push({cat:"CLIENTES",msg:`Total fichas de cliente: ${numClientes} (sin NIF: ${clientesSinNif}, sin teléfono: ${clientesSinTel})`});
 
   // --- BLOQUE 6: VEHÍCULOS ---
@@ -178,7 +180,7 @@ function _analizarSistema(){
   // Matrículas en OTs sin ficha de vehículo
   const matsEnOTs=[...new Set(ots.map(o=>o.matricula).filter(Boolean))];
   const matsHuerfanas=matsEnOTs.filter(m=>!vehiculos[m]);
-  if(vehSinCliente) advertencias.push({cat:"VEHÍCULOS",msg:`${vehSinCliente} vehículo(s) sin cliente asignado en ficha`});
+  if(vehSinCliente) errores.push({cat:"VEHÍCULOS",msg:`${vehSinCliente} vehículo(s) sin cliente asignado en ficha`,fix:null});
   if(matsHuerfanas.length) advertencias.push({cat:"VEHÍCULOS",msg:`${matsHuerfanas.length} matrículas en expedientes sin ficha de vehículo: ${matsHuerfanas.slice(0,5).join(", ")}`,fix:"crearFichasVehiculosHuerfanos"});
   if(matsHuerfanas.length) reparaciones.push("crearFichasVehiculosHuerfanos");
   info.push({cat:"VEHÍCULOS",msg:`Total fichas de vehículo: ${numVehiculos} (sin cliente: ${vehSinCliente}, sin marca: ${vehSinMarca})`});
@@ -377,25 +379,26 @@ function _diagNombreCompletoMuyParecido(a,b){
   return _similitud(na,nb)>0.88;
 }
 function _buscarDuplicadosClientesInteligente(clientesObj){
-  // AC28: criterio conservador y profesional.
-  // Un apellido, nombre parecido o palabras comunes de empresa NUNCA generan error.
-  // Solo se marca duplicado seguro si coincide un identificador real: NIF/CIF, teléfono, email o IBAN/CCC.
+  // AC31: criterio de diagnóstico seguro para AutoBorja.
+  // ERROR real: solo NIF/CIF duplicado, porque identifica fiscalmente al cliente.
+  // IBAN/CCC queda completamente fuera: puede ser la cuenta de Talleres Autoborja en compañías.
+  // Teléfono/email repetidos no bloquean estructura; solo se informan como revisión si aparecen.
   const seguros=[], revisar=[];
   const entradas=Object.keys(clientesObj||{}).map(k=>{
     const c=clientesObj[k]||{};
     const nombre=_diagNormalizarTextoClave(c.nombre||k);
     const tel1=_diagSoloDigitos(c.movil||"");
     const tel2=_diagSoloDigitos(c.tfno||c.telefono||"");
+    const telefonos=[...new Set([tel1,tel2].filter(t=>t && t.length>=9))];
     return {
       nombre,
       nif:_diagNormalizarTextoClave(c.nif||c.cif||""),
-      telefonos:[tel1,tel2].filter(t=>t && t.length>=9),
-      email:_diagNormalizarEmail(c.email||""),
-      iban:_diagNormalizarIban(c.ccc||c.iban||"")
+      telefonos,
+      email:_diagNormalizarEmail(c.email||"")
     };
   }).filter(c=>c.nombre);
 
-  function agrupar(campo, etiqueta, minLen){
+  function agrupar(campo, etiqueta, minLen, destino){
     const grupos={};
     entradas.forEach(c=>{
       let valores=[];
@@ -411,17 +414,15 @@ function _buscarDuplicadosClientesInteligente(clientesObj){
     Object.keys(grupos).forEach(v=>{
       const nombres=[...grupos[v]].sort((a,b)=>a.localeCompare(b,"es"));
       if(nombres.length>1){
-        seguros.push(`${etiqueta} duplicado (${v}): ${nombres.join(" / ")}`);
+        destino.push(`${etiqueta} duplicado (${v}): ${nombres.join(" / ")}`);
       }
     });
   }
 
-  agrupar("nif","NIF/CIF",5);
-  agrupar("telefono","TELÉFONO",9);
-  agrupar("email","EMAIL",6);
-  agrupar("iban","IBAN/CCC",12);
+  agrupar("nif","NIF/CIF",5,seguros);
+  agrupar("telefono","TELÉFONO",9,revisar);
+  agrupar("email","EMAIL",6,revisar);
 
-  // Aviso suave: solo mismo nombre completo exacto normalizado. No se usa similitud.
   const nombres={};
   entradas.forEach(c=>{ if(!nombres[c.nombre]) nombres[c.nombre]=0; nombres[c.nombre]++; });
   Object.keys(nombres).forEach(n=>{ if(nombres[n]>1) revisar.push(`Nombre exacto repetido: ${n}`); });
@@ -653,7 +654,7 @@ function exportarInformeDiagnostico(){
   URL.revokeObjectURL(url);
 }
 
-</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC30</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC31</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -964,10 +965,10 @@ if(!hist.classList.contains("hidden")){
 setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 }
 }
-const APP_VERSION="AC30";
+const APP_VERSION="AC31";
 const COPIA_VERSION=4;
 const APP_FECHA="25/06/2026";
-const APP_NOTAS="AC30: Base AC29 consolidada; versión visible corregida. Excel maestro como importador único de clientes/vehículos y CSV solo para artículos.";
+const APP_NOTAS="AC31: Diagnóstico reforzado. IBAN/CCC fuera de errores/avisos; seguridad centrada en integridad real: NIF, matrículas, vehículos, contadores, trazabilidad, storage y funciones críticas.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
