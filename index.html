@@ -139,7 +139,7 @@ function _analizarSistema(){
   if(facturasSinNumero.length) errores.push({cat:"FACTURAS",msg:`${facturasSinNumero.length} factura(s) sin número asignado`,fix:"repararNumerosFactura"});
   if(numFacturasDuplicadas.length) errores.push({cat:"FACTURAS",msg:`Números de factura duplicados: ${numFacturasDuplicadas.join(", ")}`,fix:null});
   if(frecsHuerfanas.length) advertencias.push({cat:"RECTIFICATIVAS",msg:`${frecsHuerfanas.length} rectificativa(s) apuntan a facturas que no existen`});
-  if(otsSinFecha.length) advertencias.push({cat:"AGENDA",msg:`${otsSinFecha.length} cita(s) sin fecha/hora registrada — revisar agenda`});
+  if(otsSinFecha.length) info.push({cat:"AGENDA",msg:`${otsSinFecha.length} cita(s) pendiente(s) de programar sin fecha/hora — correcto, aparecen en Agenda`});
 
   info.push({cat:"OTs",msg:`Total expedientes: ${ots.length} (Citas: ${ots.filter(o=>esCita(o)).length}, Presupuestos: ${ots.filter(o=>esPresupuesto(o)).length}, OTs: ${ots.filter(o=>esOT(o)).length}, Pre-facturas: ${ots.filter(o=>esPrefactura(o)).length}, Facturas: ${numFacturas}, FREC: ${frecs.length})`});
 
@@ -747,7 +747,7 @@ function exportarInformeDiagnostico(){
   URL.revokeObjectURL(url);
 }
 
-</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC39</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC41</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -1072,10 +1072,10 @@ if(!hist.classList.contains("hidden")){
 setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 }
 }
-const APP_VERSION="AC39";
+const APP_VERSION="AC41";
 const COPIA_VERSION=4;
 const APP_FECHA="25/06/2026";
-const APP_NOTAS="AC39: ajuste fino de diagnóstico y flujo. Pre-factura incluida en contadores, fechas heredadas no generan falsos avisos, campos texto blindados contra [object Object] y simulador carga/descarga ampliado.";
+const APP_NOTAS="AC41: Agenda con bloque Pendientes de programar. Las citas sin fecha son válidas, visibles y editables; no pasan a Presupuesto hasta poner fecha/hora.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -2289,7 +2289,7 @@ renderAgenda();
 function crearTarjetaAgendaCompacta(ot){
 const abierta=agendaExpandidaId===ot.id;
 const claseAgenda=claseAgendaPorProximidad(ot.fecha);
-const avisoAgenda=textoProximidadAgenda(ot.fecha);
+const avisoAgenda=ot.fecha ? textoProximidadAgenda(ot.fecha) : "🕘 PENDIENTE";
 const veh=(ot.marca||ot.modelo) ? `${htmlSeguro(ot.marca||"")} ${htmlSeguro(ot.modelo||"")}`.trim() : "Vehículo sin modelo";
 const detalle=abierta ? `<div class="agenda-detalle">
 ${(()=>{const f=buscarFichaCliente(ot.cliente);const t=construirTelefonoDoble(f)||htmlSeguro(ot.telefono||"");return t?t+"<br>":""})()}
@@ -2309,6 +2309,11 @@ ${detalle}
 function convertirCitaAPresupuesto(id){
 const ot=ots.find(x=>x.id===id);
 if(!ot || !esCita(ot)) return;
+if(!ot.fecha){
+  alert("Esta cita está en PENDIENTES DE PROGRAMAR. Antes de pasarla a Presupuesto debes poner fecha y hora.");
+  editarOT(id);
+  return;
+}
 if(!ot.motivoCita && ot.trabajos){ ot.motivoCita=ot.trabajos; ot.trabajos=""; }
 ot.estado="PRESUPUESTO";
 ot.presupuestoEstado="PENDIENTE";
@@ -2507,9 +2512,20 @@ alert("OT ANULADA Y CONSERVADA EN EL HISTÓRICO INTERNO.");
 }
 function renderAgenda(){
 const agenda=document.getElementById("agendaLista");
-const conFecha=ots.filter(ot=>ot.fecha && esCita(ot)).sort((a,b)=>a.fecha.localeCompare(b.fecha));
-if(conFecha.length===0){ agenda.innerHTML="<p>No hay citas.</p>"; return; }
-agenda.innerHTML=conFecha.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
+const citas=ots.filter(ot=>esCita(ot));
+const sinFecha=citas.filter(ot=>!ot.fecha).sort((a,b)=>(Number(b.id)||0)-(Number(a.id)||0));
+const conFecha=citas.filter(ot=>!!ot.fecha).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
+if(citas.length===0){ agenda.innerHTML="<p>No hay citas.</p>"; return; }
+let html="";
+if(sinFecha.length){
+  html += `<div style="margin:10px 0 6px;color:#ffd580;font-weight:bold;font-size:18px;">🕘 Pendientes de programar</div>`;
+  html += sinFecha.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
+}
+if(conFecha.length){
+  html += `<div style="margin:14px 0 6px;color:#cfe3ff;font-weight:bold;font-size:18px;">📅 Citas con fecha</div>`;
+  html += conFecha.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
+}
+agenda.innerHTML=html;
 }
 function setVistaPresupuesto(vista){
 vistaPresupuesto=vista||"activos";
