@@ -63,9 +63,6 @@
 .autocomplete-mat{font-weight:bold;font-size:16px;color:#ff7a1a;letter-spacing:.5px}
 .autocomplete-cli{font-size:13px;color:#aab4c8;margin-top:2px}
 </style><script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script><script>
-// ============================================================
-// DIAGNÓSTICO Y OPTIMIZACIÓN DEL SISTEMA - CARGADO AL FINAL
-// ============================================================
 let _ultimoInformeDiag = null;
 
 function ejecutarDiagnostico(){
@@ -166,7 +163,7 @@ function _analizarSistema(){
   const clientesSinTel=Object.values(clientes).filter(c=>!c.movil&&!c.tfno).length;
   const clientesSinDir=Object.values(clientes).filter(c=>!c.direccion).length;
   // Detectar duplicados de clientes con criterio conservador.
-  // AC26: evita falsos positivos por apellidos comunes. No compara solo por parecido general.
+  // AC28: duplicados de clientes solo por campos identificativos; nombres/apellidos no generan error.
   const duplicadosClientes=_buscarDuplicadosClientesInteligente(clientes);
   if(duplicadosClientes.seguros.length) errores.push({cat:"CLIENTES",msg:`Duplicados casi seguros: ${duplicadosClientes.seguros.slice(0,5).join(" / ")}${duplicadosClientes.seguros.length>5?"...":""}`});
   if(duplicadosClientes.revisar.length) advertencias.push({cat:"CLIENTES",msg:`Posibles clientes duplicados a revisar: ${duplicadosClientes.revisar.slice(0,5).join(" / ")}${duplicadosClientes.revisar.length>5?"...":""}`});
@@ -262,8 +259,6 @@ function _analizarSistema(){
   if(tamProy>4300000) errores.push({cat:"CAPACIDAD",msg:`Datos principales proyectados ${(tamProy/1024/1024).toFixed(2)} MB — riesgo real de localStorage`,fix:null});
   else if(tamProy>3300000) advertencias.push({cat:"CAPACIDAD",msg:`Datos principales proyectados ${(tamProy/1024/1024).toFixed(2)} MB — vigilar crecimiento`});
 
-
-
   // --- BLOQUE 15: NUMERACIÓN DOCUMENTAL ESTRICTA ---
   const docsPorTipo={
     agenda:(ots||[]).filter(o=>esCita(o)&&o.numeroAgenda),
@@ -338,7 +333,6 @@ function _analizarSistema(){
   if(faltantes.length) errores.push({cat:"FUNCIONES",msg:`Funciones críticas no disponibles: ${faltantes.join(", ")}`,fix:null});
   else info.push({cat:"FUNCIONES",msg:"Funciones críticas disponibles: guardar, copia, stock, flujo documental y rectificativas"});
 
-
   return {errores,advertencias,info,reparaciones,fecha:ahora.toLocaleString("es-ES"),totales:{expedientes:ots.length,clientes:Object.keys(clientes).length,vehiculos:Object.keys(vehiculos).length,articulos:articulos.length}};
 }
 
@@ -383,50 +377,57 @@ function _diagNombreCompletoMuyParecido(a,b){
   return _similitud(na,nb)>0.88;
 }
 function _buscarDuplicadosClientesInteligente(clientesObj){
+  // AC28: criterio conservador y profesional.
+  // Un apellido, nombre parecido o palabras comunes de empresa NUNCA generan error.
+  // Solo se marca duplicado seguro si coincide un identificador real: NIF/CIF, teléfono, email o IBAN/CCC.
   const seguros=[], revisar=[];
   const entradas=Object.keys(clientesObj||{}).map(k=>{
     const c=clientesObj[k]||{};
     const nombre=_diagNormalizarTextoClave(c.nombre||k);
+    const tel1=_diagSoloDigitos(c.movil||"");
+    const tel2=_diagSoloDigitos(c.tfno||c.telefono||"");
     return {
       nombre,
       nif:_diagNormalizarTextoClave(c.nif||c.cif||""),
-      movil:_diagSoloDigitos(c.movil||""),
-      tfno:_diagSoloDigitos(c.tfno||c.telefono||""),
+      telefonos:[tel1,tel2].filter(t=>t && t.length>=9),
       email:_diagNormalizarEmail(c.email||""),
       iban:_diagNormalizarIban(c.ccc||c.iban||"")
     };
   }).filter(c=>c.nombre);
-  const pareja=(a,b)=>a.nombre+" ≈ "+b.nombre;
-  for(let i=0;i<entradas.length;i++){
-    for(let j=i+1;j<entradas.length;j++){
-      const a=entradas[i], b=entradas[j];
-      if(a.nombre===b.nombre) continue;
-      const mismoNif=a.nif && b.nif && a.nif===b.nif;
-      const mismoMovil=a.movil && b.movil && a.movil.length>=9 && b.movil.length>=9 && a.movil===b.movil;
-      const mismoTfno=a.tfno && b.tfno && a.tfno.length>=9 && b.tfno.length>=9 && a.tfno===b.tfno;
-      const mismoEmail=a.email && b.email && a.email===b.email;
-      const mismoIban=a.iban && b.iban && a.iban.length>=12 && b.iban.length>=12 && a.iban===b.iban;
-      if(mismoNif || mismoMovil || mismoTfno || mismoEmail || mismoIban){
-        seguros.push(pareja(a,b));
-        continue;
+
+  function agrupar(campo, etiqueta, minLen){
+    const grupos={};
+    entradas.forEach(c=>{
+      let valores=[];
+      if(campo==="telefono") valores=c.telefonos||[];
+      else valores=[c[campo]||""];
+      valores.forEach(v=>{
+        v=String(v||"").trim();
+        if(!v || v.length<(minLen||1)) return;
+        if(!grupos[v]) grupos[v]=new Set();
+        grupos[v].add(c.nombre);
+      });
+    });
+    Object.keys(grupos).forEach(v=>{
+      const nombres=[...grupos[v]].sort((a,b)=>a.localeCompare(b,"es"));
+      if(nombres.length>1){
+        seguros.push(`${etiqueta} duplicado (${v}): ${nombres.join(" / ")}`);
       }
-      if(_diagNombreCompletoMuyParecido(a.nombre,b.nombre)) revisar.push(pareja(a,b));
-    }
+    });
   }
+
+  agrupar("nif","NIF/CIF",5);
+  agrupar("telefono","TELÉFONO",9);
+  agrupar("email","EMAIL",6);
+  agrupar("iban","IBAN/CCC",12);
+
+  // Aviso suave: solo mismo nombre completo exacto normalizado. No se usa similitud.
+  const nombres={};
+  entradas.forEach(c=>{ if(!nombres[c.nombre]) nombres[c.nombre]=0; nombres[c.nombre]++; });
+  Object.keys(nombres).forEach(n=>{ if(nombres[n]>1) revisar.push(`Nombre exacto repetido: ${n}`); });
+
   return {seguros,revisar};
 }
-// Conservada por compatibilidad, pero ya no se usa para clientes en AC26.
-function _buscarPosiblesDuplicados(nombres){
-  const dups=[];
-  for(let i=0;i<nombres.length;i++){
-    for(let j=i+1;j<nombres.length;j++){
-      if(_diagNombreCompletoMuyParecido(nombres[i],nombres[j]))
-        dups.push(nombres[i]+" ≈ "+nombres[j]);
-    }
-  }
-  return dups;
-}
-
 function _similitud(a,b){
   if(!a||!b) return 0;
   const longer=a.length>b.length?a:b;
@@ -652,7 +653,7 @@ function exportarInformeDiagnostico(){
   URL.revokeObjectURL(url);
 }
 
-</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC26</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC28</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -762,9 +763,6 @@ return v.slice(0,8);
 }
 function normalizarCampoMatricula(input){ conservarCursor(input,normalizarMatricula); }
 
-// ============================================================
-// AUTOCOMPLETE MATRÍCULA Y CLIENTE EN FORMULARIO
-// ============================================================
 function cerrarTodosLosDropdowns(){
   const d1=document.getElementById("matriculaResultados");
   const d2=document.getElementById("clienteResultados");
@@ -966,13 +964,10 @@ if(!hist.classList.contains("hidden")){
 setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 }
 }
-// ============================================================
-// 2. CONSTANTES Y VARIABLES GLOBALES
-// ============================================================
-const APP_VERSION="AC26";
+const APP_VERSION="AC28";
 const COPIA_VERSION=4;
 const APP_FECHA="25/06/2026";
-const APP_NOTAS="AC26: Diagnóstico de duplicados de clientes corregido: prioriza NIF, teléfono, email e IBAN y evita falsos avisos por apellidos comunes.";
+const APP_NOTAS="AC28: Base limpia sobre AC27. Diagnóstico de clientes reforzado y limpieza segura de código no funcional: comentarios antiguos, duplicados visuales y función legacy retirada.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -1048,9 +1043,6 @@ const MODELOS={
 ,"POLESTAR":["2","3","4"]
 ,"SSANGYONG":["ACTYON","KORANDO","KYRON","MUSSO","REXTON","RODIUS","TIVOLI","TORRES"]
 };
-// ============================================================
-// 3. CARGA DE DATOS
-// ============================================================
 try{
 const guardado=JSON.parse(localStorage.getItem(STORAGE)||"[]");
 if(Array.isArray(guardado)){
@@ -1075,9 +1067,6 @@ ots=[]; contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectifica
 clientes={}; vehiculos={}; articulos=[]; operarios=[];
 }
 cargarFotosExternas();
-// ============================================================
-// 4. FUNCIONES AUXILIARES
-// ============================================================
 function formatearFecha(fecha){
 if(!fecha) return "SIN CITA";
 const d=new Date(fecha);
@@ -1556,9 +1545,6 @@ showTab("nueva");
 mantenerEstadoAlAbrirFormulario=false;
 window.scrollTo({top:0,behavior:"smooth"});
 }
-// ============================================================
-// 5. FUNCIONES DE INTERFAZ
-// ============================================================
 function operariosConOTActivasR139(){
 asegurarOperariosBase();
 const set=new Set();
@@ -1869,9 +1855,6 @@ html+=`<span style="color:#ffd580;font-weight:bold;">⚠️ ${htmlSeguro(avisos[
 }
 return html;
 }
-// ============================================================
-// 6. FUNCIONES DE TARJETA DE OT (MEJORADA CON LÍNEAS Y TOTALES)
-// ============================================================
 function crearTarjetaOT(ot){
 const ficha=buscarFichaCliente(ot.cliente)||{};
 const nif=ot.nif||ficha.nif||"";
@@ -1976,9 +1959,6 @@ ${bloqueTrabajos}<br><br>
 <div class="acciones">${botones}</div>
 </div>`;
 }
-// ============================================================
-// 7. RENDERIZADO DE LISTAS
-// ============================================================
 function renderHistorial(){
 const texto=document.getElementById("buscar").value.trim().toUpperCase();
 const lista=document.getElementById("lista");
@@ -2488,9 +2468,6 @@ datos=filtrarDocumentoR132(datos,"prefactura");
 if(datos.length===0){ lista.innerHTML="<p>No hay pre-facturas.</p>"; return; }
 lista.innerHTML=datos.map(ot=>crearTarjetaOT(ot)).join("");
 }
-// ============================================================
-// 8. ALMACÉN
-// ============================================================
 function renderAlmacen(){
 const lista=document.getElementById("almacenLista");
 const texto=document.getElementById("buscarArticulo").value.trim().toUpperCase();
@@ -2535,9 +2512,6 @@ html+=`</div>`;
 });
 lista.innerHTML=html;
 }
-// ============================================================
-// 9. FUNCIONES DE ARTÍCULOS (MODAL)
-// ============================================================
 function abrirModalNuevoArticulo(){
 document.getElementById("modalArticuloTitulo").textContent="➕ NUEVO ARTÍCULO";
 document.getElementById("maRef").value="";
@@ -2651,9 +2625,6 @@ alert("ARTÍCULO ELIMINADO");
 function cerrarModalArticulo(){
 document.getElementById("modalArticulo").style.display="none";
 }
-// ============================================================
-// 10. IMPORTACIÓN CSV
-// ============================================================
 function importarClientesCSVDesdeInicio(){
 document.getElementById("importClientesFile").onchange=function(e){
 procesarClientesCSV(e.target.files[0]);
@@ -2781,9 +2752,6 @@ alert("ARTÍCULOS IMPORTADOS: "+importados);
 };
 reader.readAsText(file,"UTF-8");
 }
-// ============================================================
-// 11. FUNCIONES DE BÚSQUEDA Y GUARDADO DE OT
-// ============================================================
 function normalizar(t){ return (t||"").toUpperCase(); }
 function mostrarMarcas(){
 const texto=normalizar(document.getElementById("marca").value);
@@ -3535,9 +3503,6 @@ panel.innerHTML=`
 `;
 panel.style.display="block";
 }
-// ============================================================
-// 12. FUNCIONES DE LÍNEAS DE FACTURA (NUEVO)
-// ============================================================
 function lineasBloqueadasPorFactura(){
 const estado=document.getElementById("estado");
 return estado && estado.value==="FACTURA" && !rectificandoId;
@@ -3663,8 +3628,6 @@ document.body.appendChild(m);
 // Limpiar campos
 document.getElementById("moTipo").value="";
 document.getElementById("moDesc").value="";
-document.getElementById("moDesc").oninput=actualizarContadorMO;
-actualizarContadorMO();
 document.getElementById("moDesc").oninput=actualizarContadorMO;
 actualizarContadorMO();
 document.getElementById("moOperario").value="";
@@ -3858,9 +3821,6 @@ renderAlmacen();
 }
 });
 }
-// ============================================================
-// 13. FUNCIONES DE CLIENTE (MODAL FICHA)
-// ============================================================
 function abrirModalCliente(nombreCliente, fichaExistente){
 const ficha=fichaExistente || buscarFichaCliente(nombreCliente) || {};
 document.getElementById("modalCliente").dataset.clienteEdicion=nombreCliente;
@@ -4246,9 +4206,6 @@ div.style.display="block";
 div.style.display="none";
 }
 }
-// ============================================================
-// 15. FUNCIONES WHATSAPP E IMPRESIÓN (MEJORADA)
-// ============================================================
 function limpiarTelefonoWhatsApp(telefono){
 let numero=(telefono||"").replace(/\D/g,"");
 if(numero.startsWith("00")) numero=numero.substring(2);
@@ -4461,28 +4418,6 @@ th{background:#f5f5f5}
 .r127-checks{border:1px solid #333;padding:7px;font-size:12px;margin-bottom:6px}
 .firmas{margin-top:14px}
 }
-.ot-final-acciones-r123{display:flex;gap:8px;margin-top:8px;align-items:stretch;flex-wrap:wrap}
-.ot-final-acciones-r123 button{margin:0!important;border-radius:12px!important;line-height:1.15!important}
-.ot-final-acciones-r123 .ot-exportar-r123{flex:1 1 170px;background:#344d7a!important;color:white!important;font-size:13px!important;padding:10px 8px!important}
-.ot-final-acciones-r123 .ot-anular-r123{flex:0 0 auto;width:auto!important;background:#4a1b25!important;color:#ffd6d6!important;font-size:12px!important;padding:8px 12px!important}
-.operario-input-row-r124{display:flex;gap:8px;align-items:stretch}
-.operario-input-row-r124 select{flex:1;margin:0 0 8px}
-.operario-input-row-r124 button{flex:0 0 auto;width:auto;margin:0 0 8px;padding:8px 12px;font-size:13px;background:#344d7a;color:white}
-.ot-operario-r124{margin-top:3px}
-.ot-final-acciones-r124-visible{display:flex;gap:8px;margin-top:9px;align-items:stretch;flex-wrap:wrap}
-.ot-final-acciones-r124-visible button{margin:0!important;border-radius:12px!important;line-height:1.15!important}
-.ot-final-acciones-r124-visible .ot-exportar-r123{flex:1 1 170px;background:#344d7a!important;color:white!important;font-size:13px!important;padding:10px 8px!important}
-.ot-final-acciones-r124-visible .ot-anular-r123{flex:0 0 auto;width:auto!important;background:#4a1b25!important;color:#ffd6d6!important;font-size:12px!important;padding:8px 12px!important}
-.cabecera-seccion-r132{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.cabecera-seccion-r132 .btn-inicio-seccion-r132{width:auto;padding:8px 16px;margin:0;flex:0 0 auto}
-.cabecera-seccion-r132 h2{margin:0;color:#ffffff}
-.buscador-doc-r132{background:#0f1728;border:2px solid #3b4a63;border-radius:16px;padding:10px;margin:0 0 14px;box-shadow:inset 0 0 0 1px #0003}
-.buscador-tabs-r132{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
-.buscador-tabs-r132 button{flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;min-width:78px}
-.buscador-tabs-r132 button.activo{background:#ff7a1a!important;color:#0f1728!important;border-color:#ff7a1a!important;font-weight:bold}
-.buscador-tabs-r132 button.morado.activo{background:#7b2fff!important;color:white!important;border-color:#7b2fff!important}
-.buscador-doc-r132 input{margin:0}
-@media(max-width:420px){.buscador-tabs-r132 button{font-size:12px;min-width:68px}.cabecera-seccion-r132{gap:8px}.cabecera-seccion-r132 .btn-inicio-seccion-r132{padding:8px 12px}}
 </style>
 <h1>${tituloPrint}</h1>
 <p><b>Número:</b> ${referenciaOT(ot)}</p>
@@ -4505,9 +4440,6 @@ ${bloqueHojaTaller}
 document.body.appendChild(zona);
 setTimeout(()=>{ window.print(); },1000);
 }
-// ============================================================
-// 16. FUNCIONES DE FILTRO
-// ============================================================
 function inputBusquedaSeccionR132(seccion){
 if(seccion==="historial") return document.getElementById("buscar");
 return document.getElementById("buscar"+seccion.charAt(0).toUpperCase()+seccion.slice(1));
@@ -4560,9 +4492,6 @@ if(tipo==="numero") return normalizar(referenciaOT(ot)).includes(texto) || Strin
 return true;
 });
 }
-// ============================================================
-// 17. MÓDULO OCR (PLATE RECOGNIZER)
-// ============================================================
 // R111: el token de Plate Recognizer ya NO viaja en el cliente.
 // Las peticiones pasan por un Cloudflare Worker que guarda el token como secreto en el servidor.
 // Sustituye esta URL por la de tu Worker tras desplegarlo (ver worker.js adjunto).
@@ -4673,9 +4602,6 @@ document.getElementById("modalCamara").style.display="none";
 document.getElementById("previewFoto").style.display="none";
 _ocrMatriculaDetectada=null;
 }
-// ============================================================
-// 18. VALIDACIÓN NIF
-// ============================================================
 function calcularLetraNif(input){
 const LETRAS="TRWAGMYFPDXBNJZSQVHLCKE";
 let original=normalizarNifNie(input.value);
@@ -4698,9 +4624,6 @@ input.value=solo+letra;
 input.value=val;
 }
 }
-// ============================================================
-// 19. ESTADÍSTICAS
-// ============================================================
 function calcularEstadisticas(){
 const facturas = ots.filter(ot => esFactura(ot));
 const totalFacturas = facturas.length;
@@ -4860,9 +4783,6 @@ html += `<p style="color:#aab4c8;">No hay artículos vendidos todavía.</p>`;
 }
 contenedor.innerHTML = html;
 }
-// ============================================================
-// 20. INVENTARIO
-// ============================================================
 function euros(v){
 return (Number(v)||0).toFixed(2).replace(".",",")+" €";
 }
@@ -5021,35 +4941,10 @@ body > *:not(#zonaImpresion){display:none!important}
 #zonaImpresion th,#zonaImpresion td{border:1px solid #999;padding:5px;text-align:left;vertical-align:top}
 #zonaImpresion th{background:#eee}
 }
-.ot-final-acciones-r123{display:flex;gap:8px;margin-top:8px;align-items:stretch;flex-wrap:wrap}
-.ot-final-acciones-r123 button{margin:0!important;border-radius:12px!important;line-height:1.15!important}
-.ot-final-acciones-r123 .ot-exportar-r123{flex:1 1 170px;background:#344d7a!important;color:white!important;font-size:13px!important;padding:10px 8px!important}
-.ot-final-acciones-r123 .ot-anular-r123{flex:0 0 auto;width:auto!important;background:#4a1b25!important;color:#ffd6d6!important;font-size:12px!important;padding:8px 12px!important}
-.operario-input-row-r124{display:flex;gap:8px;align-items:stretch}
-.operario-input-row-r124 select{flex:1;margin:0 0 8px}
-.operario-input-row-r124 button{flex:0 0 auto;width:auto;margin:0 0 8px;padding:8px 12px;font-size:13px;background:#344d7a;color:white}
-.ot-operario-r124{margin-top:3px}
-.ot-final-acciones-r124-visible{display:flex;gap:8px;margin-top:9px;align-items:stretch;flex-wrap:wrap}
-.ot-final-acciones-r124-visible button{margin:0!important;border-radius:12px!important;line-height:1.15!important}
-.ot-final-acciones-r124-visible .ot-exportar-r123{flex:1 1 170px;background:#344d7a!important;color:white!important;font-size:13px!important;padding:10px 8px!important}
-.ot-final-acciones-r124-visible .ot-anular-r123{flex:0 0 auto;width:auto!important;background:#4a1b25!important;color:#ffd6d6!important;font-size:12px!important;padding:8px 12px!important}
-.cabecera-seccion-r132{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.cabecera-seccion-r132 .btn-inicio-seccion-r132{width:auto;padding:8px 16px;margin:0;flex:0 0 auto}
-.cabecera-seccion-r132 h2{margin:0;color:#ffffff}
-.buscador-doc-r132{background:#0f1728;border:2px solid #3b4a63;border-radius:16px;padding:10px;margin:0 0 14px;box-shadow:inset 0 0 0 1px #0003}
-.buscador-tabs-r132{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
-.buscador-tabs-r132 button{flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;min-width:78px}
-.buscador-tabs-r132 button.activo{background:#ff7a1a!important;color:#0f1728!important;border-color:#ff7a1a!important;font-weight:bold}
-.buscador-tabs-r132 button.morado.activo{background:#7b2fff!important;color:white!important;border-color:#7b2fff!important}
-.buscador-doc-r132 input{margin:0}
-@media(max-width:420px){.buscador-tabs-r132 button{font-size:12px;min-width:68px}.cabecera-seccion-r132{gap:8px}.cabecera-seccion-r132 .btn-inicio-seccion-r132{padding:8px 12px}}
 </style>${construirHTMLInventarioParaImprimir(modo)}`;
 document.body.appendChild(zona);
 window.print();
 }
-// ============================================================
-// 20. NUEVA FUNCIÓN: GANANCIAS
-// ============================================================
 function cambiarPeriodo(){
 const val = document.getElementById("periodoGanancias").value;
 document.getElementById("fechasPersonalizadas").style.display = (val === "personalizado") ? "block" : "none";
@@ -5232,9 +5127,6 @@ html += `<tr style="border-bottom:1px solid #2a3a55;">
 html += `</tbody></table></div>`;
 contenedor.innerHTML = html;
 }
-// ============================================================
-// 21. INICIALIZACIÓN
-// ============================================================
 function inicializarPrueba(){
 if(ots.length>0) return;
 ots.push({
@@ -5277,9 +5169,6 @@ const el=document.getElementById(id);
 if(el) el.addEventListener("input",actualizarHistorialVehiculoFormulario);
 });
 document.getElementById("versionApp").querySelector("button").textContent=APP_VERSION;
-// ============================================================
-// CRONÓMETRO POR OT AC05
-// ============================================================
 const CRONO_KEY=STORAGE+"_CRONO";
 let cronoData={};
 let _cronoTick=null;
@@ -5480,9 +5369,6 @@ rows+=`<div class="tiempo-fila-g"><span class="etiq">⏱ Tiempo real${operario?"
 const nota=`<div style="font-size:11px;color:#6b7a99;margin-top:6px;font-style:italic;">ℹ️ Solo informativo — el tiempo del operario no se traslada a prefactura</div>`;
 return `<div class="tiempo-panel-gestion"><h4>⏱ TIEMPOS DE TRABAJO</h4>${rows}${nota}</div>`;
 }
-// ============================================================
-// MODAL INPUT / ALERTA iOS-SAFE
-// ============================================================
 let _modalInputCb=null;
 function mostrarModalInput(titulo,valorInicial,callback){
 document.getElementById("modalInputTitulo").textContent=titulo;
@@ -5512,9 +5398,6 @@ document.getElementById("modalAlertaOverlay").classList.add("activo");
 function modalAlertaCerrar(){
 document.getElementById("modalAlertaOverlay").classList.remove("activo");
 }
-// ============================================================
-// CONTROL HORARIO AC04
-// ============================================================
 const FICHAJES_KEY=STORAGE+"_FICHAJES";
 let fichajesData=[];
 function chCargar(){
