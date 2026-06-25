@@ -165,10 +165,11 @@ function _analizarSistema(){
   const clientesSinNif=Object.values(clientes).filter(c=>!c.nif).length;
   const clientesSinTel=Object.values(clientes).filter(c=>!c.movil&&!c.tfno).length;
   const clientesSinDir=Object.values(clientes).filter(c=>!c.direccion).length;
-  // Detectar posibles duplicados por similitud
-  const nombresClientes=Object.keys(clientes).map(k=>k.toUpperCase().trim());
-  const posiblesDupCli=_buscarPosiblesDuplicados(nombresClientes);
-  if(posiblesDupCli.length) advertencias.push({cat:"CLIENTES",msg:`Posibles clientes duplicados: ${posiblesDupCli.slice(0,5).join(" / ")}${posiblesDupCli.length>5?"...":""}`});
+  // Detectar duplicados de clientes con criterio conservador.
+  // AC26: evita falsos positivos por apellidos comunes. No compara solo por parecido general.
+  const duplicadosClientes=_buscarDuplicadosClientesInteligente(clientes);
+  if(duplicadosClientes.seguros.length) errores.push({cat:"CLIENTES",msg:`Duplicados casi seguros: ${duplicadosClientes.seguros.slice(0,5).join(" / ")}${duplicadosClientes.seguros.length>5?"...":""}`});
+  if(duplicadosClientes.revisar.length) advertencias.push({cat:"CLIENTES",msg:`Posibles clientes duplicados a revisar: ${duplicadosClientes.revisar.slice(0,5).join(" / ")}${duplicadosClientes.revisar.length>5?"...":""}`});
   if(clientesSinNif) advertencias.push({cat:"CLIENTES",msg:`${clientesSinNif} cliente(s) sin NIF/NIE (necesario para facturas)`});
   if(clientesSinDir) advertencias.push({cat:"CLIENTES",msg:`${clientesSinDir} cliente(s) sin dirección`});
   info.push({cat:"CLIENTES",msg:`Total fichas de cliente: ${numClientes} (sin NIF: ${clientesSinNif}, sin teléfono: ${clientesSinTel})`});
@@ -347,11 +348,79 @@ function _buscarDuplicados(arr){
   return Object.keys(conteo).filter(k=>conteo[k]>1);
 }
 
+function _diagNormalizarTextoClave(v){
+  return String(v||"")
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^A-Z0-9Ñ ]/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+}
+function _diagSoloDigitos(v){ return String(v||"").replace(/\D/g,""); }
+function _diagNormalizarEmail(v){ return String(v||"").trim().toLowerCase(); }
+function _diagNormalizarIban(v){ return String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,""); }
+function _diagNombreTokens(nombre){
+  const stop=new Set(["DE","DEL","LA","LAS","LOS","EL","Y","E","DA","DAS","DOS","SAN","SANTA"]);
+  return _diagNormalizarTextoClave(nombre).split(" ").filter(t=>t && !stop.has(t));
+}
+function _diagPrimerNombre(nombre){
+  const t=_diagNombreTokens(nombre);
+  return t.length ? t[0] : "";
+}
+function _diagNombresCompatibles(a,b){
+  const pa=_diagPrimerNombre(a), pb=_diagPrimerNombre(b);
+  if(!pa || !pb) return false;
+  if(pa===pb) return true;
+  // Permite errores mínimos reales: JOSE/JOSÉ ya se normaliza; aquí solo letras muy próximas.
+  return pa.length>=5 && pb.length>=5 && _similitud(pa,pb)>0.90;
+}
+function _diagNombreCompletoMuyParecido(a,b){
+  const na=_diagNormalizarTextoClave(a), nb=_diagNormalizarTextoClave(b);
+  if(!na || !nb || na===nb) return false;
+  if(!_diagNombresCompatibles(na,nb)) return false;
+  // Con primer nombre compatible, sí aceptamos similitud alta del nombre completo.
+  return _similitud(na,nb)>0.88;
+}
+function _buscarDuplicadosClientesInteligente(clientesObj){
+  const seguros=[], revisar=[];
+  const entradas=Object.keys(clientesObj||{}).map(k=>{
+    const c=clientesObj[k]||{};
+    const nombre=_diagNormalizarTextoClave(c.nombre||k);
+    return {
+      nombre,
+      nif:_diagNormalizarTextoClave(c.nif||c.cif||""),
+      movil:_diagSoloDigitos(c.movil||""),
+      tfno:_diagSoloDigitos(c.tfno||c.telefono||""),
+      email:_diagNormalizarEmail(c.email||""),
+      iban:_diagNormalizarIban(c.ccc||c.iban||"")
+    };
+  }).filter(c=>c.nombre);
+  const pareja=(a,b)=>a.nombre+" ≈ "+b.nombre;
+  for(let i=0;i<entradas.length;i++){
+    for(let j=i+1;j<entradas.length;j++){
+      const a=entradas[i], b=entradas[j];
+      if(a.nombre===b.nombre) continue;
+      const mismoNif=a.nif && b.nif && a.nif===b.nif;
+      const mismoMovil=a.movil && b.movil && a.movil.length>=9 && b.movil.length>=9 && a.movil===b.movil;
+      const mismoTfno=a.tfno && b.tfno && a.tfno.length>=9 && b.tfno.length>=9 && a.tfno===b.tfno;
+      const mismoEmail=a.email && b.email && a.email===b.email;
+      const mismoIban=a.iban && b.iban && a.iban.length>=12 && b.iban.length>=12 && a.iban===b.iban;
+      if(mismoNif || mismoMovil || mismoTfno || mismoEmail || mismoIban){
+        seguros.push(pareja(a,b));
+        continue;
+      }
+      if(_diagNombreCompletoMuyParecido(a.nombre,b.nombre)) revisar.push(pareja(a,b));
+    }
+  }
+  return {seguros,revisar};
+}
+// Conservada por compatibilidad, pero ya no se usa para clientes en AC26.
 function _buscarPosiblesDuplicados(nombres){
   const dups=[];
   for(let i=0;i<nombres.length;i++){
     for(let j=i+1;j<nombres.length;j++){
-      if(_similitud(nombres[i],nombres[j])>0.82 && nombres[i]!==nombres[j])
+      if(_diagNombreCompletoMuyParecido(nombres[i],nombres[j]))
         dups.push(nombres[i]+" ≈ "+nombres[j]);
     }
   }
@@ -583,7 +652,7 @@ function exportarInformeDiagnostico(){
   URL.revokeObjectURL(url);
 }
 
-</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC25</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC26</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -900,10 +969,10 @@ setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 // ============================================================
 // 2. CONSTANTES Y VARIABLES GLOBALES
 // ============================================================
-const APP_VERSION="AC25";
+const APP_VERSION="AC26";
 const COPIA_VERSION=4;
 const APP_FECHA="25/06/2026";
-const APP_NOTAS="AC25: Diagnóstico ampliado: numeración, flujo documental, operarios, fotos, funciones críticas y prueba de capacidad 5.000 artículos / 1.000 expedientes.";
+const APP_NOTAS="AC26: Diagnóstico de duplicados de clientes corregido: prioriza NIF, teléfono, email e IBAN y evita falsos avisos por apellidos comunes.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
