@@ -261,6 +261,83 @@ function _analizarSistema(){
   if(tamProy>4300000) errores.push({cat:"CAPACIDAD",msg:`Datos principales proyectados ${(tamProy/1024/1024).toFixed(2)} MB — riesgo real de localStorage`,fix:null});
   else if(tamProy>3300000) advertencias.push({cat:"CAPACIDAD",msg:`Datos principales proyectados ${(tamProy/1024/1024).toFixed(2)} MB — vigilar crecimiento`});
 
+
+
+  // --- BLOQUE 15: NUMERACIÓN DOCUMENTAL ESTRICTA ---
+  const docsPorTipo={
+    agenda:(ots||[]).filter(o=>esCita(o)&&o.numeroAgenda),
+    presupuesto:(ots||[]).filter(o=>esPresupuesto(o)&&o.numeroPresupuesto),
+    ot:(ots||[]).filter(o=>esOT(o)&&o.numeroOT),
+    prefactura:(ots||[]).filter(o=>esPrefactura(o)&&o.numeroPrefactura),
+    factura:(ots||[]).filter(o=>esFactura(o)&&!o.esRectificativa&&o.numeroFactura),
+    rectificativa:(ots||[]).filter(o=>esFactura(o)&&o.esRectificativa&&o.numeroRectificativa)
+  };
+  Object.keys(docsPorTipo).forEach(tipo=>{
+    const campo={agenda:"numeroAgenda",presupuesto:"numeroPresupuesto",ot:"numeroOT",prefactura:"numeroPrefactura",factura:"numeroFactura",rectificativa:"numeroRectificativa"}[tipo];
+    const nums=docsPorTipo[tipo].map(o=>_diagNumeroDoc(o[campo])).filter(Boolean);
+    const dup=_buscarDuplicados(nums.map(String));
+    if(dup.length) errores.push({cat:"NUMERACIÓN",msg:`${tipo.toUpperCase()} tiene números duplicados: ${dup.slice(0,8).join(", ")}${dup.length>8?"...":""}`,fix:null});
+    const max=nums.length?Math.max(...nums):0;
+    const contadorActual=Number(cont[tipo])||0;
+    if(max>contadorActual){ errores.push({cat:"NUMERACIÓN",msg:`Contador ${tipo} (${contadorActual}) menor que máximo usado (${max})`,fix:"repararContadores"}); reparaciones.push("repararContadores"); }
+  });
+  const facturasSinFechaReal=(ots||[]).filter(o=>esFactura(o)&&!o.fechaFinalizacion);
+  if(facturasSinFechaReal.length) advertencias.push({cat:"FACTURAS",msg:`${facturasSinFechaReal.length} factura(s) sin fecha real de facturación/finalización`});
+  const frecSinFacturaOrigen=(ots||[]).filter(o=>esFactura(o)&&o.esRectificativa&&!o.facturaRectificadaId&&!_diagTexto(o.facturaRectificada));
+  if(frecSinFacturaOrigen.length) errores.push({cat:"RECTIFICATIVAS",msg:`${frecSinFacturaOrigen.length} FREC sin vínculo a factura origen`,fix:null});
+
+  // --- BLOQUE 16: OPERARIOS Y MANO DE OBRA ---
+  const otActivasSinOperario=(ots||[]).filter(o=>esOT(o)&&operariosIntervinientesOT(o).length===0);
+  const lineasMOSinOperario=(ots||[]).reduce((acc,o)=>acc+(o.lineas||[]).filter(l=>l&&l.tipo==="mano_obra"&&!_diagTexto(l.operario)).length,0);
+  const operariosEnLineas=new Set();
+  (ots||[]).forEach(o=>(o.lineas||[]).forEach(l=>{ if(l&&l.operario) operariosEnLineas.add(normalizarOperario(l.operario)); }));
+  const operariosNoRegistrados=[...operariosEnLineas].filter(op=>!(operarios||[]).map(normalizarOperario).includes(op));
+  if(otActivasSinOperario.length) advertencias.push({cat:"OPERARIOS",msg:`${otActivasSinOperario.length} OT activa(s) sin operario asignado`});
+  if(lineasMOSinOperario) advertencias.push({cat:"OPERARIOS",msg:`${lineasMOSinOperario} línea(s) de mano de obra sin operario`});
+  if(operariosNoRegistrados.length) advertencias.push({cat:"OPERARIOS",msg:`Operarios usados en líneas pero no registrados: ${operariosNoRegistrados.slice(0,6).join(", ")}${operariosNoRegistrados.length>6?"...":""}`});
+  info.push({cat:"OPERARIOS",msg:`Operarios registrados: ${(operarios||[]).length}. Intervinientes detectados en documentos: ${operariosEnLineas.size}`});
+
+  // --- BLOQUE 17: FOTOS Y PESO POR EXPEDIENTE ---
+  try{
+    const clavesFotos=Object.keys(fotosExpedientes||{});
+    let fotosPesadas=0, fotosSinData=0, totalCharsFotos=0;
+    clavesFotos.forEach(k=>{
+      (fotosExpedientes[k]||[]).forEach(f=>{
+        if(!f||typeof f.data!=="string") fotosSinData++;
+        else{ totalCharsFotos+=f.data.length; if(f.data.length>450000) fotosPesadas++; }
+      });
+    });
+    if(fotosSinData) errores.push({cat:"FOTOS",msg:`${fotosSinData} foto(s) dañada(s) o sin datos`,fix:null});
+    if(fotosPesadas) advertencias.push({cat:"FOTOS",msg:`${fotosPesadas} foto(s) demasiado pesada(s); pueden llenar el iPhone/localStorage`});
+    info.push({cat:"FOTOS",msg:`Peso aproximado de fotos: ${(totalCharsFotos/1024).toFixed(1)} KB`});
+  }catch(e){}
+
+  // --- BLOQUE 18: PRUEBA DE CAPACIDAD PROYECTADA GRANDE ---
+  try{
+    const paqueteBase=paqueteDatos();
+    const copiaCap=_diagClonar(paqueteBase);
+    copiaCap.articulos=Array.isArray(copiaCap.articulos)?copiaCap.articulos:[];
+    copiaCap.ots=Array.isArray(copiaCap.ots)?copiaCap.ots:[];
+    const faltanArts=Math.max(0,5000-copiaCap.articulos.length);
+    for(let i=0;i<faltanArts;i++){
+      copiaCap.articulos.push({referencia:"SIMCAP-"+String(i+1).padStart(5,"0"),descripcion:"ARTÍCULO CAPACIDAD "+(i+1),proveedor:"SIM",familia:"CAPACIDAD",precio_compra:10,precio_venta:20,iva:21,stock:5,stock_minimo:1});
+    }
+    const faltanDocs=Math.max(0,1000-copiaCap.ots.length);
+    for(let i=0;i<faltanDocs;i++){
+      copiaCap.ots.push({id:900000000+i,estado:"OT",numeroOT:i+1,matricula:"SIM"+String(i).padStart(4,"0"),cliente:"CLIENTE CAPACIDAD "+i,fecha:ahoraLocalInput(),trabajos:"PRUEBA CAPACIDAD",lineas:[{tipo:"mano_obra",referencia:"M",descripcion:"MO CAPACIDAD",operario:"SIM",cantidad:1,precio:45,coste_unitario:30,descuento:0,iva:21},{tipo:"articulo",referencia:"SIMCAP-00001",descripcion:"ARTÍCULO CAPACIDAD",proveedor:"SIM",cantidad:1,precio:20,coste_unitario:10,descuento:0,iva:21}]});
+    }
+    const bytesCap=_diagCalcularTamanoProyectado(copiaCap);
+    if(bytesCap>4300000) advertencias.push({cat:"CAPACIDAD",msg:`Con 5.000 artículos y 1.000 expedientes, el tamaño proyectado sería ${(bytesCap/1024/1024).toFixed(2)} MB. En iPhone conviene servidor antes de llegar ahí.`});
+    else info.push({cat:"CAPACIDAD",msg:`Prueba grande OK: 5.000 artículos + 1.000 expedientes ≈ ${(bytesCap/1024/1024).toFixed(2)} MB`});
+  }catch(e){ advertencias.push({cat:"CAPACIDAD",msg:"No se pudo completar la prueba grande de capacidad: "+e.message}); }
+
+  // --- BLOQUE 19: SALUD DE FUNCIONES CRÍTICAS ---
+  const funcionesCriticas=["guardar","paqueteDatos","validarCopia","aplicarStockFacturaSiProcede","restaurarStockOT","pasarPresupuestoAOT","pasarOTAPrefactura","rectificarFactura","exportarCopia","importarCopia"];
+  const faltantes=funcionesCriticas.filter(fn=>{ try{return typeof eval(fn)!=="function";}catch(e){return true;} });
+  if(faltantes.length) errores.push({cat:"FUNCIONES",msg:`Funciones críticas no disponibles: ${faltantes.join(", ")}`,fix:null});
+  else info.push({cat:"FUNCIONES",msg:"Funciones críticas disponibles: guardar, copia, stock, flujo documental y rectificativas"});
+
+
   return {errores,advertencias,info,reparaciones,fecha:ahora.toLocaleString("es-ES"),totales:{expedientes:ots.length,clientes:Object.keys(clientes).length,vehiculos:Object.keys(vehiculos).length,articulos:articulos.length}};
 }
 
@@ -456,6 +533,17 @@ function simularCargaFuncionalTotal(){
       info.push({cat:"SIMULACIÓN",msg:"Se ha simulado CITA → PRESUPUESTO → OT → PREFACTURA → FACTURA sin modificar tus datos reales."});
       info.push({cat:"STOCK",msg:"La simulación mantiene stock libre en OT y lo descuenta solo al facturar."});
       info.push({cat:"CAPACIDAD",msg:`Tamaño proyectado tras la simulación: ${(bytes/1024).toFixed(1)} KB`});
+      // Simulación adicional de estrés sin tocar datos reales
+      const stress=_diagClonar(base);
+      stress.articulos=stress.articulos||[]; stress.ots=stress.ots||[];
+      const artsFaltan=Math.max(0,5000-stress.articulos.length);
+      for(let i=0;i<artsFaltan;i++) stress.articulos.push({referencia:"STRESS-"+String(i+1).padStart(5,"0"),descripcion:"ARTÍCULO STRESS "+(i+1),proveedor:"SIM",familia:"STRESS",precio_compra:10,precio_venta:20,iva:21,stock:10,stock_minimo:2});
+      const docsFaltan=Math.max(0,1000-stress.ots.length);
+      for(let i=0;i<docsFaltan;i++) stress.ots.push({id:800000000+i,estado:"FACTURA",numeroFactura:i+1,matricula:"STR"+String(i).padStart(4,"0"),cliente:"CLIENTE STRESS "+i,fecha:ahoraLocalInput(),fechaFinalizacion:ahoraLocalInput(),stockDescontado:true,lineas:[{tipo:"mano_obra",referencia:"M",descripcion:"MO STRESS",operario:"SIM",cantidad:1,precio:45,coste_unitario:30,descuento:0,iva:21},{tipo:"articulo",referencia:"STRESS-00001",descripcion:"ARTÍCULO STRESS",proveedor:"SIM",cantidad:1,precio:20,coste_unitario:10,descuento:0,iva:21}]});
+      const bytesStress=_diagCalcularTamanoProyectado(stress);
+      if(bytesStress>4300000) advertencias.push({cat:"CAPACIDAD",msg:`Simulación grande: 5.000 artículos + 1.000 facturas ≈ ${(bytesStress/1024/1024).toFixed(2)} MB. Mejor pasar a servidor antes de ese volumen.`});
+      else info.push({cat:"CAPACIDAD",msg:`Simulación grande OK: 5.000 artículos + 1.000 facturas ≈ ${(bytesStress/1024/1024).toFixed(2)} MB`});
+
       const informe={errores,advertencias,info,reparaciones:[],fecha:new Date().toLocaleString("es-ES"),totales:{expedientes:base.ots.length,clientes:Object.keys(base.clientes).length,vehiculos:Object.keys(base.vehiculos).length,articulos:base.articulos.length}};
       _ultimoInformeDiag=informe;
       _renderizarInforme(informe);
@@ -495,7 +583,7 @@ function exportarInformeDiagnostico(){
   URL.revokeObjectURL(url);
 }
 
-</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC24</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC25</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -812,10 +900,10 @@ setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 // ============================================================
 // 2. CONSTANTES Y VARIABLES GLOBALES
 // ============================================================
-const APP_VERSION="AC24";
+const APP_VERSION="AC25";
 const COPIA_VERSION=4;
 const APP_FECHA="25/06/2026";
-const APP_NOTAS="AC24: Stock reforzado: solo descuenta en factura, reversión segura y simulación corregida.";
+const APP_NOTAS="AC25: Diagnóstico ampliado: numeración, flujo documental, operarios, fotos, funciones críticas y prueba de capacidad 5.000 artículos / 1.000 expedientes.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
