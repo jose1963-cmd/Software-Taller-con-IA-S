@@ -1153,10 +1153,10 @@ if(!hist.classList.contains("hidden")){
 setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 }
 }
-const APP_VERSION="AC45";
+const APP_VERSION="AC46";
 const COPIA_VERSION=4;
 const APP_FECHA="26/06/2026";
-const APP_NOTAS="AC45: corrige importador XLSX de artículos con cabeceras CODIGO/DESCRIPCIO/VENTA1/STOCKMIN y simulador carga/descarga sin contaminar contadores ni artículos reales.";
+const APP_NOTAS="AC46: corrige importador XLSX de artículos con cabeceras CODIGO/DESCRIPCIO/VENTA1/STOCKMIN y simulador carga/descarga sin contaminar contadores ni artículos reales.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -2971,12 +2971,35 @@ for(let i=0;i<linea.length;i++){
 }
 out.push(cur.trim()); return out;
 }
+function normalizarCabeceraArticuloAC44(h){
+return String(h===undefined||h===null?"":h)
+ .toLowerCase()
+ .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+ .replace(/ñ/g,"n")
+ .replace(/[^a-z0-9]+/g,"_")
+ .replace(/^_|_$/g,"");
+}
+function compactarClaveArticuloAC46(h){
+return normalizarCabeceraArticuloAC44(h).replace(/_/g,"");
+}
 function valorRegistroAC44(reg,claves){
-for(const k of claves){ if(reg[k]!==undefined && String(reg[k]).trim()!=="") return String(reg[k]).trim(); }
+for(const k of claves){
+ const nk=normalizarCabeceraArticuloAC44(k), ck=compactarClaveArticuloAC46(k);
+ if(reg[nk]!==undefined && String(reg[nk]).trim()!=="") return String(reg[nk]).trim();
+ if(reg[ck]!==undefined && String(reg[ck]).trim()!=="") return String(reg[ck]).trim();
+}
 return "";
 }
-function normalizarCabeceraArticuloAC44(h){
-return String(h||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");
+function buscarFilaCabeceraArticulosAC46(filas){
+const max=Math.min((filas||[]).length,25);
+for(let i=0;i<max;i++){
+ const fila=(filas[i]||[]).map(normalizarCabeceraArticuloAC44);
+ const compact=fila.map(v=>v.replace(/_/g,""));
+ const tieneRef=fila.includes("codigo")||fila.includes("cod")||fila.includes("referencia")||fila.includes("ref")||compact.includes("codigo")||compact.includes("referencia");
+ const tieneDesc=fila.includes("descripcio")||fila.includes("descripcion")||fila.includes("descripcion_articulo")||compact.includes("descripcio")||compact.includes("descripcion");
+ if(tieneRef && tieneDesc) return i;
+}
+return 0;
 }
 function procesarArticulosExcelCSV(file){
 if(!file){ alert("SELECCIONA UN ARCHIVO DE ARTÍCULOS"); return; }
@@ -2990,11 +3013,11 @@ reader.onload=function(e){
    const hoja=wb.SheetNames[0];
    if(!hoja){ alert("EL EXCEL DE ARTÍCULOS NO CONTIENE HOJAS"); return; }
    const ws=wb.Sheets[hoja];
-   const filas=XLSX.utils.sheet_to_json(ws,{header:1,defval:""});
+   const filas=XLSX.utils.sheet_to_json(ws,{header:1,defval:"",raw:false,blankrows:false});
    procesarFilasArticulosAC44(filas);
    return;
   }
-  let texto=String(e.target.result||"");
+  let texto=String(e.target.result||"").replace(/^\uFEFF/,"");
   if(/<table[\s>]/i.test(texto)){
    const doc=new DOMParser().parseFromString(texto,"text/html");
    const filas=Array.from(doc.querySelectorAll("tr")).map(tr=>Array.from(tr.children).map(td=>td.textContent.trim()));
@@ -3015,14 +3038,23 @@ if(nombre.endsWith(".xlsx") || nombre.endsWith(".xls")) reader.readAsArrayBuffer
 }
 function procesarFilasArticulosAC44(filas){
 if(!filas || filas.length<2){ alert("EL ARCHIVO DE ARTÍCULOS ESTÁ VACÍO O NO TIENE DATOS"); return; }
-const cabeceras=filas[0].map(normalizarCabeceraArticuloAC44);
-let importados=0, omitidos=0;
-for(let i=1;i<filas.length;i++){
+const filaCab=buscarFilaCabeceraArticulosAC46(filas);
+const cabeceras=(filas[filaCab]||[]).map(normalizarCabeceraArticuloAC44);
+let importados=0, omitidos=0, actualizados=0, nuevos=0;
+const colsDetectadas=cabeceras.filter(Boolean).join(", ");
+for(let i=filaCab+1;i<filas.length;i++){
  const valores=filas[i]||[];
+ if(!valores.some(v=>String(v||"").trim()!=="")) continue;
  const registro={};
- cabeceras.forEach((cabecera,index)=>{ registro[cabecera]=valores[index]||""; });
+ cabeceras.forEach((cabecera,index)=>{
+   const valor=valores[index]===undefined||valores[index]===null?"":valores[index];
+   registro[cabecera]=valor;
+   registro[cabecera.replace(/_/g,"")]=valor;
+ });
+ // Fallback por posición para el Excel real de artículos: CODIGO, DESCRIPCIO, FAMILIA, PROVEEDOR, COMPRA, MARGEN1, VENTA1, STOCK, STOCKMIN
+ if(!valorRegistroAC44(registro,["codigo","referencia","ref"]) && valores.length>=2){ registro.codigo=valores[0]||""; registro.descripcio=valores[1]||""; }
  const ref=valorRegistroAC44(registro,["referencia","ref","codigo","cod","articulo","referencia_articulo"]);
- const desc=valorRegistroAC44(registro,["descripcion","descripcio","descripci_n","descripcion_articulo","articulo_descripcion","concepto","nombre","detalle"]);
+ const desc=valorRegistroAC44(registro,["descripcion","descripcio","descrip","descripci_n","descripcion_articulo","articulo_descripcion","concepto","nombre","detalle"]);
  const prov=valorRegistroAC44(registro,["proveedor","prov","marca_proveedor"]);
  if(!ref || !desc){ omitidos++; continue; }
  const precioCompra=numero(valorRegistroAC44(registro,["precio_compra","pcompra","coste","coste_unitario","precio_coste","compra"]));
@@ -3031,27 +3063,28 @@ for(let i=1;i<filas.length;i++){
  if(precioVenta===null && precioCompra!==null && margenPct!==null) precioVenta=Math.round(precioCompra*(1+margenPct/100)*100)/100;
  const ivaVal=numero(valorRegistroAC44(registro,["iva","iva_pct"]));
  const stockVal=numero(valorRegistroAC44(registro,["stock","existencias","unidades"]));
- const stockMinVal=numero(valorRegistroAC44(registro,["stock_minimo","stock_min","stockmin","stock_minimo","minimo","m_nimo"]));
+ const stockMinVal=numero(valorRegistroAC44(registro,["stock_minimo","stock_min","stockmin","minimo","m_nimo"]));
  const articulo={
-  referencia:ref.trim().toUpperCase(),
-  descripcion:desc.trim().toUpperCase(),
-  proveedor:(prov||"GENERAL").trim().toUpperCase(),
+  referencia:String(ref).trim().toUpperCase(),
+  descripcion:String(desc).trim().toUpperCase(),
+  proveedor:String(prov||"GENERAL").trim().toUpperCase(),
   familia:valorRegistroAC44(registro,["familia","grupo","categoria","categor_a"]).trim().toUpperCase(),
-  precio_compra:precioCompra,
-  margen_pct:margenPct,
-  precio_venta:precioVenta,
+  precio_compra:precioCompra!==null ? precioCompra : 0,
+  margen_pct:margenPct!==null ? margenPct : 0,
+  precio_venta:precioVenta!==null ? precioVenta : 0,
   iva:ivaVal!==null ? ivaVal : 21,
   stock:stockVal!==null ? stockVal : 0,
   stock_minimo:stockMinVal!==null ? stockMinVal : 0,
   observaciones:valorRegistroAC44(registro,["observaciones","obs","notas"])
  };
- const existente=articulos.findIndex(a=>a.referencia===articulo.referencia && (a.proveedor||"GENERAL")===articulo.proveedor);
- if(existente>=0) Object.assign(articulos[existente],articulo); else articulos.push(articulo);
+ const existente=articulos.findIndex(a=>String(a.referencia||"").toUpperCase()===articulo.referencia && String(a.proveedor||"GENERAL").toUpperCase()===articulo.proveedor);
+ if(existente>=0){ Object.assign(articulos[existente],articulo); actualizados++; } else { articulos.push(articulo); nuevos++; }
  importados++;
 }
 guardar();
 renderAlmacen();
-alert("ARTÍCULOS IMPORTADOS: "+importados+(omitidos?" · OMITIDOS SIN REFERENCIA/DESCRIPCIÓN: "+omitidos:""));
+if(importados===0){ alert("ARTÍCULOS IMPORTADOS: 0. NO SE HA DETECTADO REFERENCIA/DESCRIPCIÓN. CABECERAS LEÍDAS: "+(colsDetectadas||"sin cabeceras")); return; }
+alert("ARTÍCULOS IMPORTADOS: "+importados+" · NUEVOS: "+nuevos+" · ACTUALIZADOS: "+actualizados+(omitidos?" · OMITIDOS SIN REFERENCIA/DESCRIPCIÓN: "+omitidos:"") );
 }
 function normalizar(t){ return String(t===undefined||t===null?"":t).toUpperCase(); }
 function mostrarMarcas(){
