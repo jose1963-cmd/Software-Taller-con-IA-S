@@ -1165,7 +1165,7 @@ setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 const APP_VERSION="AC51";
 const COPIA_VERSION=4;
 const APP_FECHA="26/06/2026";
-const APP_NOTAS="AC51: edición de artículos con selector de familias y opción de crear familia nueva; guardado de citas reforzado para evitar duplicados si localStorage falla.";
+const APP_NOTAS="AC51: selector de familias en artículos; crear familia nueva; guardado de citas reforzado; retroceso documental bloqueado para volver solo de uno en uno.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -1531,6 +1531,12 @@ if(!anterior || !nuevo || estadoAntes===estadoNuevo) return null;
 if(estadoAntes==="FACTURA" || estadoNuevo==="FACTURA"){
  alert("FACTURA BLOQUEADA. Para corregir una factura usa factura rectificativa.");
  return {bloqueado:true,tab:"historial"};
+}
+const ordenFlujoAC51={CITA:0,PRESUPUESTO:1,OT:2,PREFACTURA:3,FACTURA:4};
+const tabPorEstadoAC51={CITA:"agenda",PRESUPUESTO:"presupuesto",OT:"taller",PREFACTURA:"prefactura",FACTURA:"historial"};
+if(ordenFlujoAC51[estadoAntes]!==undefined && ordenFlujoAC51[estadoNuevo]!==undefined && ordenFlujoAC51[estadoNuevo]<ordenFlujoAC51[estadoAntes] && (ordenFlujoAC51[estadoAntes]-ordenFlujoAC51[estadoNuevo])>1){
+ alert("RETROCESO BLOQUEADO PARA PROTEGER EL FLUJO DOCUMENTAL. Vuelve solo de uno en uno: PREFACTURA → OT → PRESUPUESTO → AGENDA.");
+ return {bloqueado:true,tab:tabPorEstadoAC51[estadoAntes]||"portadaGestion"};
 }
 // PRESUPUESTO -> AGENDA: desaparece la capa presupuesto y queda solo la cita.
 if(estadoAntes==="PRESUPUESTO" && estadoNuevo==="CITA"){
