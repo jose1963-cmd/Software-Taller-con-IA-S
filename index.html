@@ -141,7 +141,7 @@ function _analizarSistema(){
   if(facturasSinNumero.length) errores.push({cat:"FACTURAS",msg:`${facturasSinNumero.length} factura(s) sin número asignado`,fix:"repararNumerosFactura"});
   if(numFacturasDuplicadas.length) errores.push({cat:"FACTURAS",msg:`Números de factura duplicados: ${numFacturasDuplicadas.join(", ")}`,fix:null});
   if(frecsHuerfanas.length) advertencias.push({cat:"RECTIFICATIVAS",msg:`${frecsHuerfanas.length} rectificativa(s) apuntan a facturas que no existen`});
-  if(otsSinFecha.length) info.push({cat:"AGENDA",msg:`${otsSinFecha.length} cita(s) pendiente(s) de programar sin fecha/hora — correcto, aparecen en Agenda`});
+  if(otsSinFecha.length) info.push({cat:"AGENDA",msg:`${otsSinFecha.length} cita(s) pendiente(s) de programar sin fecha/hora: ${otsSinFecha.slice(0,12).map(o=>(o.matricula||"SIN MATRÍCULA")+" "+(o.cliente||"SIN CLIENTE")).join(" / ")}${otsSinFecha.length>12?"...":""}`,acciones:otsSinFecha.slice(0,20).map(o=>({txt:"📅 "+(o.matricula||referenciaOT(o)),fn:`editarOT(${o.id})`}))});
 
   info.push({cat:"OTs",msg:`Total expedientes: ${ots.length} (Citas: ${ots.filter(o=>esCita(o)).length}, Presupuestos: ${ots.filter(o=>esPresupuesto(o)).length}, OTs: ${ots.filter(o=>esOT(o)).length}, Pre-facturas: ${ots.filter(o=>esPrefactura(o)).length}, Facturas: ${numFacturas}, FREC: ${frecs.length})`});
 
@@ -170,8 +170,14 @@ function _analizarSistema(){
   const duplicadosClientes=_buscarDuplicadosClientesInteligente(clientes);
   if(duplicadosClientes.seguros.length) errores.push({cat:"CLIENTES",msg:`Duplicados reales por NIF/CIF: ${duplicadosClientes.seguros.slice(0,5).join(" / ")}${duplicadosClientes.seguros.length>5?"...":""}`});
   if(duplicadosClientes.revisar.length) advertencias.push({cat:"CLIENTES",msg:`Datos compartidos a revisar sin bloquear: ${duplicadosClientes.revisar.slice(0,5).join(" / ")}${duplicadosClientes.revisar.length>5?"...":""}`});
-  if(clientesSinNif) errores.push({cat:"CLIENTES",msg:`${clientesSinNif} cliente(s) sin NIF/NIE/CIF. En esta base debe quedar a cero.`,fix:null});
-  if(clientesSinDir) advertencias.push({cat:"CLIENTES",msg:`${clientesSinDir} cliente(s) sin dirección`});
+  if(clientesSinNif){
+    const lista=Object.entries(clientes).filter(([k,c])=>!c.nif).slice(0,20);
+    errores.push({cat:"CLIENTES",msg:`${clientesSinNif} cliente(s) sin NIF/NIE/CIF: ${lista.map(([k,c])=>c.nombre||k).join(" / ")}${clientesSinNif>20?"...":""}`,fix:null,acciones:lista.map(([k,c])=>({txt:"✏️ "+(c.nombre||k),fn:`editarClienteClaveAC49('${String(k).replace(/\\/g,"\\\\").replace(/'/g,"\\'")}')`}))});
+  }
+  if(clientesSinDir){
+    const lista=Object.entries(clientes).filter(([k,c])=>!c.direccion).slice(0,20);
+    advertencias.push({cat:"CLIENTES",msg:`${clientesSinDir} cliente(s) sin dirección: ${lista.map(([k,c])=>c.nombre||k).join(" / ")}${clientesSinDir>20?"...":""}`,acciones:lista.map(([k,c])=>({txt:"✏️ "+(c.nombre||k),fn:`editarClienteClaveAC49('${String(k).replace(/\\/g,"\\\\").replace(/'/g,"\\'")}')`}))});
+  }
   info.push({cat:"CLIENTES",msg:"IBAN/CCC excluido del diagnóstico: no identifica duplicados y puede repetirse correctamente en compañías/renting/aseguradoras."});
   info.push({cat:"CLIENTES",msg:`Total fichas de cliente: ${numClientes} (sin NIF: ${clientesSinNif}, sin teléfono: ${clientesSinTel})`});
 
@@ -179,11 +185,14 @@ function _analizarSistema(){
   const numVehiculos=Object.keys(vehiculos).length;
   const vehSinClienteLista=Object.values(vehiculos).filter(v=>!v.cliente);
   const vehSinCliente=vehSinClienteLista.length;
+  const vehSinMatriculaLista=Object.values(vehiculos).filter(v=>!v.matricula);
+  const vehSinMatricula=vehSinMatriculaLista.length;
   const vehSinMarca=Object.values(vehiculos).filter(v=>!v.marca).length;
   // Matrículas en OTs sin ficha de vehículo
   const matsEnOTs=[...new Set(ots.map(o=>o.matricula).filter(Boolean))];
   const matsHuerfanas=matsEnOTs.filter(m=>!vehiculos[m]);
-  if(vehSinCliente) errores.push({cat:"VEHÍCULOS",msg:`${vehSinCliente} vehículo(s) sin cliente asignado en ficha: ${vehSinClienteLista.slice(0,8).map(v=>(v.matricula||"SIN MATRÍCULA")+" "+[v.marca,v.modelo].filter(Boolean).join(" ")).join(" / ")}${vehSinCliente>8?"...":""}`,fix:null});
+  if(vehSinCliente) errores.push({cat:"VEHÍCULOS",msg:`${vehSinCliente} vehículo(s) sin cliente asignado en ficha: ${vehSinClienteLista.slice(0,12).map(v=>(v.matricula||"SIN MATRÍCULA")+" "+[v.marca,v.modelo].filter(Boolean).join(" ")).join(" / ")}${vehSinCliente>12?"...":""}`,fix:null,acciones:vehSinClienteLista.slice(0,20).map(v=>({txt:"✏️ "+(v.matricula||"SIN MATRÍCULA"),fn:`editarVehiculoMatriculaAC49('${String(v.matricula||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'")}')`}))});
+  if(vehSinMatricula) errores.push({cat:"VEHÍCULOS",msg:`${vehSinMatricula} ficha(s) de vehículo sin matrícula: ${vehSinMatriculaLista.slice(0,12).map(v=>(v.cliente||"SIN CLIENTE")+" "+[v.marca,v.modelo].filter(Boolean).join(" ")).join(" / ")}${vehSinMatricula>12?"...":""}`,fix:null});
   if(matsHuerfanas.length) advertencias.push({cat:"VEHÍCULOS",msg:`${matsHuerfanas.length} matrículas en expedientes sin ficha de vehículo: ${matsHuerfanas.slice(0,5).join(", ")}`,fix:"crearFichasVehiculosHuerfanos"});
   if(matsHuerfanas.length) reparaciones.push("crearFichasVehiculosHuerfanos");
   info.push({cat:"VEHÍCULOS",msg:`Total fichas de vehículo: ${numVehiculos} (sin cliente: ${vehSinCliente}, sin marca: ${vehSinMarca})`});
@@ -230,8 +239,8 @@ function _analizarSistema(){
     const f=new Date(o.fecha);
     return (hoyInicio-f)/86400000>30;
   });
-  if(citasVencidas.length) advertencias.push({cat:"AGENDA",msg:`${citasVencidas.length} cita(s) con fecha pasada siguen activas en Agenda — revisar o reprogramar`});
-  if(citasMuyVencidas.length) advertencias.push({cat:"AGENDA",msg:`${citasMuyVencidas.length} cita(s) llevan más de 30 días vencidas — revisar archivo de Agenda`});
+  if(citasVencidas.length) advertencias.push({cat:"AGENDA",msg:`${citasVencidas.length} cita(s) con fecha pasada siguen activas en Agenda: ${citasVencidas.slice(0,12).map(o=>(o.matricula||"SIN MATRÍCULA")+" "+(o.cliente||"SIN CLIENTE")).join(" / ")}${citasVencidas.length>12?"...":""}`,acciones:citasVencidas.slice(0,20).map(o=>({txt:"📅 "+(o.matricula||referenciaOT(o)),fn:`editarOT(${o.id})`}))});
+  if(citasMuyVencidas.length) advertencias.push({cat:"AGENDA",msg:`${citasMuyVencidas.length} cita(s) llevan más de 30 días vencidas — revisar archivo de Agenda`,acciones:citasMuyVencidas.slice(0,20).map(o=>({txt:"📅 "+(o.matricula||referenciaOT(o)),fn:`editarOT(${o.id})`}))});
 
   // --- BLOQUE 10: IDs DUPLICADOS ---
   const todosIds=ots.map(o=>o.id).filter(Boolean);
@@ -501,7 +510,7 @@ function _renderizarInforme(inf){
   detalle.innerHTML=secciones.filter(s=>s.items.length).map(s=>`
     <div style="margin-bottom:12px;">
       <div style="font-weight:bold;color:${s.color};margin-bottom:6px;font-size:14px;">${s.titulo}</div>
-      ${s.items.map(it=>`<div style="background:${s.bg};border-left:3px solid ${s.borde};border-radius:8px;padding:9px 12px;margin-bottom:5px;font-size:13px;color:${s.color};"><b>[${it.cat}]</b> ${it.msg}</div>`).join("")}
+      ${s.items.map(it=>`<div style="background:${s.bg};border-left:3px solid ${s.borde};border-radius:8px;padding:9px 12px;margin-bottom:5px;font-size:13px;color:${s.color};"><b>[${it.cat}]</b> ${it.msg}${(it.acciones&&it.acciones.length)?`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">${it.acciones.map(a=>`<button type="button" onclick="${a.fn}" style="width:auto;margin:0;padding:7px 9px;font-size:12px;background:#344d7a;color:white;border:1px solid #4a9eff;border-radius:8px;">${htmlSeguro(a.txt)}</button>`).join("")}</div>`:""}</div>`).join("")}
     </div>
   `).join("");
 }
@@ -751,7 +760,7 @@ function exportarInformeDiagnostico(){
   URL.revokeObjectURL(url);
 }
 
-</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC44</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC50</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button></div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -1153,10 +1162,10 @@ if(!hist.classList.contains("hidden")){
 setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 }
 }
-const APP_VERSION="AC48";
+const APP_VERSION="AC50";
 const COPIA_VERSION=4;
 const APP_FECHA="26/06/2026";
-const APP_NOTAS="AC48: almacén con analítica editable de artículos sin precio y bajo stock; importador XLSX conserva precios vacíos como pendientes, no como error.";
+const APP_NOTAS="AC50: almacén con analítica editable de artículos sin precio y bajo stock; importador XLSX conserva precios vacíos como pendientes, no como error.";
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -2595,17 +2604,31 @@ alert("OT ANULADA Y CONSERVADA EN EL HISTÓRICO INTERNO.");
 function renderAgenda(){
 const agenda=document.getElementById("agendaLista");
 const citas=ots.filter(ot=>esCita(ot));
+const hoy=new Date(); const hoyInicio=new Date(hoy.getFullYear(),hoy.getMonth(),hoy.getDate());
 const sinFecha=citas.filter(ot=>!ot.fecha).sort((a,b)=>(Number(b.id)||0)-(Number(a.id)||0));
-const conFecha=citas.filter(ot=>!!ot.fecha).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
+const vencidas=citas.filter(ot=>{
+ if(!ot.fecha) return false;
+ const f=new Date(ot.fecha); if(isNaN(f.getTime())) return false;
+ return f<hoyInicio;
+}).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
+const proximas=citas.filter(ot=>{
+ if(!ot.fecha) return false;
+ const f=new Date(ot.fecha); if(isNaN(f.getTime())) return false;
+ return f>=hoyInicio;
+}).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
 if(citas.length===0){ agenda.innerHTML="<p>No hay citas.</p>"; return; }
 let html="";
 if(sinFecha.length){
-  html += `<div style="margin:10px 0 6px;color:#ffd580;font-weight:bold;font-size:18px;">🕘 Pendientes de programar</div>`;
+  html += `<div style="margin:10px 0 6px;color:#ffd580;font-weight:bold;font-size:18px;">🕘 Pendientes de programar (${sinFecha.length})</div>`;
   html += sinFecha.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
 }
-if(conFecha.length){
-  html += `<div style="margin:14px 0 6px;color:#cfe3ff;font-weight:bold;font-size:18px;">📅 Citas con fecha</div>`;
-  html += conFecha.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
+if(vencidas.length){
+  html += `<div style="margin:14px 0 6px;color:#ff9a9a;font-weight:bold;font-size:18px;">⚠️ Citas vencidas (${vencidas.length})</div>`;
+  html += vencidas.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
+}
+if(proximas.length){
+  html += `<div style="margin:14px 0 6px;color:#cfe3ff;font-weight:bold;font-size:18px;">📅 Próximas citas (${proximas.length})</div>`;
+  html += proximas.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
 }
 agenda.innerHTML=html;
 }
@@ -2789,16 +2812,16 @@ datos=filtrarDocumentoR132(datos,"prefactura");
 if(datos.length===0){ lista.innerHTML="<p>No hay pre-facturas.</p>"; return; }
 lista.innerHTML=datos.map(ot=>crearTarjetaOT(ot)).join("");
 }
-function articuloSinPrecioAC48(a){return !(Number(a.precio_venta)>0);}
-function articuloBajoStockAC48(a){return Number(a.stock_minimo)>0 && Number(a.stock)<Number(a.stock_minimo);}
-function actualizarResumenAlmacenAC48(){
+function articuloSinPrecioAC49(a){return !(Number(a.precio_venta)>0);}
+function articuloBajoStockAC49(a){return Number(a.stock_minimo)>0 && Number(a.stock)<Number(a.stock_minimo);}
+function actualizarResumenAlmacenAC49(){
 const r=document.getElementById("almacenResumen");
 if(!r) return;
-const sinPrecio=articulos.filter(articuloSinPrecioAC48).length;
-const bajoStock=articulos.filter(articuloBajoStockAC48).length;
+const sinPrecio=articulos.filter(articuloSinPrecioAC49).length;
+const bajoStock=articulos.filter(articuloBajoStockAC49).length;
 r.textContent=`Analítica almacén: ${articulos.length} artículos · ${sinPrecio} sin precio · ${bajoStock} bajo mínimo`;
 }
-function actualizarFamiliasAlmacenAC48(){
+function actualizarFamiliasAlmacenAC49(){
 const sel=document.getElementById("familiaAlmacen");
 if(!sel) return;
 const actual=sel.value;
@@ -2813,8 +2836,8 @@ renderAlmacen();
 }
 function renderAlmacen(){
 const lista=document.getElementById("almacenLista");
-actualizarResumenAlmacenAC48();
-actualizarFamiliasAlmacenAC48();
+actualizarResumenAlmacenAC49();
+actualizarFamiliasAlmacenAC49();
 const texto=document.getElementById("buscarArticulo").value.trim().toUpperCase();
 const campo=document.getElementById("campoBusquedaArticulo").value;
 const familiaFiltro=(document.getElementById("familiaAlmacen")?.value||"").trim().toUpperCase();
@@ -2822,8 +2845,8 @@ let coincidencias=articulos.slice();
 if(familiaFiltro){
 coincidencias=coincidencias.filter(a=>((a.familia||"SIN FAMILIA").trim().toUpperCase()||"SIN FAMILIA")===familiaFiltro);
 }
-if(filtroAlmacenEspecial==="sinPrecio") coincidencias=coincidencias.filter(articuloSinPrecioAC48);
-if(filtroAlmacenEspecial==="bajoStock") coincidencias=coincidencias.filter(articuloBajoStockAC48);
+if(filtroAlmacenEspecial==="sinPrecio") coincidencias=coincidencias.filter(articuloSinPrecioAC49);
+if(filtroAlmacenEspecial==="bajoStock") coincidencias=coincidencias.filter(articuloBajoStockAC49);
 if(texto){
 coincidencias=coincidencias.filter(a=>{
 const valor=(a[campo]||"").toUpperCase();
@@ -2844,7 +2867,7 @@ html+=`<div class="item" style="border-left-color:#ff7a1a">`;
 html+=`<b>${htmlSeguro(ref)}</b> — ${htmlSeguro(items[0].descripcion)}<br>`;
 if(items[0].familia) html+=`<span style="color:#aab4c8;font-size:13px;">Familia: ${htmlSeguro(items[0].familia)}</span><br>`;
 items.forEach(a=>{
-const roturaStock=articuloBajoStockAC48(a);
+const roturaStock=articuloBajoStockAC49(a);
 const avisoStock=roturaStock
 ? `<span style="color:#ff5252;font-weight:bold;">⚠️ STOCK: ${a.stock} (mín. ${a.stock_minimo})</span>`
 : `<span style="color:#28a745;">STOCK: ${a.stock!==null?a.stock:"—"}</span>`;
@@ -3008,18 +3031,18 @@ return String(h===undefined||h===null?"":h)
  .replace(/[^a-z0-9]+/g,"_")
  .replace(/^_|_$/g,"");
 }
-function compactarClaveArticuloAC48(h){
+function compactarClaveArticuloAC49(h){
 return normalizarCabeceraArticuloAC44(h).replace(/_/g,"");
 }
 function valorRegistroAC44(reg,claves){
 for(const k of claves){
- const nk=normalizarCabeceraArticuloAC44(k), ck=compactarClaveArticuloAC48(k);
+ const nk=normalizarCabeceraArticuloAC44(k), ck=compactarClaveArticuloAC49(k);
  if(reg[nk]!==undefined && String(reg[nk]).trim()!=="") return String(reg[nk]).trim();
  if(reg[ck]!==undefined && String(reg[ck]).trim()!=="") return String(reg[ck]).trim();
 }
 return "";
 }
-function buscarFilaCabeceraArticulosAC48(filas){
+function buscarFilaCabeceraArticulosAC49(filas){
 const max=Math.min((filas||[]).length,25);
 for(let i=0;i<max;i++){
  const fila=(filas[i]||[]).map(normalizarCabeceraArticuloAC44);
@@ -3067,7 +3090,7 @@ if(nombre.endsWith(".xlsx") || nombre.endsWith(".xls")) reader.readAsArrayBuffer
 }
 function procesarFilasArticulosAC44(filas){
 if(!filas || filas.length<2){ alert("EL ARCHIVO DE ARTÍCULOS ESTÁ VACÍO O NO TIENE DATOS"); return; }
-const filaCab=buscarFilaCabeceraArticulosAC48(filas);
+const filaCab=buscarFilaCabeceraArticulosAC49(filas);
 const cabeceras=(filas[filaCab]||[]).map(normalizarCabeceraArticuloAC44);
 let importados=0, omitidos=0, actualizados=0, nuevos=0;
 const colsDetectadas=cabeceras.filter(Boolean).join(", ");
@@ -4393,70 +4416,101 @@ const reader=new FileReader();
 reader.onload=function(e){
 try{
 const wb=XLSX.read(e.target.result,{type:"array"});
-const wsC=wb.Sheets["CLIENTES_ORDENADOS"];
-if(!wsC){alert("NO SE ENCONTRÓ LA HOJA 'CLIENTES_ORDENADOS' EN EL ARCHIVO.");return;}
-const wsV=wb.Sheets["CLIENTES_VEHICULOS"];
-if(!wsV){alert("NO SE ENCONTRÓ LA HOJA 'CLIENTES_VEHICULOS' EN EL ARCHIVO.");return;}
-const rowsC=XLSX.utils.sheet_to_json(wsC,{defval:""});
-const rowsV=XLSX.utils.sheet_to_json(wsV,{defval:""});
+const norm=function(s){return String(s||"").trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Z0-9]/g,"");};
+const sheetRows=function(ws){return XLSX.utils.sheet_to_json(ws,{defval:"",raw:false});};
+const headersOf=function(rows){const set=new Set(); (rows||[]).slice(0,5).forEach(r=>Object.keys(r||{}).forEach(k=>set.add(norm(k)))); return Array.from(set);};
+const get=function(r,aliases){for(const a of aliases){const na=norm(a); for(const k of Object.keys(r||{})){ if(norm(k)===na) return r[k]; }} return "";};
+const candidates=wb.SheetNames.map(name=>({name,rows:sheetRows(wb.Sheets[name])}));
+if(!candidates.length){alert("EL EXCEL NO TIENE HOJAS LEGIBLES.");return;}
+const scored=candidates.map(s=>{
+ const h=headersOf(s.rows);
+ const has=(arr)=>arr.some(x=>h.includes(norm(x)));
+ let scoreC=0, scoreV=0;
+ if(has(["NOMBRE","CLIENTE","RAZON SOCIAL","RAZONSOCIAL"])) scoreC+=5;
+ if(has(["CIF","NIF","NIFCIF","DNI","NIE"])) scoreC+=4;
+ if(has(["DIRECCION","CALLE","DOMICILIO"])) scoreC+=2;
+ if(has(["TELEFONO","TFNO","MOVIL","MOBILE"])) scoreC+=1;
+ if(has(["MATRICULA","MATRÍCULA","PLACA"])) scoreV+=7;
+ if(has(["CLIENTE_NOMBRE","CLIENTE","NOMBRE CLIENTE","NOMBRECLIENTE"])) scoreV+=3;
+ if(has(["MARCA","MODELO"])) scoreV+=2;
+ if(has(["TIPO_VINCULO","TIPOVINCULO"])) scoreV+=1;
+ if(norm(s.name).includes("CLIENT")) scoreC+=2;
+ if(norm(s.name).includes("VEHIC") || norm(s.name).includes("COCHE")) scoreV+=2;
+ return {...s,headers:h,scoreC,scoreV};
+});
+let hojaClientes=scored.find(s=>norm(s.name)==="CLIENTESORDENADOS") || scored.sort((a,b)=>b.scoreC-a.scoreC)[0];
+let hojaVehiculos=scored.find(s=>norm(s.name)==="CLIENTESVEHICULOS") || scored.filter(s=>s.name!==hojaClientes.name).sort((a,b)=>b.scoreV-a.scoreV)[0] || hojaClientes;
+if(!hojaClientes || hojaClientes.scoreC<5){
+ alert("NO SE HA PODIDO IDENTIFICAR LA HOJA DE CLIENTES.\nHojas leídas: "+wb.SheetNames.join(", "));
+ return;
+}
+if(!hojaVehiculos || hojaVehiculos.scoreV<5){
+ alert("NO SE HA PODIDO IDENTIFICAR LA HOJA DE VEHÍCULOS.\nHojas leídas: "+wb.SheetNames.join(", "));
+ return;
+}
+const rowsC=hojaClientes.rows||[];
+const rowsV=hojaVehiculos.rows||[];
 const clientesAnteriores=clientes||{};
 const vehiculosAnteriores=vehiculos||{};
 const nuevosClientes={};
 const nuevosVehiculos={};
 let filasClientesExcel=0, importadosC=0, clientesDuplicadosExcel=0, clientesSinNombre=0;
 rowsC.forEach(r=>{
-const nombre=String(r["NOMBRE"]||"").trim();
+const nombre=String(get(r,["NOMBRE","CLIENTE","RAZON SOCIAL","RAZONSOCIAL","NOMBRE_CLIENTE"])||"").trim();
 if(!nombre){clientesSinNombre++;return;}
 filasClientesExcel++;
 const clave=claveCliente(nombre);
 if(nuevosClientes[clave]) clientesDuplicadosExcel++;
 const existente=clientesAnteriores[clave]||{};
 const codigo=existente.codigo||("C"+String(Object.keys(nuevosClientes).length+1).padStart(4,"0"));
+const mov=String(get(r,["MOVIL","MÓVIL","TELEFONO_MOVIL","TEL_MOVIL","MOBILE"])||"").trim();
+const tel=String(get(r,["TELEFONO","TELÉFONO","TFNO","TELEFONO1","TEL"])||"").trim();
 nuevosClientes[clave]={
 codigo:codigo,
 nombre:clave,
-nif:String(r["CIF"]||"").trim().toUpperCase(),
-direccion:String(r["DIRECCION"]||"").trim(),
-poblacion:String(r["CIUDAD"]||"").trim(),
-movil:String(r["MOVIL"]||"").trim(),
-tfno:String(r["TELEFONO"]||"").trim(),
-email:String(r["EMAIL"]||"").trim(),
+nif:String(get(r,["CIF","NIF","NIF_CIF","NIF/CIF","DNI","NIE"])||"").trim().toUpperCase(),
+direccion:String(get(r,["DIRECCION","DIRECCIÓN","CALLE","DOMICILIO"])||"").trim(),
+poblacion:String(get(r,["CIUDAD","POBLACION","POBLACIÓN","LOCALIDAD"])||"").trim(),
+movil:mov,
+tfno:(tel && tel!==mov)?tel:"",
+email:String(get(r,["EMAIL","E-MAIL","MAIL","CORREO"])||"").trim(),
 observaciones:existente.observaciones||"",
-formapago:String(r["FORMA_PAGO"]||"").trim(),
+formapago:String(get(r,["FORMA_PAGO","FORMA DE PAGO","FORMAPAGO"])||"").trim(),
 diaspago:existente.diaspago||"",
 nombre_banco:existente.nombre_banco||"",
-ccc:String(r["CCC"]||"").trim(),
-bic:String(r["BIC"]||"").trim().toUpperCase(),
-sepa_mandato:String(r["SEPA_MANDATO"]||"").trim(),
-sepa_firma:String(r["SEPA_FIRMA"]||"").trim(),
-sepa_tipo:String(r["SEPA_TIPO"]||"").trim()
+ccc:String(get(r,["CCC","IBAN","CUENTA","CUENTA_BANCARIA"])||"").trim(),
+bic:String(get(r,["BIC","SWIFT"])||"").trim().toUpperCase(),
+sepa_mandato:String(get(r,["SEPA_MANDATO","MANDATO"])||"").trim(),
+sepa_firma:String(get(r,["SEPA_FIRMA","FECHA_FIRMA"])||"").trim(),
+sepa_tipo:String(get(r,["SEPA_TIPO","TIPO_SEPA"])||"").trim()
 };
 });
 importadosC=Object.keys(nuevosClientes).length;
-let filasVehiculosExcel=0, importadosV=0, omitidosV=0, vehiculosDuplicadosExcel=0, vehiculosSinMatricula=0;
+let filasVehiculosExcel=0, importadosV=0, omitidosV=0, vehiculosDuplicadosExcel=0, vehiculosSinMatricula=0, vehiculosSinCliente=0;
 rowsV.forEach(r=>{
-const tipo=String(r["TIPO_VINCULO"]||"").trim().toUpperCase();
-if(tipo==="HUERFANO"){omitidosV++;return;}
-const matricula=String(r["MATRICULA"]||"").trim().toUpperCase();
+const tipo=String(get(r,["TIPO_VINCULO","TIPOVINCULO"])||"").trim().toUpperCase();
+if(tipo==="HUERFANO"||tipo==="HUÉRFANO"){omitidosV++;return;}
+const matricula=String(get(r,["MATRICULA","MATRÍCULA","PLACA"])||"").trim().toUpperCase().replace(/\s+/g,"");
 if(!matricula){vehiculosSinMatricula++;return;}
 filasVehiculosExcel++;
 if(nuevosVehiculos[matricula]) vehiculosDuplicadosExcel++;
-const clienteNombre=String(r["CLIENTE_NOMBRE"]||"").trim().toUpperCase();
+const clienteNombre=String(get(r,["CLIENTE_NOMBRE","NOMBRE_CLIENTE","CLIENTE","NOMBRE"])||"").trim().toUpperCase();
+if(!clienteNombre) vehiculosSinCliente++;
 const anterior=vehiculosAnteriores[matricula]||{};
 nuevosVehiculos[matricula]={
 matricula:matricula,
 cliente:clienteNombre,
-marca:String(r["MARCA"]||"").trim().toUpperCase(),
-modelo:String(r["MODELO"]||"").trim().toUpperCase(),
-fechaMatriculacion:String(r["FECHA_MATRICULACION"]||"").trim(),
-telefono:String(r["MOVIL"]||r["TELEFONO"]||"").trim(),
-bastidor:anterior.bastidor||"",
-combustible:anterior.combustible||"",
-cambio:anterior.cambio||"",
+marca:String(get(r,["MARCA"])||"").trim().toUpperCase(),
+modelo:String(get(r,["MODELO"])||"").trim().toUpperCase(),
+fechaMatriculacion:String(get(r,["FECHA_MATRICULACION","FECHA MATRICULACION","F_MATRICULA"])||"").trim(),
+telefono:String(get(r,["MOVIL","MÓVIL","TELEFONO","TELÉFONO","TFNO"])||"").trim(),
+bastidor:anterior.bastidor||String(get(r,["BASTIDOR","VIN"])||"").trim().toUpperCase(),
+combustible:anterior.combustible||String(get(r,["COMBUSTIBLE"])||"").trim(),
+cambio:anterior.cambio||String(get(r,["CAMBIO","TRANSMISION","TRANSMISIÓN"])||"").trim(),
 cilindrada:anterior.cilindrada||"",
-kw:anterior.kw||"",
-cv:anterior.cv||"",
-color:anterior.color||"",
+kw:anterior.kw||String(get(r,["KW"])||"").trim(),
+cv:anterior.cv||String(get(r,["CV"])||"").trim(),
+color:anterior.color||String(get(r,["COLOR"])||"").trim(),
 proximaItv:anterior.proximaItv||"",
 aceiteKm:anterior.aceiteKm||"",
 aceiteFecha:anterior.aceiteFecha||"",
@@ -4467,13 +4521,14 @@ observaciones:anterior.observaciones||""
 };
 });
 importadosV=Object.keys(nuevosVehiculos).length;
-// Sustitución total y atómica: desaparecen clientes/vehículos que ya no estén en el Excel maestro.
 clientes=nuevosClientes;
 vehiculos=nuevosVehiculos;
 if(guardar()){
 const okClientes=(filasClientesExcel-clientesDuplicadosExcel)===importadosC;
 const okVehiculos=(filasVehiculosExcel-vehiculosDuplicadosExcel)===importadosV;
 alert("✅ IMPORTACIÓN EXCEL MAESTRO COMPLETADA\n\n"+
+"Hoja clientes detectada: "+hojaClientes.name+"\n"+
+"Hoja vehículos detectada: "+hojaVehiculos.name+"\n\n"+
 "👥 Clientes en Excel: "+filasClientesExcel+"\n"+
 "👥 Clientes importados únicos: "+importadosC+(okClientes?" ✅":" ⚠️")+"\n"+
 (clientesDuplicadosExcel?"⚠️ Nombres cliente repetidos en Excel: "+clientesDuplicadosExcel+"\n":"")+
@@ -4482,6 +4537,7 @@ alert("✅ IMPORTACIÓN EXCEL MAESTRO COMPLETADA\n\n"+
 "🚗 Vehículos importados únicos: "+importadosV+(okVehiculos?" ✅":" ⚠️")+"\n"+
 (vehiculosDuplicadosExcel?"⚠️ Matrículas repetidas en Excel: "+vehiculosDuplicadosExcel+"\n":"")+
 (vehiculosSinMatricula?"⚠️ Filas vehículo sin matrícula omitidas: "+vehiculosSinMatricula+"\n":"")+
+(vehiculosSinCliente?"⚠️ Vehículos sin cliente en Excel: "+vehiculosSinCliente+"\n":"")+
 "⚠️ Vehículos huérfanos omitidos: "+omitidosV+"\n\n"+
 "Base clientes/vehículos sustituida por el Excel maestro.");
 }
@@ -4490,6 +4546,59 @@ alert("ERROR AL PROCESAR EL ARCHIVO:\n"+err.message);
 }
 };
 reader.readAsArrayBuffer(file);
+}
+
+function editarClienteClaveAC49(clave){
+  const c=clientes[clave];
+  if(!c){ alert("CLIENTE NO ENCONTRADO"); return; }
+  const nombre=prompt("Nombre del cliente", c.nombre||clave);
+  if(nombre===null) return;
+  const nif=prompt("NIF/CIF", c.nif||"");
+  if(nif===null) return;
+  const direccion=prompt("Dirección", c.direccion||"");
+  if(direccion===null) return;
+  const poblacion=prompt("Población", c.poblacion||"");
+  if(poblacion===null) return;
+  const movil=prompt("Móvil / teléfono principal", c.movil||c.tfno||"");
+  if(movil===null) return;
+  const tfno=prompt("Teléfono 2 (vacío si es igual al móvil)", (c.tfno&&c.tfno!==c.movil)?c.tfno:"");
+  if(tfno===null) return;
+  const email=prompt("Email", c.email||"");
+  if(email===null) return;
+  const nuevaClave=claveCliente(nombre||clave);
+  const actualizado={...c,nombre:nuevaClave,nif:String(nif||"").trim().toUpperCase(),direccion:String(direccion||"").trim(),poblacion:String(poblacion||"").trim(),movil:String(movil||"").trim(),tfno:(String(tfno||"").trim()!==String(movil||"").trim()?String(tfno||"").trim():""),email:String(email||"").trim()};
+  if(nuevaClave!==clave){ delete clientes[clave]; }
+  clientes[nuevaClave]=actualizado;
+  Object.values(vehiculos||{}).forEach(v=>{ if(claveCliente(v.cliente||"")===clave) v.cliente=nuevaClave; });
+  (ots||[]).forEach(o=>{ if(claveCliente(o.cliente||"")===clave) o.cliente=nuevaClave; });
+  guardar();
+  alert("✅ Cliente actualizado.");
+  try{ ejecutarDiagnostico(); }catch(e){}
+}
+function editarVehiculoMatriculaAC49(matricula){
+  let v=vehiculos[matricula];
+  if(!v){
+    const lista=Object.values(vehiculos||{});
+    v=lista.find(x=>String(x.matricula||"").toUpperCase()===String(matricula||"").toUpperCase()) || {};
+  }
+  const matActual=(v.matricula||matricula||"").toUpperCase();
+  const mat=prompt("Matrícula", matActual);
+  if(mat===null) return;
+  const matNueva=String(mat||"").trim().toUpperCase().replace(/\s+/g,"");
+  if(!matNueva){ alert("LA MATRÍCULA ES OBLIGATORIA"); return; }
+  const cliente=prompt("Cliente asignado", v.cliente||"");
+  if(cliente===null) return;
+  const marca=prompt("Marca", v.marca||"");
+  if(marca===null) return;
+  const modelo=prompt("Modelo", v.modelo||"");
+  if(modelo===null) return;
+  const anterior=vehiculos[matActual]||v||{};
+  if(matActual && matActual!==matNueva) delete vehiculos[matActual];
+  vehiculos[matNueva]={...anterior,matricula:matNueva,cliente:String(cliente||"").trim().toUpperCase(),marca:String(marca||"").trim().toUpperCase(),modelo:String(modelo||"").trim().toUpperCase()};
+  (ots||[]).forEach(o=>{ if(String(o.matricula||"").toUpperCase()===matActual){ o.matricula=matNueva; if(cliente) o.cliente=String(cliente).trim().toUpperCase(); if(marca) o.marca=String(marca).trim().toUpperCase(); if(modelo) o.modelo=String(modelo).trim().toUpperCase(); } });
+  guardar();
+  alert("✅ Vehículo actualizado.");
+  try{ ejecutarDiagnostico(); }catch(e){}
 }
 function salirSeguro(){
 const hacerCopia=confirm("¿Quieres hacer una copia de seguridad antes de salir?\n\nAceptar = hacer copia ahora.\nCancelar = volver a la portada sin copia.");
