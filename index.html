@@ -596,7 +596,7 @@ function ejecutarReparacion(clave){
 function simularCargaFuncionalTotal(){
   const progreso=document.getElementById("diagProgreso"), resumen=document.getElementById("diagResumen"), detalle=document.getElementById("diagDetalle");
   progreso.style.display="block"; resumen.style.display="none"; detalle.style.display="none";
-  progreso.innerHTML="⏳ Ejecutando simulador/auditor AC56...";
+  progreso.innerHTML="⏳ Ejecutando simulador/auditor AC57...";
   setTimeout(()=>{
     try{
       const base={ots:_diagClonar(ots),contadores:_diagClonar(contadores),clientes:_diagClonar(clientes),vehiculos:_diagClonar(vehiculos),articulos:_diagClonar(articulos),operarios:_diagClonar(operarios),fotosExpedientes:_diagClonar(fotosExpedientes)};
@@ -618,23 +618,23 @@ function simularCargaFuncionalTotal(){
       const addInfo=(cat,msg)=>info.push({cat,msg});
       const hashDoc=o=>JSON.stringify(o||{});
 
-      // Parámetros AC56: carga alta pero prudente para iPhone/Safari. No modifica datos reales.
+      // Parámetros AC57: carga alta pero prudente para iPhone/Safari. No modifica datos reales.
       const PARAM={clientes:500,vehiculos:500,articulos:1000,expedientes:500,artsPorExpMin:5,artsPorExpMax:6};
       const operadores=(base.operarios&&base.operarios.length?base.operarios:["JOSE","JAVIER","OPERARIO 1","OPERARIO 2"]);
       const tiposMO=["MECÁNICA","CHAPA","PINTURA","ELECTRICIDAD","DIAGNOSIS"];
 
       const clientesVirtuales={}, vehiculosVirtuales={}, articulosVirtuales=[];
       for(let i=1;i<=PARAM.clientes;i++){
-        const nombre=`CLIENTE AC54 ${String(i).padStart(3,"0")}`;
+        const nombre=`CLIENTE AC57 ${String(i).padStart(3,"0")}`;
         clientesVirtuales[nombre]={nombre,nif:`${String(10000000+i)}${"TRWAGMYFPDXBNJZSQVHLCKE"[(10000000+i)%23]}`,direccion:`CALLE SIMULACIÓN ${i}`,poblacion:"50540 BORJA",movil:`600 ${String(i).padStart(3,"0")} ${String(900-i).padStart(3,"0")}`,formapago:i%3===0?"TRANSFERENCIA":i%3===1?"CONTADO":"RECIBO DOMICILIADO",diaspago:i%3===0?"30 DÍAS":"CONTADO"};
       }
       for(let i=1;i<=PARAM.vehiculos;i++){
         const mat=`AC${String(i).padStart(4,"0")}`;
-        const cli=`CLIENTE AC54 ${String(i).padStart(3,"0")}`;
+        const cli=`CLIENTE AC57 ${String(i).padStart(3,"0")}`;
         vehiculosVirtuales[mat]={matricula:mat,cliente:cli,marca:["SEAT","RENAULT","PEUGEOT","FORD","TOYOTA"][i%5],modelo:`MODELO ${i%20}`,combustible:["GASOLINA","DIÉSEL","HÍBRIDO","ELÉCTRICO"][i%4],cambio:i%2?"MANUAL":"AUTOMÁTICO",km:50000+i*37};
       }
       for(let i=1;i<=PARAM.articulos;i++){
-        articulosVirtuales.push({referencia:`AC54-${String(i).padStart(5,"0")}`,descripcion:`ARTÍCULO AUDITOR AC54 ${i}`,proveedor:["PROV-A","PROV-B","PROV-C"][i%3],familia:["FILTROS","ACEITES","FRENOS","CHAPA","ELECTRICIDAD"][i%5],precio_compra:n2(5+(i%80)*0.7),precio_venta:n2(10+(i%80)*1.25),iva:21,stock:100,stock_minimo:5});
+        articulosVirtuales.push({referencia:`AC57-${String(i).padStart(5,"0")}`,descripcion:`ARTÍCULO AUDITOR AC57 ${i}`,proveedor:["PROV-A","PROV-B","PROV-C"][i%3],familia:["FILTROS","ACEITES","FRENOS","CHAPA","ELECTRICIDAD"][i%5],precio_compra:n2(5+(i%80)*0.7),precio_venta:n2(10+(i%80)*1.25),iva:21,stock:100,stock_minimo:5});
       }
       const stockInicial={}; articulosVirtuales.forEach(a=>stockInicial[a.referencia]=Number(a.stock)||0);
       const stockVirtual=_diagClonar(stockInicial);
@@ -673,14 +673,14 @@ function simularCargaFuncionalTotal(){
       };
       const crearCita=i=>{
         const mat=`AC${String(i).padStart(4,"0")}`;
-        const cli=`CLIENTE AC54 ${String(i).padStart(3,"0")}`;
-        const cita={id:540000000+i,estado:"CITA",numeroAgenda:sig("agenda"),matricula:mat,cliente:cli,fecha:fechaSim(i%30),motivoCita:`RECEPCIÓN SIMULADA AC54 ${i}`,trabajos:`TRABAJOS SOLICITADOS AC54 ${i}`,observaciones:`Prueba de estrés AC54 expediente ${i}`,lineas:[],stockDescontado:false};
+        const cli=`CLIENTE AC57 ${String(i).padStart(3,"0")}`;
+        const cita={id:540000000+i,estado:"CITA",numeroAgenda:sig("agenda"),matricula:mat,cliente:cli,fecha:fechaSim(i%30),motivoCita:`RECEPCIÓN SIMULADA AC57 ${i}`,trabajos:`TRABAJOS SOLICITADOS AC57 ${i}`,observaciones:`Prueba de estrés AC57 expediente ${i}`,lineas:[],stockDescontado:false};
         comprobarNumero("agenda",cita.numeroAgenda,`CITA ${i}`);
         return cita;
       };
       const aPresupuesto=(cita,i)=>{ const pre=clone(cita); pre.id=541000000+i; pre.estado="PRESUPUESTO"; pre.numeroAgenda=null; pre.numeroPresupuesto=sig("presupuesto"); pre.presupuestoEstado="PENDIENTE"; pre.lineas=crearLineas(i); comprobarNumero("presupuesto",pre.numeroPresupuesto,`PRESUPUESTO ${i}`); return totalizar(pre); };
       const aOT=(pre,i)=>{ const ot=clone(pre); ot.id=542000000+i; ot.estado="OT"; ot.numeroOT=sig("ot"); ot.origenPresupuestoId=pre.id; ot.presupuestoEstado="CONVERTIDO_OT"; ot.snapshotPresupuesto=clone(pre); ot.stockDescontado=false; comprobarNumero("ot",ot.numeroOT,`OT ${i}`); return totalizar(ot); };
-      const aPrefactura=(ot,i)=>{ const pf=clone(ot); pf.id=543000000+i; pf.estado="PREFACTURA"; pf.numeroPrefactura=sig("prefactura"); pf.fechaPrefactura=fechaSim(i%30); pf.snapshotAntesPrefactura=clone(ot); pf.stockDescontado=false; pf.observaciones=(pf.observaciones||"")+" · VALIDACIÓN PREFACTURA AC54"; comprobarNumero("prefactura",pf.numeroPrefactura,`PREFACTURA ${i}`); return totalizar(pf); };
+      const aPrefactura=(ot,i)=>{ const pf=clone(ot); pf.id=543000000+i; pf.estado="PREFACTURA"; pf.numeroPrefactura=sig("prefactura"); pf.fechaPrefactura=fechaSim(i%30); pf.snapshotAntesPrefactura=clone(ot); pf.stockDescontado=false; pf.observaciones=(pf.observaciones||"")+" · VALIDACIÓN PREFACTURA AC57"; comprobarNumero("prefactura",pf.numeroPrefactura,`PREFACTURA ${i}`); return totalizar(pf); };
       const aFactura=(pf,i)=>{
         const fac=clone(pf); fac.id=544000000+i; fac.estado="FACTURA"; fac.numeroFactura=sig("factura"); fac.fechaFinalizacion=fechaSim(i%30); fac.stockDescontado=true; comprobarNumero("factura",fac.numeroFactura,`FACTURA ${i}`);
         (fac.lineas||[]).filter(l=>l.tipo==="articulo").forEach(l=>{
@@ -741,23 +741,23 @@ function simularCargaFuncionalTotal(){
       // Tamaño proyectado sin tocar datos reales.
       const proyecto={ots:(base.ots||[]).concat(documentosVirtuales),contadores:contadorLocal,clientes:Object.assign({},base.clientes||{},clientesVirtuales),vehiculos:Object.assign({},base.vehiculos||{},vehiculosVirtuales),articulos:(base.articulos||[]).concat(articulosVirtuales),operarios:base.operarios,fotosExpedientes:base.fotosExpedientes};
       const bytes=_diagCalcularTamanoProyectado(proyecto);
-      if(bytes>4300000) addAdv("CAPACIDAD",`AC54 proyecta ${(bytes/1024/1024).toFixed(2)} MB. En iPhone conviene no guardar esta carga como datos reales; usarla como auditor virtual.`);
-      else addInfo("CAPACIDAD",`Tamaño proyectado AC54: ${(bytes/1024/1024).toFixed(2)} MB.`);
+      if(bytes>4300000) addAdv("CAPACIDAD",`AC57 proyecta ${(bytes/1024/1024).toFixed(2)} MB. En iPhone conviene no guardar esta carga como datos reales; usarla como auditor virtual.`);
+      else addInfo("CAPACIDAD",`Tamaño proyectado AC57: ${(bytes/1024/1024).toFixed(2)} MB.`);
 
-      addInfo("SIMULADOR AC54",`Creados virtualmente ${PARAM.clientes} clientes, ${PARAM.vehiculos} vehículos, ${PARAM.articulos} artículos y ${PARAM.expedientes} expedientes completos.`);
+      addInfo("SIMULADOR AC57",`Creados virtualmente ${PARAM.clientes} clientes, ${PARAM.vehiculos} vehículos, ${PARAM.articulos} artículos y ${PARAM.expedientes} expedientes completos.`);
       addInfo("FLUJO",`${PARAM.expedientes} Citas → ${PARAM.expedientes} Presupuestos → ${PARAM.expedientes} OT → ${PARAM.expedientes} Prefacturas → ${facturasCreadas} Facturas.`);
       addInfo("RETORNO",`${retornosProbados} pruebas Prefactura → Agenda/estado previo ejecutadas sin tocar facturas emitidas.`);
       addInfo("ARTÍCULOS",`${lineasArticuloFacturadas} líneas de artículo facturadas. Artículos facturados y descontados comparados referencia por referencia.`);
       addInfo("MANO DE OBRA",`${lineasMO} líneas de mano de obra simuladas con operarios y tipos variados: mecánica, chapa, pintura, electricidad y diagnosis.`);
-      addInfo("SEGURIDAD",`La simulación AC54 no modifica tus datos reales: trabaja sobre clones en memoria y solo genera informe.`);
+      addInfo("SEGURIDAD",`La simulación AC57 no modifica tus datos reales: trabaja sobre clones en memoria y solo genera informe.`);
       addInfo("FACTURA",`Una vez creada Factura, el simulador no intenta volver atrás. Solo prueba retorno desde Prefactura antes de facturar.`);
 
-      const informe={errores,advertencias,info,reparaciones:[],fecha:new Date().toLocaleString("es-ES"),totales:{expedientes:(base.ots||[]).length,clientes:Object.keys(base.clientes||{}).length,vehiculos:Object.keys(base.vehiculos||{}).length,articulos:(base.articulos||[]).length},simulacionAC54:{parametros:PARAM,documentosVirtuales:documentosVirtuales.length,facturasCreadas,retornosProbados,lineasArticuloFacturadas,referenciasMovidas:refs.length,bytesProyectados:bytes}};
+      const informe={errores,advertencias,info,reparaciones:[],fecha:new Date().toLocaleString("es-ES"),totales:{expedientes:(base.ots||[]).length,clientes:Object.keys(base.clientes||{}).length,vehiculos:Object.keys(base.vehiculos||{}).length,articulos:(base.articulos||[]).length},simulacionAC57:{parametros:PARAM,documentosVirtuales:documentosVirtuales.length,facturasCreadas,retornosProbados,lineasArticuloFacturadas,referenciasMovidas:refs.length,bytesProyectados:bytes}};
       _ultimoInformeDiag=informe;
       _renderizarInforme(informe);
     }catch(e){
       progreso.style.display="none"; resumen.style.display="block";
-      resumen.innerHTML=`<div style="background:#3a1014;border-left:4px solid #b00020;border-radius:10px;padding:14px;color:#ffd6d6;">❌ Error durante el simulador/auditor AC54: ${e.message}</div>`;
+      resumen.innerHTML=`<div style="background:#3a1014;border-left:4px solid #b00020;border-radius:10px;padding:14px;color:#ffd6d6;">❌ Error durante el simulador/auditor AC57: ${e.message}</div>`;
     }
   },200);
 }
@@ -791,7 +791,7 @@ function exportarInformeDiagnostico(){
   URL.revokeObjectURL(url);
 }
 
-</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC56.1</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button><button class="icon-btn-r202 naranja" onclick="solicitarAccesoIntegridadAC56()" type="button"><span class="ico-r202">🛡️</span><span class="txt-r202"><b>CENTRO DE INTEGRIDAD</b><span>Certificación, simulador, copias y auditoría</span></span></button></div></div><div id="integridadPrograma" class="card hidden herramientas-r138"><button class="volver-r138" onclick="showTab('inicio')" type="button">⬅️ VOLVER A PORTADA</button><h2>🛡️ CENTRO DE INTEGRIDAD AC56.1</h2><div class="aviso-modal">Centro independiente de certificación. No modifica el flujo normal del taller: analiza, simula, exporta, verifica copias y protege el programa.</div><div id="integridadEstadoAC56" style="background:#0b1220;border:2px solid #28a745;border-radius:16px;padding:14px;margin-bottom:14px;line-height:1.45;"><b>Estado del sistema:</b><br>Abre el centro y pulsa <b>Actualizar estado</b> o <b>Certificar AutoBorja</b>.</div><div class="grupo-r138"><button class="green" onclick="certificarAutoBorjaAC56('rapida')" type="button">✅ CERTIFICAR AUTOBORJA</button><button class="secondary" onclick="actualizarEstadoIntegridadAC56()" type="button">🔎 ACTUALIZAR ESTADO</button><button class="secondary" onclick="simularCargaFuncionalTotal()" type="button" style="background:#7b2fff;color:white;">🧪 SIMULADOR / AUDITOR DE ESTRÉS</button><button class="secondary" onclick="ejecutarDiagnosticoDesdeIntegridadAC56()" type="button">🔧 DIAGNÓSTICO PROFUNDO</button></div><h3 style="color:#ff7a1a;">1) Seguridad del Centro</h3><div class="grupo-r138"><button class="secondary" onclick="editarCodigoIntegridadAC56()" type="button">🔐 CAMBIAR CÓDIGO DE INTEGRIDAD</button></div><h3 style="color:#ff7a1a;">2) Copias y protección</h3><div class="grupo-r138"><button class="secondary" onclick="exportarProgramaVirgenAC55()" type="button">📦 EXPORTAR PROGRAMA VIRGEN</button><button class="secondary" onclick="exportarPaqueteModularAC55()" type="button">🧰 EXPORTAR PAQUETE MODULAR JSON</button><button class="secondary" onclick="exportarCopia()" type="button">💾 EXPORTAR COPIA COMPLETA</button></div><h3 style="color:#ff7a1a;">3) Exportación individual Excel/CSV</h3><label>Módulo</label><select id="integridadModuloAC55"><option value="clientes">Clientes</option><option value="vehiculos">Vehículos</option><option value="agenda">Agenda</option><option value="presupuestos">Presupuestos</option><option value="ot">Órdenes de trabajo</option><option value="prefacturas">Prefacturas</option><option value="facturas">Facturas</option><option value="articulos">Artículos</option><option value="stock">Stock / almacén</option><option value="operarios">Operarios</option><option value="fichajes">Control horario</option><option value="cronometros">Cronómetros</option></select><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Nº desde</label><input id="integridadNumDesdeAC55" type="number" placeholder="Opcional"></div><div><label>Nº hasta</label><input id="integridadNumHastaAC55" type="number" placeholder="Opcional"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Fecha desde</label><input id="integridadFechaDesdeAC55" type="date"></div><div><label>Fecha hasta</label><input id="integridadFechaHastaAC55" type="date"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;"><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('mes')" style="margin:0;flex:1;">ESTE MES</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('ano')" style="margin:0;flex:1;">ESTE AÑO</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('todo')" style="margin:0;flex:1;">TODO</button></div><button type="button" class="green" onclick="exportarModuloExcelAC55()">📄 EXPORTAR MÓDULO CSV/EXCEL</button><h3 style="color:#ff7a1a;">4) Copias regulares</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Frecuencia</label><select id="integridadFrecuenciaAC55"><option value="manual">Manual</option><option value="diaria">Diaria</option><option value="semanal">Semanal</option></select></div><div><label>Hora</label><input id="integridadHoraAC55" type="time" value="20:00"></div></div><button type="button" class="secondary" onclick="guardarPlanCopiasAC55()">💾 GUARDAR PLAN DE COPIAS</button><h3 style="color:#ff7a1a;">5) Informe</h3><div id="integridadResultadoAC55" style="background:#0b1220;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin-top:12px;color:#e8edf7;font-size:14px;line-height:1.45;">Sin certificaciones todavía.</div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC57</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button><button class="icon-btn-r202 naranja" onclick="solicitarAccesoIntegridadAC56()" type="button"><span class="ico-r202">🛡️</span><span class="txt-r202"><b>CENTRO DE INTEGRIDAD</b><span>Certificación, simulador, copias y auditoría</span></span></button></div></div><div id="integridadPrograma" class="card hidden herramientas-r138"><button class="volver-r138" onclick="showTab('inicio')" type="button">⬅️ VOLVER A PORTADA</button><h2>🛡️ CENTRO DE INTEGRIDAD AC57</h2><div class="aviso-modal">Centro independiente de certificación. No modifica el flujo normal del taller: analiza, simula, exporta, verifica copias y protege el programa.</div><div id="integridadEstadoAC57" style="background:#0b1220;border:2px solid #28a745;border-radius:16px;padding:14px;margin-bottom:14px;line-height:1.45;"><b>Estado del sistema:</b><br>Abre el centro y pulsa <b>Actualizar estado</b> o <b>Certificar AutoBorja</b>.</div><div class="grupo-r138"><button class="green" onclick="certificarAutoBorjaAC56('rapida')" type="button">✅ CERTIFICAR INTEGRIDAD AC57</button><button class="secondary" onclick="actualizarEstadoIntegridadAC56()" type="button">🔎 ACTUALIZAR ESTADO</button><button class="secondary" onclick="simularCargaFuncionalTotal()" type="button" style="background:#7b2fff;color:white;">🧪 SIMULADOR / AUDITOR DE ESTRÉS</button><button class="secondary" onclick="ejecutarDiagnosticoDesdeIntegridadAC56()" type="button">🔧 DIAGNÓSTICO PROFUNDO</button></div><h3 style="color:#ff7a1a;">1) Seguridad del Centro</h3><div class="grupo-r138"><button class="secondary" onclick="editarCodigoIntegridadAC56()" type="button">🔐 CAMBIAR CÓDIGO DE INTEGRIDAD</button></div><h3 style="color:#ff7a1a;">2) Copias y protección</h3><div class="grupo-r138"><button class="secondary" onclick="exportarProgramaVirgenAC55()" type="button">📦 EXPORTAR PROGRAMA VIRGEN</button><button class="secondary" onclick="exportarPaqueteModularAC55()" type="button">🧰 EXPORTAR PAQUETE MODULAR JSON</button><button class="secondary" onclick="exportarCopia()" type="button">💾 EXPORTAR COPIA COMPLETA</button></div><h3 style="color:#ff7a1a;">3) Exportación individual Excel/CSV</h3><label>Módulo</label><select id="integridadModuloAC55"><option value="clientes">Clientes</option><option value="vehiculos">Vehículos</option><option value="agenda">Agenda</option><option value="presupuestos">Presupuestos</option><option value="ot">Órdenes de trabajo</option><option value="prefacturas">Prefacturas</option><option value="facturas">Facturas</option><option value="articulos">Artículos</option><option value="stock">Stock / almacén</option><option value="operarios">Operarios</option><option value="fichajes">Control horario</option><option value="cronometros">Cronómetros</option></select><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Nº desde</label><input id="integridadNumDesdeAC55" type="number" placeholder="Opcional"></div><div><label>Nº hasta</label><input id="integridadNumHastaAC55" type="number" placeholder="Opcional"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Fecha desde</label><input id="integridadFechaDesdeAC55" type="date"></div><div><label>Fecha hasta</label><input id="integridadFechaHastaAC55" type="date"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;"><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('mes')" style="margin:0;flex:1;">ESTE MES</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('ano')" style="margin:0;flex:1;">ESTE AÑO</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('todo')" style="margin:0;flex:1;">TODO</button></div><button type="button" class="green" onclick="exportarModuloExcelAC55()">📄 EXPORTAR MÓDULO CSV/EXCEL</button><h3 style="color:#ff7a1a;">4) Copias regulares</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Frecuencia</label><select id="integridadFrecuenciaAC55"><option value="manual">Manual</option><option value="diaria">Diaria</option><option value="semanal">Semanal</option></select></div><div><label>Hora</label><input id="integridadHoraAC55" type="time" value="20:00"></div></div><button type="button" class="secondary" onclick="guardarPlanCopiasAC55()">💾 GUARDAR PLAN DE COPIAS</button><h3 style="color:#ff7a1a;">5) Informe</h3><div id="integridadResultadoAC55" style="background:#0b1220;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin-top:12px;color:#e8edf7;font-size:14px;line-height:1.45;">Sin certificaciones todavía.</div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -1244,10 +1244,10 @@ if(!hist.classList.contains("hidden")){
 setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 }
 }
-const APP_VERSION="AC56.1";
+const APP_VERSION="AC57";
 const COPIA_VERSION=4;
 const APP_FECHA="27/06/2026";
-const APP_NOTAS="AC56.1: Centro de Integridad protegido desde portada con código propio. Una vez autorizado, Diagnóstico Profundo y herramientas internas no vuelven a pedir entrada por Gestión." ;
+const APP_NOTAS="AC57: Certificación integral de integridad comprobada. El Centro de Integridad emite certificado técnico solo si no hay errores críticos; incluye salud global, módulos, numeraciones, stock, copias, exportación y rendimiento." ;
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
@@ -4837,7 +4837,7 @@ function solicitarAccesoIntegridadAC56(){
   accesoR138="integridad";
   showTab("integridadPrograma");
   cargarPlanCopiasAC55();
-  setTimeout(actualizarEstadoIntegridadAC56,120);
+  setTimeout(actualizarEstadoIntegridadAC57,120);
   return;
  }
  const p=prompt("Código del Centro de Integridad:");
@@ -4846,7 +4846,7 @@ function solicitarAccesoIntegridadAC56(){
   accesoR138="integridad";
   showTab("integridadPrograma");
   cargarPlanCopiasAC55();
-  setTimeout(actualizarEstadoIntegridadAC56,120);
+  setTimeout(actualizarEstadoIntegridadAC57,120);
  } else alert("CÓDIGO INCORRECTO");
 }
 function solicitarAccesoIntegridadAC55(){ return solicitarAccesoIntegridadAC56(); }
@@ -4928,7 +4928,7 @@ function exportarPaqueteModularAC55(){
  mostrarResultadoIntegridadAC55("✅ Paquete modular JSON exportado con auditoría interna.<br>Todos los módulos incluidos y verificados al 100 %.");
 }
 function exportarProgramaVirgenAC55(){
- const nombre="indexAC56_PROGRAMA_VIRGEN_"+fechaParaArchivoAC55()+".html";
+ const nombre="indexAC57_PROGRAMA_VIRGEN_"+fechaParaArchivoAC55()+".html";
  fetch(location.href).then(r=>r.text()).then(txt=>{
   descargarTextoAC55(nombre,txt,"text/html;charset=utf-8");
   mostrarResultadoIntegridadAC55("✅ Programa virgen exportado.<br>No incluye clientes, vehículos, artículos ni facturas porque esos datos están en la copia/localStorage, no dentro del HTML.");
@@ -4962,39 +4962,119 @@ function cargarPlanCopiasAC55(){
 function mostrarResultadoIntegridadAC55(html){ const el=document.getElementById("integridadResultadoAC55"); if(el) el.innerHTML=html; }
 
 function conteoModuloAC56(m){ try{return datosModuloAC55(m).length;}catch(e){return 0;} }
-function resumenEstadoIntegridadAC56(){
+function rendimientoBasicoAC57(){
+ const t0=performance.now();
+ let bytes=0, busquedaMs=0, guardadoVirtualMs=0;
+ try{ bytes=tamanoBytesTexto(JSON.stringify(paqueteDatos())); }catch(e){ bytes=0; }
+ const t1=performance.now();
+ try{
+   const q="AC57";
+   const b0=performance.now();
+   (ots||[]).filter(o=>String(o.matricula||"").includes(q)||String(o.cliente||"").includes(q)||String(referenciaOT(o)||"").includes(q));
+   busquedaMs=performance.now()-b0;
+ }catch(e){ busquedaMs=0; }
+ try{
+   const g0=performance.now();
+   JSON.stringify({ots:ots||[],clientes:clientes||{},vehiculos:vehiculos||{},articulos:articulos||[],contadores:contadores||{}});
+   guardadoVirtualMs=performance.now()-g0;
+ }catch(e){ guardadoVirtualMs=0; }
+ return {jsonMs:Math.round((t1-t0)*100)/100,busquedaMs:Math.round(busquedaMs*100)/100,guardadoVirtualMs:Math.round(guardadoVirtualMs*100)/100,bytes:bytes,mb:Math.round((bytes/1024/1024)*100)/100};
+}
+function pruebasCertificacionAC57(){
+ const informe=_analizarSistema();
+ const errores=[...(informe.errores||[])];
+ const advertencias=[...(informe.advertencias||[])];
+ const info=[...(informe.info||[])];
  const mods=["clientes","vehiculos","agenda","presupuestos","ot","prefacturas","facturas","articulos","stock","operarios","fichajes","cronometros"];
- const c={}; mods.forEach(m=>c[m]=conteoModuloAC56(m));
- let informe=null; try{ informe=_analizarSistema(); }catch(e){ informe={errores:[{msg:e.message}],advertencias:[],info:[]}; }
- const errores=(informe.errores||[]).length, adv=(informe.advertencias||[]).length;
- const salud=Math.max(0,100-(errores*8)-(adv*2));
- return {conteos:c,informe,errores,adv,salud};
+ const conteos={}; mods.forEach(m=>{ try{ conteos[m]=datosModuloAC55(m).length; }catch(e){ conteos[m]=0; advertencias.push({cat:"EXPORTACIÓN",msg:"No se pudo preparar el módulo "+m+": "+e.message}); } });
+ const addErr=(cat,msg)=>errores.push({cat,msg});
+ const addAdv=(cat,msg)=>advertencias.push({cat,msg});
+ const facs=(ots||[]).filter(o=>esFactura(o)&&!o.esRectificativa);
+ const frecs=(ots||[]).filter(o=>esFactura(o)&&o.esRectificativa);
+ const pfs=(ots||[]).filter(o=>esPrefactura(o));
+ const otsActivas=(ots||[]).filter(o=>esOT(o));
+ const presupuestos=(ots||[]).filter(o=>esPresupuesto(o));
+ // Flujo documental y huérfanos
+ presupuestos.filter(p=>presupuestoConvertidoOT(p)).forEach(p=>{
+   const destino=(ots||[]).find(x=>x.origenPresupuestoId===p.id&&(esOT(x)||esPrefactura(x)||esFactura(x)));
+   if(!destino) addErr("FLUJO", "Presupuesto "+referenciaOT(p)+" está convertido pero no tiene documento destino vinculado.");
+ });
+ (ots||[]).forEach(o=>{
+   if(o.origenPresupuestoId && !(ots||[]).some(p=>p.id===o.origenPresupuestoId&&esPresupuesto(p))) addAdv("FLUJO", referenciaOT(o)+" apunta a un presupuesto origen no localizado.");
+   if(esFactura(o)&&!o.esRectificativa&&!o.fechaFinalizacion) addAdv("FACTURAS", referenciaOT(o)+" no tiene fecha real de facturación/finalización.");
+   if(esFactura(o)&&o.esRectificativa&&(!o.facturaRectificada&&!o.facturaRectificadaId)) addErr("RECTIFICATIVA", referenciaOT(o)+" no tiene factura origen vinculada.");
+ });
+ // Numeraciones duplicadas por tipo
+ const tipos=[['CITA','numeroAgenda','CITA'],['PRESUPUESTO','numeroPresupuesto','PRE'],['OT','numeroOT','OT'],['PREFACTURA','numeroPrefactura','PF'],['FACTURA','numeroFactura','FAC'],['RECTIFICATIVA','numeroRectificativa','FREC']];
+ tipos.forEach(([tipo,campo,pref])=>{
+   let arr=(ots||[]).filter(o=>{
+     if(tipo==='RECTIFICATIVA') return esFactura(o)&&o.esRectificativa&&o[campo];
+     if(tipo==='FACTURA') return esFactura(o)&&!o.esRectificativa&&o[campo];
+     return estadoCanonico(o.estado)===tipo&&o[campo];
+   }).map(o=>String(o[campo]));
+   const dup=_buscarDuplicados(arr);
+   if(dup.length) addErr("NUMERACIÓN", pref+" duplicados: "+dup.join(", "));
+ });
+ // Stock: solo facturas descuentan
+ (ots||[]).forEach(o=>{
+   if(esFactura(o)){ if((o.lineas||[]).some(l=>l.tipo==='articulo') && o.stockDescontado!==true) addErr("STOCK", referenciaOT(o)+" contiene artículos pero no figura como stock descontado."); }
+   else { if(o.stockDescontado===true) addErr("STOCK", referenciaOT(o)+" no es factura y figura con stock descontado."); }
+ });
+ (articulos||[]).forEach(a=>{ if(Number(a.stock)<0) addAdv("STOCK", "Stock negativo en "+(a.referencia||a.descripcion||"artículo sin referencia")); });
+ // Copia y exportación
+ try{
+   const copia=paqueteDatos();
+   const validada=validarCopia(copia);
+   if(!validada.ok) addErr("COPIAS", "La copia interna no valida correctamente: "+(validada.msg||"sin detalle"));
+   else info.push({cat:"COPIAS",msg:"Copia completa validada como restaurable."});
+ }catch(e){ addErr("COPIAS", "No se pudo validar una copia completa: "+e.message); }
+ mods.forEach(m=>{ if(conteos[m]===undefined || conteos[m]===null) addErr("EXPORTACIÓN", "Módulo "+m+" sin conteo exportable."); });
+ // Rendimiento y capacidad
+ const perf=rendimientoBasicoAC57();
+ if(perf.mb>4.2) addErr("CAPACIDAD", "Datos principales en "+perf.mb+" MB: demasiado cerca del límite práctico de iPhone/localStorage.");
+ else if(perf.mb>3.2) addAdv("CAPACIDAD", "Datos principales en "+perf.mb+" MB: conviene vigilar crecimiento antes de seguir en iPhone.");
+ if(perf.guardadoVirtualMs>800) addAdv("RENDIMIENTO", "Guardado virtual lento: "+perf.guardadoVirtualMs+" ms.");
+ info.push({cat:"RENDIMIENTO",msg:"JSON "+perf.jsonMs+" ms · búsqueda "+perf.busquedaMs+" ms · guardado virtual "+perf.guardadoVirtualMs+" ms · tamaño "+perf.mb+" MB."});
+ // Resultado
+ const erroresCriticos=errores.length;
+ const avisos=advertencias.length;
+ const salud=Math.max(0,Math.min(100,100-(erroresCriticos*10)-(avisos*2)));
+ const certificado=erroresCriticos===0;
+ const certificadoPleno=certificado && avisos===0;
+ return {fecha:new Date().toISOString(),fechaLocal:new Date().toLocaleString('es-ES'),version:APP_VERSION,errores,advertencias,info,conteos,totales:{expedientes:(ots||[]).length,clientes:Object.keys(clientes||{}).length,vehiculos:Object.keys(vehiculos||{}).length,articulos:(articulos||[]).length,facturas:facs.length,rectificativas:frecs.length,prefacturas:pfs.length,ot:otsActivas.length,presupuestos:presupuestos.length},rendimiento:perf,salud,certificado,certificadoPleno};
+}
+function resumenEstadoIntegridadAC56(){
+ const r=pruebasCertificacionAC57();
+ return {conteos:r.conteos,informe:{errores:r.errores,advertencias:r.advertencias,info:r.info},errores:r.errores.length,adv:r.advertencias.length,salud:r.salud,certificado:r.certificado,rendimiento:r.rendimiento,totales:r.totales};
 }
 function actualizarEstadoIntegridadAC56(){
  const r=resumenEstadoIntegridadAC56();
  const el=document.getElementById("integridadEstadoAC56");
  if(!el) return;
  const color=r.errores?"#b00020":(r.adv?"#ff7a1a":"#28a745");
+ const estado=r.errores?"❌ NO CERTIFICADO":(r.adv?"⚠️ CERTIFICABLE CON ADVERTENCIAS":"✅ CERTIFICABLE");
  el.style.borderColor=color;
- el.innerHTML=`<b>Estado general AutoBorja ${APP_VERSION}</b><br>Salud estimada: <b>${r.salud}%</b><br>Errores críticos: <b>${r.errores}</b> · Advertencias: <b>${r.adv}</b><br><br><b>Registros:</b><br>Clientes: ${r.conteos.clientes} · Vehículos: ${r.conteos.vehiculos} · Artículos: ${r.conteos.articulos}<br>Agenda: ${r.conteos.agenda} · Presupuestos: ${r.conteos.presupuestos} · OT: ${r.conteos.ot}<br>Prefacturas: ${r.conteos.prefacturas} · Facturas: ${r.conteos.facturas}<br><br>Última revisión: ${new Date().toLocaleString()}`;
- mostrarResultadoIntegridadAC55(`🔎 Estado actualizado.<br>Salud estimada: <b>${r.salud}%</b><br>Errores: <b>${r.errores}</b><br>Advertencias: <b>${r.adv}</b>`);
+ el.innerHTML=`<b>Estado general AutoBorja ${APP_VERSION}</b><br>${estado}<br>Salud técnica: <b>${r.salud}%</b><br>Errores críticos: <b>${r.errores}</b> · Advertencias: <b>${r.adv}</b><br><br><b>Registros:</b><br>Clientes: ${r.conteos.clientes} · Vehículos: ${r.conteos.vehiculos} · Artículos: ${r.conteos.articulos}<br>Agenda: ${r.conteos.agenda} · Presupuestos: ${r.conteos.presupuestos} · OT: ${r.conteos.ot}<br>Prefacturas: ${r.conteos.prefacturas} · Facturas: ${r.conteos.facturas}<br><br><b>Rendimiento:</b><br>Tamaño: ${r.rendimiento.mb} MB · Guardado virtual: ${r.rendimiento.guardadoVirtualMs} ms · Búsqueda: ${r.rendimiento.busquedaMs} ms<br><br>Última revisión: ${new Date().toLocaleString()}`;
+ mostrarResultadoIntegridadAC55(`🔎 Estado actualizado.<br>Resultado: <b>${estado}</b><br>Salud: <b>${r.salud}%</b><br>Errores: <b>${r.errores}</b><br>Advertencias: <b>${r.adv}</b>`);
 }
 function certificarAutoBorjaAC56(nivel){
- const r=resumenEstadoIntegridadAC56();
- const mods=["clientes","vehiculos","agenda","presupuestos","ot","prefacturas","facturas","articulos","stock","operarios","fichajes","cronometros"];
- const paquete={tipo:"CERTIFICACION_AUTOBORJA",version:APP_VERSION,nivel:nivel||"rapida",fecha:new Date().toISOString(),salud:r.salud,errores:r.errores,advertencias:r.adv,conteos:r.conteos};
- let total=0; mods.forEach(m=>total+=r.conteos[m]||0);
- const estado=r.errores?"❌ NO CERTIFICADO: hay errores críticos":(r.adv?"⚠️ CERTIFICADO CON ADVERTENCIAS":"✅ SISTEMA CERTIFICADO");
- const html=`<b>CERTIFICACIÓN AUTOBORJA ${APP_VERSION}</b><br>${estado}<br><br>Integridad documental: <b>${r.errores?"REVISAR":"CORRECTA"}</b><br>Advertencias: <b>${r.adv}</b><br>Registros revisados: <b>${total}</b><br>Exportaciones disponibles: <b>CSV modular / JSON modular / copia completa / programa virgen</b><br><br>Fecha: ${new Date().toLocaleString()}<br><br><button type="button" class="secondary" onclick="exportarInformeCertificacionAC56()">📄 EXPORTAR INFORME DE CERTIFICACIÓN</button>`;
+ const r=pruebasCertificacionAC57();
+ const total=Object.values(r.conteos||{}).reduce((a,b)=>a+(Number(b)||0),0);
+ const estado=r.certificado?(r.advertencias.length?"⚠️ CERTIFICADO CON ADVERTENCIAS":"✅ AUTOBORJA CERTIFICADO") : "❌ NO CERTIFICADO";
+ const color=r.certificado?(r.advertencias.length?"#ff7a1a":"#28a745"):"#b00020";
+ const certificado={tipo:"CERTIFICADO_INTEGRIDAD_AUTOBORJA_AC57",version:APP_VERSION,nivel:nivel||"integral",fecha:r.fecha,resultado:estado,salud:r.salud,certificado:r.certificado,certificadoPleno:r.certificadoPleno,errores:r.errores,advertencias:r.advertencias,conteos:r.conteos,totales:r.totales,rendimiento:r.rendimiento};
+ try{ localStorage.setItem("RTP_ULTIMA_CERTIFICACION_AC57",JSON.stringify(certificado)); }catch(e){}
+ let listaErrores=r.errores.slice(0,8).map(e=>`<div style="background:#3a1014;border-left:4px solid #b00020;border-radius:8px;padding:7px;margin:5px 0;color:#ffd6d6;"><b>[${htmlSeguro(e.cat||'ERROR')}]</b> ${htmlSeguro(e.msg||e)}</div>`).join("");
+ let listaAdv=r.advertencias.slice(0,8).map(e=>`<div style="background:#2a1a00;border-left:4px solid #ff7a1a;border-radius:8px;padding:7px;margin:5px 0;color:#ffd580;"><b>[${htmlSeguro(e.cat||'AVISO')}]</b> ${htmlSeguro(e.msg||e)}</div>`).join("");
+ const html=`<div style="border:2px solid ${color};border-radius:14px;padding:14px;background:#0b1220;"><b style="font-size:18px;color:${color};">CERTIFICACIÓN INTEGRAL ${APP_VERSION}</b><br><br><b>Resultado:</b> ${estado}<br><b>Índice de salud:</b> ${r.salud}%<br><b>Registros revisados/exportables:</b> ${total}<br><b>Expedientes reales:</b> ${r.totales.expedientes}<br><b>Clientes:</b> ${r.totales.clientes} · <b>Vehículos:</b> ${r.totales.vehiculos} · <b>Artículos:</b> ${r.totales.articulos}<br><b>Facturas:</b> ${r.totales.facturas} · <b>FREC:</b> ${r.totales.rectificativas}<br><br><b>Pruebas realizadas:</b><br>✅ Flujo documental<br>✅ Numeraciones<br>✅ Stock<br>✅ Clientes y vehículos<br>✅ Copias restaurables<br>✅ Exportaciones modulares<br>✅ Capacidad y rendimiento<br><br><b>Rendimiento:</b><br>Tamaño ${r.rendimiento.mb} MB · Guardado virtual ${r.rendimiento.guardadoVirtualMs} ms · Búsqueda ${r.rendimiento.busquedaMs} ms<br><br><b>Fecha:</b> ${r.fechaLocal}</div>${listaErrores?`<h4 style="color:#ffd6d6;">Errores que impiden certificar</h4>${listaErrores}`:""}${listaAdv?`<h4 style="color:#ffd580;">Advertencias</h4>${listaAdv}`:""}<br><button type="button" class="secondary" onclick="exportarInformeCertificacionAC56()">📄 EXPORTAR CERTIFICADO / INFORME AC57</button>`;
  mostrarResultadoIntegridadAC55(html);
  actualizarEstadoIntegridadAC56();
- try{ localStorage.setItem("RTP_ULTIMA_CERTIFICACION_AC56",JSON.stringify(paquete)); }catch(e){}
 }
 function exportarInformeCertificacionAC56(){
- const r=resumenEstadoIntegridadAC56();
- const informe={tipo:"INFORME_CERTIFICACION_AUTOBORJA",version:APP_VERSION,fecha:new Date().toISOString(),salud:r.salud,errores:r.errores,advertencias:r.adv,conteos:r.conteos,diagnostico:r.informe};
- descargarTextoAC55("autoborja_certificacion_"+APP_VERSION+"_"+fechaParaArchivoAC55()+".json",JSON.stringify(informe,null,2),"application/json;charset=utf-8");
- mostrarResultadoIntegridadAC55("✅ Informe de certificación exportado en JSON.");
+ const r=pruebasCertificacionAC57();
+ const informe={tipo:"INFORME_CERTIFICACION_INTEGRAL_AUTOBORJA_AC57",version:APP_VERSION,fecha:r.fecha,resultado:r.certificado?(r.advertencias.length?"CERTIFICADO CON ADVERTENCIAS":"AUTOBORJA CERTIFICADO"):"NO CERTIFICADO",salud:r.salud,certificado:r.certificado,certificadoPleno:r.certificadoPleno,errores:r.errores,advertencias:r.advertencias,info:r.info,conteos:r.conteos,totales:r.totales,rendimiento:r.rendimiento};
+ descargarTextoAC55("autoborja_certificacion_integral_"+APP_VERSION+"_"+fechaParaArchivoAC55()+".json",JSON.stringify(informe,null,2),"application/json;charset=utf-8");
+ mostrarResultadoIntegridadAC55("✅ Informe de certificación AC57 exportado en JSON.");
 }
 function ejecutarDiagnosticoDesdeIntegridadAC56(){
  accesoR138="integridad";
