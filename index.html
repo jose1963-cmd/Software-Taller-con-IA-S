@@ -791,7 +791,7 @@ function exportarInformeDiagnostico(){
   URL.revokeObjectURL(url);
 }
 
-</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">AC57</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('mas')" style="font-size:22px;letter-spacing:2px;">⋯</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button><button class="icon-btn-r202 naranja" onclick="solicitarAccesoIntegridadAC56()" type="button"><span class="ico-r202">🛡️</span><span class="txt-r202"><b>CENTRO DE INTEGRIDAD</b><span>Certificación, simulador, copias y auditoría</span></span></button></div></div><div id="integridadPrograma" class="card hidden herramientas-r138"><button class="volver-r138" onclick="showTab('inicio')" type="button">⬅️ VOLVER A PORTADA</button><h2>🛡️ CENTRO DE INTEGRIDAD AC57</h2><div class="aviso-modal">Centro independiente de certificación. No modifica el flujo normal del taller: analiza, simula, exporta, verifica copias y protege el programa.</div><div id="integridadEstadoAC57" style="background:#0b1220;border:2px solid #28a745;border-radius:16px;padding:14px;margin-bottom:14px;line-height:1.45;"><b>Estado del sistema:</b><br>Abre el centro y pulsa <b>Actualizar estado</b> o <b>Certificar AutoBorja</b>.</div><div class="grupo-r138"><button class="green" onclick="certificarAutoBorjaAC56('rapida')" type="button">✅ CERTIFICAR INTEGRIDAD AC57</button><button class="secondary" onclick="actualizarEstadoIntegridadAC56()" type="button">🔎 ACTUALIZAR ESTADO</button><button class="secondary" onclick="simularCargaFuncionalTotal()" type="button" style="background:#7b2fff;color:white;">🧪 SIMULADOR / AUDITOR DE ESTRÉS</button><button class="secondary" onclick="ejecutarDiagnosticoDesdeIntegridadAC56()" type="button">🔧 DIAGNÓSTICO PROFUNDO</button></div><h3 style="color:#ff7a1a;">1) Seguridad del Centro</h3><div class="grupo-r138"><button class="secondary" onclick="editarCodigoIntegridadAC56()" type="button">🔐 CAMBIAR CÓDIGO DE INTEGRIDAD</button></div><h3 style="color:#ff7a1a;">2) Copias y protección</h3><div class="grupo-r138"><button class="secondary" onclick="exportarProgramaVirgenAC55()" type="button">📦 EXPORTAR PROGRAMA VIRGEN</button><button class="secondary" onclick="exportarPaqueteModularAC55()" type="button">🧰 EXPORTAR PAQUETE MODULAR JSON</button><button class="secondary" onclick="exportarCopia()" type="button">💾 EXPORTAR COPIA COMPLETA</button></div><h3 style="color:#ff7a1a;">3) Exportación individual Excel/CSV</h3><label>Módulo</label><select id="integridadModuloAC55"><option value="clientes">Clientes</option><option value="vehiculos">Vehículos</option><option value="agenda">Agenda</option><option value="presupuestos">Presupuestos</option><option value="ot">Órdenes de trabajo</option><option value="prefacturas">Prefacturas</option><option value="facturas">Facturas</option><option value="articulos">Artículos</option><option value="stock">Stock / almacén</option><option value="operarios">Operarios</option><option value="fichajes">Control horario</option><option value="cronometros">Cronómetros</option></select><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Nº desde</label><input id="integridadNumDesdeAC55" type="number" placeholder="Opcional"></div><div><label>Nº hasta</label><input id="integridadNumHastaAC55" type="number" placeholder="Opcional"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Fecha desde</label><input id="integridadFechaDesdeAC55" type="date"></div><div><label>Fecha hasta</label><input id="integridadFechaHastaAC55" type="date"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;"><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('mes')" style="margin:0;flex:1;">ESTE MES</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('ano')" style="margin:0;flex:1;">ESTE AÑO</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('todo')" style="margin:0;flex:1;">TODO</button></div><button type="button" class="green" onclick="exportarModuloExcelAC55()">📄 EXPORTAR MÓDULO CSV/EXCEL</button><h3 style="color:#ff7a1a;">4) Copias regulares</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Frecuencia</label><select id="integridadFrecuenciaAC55"><option value="manual">Manual</option><option value="diaria">Diaria</option><option value="semanal">Semanal</option></select></div><div><label>Hora</label><input id="integridadHoraAC55" type="time" value="20:00"></div></div><button type="button" class="secondary" onclick="guardarPlanCopiasAC55()">💾 GUARDAR PLAN DE COPIAS</button><h3 style="color:#ff7a1a;">5) Informe</h3><div id="integridadResultadoAC55" style="background:#0b1220;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin-top:12px;color:#e8edf7;font-size:14px;line-height:1.45;">Sin certificaciones todavía.</div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">v-12</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('prefactura')">PREFACTURA</button><button onclick="showTab('historial')">FACTURA</button><button onclick="showTab('mas')">+INFO</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button><button class="icon-btn-r202 naranja" onclick="solicitarAccesoIntegridadAC56()" type="button"><span class="ico-r202">🛡️</span><span class="txt-r202"><b>CENTRO DE INTEGRIDAD</b><span>Certificación, simulador, copias y auditoría</span></span></button></div></div><div id="integridadPrograma" class="card hidden herramientas-r138"><button class="volver-r138" onclick="showTab('inicio')" type="button">⬅️ VOLVER A PORTADA</button><h2>🛡️ CENTRO DE INTEGRIDAD AC57</h2><div class="aviso-modal">Centro independiente de certificación. No modifica el flujo normal del taller: analiza, simula, exporta, verifica copias y protege el programa.</div><div id="integridadEstadoAC57" style="background:#0b1220;border:2px solid #28a745;border-radius:16px;padding:14px;margin-bottom:14px;line-height:1.45;"><b>Estado del sistema:</b><br>Abre el centro y pulsa <b>Actualizar estado</b> o <b>Certificar AutoBorja</b>.</div><div class="grupo-r138"><button class="green" onclick="certificarAutoBorjaAC56('rapida')" type="button">✅ CERTIFICAR INTEGRIDAD AC57</button><button class="secondary" onclick="actualizarEstadoIntegridadAC56()" type="button">🔎 ACTUALIZAR ESTADO</button><button class="secondary" onclick="simularCargaFuncionalTotal()" type="button" style="background:#7b2fff;color:white;">🧪 SIMULADOR / AUDITOR DE ESTRÉS</button><button class="secondary" onclick="ejecutarDiagnosticoDesdeIntegridadAC56()" type="button">🔧 DIAGNÓSTICO PROFUNDO</button></div><h3 style="color:#ff7a1a;">1) Seguridad del Centro</h3><div class="grupo-r138"><button class="secondary" onclick="editarCodigoIntegridadAC56()" type="button">🔐 CAMBIAR CÓDIGO DE INTEGRIDAD</button></div><h3 style="color:#ff7a1a;">2) Copias y protección</h3><div class="grupo-r138"><button class="secondary" onclick="exportarProgramaVirgenAC55()" type="button">📦 EXPORTAR PROGRAMA VIRGEN</button><button class="secondary" onclick="exportarPaqueteModularAC55()" type="button">🧰 EXPORTAR PAQUETE MODULAR JSON</button><button class="secondary" onclick="exportarCopia()" type="button">💾 EXPORTAR COPIA COMPLETA</button></div><h3 style="color:#ff7a1a;">3) Exportación individual Excel/CSV</h3><label>Módulo</label><select id="integridadModuloAC55"><option value="clientes">Clientes</option><option value="vehiculos">Vehículos</option><option value="agenda">Agenda</option><option value="presupuestos">Presupuestos</option><option value="ot">Órdenes de trabajo</option><option value="prefacturas">Prefacturas</option><option value="facturas">Facturas</option><option value="articulos">Artículos</option><option value="stock">Stock / almacén</option><option value="operarios">Operarios</option><option value="fichajes">Control horario</option><option value="cronometros">Cronómetros</option></select><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Nº desde</label><input id="integridadNumDesdeAC55" type="number" placeholder="Opcional"></div><div><label>Nº hasta</label><input id="integridadNumHastaAC55" type="number" placeholder="Opcional"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Fecha desde</label><input id="integridadFechaDesdeAC55" type="date"></div><div><label>Fecha hasta</label><input id="integridadFechaHastaAC55" type="date"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;"><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('mes')" style="margin:0;flex:1;">ESTE MES</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('ano')" style="margin:0;flex:1;">ESTE AÑO</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('todo')" style="margin:0;flex:1;">TODO</button></div><button type="button" class="green" onclick="exportarModuloExcelAC55()">📄 EXPORTAR MÓDULO CSV/EXCEL</button><h3 style="color:#ff7a1a;">4) Copias regulares</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Frecuencia</label><select id="integridadFrecuenciaAC55"><option value="manual">Manual</option><option value="diaria">Diaria</option><option value="semanal">Semanal</option></select></div><div><label>Hora</label><input id="integridadHoraAC55" type="time" value="20:00"></div></div><button type="button" class="secondary" onclick="guardarPlanCopiasAC55()">💾 GUARDAR PLAN DE COPIAS</button><h3 style="color:#ff7a1a;">5) Informe</h3><div id="integridadResultadoAC55" style="background:#0b1220;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin-top:12px;color:#e8edf7;font-size:14px;line-height:1.45;">Sin certificaciones todavía.</div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -995,8 +995,8 @@ function normalizarMatriculaYAutocompletar(input){
   const drop=document.getElementById("matriculaResultados");
   if(!drop) return;
   if(!texto){ drop.classList.remove("visible"); drop.innerHTML=""; return; }
-  // Buscar matrículas únicas que contengan el texto
-  const mats=Object.keys(vehiculos).filter(m=>m.includes(texto)).slice(0,10);
+  // Buscar matriculas unicas que contengan el texto y priorizar las que empiezan por el.
+  const mats=ordenarPorBusquedaAC66(Object.keys(vehiculos),texto,m=>m).slice(0,8);
   // Añadir matrículas de OTs que no estén en vehiculos
   ots.forEach(o=>{
     if(o.matricula && o.matricula.includes(texto) && !mats.includes(o.matricula) && mats.length<10)
@@ -1031,11 +1031,11 @@ function normalizarClienteYAutocompletar(input){
   const drop=document.getElementById("clienteResultados");
   if(!drop) return;
   if(!texto){ drop.classList.remove("visible"); drop.innerHTML=""; return; }
-  // Clientes únicos de fichas y OTs que comiencen por el texto
+  // Clientes unicos de fichas y OTs que contengan el texto, con prioridad alfabetica.
   const set=new Set();
-  Object.keys(clientes).forEach(k=>{ if(k.toUpperCase().startsWith(texto)) set.add(k.toUpperCase()); });
-  ots.forEach(o=>{ if(o.cliente && o.cliente.toUpperCase().startsWith(texto)) set.add(o.cliente.toUpperCase()); });
-  const lista=[...set].sort().slice(0,10);
+  Object.keys(clientes).forEach(k=>{ if(normalizarBusquedaAC66(k).includes(normalizarBusquedaAC66(texto))) set.add(k.toUpperCase()); });
+  ots.forEach(o=>{ if(o.cliente && normalizarBusquedaAC66(o.cliente).includes(normalizarBusquedaAC66(texto))) set.add(o.cliente.toUpperCase()); });
+  const lista=ordenarPorBusquedaAC66([...set],texto,x=>x).slice(0,8);
   if(!lista.length){ drop.classList.remove("visible"); drop.innerHTML=""; return; }
   drop.innerHTML=lista.map(cli=>{
     const ficha=buscarFichaCliente(cli)||{};
@@ -1085,8 +1085,8 @@ function fechaActualPantalla(){
 const d=new Date();
 const dia=String(d.getDate()).padStart(2,"0");
 const mes=String(d.getMonth()+1).padStart(2,"0");
-const año=d.getFullYear();
-return dia+"/"+mes+"/"+año;
+const anio=d.getFullYear();
+return dia+"/"+mes+"/"+anio;
 }
 function actualizarBotonFechaGestion(){
 const h=document.getElementById("tituloFormulario");
@@ -1244,16 +1244,20 @@ if(!hist.classList.contains("hidden")){
 setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 }
 }
-const APP_VERSION="AC57";
+const APP_VERSION="v-12";
 const COPIA_VERSION=4;
-const APP_FECHA="27/06/2026";
-const APP_NOTAS="AC57: Certificación integral de integridad comprobada. El Centro de Integridad emite certificado técnico solo si no hay errores críticos; incluye salud global, módulos, numeraciones, stock, copias, exportación y rendimiento." ;
+const APP_FECHA="29/06/2026";
+const APP_NOTAS="v-12: Compras distingue pendiente/recibido, factura proveedor agrupa albaranes y Rentabilidad muestra compras pendientes de factura." ;
 const STORAGE="RECEPCION_TALLER_PRO";
 let ots=[];
 let contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
 let clientes={};
 let vehiculos={};
 let articulos=[];
+let proveedores=[];
+let familiasMaestras=[];
+let albaranesCompra=[];
+let facturasProveedor=[];
 let filtroAlmacenEspecial="";
 let fotosExpedientes={};
 let operarios=[];
@@ -1336,6 +1340,10 @@ if(contadores.articuloInterno===undefined) contadores.articuloInterno=0;
 clientes=guardado.clientes || {};
 vehiculos=guardado.vehiculos || {};
 articulos=Array.isArray(guardado.articulos) ? guardado.articulos : [];
+proveedores=Array.isArray(guardado.proveedores) ? guardado.proveedores : [];
+familiasMaestras=Array.isArray(guardado.familiasMaestras) ? guardado.familiasMaestras.map(f=>familiaClaveAC52(f)).filter(Boolean) : [];
+albaranesCompra=Array.isArray(guardado.albaranesCompra) ? guardado.albaranesCompra : [];
+facturasProveedor=Array.isArray(guardado.facturasProveedor) ? guardado.facturasProveedor : [];
 operarios=Array.isArray(guardado.operarios) ? guardado.operarios : [];
 // Migración: si hay fotos en el bundle principal, migrarlas a clave externa
 if(guardado.fotosExpedientes && typeof guardado.fotosExpedientes==="object"){
@@ -1345,7 +1353,7 @@ guardarFotosExternas();
 }
 }catch(e){
 ots=[]; contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:0};
-clientes={}; vehiculos={}; articulos=[]; operarios=[];
+clientes={}; vehiculos={}; articulos=[]; proveedores=[]; albaranesCompra=[]; facturasProveedor=[]; operarios=[];
 }
 cargarFotosExternas();
 function formatearFecha(fecha){
@@ -1353,10 +1361,10 @@ if(!fecha) return "SIN CITA";
 const d=new Date(fecha);
 const dia=String(d.getDate()).padStart(2,"0");
 const mes=String(d.getMonth()+1).padStart(2,"0");
-const año=d.getFullYear();
+const anio=d.getFullYear();
 const hora=d.getHours();
 const min=String(d.getMinutes()).padStart(2,"0");
-return `${dia}/${mes}/${año} - ${hora}:${min}h`;
+return `${dia}/${mes}/${anio} - ${hora}:${min}h`;
 }
 function ahoraLocalInput(){
 const d=new Date();
@@ -1393,6 +1401,10 @@ contadores:contadores,
 clientes:clientes,
 vehiculos:vehiculos,
 articulos:articulos,
+proveedores:proveedores,
+familiasMaestras:Array.from(new Set((familiasMaestras||[]).map(f=>familiaClaveAC52(f)).filter(Boolean))).sort((a,b)=>a.localeCompare(b,"es")),
+albaranesCompra:albaranesCompra,
+facturasProveedor:facturasProveedor,
 operarios:operarios
 };
 }
@@ -1428,16 +1440,27 @@ if(datos.contadores!==undefined && typeof datos.contadores!=="object") return {o
 if(datos.clientes!==undefined && (typeof datos.clientes!=="object" || Array.isArray(datos.clientes))) return {ok:false,msg:"COPIA NO VÁLIDA: clientes dañado."};
 if(datos.vehiculos!==undefined && (typeof datos.vehiculos!=="object" || Array.isArray(datos.vehiculos))) return {ok:false,msg:"COPIA NO VÁLIDA: vehículos dañado."};
 if(datos.articulos!==undefined && !Array.isArray(datos.articulos)) return {ok:false,msg:"COPIA NO VÁLIDA: artículos dañado."};
+if(datos.familiasMaestras!==undefined && !Array.isArray(datos.familiasMaestras)) return {ok:false,msg:"COPIA NO VÁLIDA: familias dañadas."};
 if(datos.fotosExpedientes!==undefined && (typeof datos.fotosExpedientes!=="object" || Array.isArray(datos.fotosExpedientes))) return {ok:false,msg:"COPIA NO VÁLIDA: fotos dañadas."};
+if(datos.proveedores!==undefined && !Array.isArray(datos.proveedores)) return {ok:false,msg:"COPIA NO VÁLIDA: proveedores dañado."};
+if(datos.albaranesCompra!==undefined && !Array.isArray(datos.albaranesCompra)) return {ok:false,msg:"COPIA NO VÁLIDA: albaranes de compra dañado."};
+if(datos.facturasProveedor!==undefined && !Array.isArray(datos.facturasProveedor)) return {ok:false,msg:"COPIA NO VÁLIDA: facturas de proveedor dañadas."};
 if(datos.operarios!==undefined && !Array.isArray(datos.operarios)) return {ok:false,msg:"COPIA NO VÁLIDA: operarios dañados."};
 const clientes=datos.clientes||{};
 const vehiculos=datos.vehiculos||{};
 const articulos=datos.articulos||[];
+const familiasMaestras=(datos.familiasMaestras||[]).map(f=>familiaClaveAC52(f)).filter(Boolean);
+const proveedores=datos.proveedores||[];
+const albaranesCompra=datos.albaranesCompra||[];
+const facturasProveedor=datos.facturasProveedor||[];
 const fotosExpedientes=datos.fotosExpedientes||{};
 const operarios=datos.operarios||[];
 if(Object.keys(clientes).length>MAX_ITEMS.clientes) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados clientes."};
 if(Object.keys(vehiculos).length>MAX_ITEMS.vehiculos) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados vehículos."};
 if(articulos.length>MAX_ITEMS.articulos) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados artículos."};
+if(proveedores.length>20000) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados proveedores."};
+if(albaranesCompra.length>30000) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados albaranes de compra."};
+if(facturasProveedor.length>30000) return {ok:false,msg:"COPIA NO VÁLIDA: demasiadas facturas de proveedor."};
 if(operarios.length>MAX_ITEMS.operarios) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados operarios."};
 const otsValidas=datos.ots.every(o=>o && typeof o==="object" && !Array.isArray(o));
 if(!otsValidas) return {ok:false,msg:"COPIA NO VÁLIDA: hay OTs dañadas."};
@@ -1461,9 +1484,17 @@ if(f.data.length>MAX_FOTO_CHARS) return {ok:false,msg:"COPIA NO VÁLIDA: contien
 }
 const artsValidos=articulos.every(a=>a && typeof a==="object" && (a.descripcion||a.referencia));
 if(!artsValidos) return {ok:false,msg:"COPIA NO VÁLIDA: contiene artículos vacíos o dañados."};
+const famValidas=familiasMaestras.every(f=>typeof f==="string" && f.trim().length>0);
+if(!famValidas) return {ok:false,msg:"COPIA NO VÁLIDA: lista de familias dañada."};
+const provValidos=proveedores.every(p=>p && typeof p==="object" && (p.nombre||p.cif||p.codigo));
+if(!provValidos) return {ok:false,msg:"COPIA NO VÁLIDA: contiene proveedores vacíos o dañados."};
+const albValidos=albaranesCompra.every(a=>a && typeof a==="object" && Array.isArray(a.lineas||[]));
+if(!albValidos) return {ok:false,msg:"COPIA NO VÁLIDA: contiene albaranes de compra dañados."};
+const facProvValidas=facturasProveedor.every(f=>f && typeof f==="object" && Array.isArray(f.albaranes||[]));
+if(!facProvValidas) return {ok:false,msg:"COPIA NO VÁLIDA: contiene facturas de proveedor dañadas."};
 const opsValidos=operarios.every(op=>typeof op==="string" && op.trim().length>0);
 if(!opsValidos) return {ok:false,msg:"COPIA NO VÁLIDA: lista de operarios dañada."};
-return {ok:true,tipo:"v4",ots:sanitizarOtsCopia(datos.ots),contadores:normalizarContadores(datos.contadores),clientes:clientes,vehiculos:vehiculos,articulos:articulos,fotosExpedientes:fotosExpedientes,operarios:operarios};
+return {ok:true,tipo:"v4",ots:sanitizarOtsCopia(datos.ots),contadores:normalizarContadores(datos.contadores),clientes:clientes,vehiculos:vehiculos,articulos:articulos,familiasMaestras:Array.from(new Set(familiasMaestras)).sort((a,b)=>a.localeCompare(b,"es")),proveedores:proveedores,albaranesCompra:albaranesCompra,facturasProveedor:facturasProveedor,fotosExpedientes:fotosExpedientes,operarios:operarios};
 }
 function sanitizarOtsCopia(lista){
 return (lista||[]).map(o=>{
@@ -2137,7 +2168,7 @@ return;
 }
 }
 accesoR138="gestion";
-showTab("portadaGestion");
+showTab("agenda");
 }
 function inicialesOperarioR203(nombre){
 const partes=String(nombre||"").trim().normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().split(/\s+/).filter(Boolean);
@@ -2164,7 +2195,8 @@ function volverPortadaR138(){
 accesoR138="";
 showTab("inicio");
 }
-function showTab(id){ if(id==="integridadPrograma" && accesoR138!=="integridad"){ alert("ACCESO BLOQUEADO. ENTRA CON EL CÓDIGO DEL CENTRO DE INTEGRIDAD."); id="inicio"; }
+function showTab(id){ if(id==="agendaMovil") id="agenda";
+if(id==="integridadPrograma" && accesoR138!=="integridad"){ alert("ACCESO BLOQUEADO. ENTRA CON EL CÓDIGO DEL CENTRO DE INTEGRIDAD."); id="inicio"; }
 const pantallasGestion=["nueva","presupuesto","historial","agenda","taller","prefactura","estadisticas","ganancias","inventario","mas"];
 if(pantallasGestion.includes(id) && accesoR138!=="gestion"){
 alert("ACCESO BLOQUEADO. ENTRA DESDE AUTOBORJA.");
@@ -2175,7 +2207,7 @@ alert("ACCESO BLOQUEADO. ENTRA DESDE AUTOBORJA.");
 id="inicio";
 }
 if(id==="inicio"){ accesoR138=""; operarioSeleccionadoR139=null; }
-["inicio","portadaGestion","integridadPrograma","operarios","controlHorario","herramientas","seguridad","nueva","presupuesto","historial","agenda","taller","prefactura","almacen","estadisticas","ganancias","inventario","mas","diagnostico"].forEach(t=>{
+["inicio","portadaGestion","integridadPrograma","operarios","controlHorario","herramientas","seguridad","nueva","presupuesto","historial","agenda","agendaMovil","taller","prefactura","almacen","estadisticas","ganancias","inventario","mas","diagnostico"].forEach(t=>{
 const el=document.getElementById(t);
 if(el) el.classList.toggle("hidden", t!==id);
 });
@@ -2183,7 +2215,7 @@ document.getElementById("tabs").style.display = (id==="inicio"||id==="portadaGes
 document.querySelectorAll("#tabs button").forEach(btn=>btn.classList.remove("activo"));
 const titulo=document.getElementById("tituloApp");
 const botones=document.querySelectorAll("#tabs button");
-if(id==="agenda"){ botones[0].classList.add("activo"); titulo.style.background="#2196f3"; titulo.style.color="white"; }
+if(id==="agenda"||id==="agendaMovil"){ botones[0].classList.add("activo"); titulo.style.background="#2196f3"; titulo.style.color="white"; }
 else if(id==="presupuesto"){ botones[1].classList.add("activo"); titulo.style.background="#00a6a6"; titulo.style.color="white"; }
 else if(id==="taller"){ botones[2].classList.add("activo"); titulo.style.background="#ff7a1a"; titulo.style.color="#0f1728"; }
 else if(id==="nueva"){
@@ -2421,8 +2453,8 @@ if(fmt(d)===fmt(hoy)) return "HOY";
 if(fmt(d)===fmt(ayer)) return "AYER";
 const dia=String(d.getDate()).padStart(2,"0");
 const mes=String(d.getMonth()+1).padStart(2,"0");
-const año=d.getFullYear();
-return `${dia}/${mes}/${año}`;
+const anio=d.getFullYear();
+return `${dia}/${mes}/${anio}`;
 }
 function fechaAgendaCorta(fecha){
 if(!fecha) return "SIN FECHA";
@@ -2434,22 +2466,25 @@ const mi=String(d.getMinutes()).padStart(2,"0");
 return `${dia}/${mes} ${hh}:${mi}`;
 }
 function claseAgendaPorProximidad(fecha){
-if(!fecha) return "agenda-tarde";
+if(!fecha) return "agenda-sin-fecha";
 const ahora=new Date();
 const cita=new Date(fecha);
-if(isNaN(cita.getTime())) return "agenda-tarde";
+if(isNaN(cita.getTime())) return "agenda-sin-fecha";
+const hoyInicio=new Date(ahora.getFullYear(),ahora.getMonth(),ahora.getDate());
+if(cita<hoyInicio) return "agenda-vencida";
 const horas=(cita.getTime()-ahora.getTime())/3600000;
-if(horas<=24) return "agenda-24";
+const dias=(cita.getTime()-hoyInicio.getTime())/86400000;
 if(horas<=48) return "agenda-48";
-if(horas<=72) return "agenda-72";
-return "agenda-tarde";
+if(dias>=3 && dias<=7) return "agenda-3-7";
+return "agenda-futura";
 }
 function textoProximidadAgenda(fecha){
 const c=claseAgendaPorProximidad(fecha);
-if(c==="agenda-24") return "🔴 24h";
-if(c==="agenda-48") return "🟠 48h";
-if(c==="agenda-72") return "🟢 72h";
-return "";
+if(c==="agenda-sin-fecha") return "🕘 SIN FECHA";
+if(c==="agenda-vencida") return "🔴 VENCIDA";
+if(c==="agenda-48") return "🟠 48H";
+if(c==="agenda-3-7") return "🟢 3-7 DÍAS";
+return "🔵 FUTURA";
 }
 function resumenTrabajo(texto){
 texto=textoPlanoR39(texto||"SIN TRABAJO").trim();
@@ -2481,6 +2516,7 @@ ${(()=>{const f=buscarFichaCliente(ot.cliente);const t=construirTelefonoDoble(f)
 🎯 ${htmlSeguro(resumenTrabajo(motivoCitaOT(ot)||ot.trabajos))}
 <button type="button" class="secondary" onclick="editarOT(${ot.id})" style="margin:10px auto 0!important;width:78%!important;display:block!important;border-radius:13px!important;font-size:16px!important;padding:12px!important;background:#344d7a!important;color:white!important;">✏️ EDITAR / CAMBIAR FECHA</button>
 <button type="button" class="btn-presupuesto-rapido" onclick="convertirCitaAPresupuesto(${ot.id})">PRESUPUESTO ➜</button>
+<button type="button" class="danger" onclick="eliminarCitaAgenda(${ot.id})" style="margin:10px auto 0!important;width:78%!important;display:block!important;border-radius:13px!important;font-size:15px!important;padding:11px!important;">ELIMINAR CITA</button>
 </div>` : "";
 return `<div class="agenda-mini ${claseAgenda}">
 <div class="fecha">${htmlSeguro(fechaAgendaCorta(ot.fecha))}${avisoAgenda ? " · "+avisoAgenda : ""}</div>
@@ -2489,6 +2525,18 @@ return `<div class="agenda-mini ${claseAgenda}">
 <button type="button" class="agenda-edit" onclick="toggleAgendaRapida(${ot.id})">✏️</button>
 ${detalle}
 </div>`;
+}
+function eliminarCitaAgenda(id){
+const ot=ots.find(x=>x.id===id);
+if(!ot || !esCita(ot)) return;
+const ref=referenciaOT(ot);
+const texto=(ot.matricula||"SIN MATRICULA")+" — "+(ot.cliente||"SIN CLIENTE");
+if(!confirm("¿ELIMINAR CITA "+ref+"?\n"+texto+"\n\nEsta accion no se puede deshacer.")) return;
+ots=ots.filter(x=>x.id!==id);
+agendaExpandidaId=null;
+guardar();
+renderAgenda();
+alert("CITA ELIMINADA: "+ref);
 }
 function convertirCitaAPresupuesto(id){
 const ot=ots.find(x=>x.id===id);
@@ -2695,6 +2743,7 @@ renderTaller();
 alert("OT ANULADA Y CONSERVADA EN EL HISTÓRICO INTERNO.");
 }
 function renderAgenda(){
+asegurarFusionAgendaAC85();
 const agenda=document.getElementById("agendaLista");
 const citas=ots.filter(ot=>esCita(ot));
 const hoy=new Date(); const hoyInicio=new Date(hoy.getFullYear(),hoy.getMonth(),hoy.getDate());
@@ -2704,26 +2753,228 @@ const vencidas=citas.filter(ot=>{
  const f=new Date(ot.fecha); if(isNaN(f.getTime())) return false;
  return f<hoyInicio;
 }).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
-const proximas=citas.filter(ot=>{
+const inminentes=citas.filter(ot=>{
  if(!ot.fecha) return false;
  const f=new Date(ot.fecha); if(isNaN(f.getTime())) return false;
- return f>=hoyInicio;
+ const horas=(f.getTime()-hoy.getTime())/3600000;
+ return f>=hoyInicio && horas<=48;
 }).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
-if(citas.length===0){ agenda.innerHTML="<p>No hay citas.</p>"; return; }
+const proximas37=citas.filter(ot=>{
+ if(!ot.fecha) return false;
+ const f=new Date(ot.fecha); if(isNaN(f.getTime())) return false;
+ const dias=(f.getTime()-hoyInicio.getTime())/86400000;
+ const horas=(f.getTime()-hoy.getTime())/3600000;
+ return horas>48 && dias>=3 && dias<=7;
+}).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
+const futuras=citas.filter(ot=>{
+ if(!ot.fecha) return false;
+ const f=new Date(ot.fecha); if(isNaN(f.getTime())) return false;
+ const dias=(f.getTime()-hoyInicio.getTime())/86400000;
+ const horas=(f.getTime()-hoy.getTime())/3600000;
+ return f>=hoyInicio && !(horas<=48) && !(dias>=3 && dias<=7);
+}).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
+if(citas.length===0){ agenda.innerHTML="<p>No hay citas activas en Agenda.</p>"; return; }
 let html="";
 if(sinFecha.length){
-  html += `<div style="margin:10px 0 6px;color:#ffd580;font-weight:bold;font-size:18px;">🕘 Pendientes de programar (${sinFecha.length})</div>`;
+  html += `<div class="agenda-bloque-titulo agenda-titulo-sin-fecha">🕘 Citas sin fecha (${sinFecha.length})</div>`;
   html += sinFecha.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
 }
 if(vencidas.length){
-  html += `<div style="margin:14px 0 6px;color:#ff9a9a;font-weight:bold;font-size:18px;">⚠️ Citas vencidas (${vencidas.length})</div>`;
+  html += `<div class="agenda-bloque-titulo agenda-titulo-vencida">🔴 Citas vencidas (${vencidas.length})</div>`;
   html += vencidas.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
 }
-if(proximas.length){
-  html += `<div style="margin:14px 0 6px;color:#cfe3ff;font-weight:bold;font-size:18px;">📅 Próximas citas (${proximas.length})</div>`;
-  html += proximas.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
+if(inminentes.length){
+  html += `<div class="agenda-bloque-titulo agenda-titulo-48">🟠 Inminentes 48h (${inminentes.length})</div>`;
+  html += inminentes.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
+}
+if(proximas37.length){
+  html += `<div class="agenda-bloque-titulo agenda-titulo-37">🟢 Próximas 3-7 días (${proximas37.length})</div>`;
+  html += proximas37.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
+}
+if(futuras.length){
+  html += `<div class="agenda-bloque-titulo agenda-titulo-futura">🔵 Resto futuras (${futuras.length})</div>`;
+  html += futuras.map(ot=>crearTarjetaAgendaCompacta(ot)).join("");
 }
 agenda.innerHTML=html;
+}
+function claveCitaFusionAC85(ot){
+return [
+ String(ot.matricula||"").trim().toUpperCase(),
+ String(ot.fecha||"").slice(0,16),
+ String(ot.cliente||"").trim().toUpperCase(),
+ String(ot.motivoCita||ot.trabajos||"").trim().toUpperCase()
+].join("|");
+}
+function asegurarFusionAgendaAC85(){
+const agendaPanel=document.getElementById("agenda");
+if(!agendaPanel || document.getElementById("agendaFusionAC85")) return;
+const nueva=[...agendaPanel.querySelectorAll("button")].find(b=>(b.textContent||"").toUpperCase().includes("NUEVA CITA"));
+if(!nueva) return;
+const box=document.createElement("div");
+box.id="agendaFusionAC85";
+box.className="ac63-actions";
+box.style.cssText="margin:8px 0 12px;display:flex;gap:8px;flex-wrap:wrap;";
+box.innerHTML=`<button type="button" class="secondary" onclick="exportarAgendaFusionAC85()" style="margin:0;flex:1;">EXPORTAR CITAS</button><input type="file" id="agendaFusionFileAC85" accept=".json" style="display:none" onchange="importarAgendaFusionAC85(event)"><button type="button" class="secondary" onclick="document.getElementById('agendaFusionFileAC85').click()" style="margin:0;flex:1;">FUSIONAR CITAS</button>`;
+nueva.insertAdjacentElement("afterend",box);
+}
+function exportarAgendaFusionAC85(){
+const citas=(ots||[]).filter(esCita).map(o=>({...o}));
+const paquete={tipo:"AGENDA_AUTOBORJA_AC85",version:APP_VERSION,fecha:new Date().toISOString(),citas:citas};
+const blob=new Blob([JSON.stringify(paquete,null,2)],{type:"application/json;charset=utf-8"});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download="agenda_autoborja_fusion_"+new Date().toISOString().slice(0,16).replace(/[-:T]/g,"")+".json";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+}
+function importarAgendaFusionAC85(event){
+const file=event.target.files[0];
+if(!file) return;
+leerArchivoTexto(file,function(texto){
+ try{
+  const datos=JSON.parse(texto);
+  const origen=Array.isArray(datos) ? datos : (Array.isArray(datos.citas) ? datos.citas : (Array.isArray(datos.ots) ? datos.ots.filter(esCita) : []));
+  if(!origen.length){ mostrarModalAlerta("No se han encontrado citas para fusionar."); event.target.value=""; return; }
+  if(!confirm("Se añadiran solo citas nuevas. No se borrara ni sustituira la Agenda actual. ¿Continuar?")){ event.target.value=""; return; }
+  const existentes=new Set((ots||[]).filter(esCita).map(claveCitaFusionAC85));
+  let nuevas=0, duplicadas=0;
+  origen.filter(esCita).forEach(c=>{
+   const clave=claveCitaFusionAC85(c);
+   if(existentes.has(clave)){ duplicadas++; return; }
+   const nueva={...c};
+   nueva.id=generarIdUnico();
+   nueva.estado="CITA";
+   nueva.numeroAgenda=siguienteNumero("agenda");
+   nueva.origenFusionAgenda={fecha:new Date().toISOString(),idOriginal:c.id||null,numeroOriginal:c.numeroAgenda||null};
+   if(!Array.isArray(nueva.lineas)) nueva.lineas=[];
+   nueva.stockDescontado=false;
+   ots.push(nueva);
+   existentes.add(clave);
+   nuevas++;
+  });
+  guardar();
+  renderAgenda();
+  mostrarModalAlerta("Fusion de Agenda terminada. Nuevas: "+nuevas+" · duplicadas omitidas: "+duplicadas);
+ }catch(e){
+  mostrarModalAlerta("No se pudo fusionar Agenda: archivo JSON no valido.");
+ }
+ event.target.value="";
+});
+}
+function asegurarBotonAgendaMovilAC81(){
+const btn=document.getElementById("btnAgendaMovilAC81");
+if(btn) btn.remove();
+}
+let filtroAgendaMovilAC80="hoy";
+function asegurarAgendaMovilAC80(){
+if(document.getElementById("agendaMovil")) return;
+const st=document.createElement("style");
+st.textContent=`#agendaMovil{max-width:560px!important;border-color:#2196f3}.am80-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}.am80-head button{width:auto;margin:0;padding:9px 13px;background:#344d7a;color:white}.am80-head h2{margin:0;color:#fff;font-size:22px}.am80-form{background:#101827;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin-bottom:12px}.am80-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.am80-form input,.am80-form textarea{margin:4px 0 8px;border-radius:10px}.am80-form textarea{min-height:74px}.am80-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}.am80-actions button{margin:0;padding:13px 8px;border-radius:12px}.am80-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}.am80-tabs button{margin:0;padding:10px 5px;background:#1c2940;color:#e8edf7;border:1px solid #3b4a63}.am80-tabs button.activo{background:#2196f3;color:white;border-color:#2196f3}.am80-card{background:#101827;border-left:5px solid #2196f3;border-radius:12px;padding:12px;margin:8px 0}.am80-card.vencida{border-left-color:#ff4444;background:#3a1014}.am80-card.manana{border-left-color:#ffb000;background:#33240a}.am80-card .hora{font-weight:bold;color:#cfe3ff;font-size:15px}.am80-card .mat{font-weight:bold;color:#fff;font-size:23px;letter-spacing:.5px;margin-top:2px}.am80-card .cli{color:#e8edf7;font-size:16px;line-height:1.25}.am80-card .mot{color:#aab4c8;font-size:14px;margin-top:6px;line-height:1.35}.am80-card button{margin:10px 0 0;padding:11px}.am80-mini{color:#aab4c8;font-size:12px;line-height:1.35;margin:-4px 0 10px}.am80-alert{background:#2a1a00;border-left:4px solid #ff7a1a;border-radius:10px;padding:9px;color:#ffd580;font-size:13px;line-height:1.35;margin-bottom:10px}@media(max-width:420px){#agendaMovil{padding:14px!important}.am80-grid{grid-template-columns:1fr}.am80-head h2{font-size:20px}}`;
+document.head.appendChild(st);
+const panel=document.createElement("div");
+panel.id="agendaMovil";
+panel.className="card hidden";
+panel.innerHTML=`<div class="am80-head"><button type="button" onclick="showTab('agenda')">AGENDA</button><h2>Agenda móvil</h2></div><div class="am80-mini">Vista de prueba para el móvil. Guarda en este navegador, igual que el resto del programa.</div><div class="am80-form"><div class="am80-alert">Para pruebas: si abres el archivo en el móvil, esos datos quedan en el móvil hasta que exportes/importes copia.</div><div class="am80-grid"><div><label>Fecha</label><input id="am80Fecha" type="date"></div><div><label>Hora</label><input id="am80Hora" type="time"></div></div><label>Matrícula</label><input id="am80Matricula" placeholder="0000ABC" autocapitalize="characters" oninput="autocompletarMatriculaAgendaMovilAC82(this)" onblur="autocompletarMatriculaAgendaMovilAC82(this)"><div id="am80InfoMatricula" class="am80-mini" style="margin:0 0 8px;"></div><label>Cliente</label><input id="am80Cliente" placeholder="Nombre cliente" autocapitalize="characters"><label>Teléfono</label><input id="am80Telefono" type="tel" inputmode="tel" placeholder="600 123 456"><label>Motivo</label><textarea id="am80Motivo" placeholder="Motivo de la cita"></textarea><div class="am80-actions"><button type="button" class="green" onclick="guardarCitaMovilAC80()">GUARDAR CITA</button><button type="button" class="secondary" onclick="limpiarCitaMovilAC80()">LIMPIAR</button></div></div><input id="am80Buscar" placeholder="Buscar matrícula o cliente" oninput="renderAgendaMovilAC80()"><div class="am80-tabs"><button type="button" data-am80="hoy" onclick="setFiltroAgendaMovilAC80('hoy')">HOY</button><button type="button" data-am80="manana" onclick="setFiltroAgendaMovilAC80('manana')">MAÑANA</button><button type="button" data-am80="todas" onclick="setFiltroAgendaMovilAC80('todas')">TODAS</button></div><div id="am80Lista"></div>`;
+document.body.appendChild(panel);
+limpiarCitaMovilAC80();
+}
+function limpiarCitaMovilAC80(){
+const fecha=document.getElementById("am80Fecha");
+const hora=document.getElementById("am80Hora");
+const ahora=ahoraLocalInput();
+if(fecha) fecha.value=ahora.slice(0,10);
+if(hora) hora.value=ahora.slice(11,16);
+["am80Matricula","am80Cliente","am80Telefono","am80Motivo"].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=""; });
+const info=document.getElementById("am80InfoMatricula"); if(info) info.textContent="";
+}
+function fechaISOAgendaMovilAC80(dias){
+const d=new Date(); d.setDate(d.getDate()+dias);
+return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+function setFiltroAgendaMovilAC80(filtro){
+filtroAgendaMovilAC80=filtro||"hoy";
+renderAgendaMovilAC80();
+}
+function datosMatriculaAgendaMovilAC82(matricula){
+const mat=normalizarMatricula(matricula||"");
+if(!mat) return null;
+const fichaVeh=buscarFichaVehiculo(mat)||{};
+const ultima=(ots||[]).filter(o=>normalizarMatricula(o.matricula||"")===mat).sort((a,b)=>{
+const fa=fechaDocumento(a)||"", fb=fechaDocumento(b)||"";
+return String(fb).localeCompare(String(fa)) || ((Number(b.id)||0)-(Number(a.id)||0));
+})[0]||{};
+const cliente=String(fichaVeh.cliente||ultima.cliente||"").trim().toUpperCase();
+const fichaCli=cliente ? buscarFichaCliente(cliente) : null;
+const telefono=String((fichaCli&&(fichaCli.movil||fichaCli.tfno))||fichaVeh.telefono||ultima.telefono||"").trim();
+const marca=String(fichaVeh.marca||ultima.marca||"").trim().toUpperCase();
+const modelo=String(fichaVeh.modelo||ultima.modelo||"").trim().toUpperCase();
+if(!cliente && !telefono && !marca && !modelo) return null;
+return {cliente,telefono,marca,modelo};
+}
+function autocompletarMatriculaAgendaMovilAC82(input){
+const mat=normalizarMatricula(input?.value||"");
+if(input && input.value!==mat) input.value=mat;
+const info=document.getElementById("am80InfoMatricula");
+if(!mat){ if(info) info.textContent=""; return; }
+const datos=datosMatriculaAgendaMovilAC82(mat);
+if(!datos){ if(info) info.textContent="Matrícula sin ficha local en este navegador."; return; }
+const cli=document.getElementById("am80Cliente");
+const tel=document.getElementById("am80Telefono");
+if(cli && datos.cliente) cli.value=datos.cliente;
+if(tel && datos.telefono) tel.value=datos.telefono;
+if(info) info.textContent=`Encontrado: ${datos.cliente||"cliente sin nombre"}${datos.marca||datos.modelo ? " · "+[datos.marca,datos.modelo].filter(Boolean).join(" ") : ""}`;
+}
+function guardarCitaMovilAC80(){
+const fechaDia=(document.getElementById("am80Fecha")?.value||"").trim();
+const hora=(document.getElementById("am80Hora")?.value||"").trim();
+const fecha=fechaDia ? `${fechaDia}T${hora||"09:00"}` : "";
+const matricula=normalizarMatricula((document.getElementById("am80Matricula")?.value||"").trim());
+const datosMat=datosMatriculaAgendaMovilAC82(matricula)||{};
+const cliente=textoPlanoR39((document.getElementById("am80Cliente")?.value||datosMat.cliente||"").trim()).toUpperCase();
+const telefono=textoPlanoR39((document.getElementById("am80Telefono")?.value||datosMat.telefono||"").trim());
+const motivo=textoPlanoR39((document.getElementById("am80Motivo")?.value||"").trim()).toUpperCase();
+if(!fechaDia){ alert("Pon fecha para la cita."); return; }
+if(!matricula && !cliente){ alert("Escribe matrícula o cliente."); return; }
+const ot={id:generarIdUnico(),estado:"CITA",matricula,cliente,telefono,marca:datosMat.marca||"",modelo:datosMat.modelo||"",km:"",fecha,operarioAsignado:"",motivoCita:motivo,trabajos:"",observaciones:"CREADA DESDE AGENDA",lineas:[],stockDescontado:false};
+asegurarNumeracion(ot);
+ots.push(ot);
+guardar();
+limpiarCitaMovilAC80();
+renderAgendaMovilAC80();
+renderAgenda();
+mostrarModalAlerta("Cita móvil guardada: "+referenciaOT(ot));
+}
+function citasAgendaMovilAC80(){
+const q=normalizarBusquedaAC66(document.getElementById("am80Buscar")?.value||"");
+const hoy=fechaISOAgendaMovilAC80(0), manana=fechaISOAgendaMovilAC80(1);
+return (ots||[]).filter(esCita).filter(ot=>{
+const f=String(ot.fecha||"").slice(0,10);
+if(filtroAgendaMovilAC80==="hoy" && f!==hoy) return false;
+if(filtroAgendaMovilAC80==="manana" && f!==manana) return false;
+if(q){
+const txt=normalizarBusquedaAC66([ot.matricula,ot.cliente,ot.telefono,motivoCitaOT(ot)].join(" "));
+if(!txt.includes(q)) return false;
+}
+return true;
+}).sort((a,b)=>String(a.fecha||"9999").localeCompare(String(b.fecha||"9999")));
+}
+function claseCitaMovilAC80(ot){
+const f=String(ot.fecha||"").slice(0,10), hoy=fechaISOAgendaMovilAC80(0), manana=fechaISOAgendaMovilAC80(1);
+if(f && f<hoy) return "vencida";
+if(f===manana) return "manana";
+return "";
+}
+function renderAgendaMovilAC80(){
+asegurarAgendaMovilAC80();
+document.querySelectorAll("#agendaMovil [data-am80]").forEach(b=>b.classList.toggle("activo",b.dataset.am80===filtroAgendaMovilAC80));
+const lista=document.getElementById("am80Lista");
+if(!lista) return;
+const citas=citasAgendaMovilAC80();
+if(!citas.length){ lista.innerHTML=`<div class="am80-mini" style="padding:12px 0;">No hay citas para esta vista.</div>`; return; }
+lista.innerHTML=citas.map(ot=>`<div class="am80-card ${claseCitaMovilAC80(ot)}"><div class="hora">${htmlSeguro(fechaAgendaCorta(ot.fecha))} · ${htmlSeguro(referenciaOT(ot))}</div><div class="mat">${htmlSeguro(ot.matricula||"SIN MATRICULA")}</div><div class="cli">${htmlSeguro(ot.cliente||"SIN CLIENTE")}</div>${ot.telefono?`<div class="cli">${htmlSeguro(ot.telefono)}</div>`:""}<div class="mot">${htmlSeguro(resumenTrabajo(motivoCitaOT(ot)||ot.observaciones||"SIN MOTIVO"))}</div><button type="button" class="secondary" onclick="editarOT(${ot.id})">EDITAR</button></div>`).join("");
 }
 function setVistaPresupuesto(vista){
 vistaPresupuesto=vista||"activos";
@@ -2918,12 +3169,13 @@ function actualizarFamiliasAlmacenAC49(){
 const sel=document.getElementById("familiaAlmacen");
 if(!sel) return;
 const actual=sel.value;
-const familias=Array.from(new Set(articulos.map(a=>(a.familia||"SIN FAMILIA").trim().toUpperCase()||"SIN FAMILIA"))).sort();
+const familias=Array.from(new Set([...(familiasMaestras||[]),...articulos.map(a=>(a.familia||"SIN FAMILIA").trim().toUpperCase()||"SIN FAMILIA")])).sort();
 sel.innerHTML='<option value="">Todas las familias</option>'+familias.map(f=>`<option value="${htmlSeguro(f)}">${htmlSeguro(f)}</option>`).join("");
 if(familias.includes(actual)) sel.value=actual;
 }
 function familiasArticuloAC51(extra){
  const set=new Set();
+ (familiasMaestras||[]).forEach(f=>set.add(familiaClaveAC52(f)));
  (articulos||[]).forEach(a=>{ const f=String(a.familia||"SIN FAMILIA").trim().toUpperCase()||"SIN FAMILIA"; set.add(f); });
  const e=String(extra||"").trim().toUpperCase();
  if(e) set.add(e);
@@ -2966,6 +3218,10 @@ function familiaArticuloFormularioAC51(){
 function familiaClaveAC52(v){ return String(v||"SIN FAMILIA").trim().toUpperCase()||"SIN FAMILIA"; }
 function resumenFamiliasAC52(){
  const mapa={};
+ (familiasMaestras||[]).forEach(f=>{
+   const nombre=familiaClaveAC52(f);
+   if(!mapa[nombre]) mapa[nombre]={nombre:nombre,total:0};
+ });
  (articulos||[]).forEach(a=>{
    const f=familiaClaveAC52(a.familia);
    if(!mapa[f]) mapa[f]={nombre:f,total:0};
@@ -2973,20 +3229,61 @@ function resumenFamiliasAC52(){
  });
  return Object.values(mapa).sort((a,b)=>a.nombre.localeCompare(b.nombre,"es"));
 }
+function guardarFamiliaMaestraAC74(nombre){
+ const f=familiaClaveAC52(nombre);
+ if(!f) return "";
+ familiasMaestras=Array.from(new Set([...(familiasMaestras||[]).map(x=>familiaClaveAC52(x)),f])).filter(Boolean).sort((a,b)=>a.localeCompare(b,"es"));
+ guardar();
+ actualizarFamiliasAlmacenAC49();
+ actualizarFamiliasInventarioAlmacenAC72();
+ return f;
+}
+function crearFamiliaAC74(){
+ mostrarModalInput("Nombre de la nueva familia:","",function(nombre){
+   if(nombre===null) return;
+   const f=familiaClaveAC52(nombre);
+   if(!f){ mostrarModalAlerta("Nombre de familia vacío."); return; }
+   const ya=resumenFamiliasAC52().some(x=>x.nombre===f);
+   guardarFamiliaMaestraAC74(f);
+   renderGestionFamiliasAC52();
+   verFamiliaAlmacenAC73(f);
+   mostrarModalAlerta(ya ? "La familia ya existía: "+f : "Familia creada: "+f);
+ });
+}
 function abrirGestionFamiliasAC52(){
  const p=document.getElementById("panelFamiliasAC52");
  if(!p) return;
  p.style.display=p.style.display==="none"?"block":"none";
- if(p.style.display!=="none") renderGestionFamiliasAC52();
+ if(p.style.display!=="none"){
+   const b=document.getElementById("buscarArticulo"); if(b) b.value="";
+   const sel=document.getElementById("familiaAlmacen"); if(sel) sel.value="";
+   const lista=document.getElementById("almacenLista");
+   if(lista) lista.innerHTML='<div class="ac68-lista-limitada"><b>Familias:</b> pincha una familia para ver sus artículos aquí debajo.</div>';
+   renderGestionFamiliasAC52();
+ }else{
+   renderAlmacen();
+ }
 }
 function renderGestionFamiliasAC52(){
  const p=document.getElementById("panelFamiliasAC52");
  if(!p) return;
  const familias=resumenFamiliasAC52();
- let html=`<h3>⚙️ GESTIÓN DE FAMILIAS</h3><div style="color:#aab4c8;font-size:13px;margin-bottom:10px;line-height:1.35;">Renombrar o fusionar solo cambia el campo familia de los artículos. No borra artículos, no toca stock y guarda automáticamente.</div>`;
+ let html=`<h3>⚙️ GESTIÓN DE FAMILIAS</h3><div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;"><button type="button" class="green" onclick="crearFamiliaAC74()" style="width:auto;margin:0;padding:9px 14px;">➕ CREAR FAMILIA</button><div style="color:#aab4c8;font-size:13px;line-height:1.35;">Editar o fusionar solo cambia el campo familia de los artículos. No borra artículos, no toca stock y guarda automáticamente.</div></div>`;
  if(!familias.length){ p.innerHTML=html+"<p>No hay familias todavía.</p>"; return; }
- html+=familias.map(f=>`<div class="op-row-ac142"><span>${htmlSeguro(f.nombre)} <small style='color:#aab4c8'>(${f.total} art.)</small></span><button type="button" class="secondary" onclick="renombrarFamiliaAC52('${jsSeguro(f.nombre)}')">RENOMBRAR</button><button type="button" class="secondary" onclick="fusionarFamiliaAC52('${jsSeguro(f.nombre)}')">FUSIONAR</button><button type="button" class="danger" onclick="borrarFamiliaVaciaAC52('${jsSeguro(f.nombre)}')">BORRAR</button></div>`).join("");
+ html+=familias.map(f=>`<div class="op-row-ac142"><button type="button" class="secondary ac73-familia-nombre" onclick="verFamiliaAlmacenAC73('${jsSeguro(f.nombre)}')">${htmlSeguro(f.nombre)} <small style='color:#cfe3ff'>(${f.total} art.)</small></button><button type="button" class="secondary" onclick="renombrarFamiliaAC52('${jsSeguro(f.nombre)}')">EDITAR</button><button type="button" class="secondary" onclick="fusionarFamiliaAC52('${jsSeguro(f.nombre)}')">FUSIONAR</button><button type="button" class="danger" onclick="borrarFamiliaVaciaAC52('${jsSeguro(f.nombre)}')">BORRAR</button></div>`).join("");
  p.innerHTML=html;
+}
+function verFamiliaAlmacenAC73(nombre){
+ const fam=familiaClaveAC52(nombre);
+ const sel=document.getElementById("familiaAlmacen");
+ const b=document.getElementById("buscarArticulo");
+ if(b) b.value="";
+ actualizarFamiliasAlmacenAC49();
+ if(sel) sel.value=fam;
+ filtroAlmacenEspecial="";
+ renderAlmacen();
+ const lista=document.getElementById("almacenLista");
+ if(lista) lista.insertAdjacentHTML("afterbegin",`<div class="ac68-lista-limitada"><b>Familia seleccionada:</b> ${htmlSeguro(fam)}. Mostrando solo sus artículos.</div>`);
 }
 function cambiarFamiliaArticulosAC52(origen,destino){
  const o=familiaClaveAC52(origen), d=familiaClaveAC52(destino);
@@ -2995,7 +3292,9 @@ function cambiarFamiliaArticulosAC52(origen,destino){
  (articulos||[]).forEach(a=>{
    if(familiaClaveAC52(a.familia)===o){ a.familia=d; cambiados++; }
  });
- if(cambiados){ guardar(); actualizarFamiliasAlmacenAC49(); renderFamiliasArticuloAC51(d); renderAlmacen(); renderGestionFamiliasAC52(); }
+ familiasMaestras=(familiasMaestras||[]).map(f=>familiaClaveAC52(f)===o?d:familiaClaveAC52(f));
+ guardarFamiliaMaestraAC74(d);
+ if(cambiados || o!==d){ guardar(); actualizarFamiliasAlmacenAC49(); renderFamiliasArticuloAC51(d); renderAlmacen(); renderGestionFamiliasAC52(); }
  return cambiados;
 }
 function renombrarFamiliaAC52(origen){
@@ -3030,7 +3329,10 @@ function borrarFamiliaVaciaAC52(nombre){
  const f=familiaClaveAC52(nombre);
  const n=(articulos||[]).filter(a=>familiaClaveAC52(a.familia)===f).length;
  if(n>0){ mostrarModalAlerta("No se puede borrar: la familia " + f + " tiene " + n + " artículo(s). Primero renómbrala o fusiónala con otra."); return; }
- mostrarModalAlerta("Familia vacía eliminada. Si no tiene artículos, desaparece automáticamente del listado.");
+ familiasMaestras=(familiasMaestras||[]).filter(x=>familiaClaveAC52(x)!==f);
+ guardar();
+ actualizarFamiliasAlmacenAC49();
+ mostrarModalAlerta("Familia vacía eliminada: " + f);
  renderGestionFamiliasAC52();
 }
 
@@ -3038,6 +3340,67 @@ function analizarAlmacenPendiente(tipo){
 filtroAlmacenEspecial=(tipo==="todos")?"":tipo;
 const b=document.getElementById("buscarArticulo"); if(b) b.value="";
 renderAlmacen();
+}
+let modoInventarioAlmacenAC72="inventario";
+function articulosInventarioAlmacenAC72(modo){
+let lista=(articulos||[]).slice();
+const familia=(document.getElementById("ac72InventarioFamilia")?.value||"").trim().toUpperCase();
+if(familia) lista=lista.filter(a=>familiaClaveAC52(a.familia)===familia);
+if(modo==="sinPrecio") lista=lista.filter(articuloSinPrecioAC49);
+if(modo==="utilidades") lista=lista.filter(a=>Number(a.stock)>0);
+if(modo==="bajoMinimo") lista=lista.filter(articuloBajoStockAC49);
+return lista;
+}
+function actualizarFamiliasInventarioAlmacenAC72(){
+const sel=document.getElementById("ac72InventarioFamilia");
+if(!sel) return;
+const actual=sel.value;
+const familias=familiasArticuloAC51();
+sel.innerHTML='<option value="">Todos</option>'+familias.map(f=>`<option value="${htmlSeguro(f)}">${htmlSeguro(f)}</option>`).join("");
+if(familias.includes(actual)) sel.value=actual;
+}
+function dineroAC72(v){ return Number(v||0).toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €"; }
+function activarBotonInventarioAlmacenAC72(modo){
+document.querySelectorAll("[data-ac72-modo]").forEach(b=>b.classList.toggle("activo",b.getAttribute("data-ac72-modo")===modo));
+}
+function aplicarFiltroInventarioAlmacenAC72(modo){
+const familia=(document.getElementById("ac72InventarioFamilia")?.value||"").trim();
+const famAlmacen=document.getElementById("familiaAlmacen");
+const buscar=document.getElementById("buscarArticulo");
+if(buscar) buscar.value="";
+if(famAlmacen) famAlmacen.value=familia;
+filtroAlmacenEspecial=modo==="sinPrecio"?"sinPrecio":(modo==="bajoMinimo"?"bajoStock":(modo==="utilidades"?"conStock":""));
+renderAlmacen();
+}
+function renderInventarioAlmacenAC72(modo){
+modoInventarioAlmacenAC72=modo||modoInventarioAlmacenAC72||"inventario";
+actualizarFamiliasInventarioAlmacenAC72();
+activarBotonInventarioAlmacenAC72(modoInventarioAlmacenAC72);
+const cont=document.getElementById("ac72InventarioContenido");
+if(!cont) return;
+const lista=articulosInventarioAlmacenAC72(modoInventarioAlmacenAC72);
+const unidades=lista.reduce((s,a)=>s+Number(a.stock||0),0);
+const valorCompra=lista.reduce((s,a)=>s+(Number(a.stock||0)*Number(a.precio_compra||0)),0);
+const valorVenta=lista.reduce((s,a)=>s+(Number(a.stock||0)*Number(a.precio_venta||0)),0);
+const mostrarValor=modoInventarioAlmacenAC72==="utilidades"||modoInventarioAlmacenAC72==="inventario";
+const titulos={sinPrecio:"Artículos sin precio de venta",utilidades:"Stock con valoración",bajoMinimo:"Artículos por debajo del mínimo",inventario:"Inventario general"};
+let html=`<div class="ac72-inventario-resumen"><div class="ac72-kpi"><b>${htmlSeguro(titulos[modoInventarioAlmacenAC72]||"Inventario")}</b><span>${lista.length}</span></div><div class="ac72-kpi"><b>Unidades en stock</b><span>${unidades}</span></div><div class="ac72-kpi"><b>${mostrarValor?"Valor compra":"Estado"}</b><span>${mostrarValor?dineroAC72(valorCompra):"Consulta"}</span></div></div>`;
+if(mostrarValor) html+=`<div class="ac72-inventario-resumen" style="grid-template-columns:1fr;"><div class="ac72-kpi"><b>Valor venta estimado</b><span>${dineroAC72(valorVenta)}</span></div></div>`;
+const muestra=lista.slice(0,35).sort((a,b)=>String(a.referencia||"").localeCompare(String(b.referencia||""),"es"));
+html+=`<div class="ac72-lista-mini">${muestra.map(a=>`<div><b>${htmlSeguro(a.referencia||"SIN REF")}</b><span>${htmlSeguro(a.descripcion||"")}</span><span>${Number(a.stock||0)} ud.</span></div>`).join("")}</div>`;
+if(lista.length>muestra.length) html+=`<div class="ac63-mini" style="margin-top:8px;">Mostrando ${muestra.length} de ${lista.length}. Usa familia o la búsqueda principal para afinar.</div>`;
+cont.innerHTML=html;
+}
+function seleccionarInventarioAlmacenAC72(modo){
+modoInventarioAlmacenAC72=modo||"inventario";
+renderInventarioAlmacenAC72(modoInventarioAlmacenAC72);
+aplicarFiltroInventarioAlmacenAC72(modoInventarioAlmacenAC72);
+}
+function toggleInventarioAlmacenAC72(){
+const p=document.getElementById("panelInventarioAlmacenAC72");
+if(!p) return;
+p.style.display=p.style.display==="none"?"block":"none";
+if(p.style.display!=="none") renderInventarioAlmacenAC72(modoInventarioAlmacenAC72);
 }
 function renderAlmacen(){
 const lista=document.getElementById("almacenLista");
@@ -3052,6 +3415,7 @@ coincidencias=coincidencias.filter(a=>((a.familia||"SIN FAMILIA").trim().toUpper
 }
 if(filtroAlmacenEspecial==="sinPrecio") coincidencias=coincidencias.filter(articuloSinPrecioAC49);
 if(filtroAlmacenEspecial==="bajoStock") coincidencias=coincidencias.filter(articuloBajoStockAC49);
+if(filtroAlmacenEspecial==="conStock") coincidencias=coincidencias.filter(a=>Number(a.stock)>0);
 if(texto){
 coincidencias=coincidencias.filter(a=>{
 const valor=(a[campo]||"").toUpperCase();
@@ -3063,9 +3427,16 @@ const txt=filtroAlmacenEspecial==="sinPrecio"?"No hay artículos pendientes de p
 lista.innerHTML=`<p>${txt}</p>`;
 return;
 }
+coincidencias.sort((a,b)=>String(a.referencia||"").localeCompare(String(b.referencia||""),"es") || String(a.descripcion||"").localeCompare(String(b.descripcion||""),"es"));
+const totalCoincidencias=coincidencias.length;
+const limiteVista=(texto||familiaFiltro||filtroAlmacenEspecial) ? 220 : 120;
+const avisoLimite=totalCoincidencias>limiteVista
+? `<div class="ac68-lista-limitada"><b>Vista rápida:</b> mostrando ${limiteVista} de ${totalCoincidencias} artículos. Usa búsqueda, familia o filtros para afinar.</div>`
+: "";
+coincidencias=coincidencias.slice(0,limiteVista);
 const grupos={};
 coincidencias.forEach(a=>{ if(!grupos[a.referencia]) grupos[a.referencia]=[]; grupos[a.referencia].push(a); });
-let html="";
+let html=avisoLimite;
 Object.keys(grupos).sort().forEach(ref=>{
 const items=grupos[ref];
 html+=`<div class="item" style="border-left-color:#ff7a1a">`;
@@ -3346,11 +3717,23 @@ if(importados===0){ alert("ARTÍCULOS IMPORTADOS: 0. NO SE HA DETECTADO REFERENC
 alert("ARTÍCULOS IMPORTADOS: "+importados+" · NUEVOS: "+nuevos+" · ACTUALIZADOS: "+actualizados+(omitidos?" · OMITIDOS SIN REFERENCIA/DESCRIPCIÓN: "+omitidos:"") );
 }
 function normalizar(t){ return String(t===undefined||t===null?"":t).toUpperCase(); }
+function normalizarBusquedaAC66(t){
+return String(t===undefined||t===null?"":t).toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+}
+function ordenarPorBusquedaAC66(items,texto,selector){
+const q=normalizarBusquedaAC66(texto);
+return (items||[]).map((item,idx)=>{
+ const valor=normalizarBusquedaAC66(selector(item)||"");
+ const pos=q?valor.indexOf(q):0;
+ const score=!q?0:(valor.startsWith(q)?0:(pos>=0?1:2));
+ return {item,valor,pos,score,idx};
+}).filter(x=>!q || x.pos>=0).sort((a,b)=>a.score-b.score || a.valor.localeCompare(b.valor,"es") || a.idx-b.idx).map(x=>x.item);
+}
 function mostrarMarcas(){
 const texto=normalizar(document.getElementById("marca").value);
 const box=document.getElementById("marcaResultados");
 box.innerHTML="";
-MARCAS.filter(m=>m.includes(texto)).forEach(m=>{
+ordenarPorBusquedaAC66(MARCAS,texto,m=>m).slice(0,8).forEach(m=>{
 box.innerHTML+=`<button type="button" onclick="elegirMarca('${m}')">${m}</button>`;
 });
 }
@@ -3366,7 +3749,7 @@ const texto=normalizar(document.getElementById("modelo").value);
 const box=document.getElementById("modeloResultados");
 box.innerHTML="";
 const lista=MODELOS[marca]||[];
-lista.filter(m=>m.includes(texto)).forEach(m=>{
+ordenarPorBusquedaAC66(lista,texto,m=>m).slice(0,8).forEach(m=>{
 box.innerHTML+=`<button type="button" onclick="elegirModelo('${m}')">${m}</button>`;
 });
 }
@@ -3574,6 +3957,7 @@ fotoExpedienteKey: fotoExpedienteKeyActual || ""
 ["matricula","cliente","telefono","marca","modelo","bastidor","combustible","cambio","notasVehiculo","km","fecha","operarioAsignado","estado","motivoCita","trabajos","observaciones"].forEach(k=>{ ot[k]=textoPlanoR39(ot[k]); });
 (ot.lineas||[]).forEach(l=>{ if(l&&typeof l==="object"){ ["tipo","referencia","codigo_mo","descripcion","operario","proveedor"].forEach(k=>{ if(l[k]!==undefined) l[k]=textoPlanoR39(l[k]); }); } });
 const estadoDoc=estadoCanonico(ot.estado);
+if(estadoDoc==="CITA"||estadoDoc==="PRESUPUESTO") ot.operarioAsignado="";
 if(editandoId){
  const anteriorParaArmonia=ots.find(x=>x.id===editandoId);
  const armoniaTemprana=retrocesoArmonicoR32(anteriorParaArmonia,ot);
@@ -4082,7 +4466,8 @@ else if(estado==="PREFACTURA") ayudaLineas.textContent="Revisa y corrige aquí a
 else ayudaLineas.textContent="Añade mano de obra y materiales en presupuestos, OT y pre-facturas.";
 }
 const documentoConLineas=(estado==="PRESUPUESTO"||estado==="OT"||estado==="PREFACTURA"||estado==="FACTURA");
-if(bloqueOperario) bloqueOperario.style.display = documentoConLineas ? "none" : "block";
+const documentoConOperario=(estado==="OT"||estado==="PREFACTURA"||estado==="FACTURA");
+if(bloqueOperario) bloqueOperario.style.display = documentoConOperario ? "block" : "none";
 if(motivo){ motivo.readOnly = estado!=="CITA"; motivo.style.background = estado!=="CITA" ? "#0b1220" : "#101827"; }
 if(labelMotivo) labelMotivo.textContent = estado==="CITA" ? "Motivo de la cita *" : "Motivo inicial de la intervención";
 if(bloqueTrabajos) bloqueTrabajos.style.display = (estado==="CITA" || documentoConLineas) ? "none" : "block";
@@ -4337,13 +4722,8 @@ document.getElementById("modalSeleccionArticulo").style.display="none";
 function renderListaArticulosModal(){
 const texto=document.getElementById("buscarArticuloModal").value.trim().toUpperCase();
 const contenedor=document.getElementById("listaArticulosModal");
-let filtrados=articulos;
-if(texto){
-filtrados=articulos.filter(a=>
-(a.referencia||"").toUpperCase().includes(texto) ||
-(a.descripcion||"").toUpperCase().includes(texto)
-);
-}
+let filtrados=ordenarPorBusquedaAC66(articulos,texto,a=>[(a.referencia||""),(a.descripcion||""),(a.proveedor||""),(a.familia||"")].join(" "));
+if(texto) filtrados=filtrados.slice(0,25);
 if(filtrados.length===0){
 contenedor.innerHTML="<p style='color:#aab4c8;padding:12px;'>No hay artículos. Puedes crear uno nuevo o añadir una línea manual INT.</p>";
 return;
@@ -4769,6 +5149,193 @@ alert("ERROR AL PROCESAR EL ARCHIVO:\n"+err.message);
 reader.readAsArrayBuffer(file);
 }
 
+// ============================================================
+// IMPORTACIONES / EXPORTACIONES MODULARES AC65
+// Archivos independientes: clientes, vehiculos, articulos, proveedores.
+// Mantiene la logica separada para facilitar la futura migracion servidor.
+// ============================================================
+function normalizarCabeceraAC65(h){
+return String(h===undefined||h===null?"":h)
+ .toLowerCase()
+ .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+ .replace(/ñ/g,"n")
+ .replace(/[^a-z0-9]+/g,"_")
+ .replace(/^_|_$/g,"");
+}
+function valorFilaAC65(row,aliases){
+for(const a of aliases){
+ const key=normalizarCabeceraAC65(a);
+ const compact=key.replace(/_/g,"");
+ if(row[key]!==undefined && String(row[key]).trim()!=="") return String(row[key]).trim();
+ if(row[compact]!==undefined && String(row[compact]).trim()!=="") return String(row[compact]).trim();
+}
+return "";
+}
+function filasDesdeMatrizAC65(filas){
+if(!filas || filas.length<2) return [];
+let filaCab=0;
+for(let i=0;i<Math.min(filas.length,15);i++){
+ const cab=(filas[i]||[]).map(normalizarCabeceraAC65);
+ if(cab.some(x=>["codigo","nombre","matricula","referencia","cif","descripcion"].includes(x))){ filaCab=i; break; }
+}
+const cabeceras=(filas[filaCab]||[]).map(normalizarCabeceraAC65);
+return filas.slice(filaCab+1).filter(f=>f&&f.some(v=>String(v||"").trim()!=="")).map(f=>{
+ const row={};
+ cabeceras.forEach((c,i)=>{ row[c]=f[i]===undefined||f[i]===null?"":f[i]; row[c.replace(/_/g,"")]=row[c]; });
+ return row;
+});
+}
+function leerArchivoTablaAC65(file,callback){
+if(!file){ alert("SELECCIONA UN ARCHIVO"); return; }
+const nombre=(file.name||"").toLowerCase();
+const reader=new FileReader();
+reader.onload=function(e){
+ try{
+  if(nombre.endsWith(".xlsx") || nombre.endsWith(".xls")){
+   if(!window.XLSX){ alert("ERROR: LIBRERIA XLSX NO DISPONIBLE. COMPRUEBA LA CONEXION."); return; }
+   const wb=XLSX.read(e.target.result,{type:"array"});
+   const hoja=wb.SheetNames[0];
+   if(!hoja){ alert("EL EXCEL NO CONTIENE HOJAS"); return; }
+   const filas=XLSX.utils.sheet_to_json(wb.Sheets[hoja],{header:1,defval:"",raw:false,blankrows:false});
+   callback(filasDesdeMatrizAC65(filas),hoja);
+   return;
+  }
+  let texto=String(e.target.result||"").replace(/^\uFEFF/,"");
+  const lineas=texto.split(/\r?\n/).filter(l=>l.trim()!=="");
+  if(lineas.length<2){ alert("EL ARCHIVO ESTA VACIO O NO TIENE DATOS"); return; }
+  const sep=detectarSeparadorAC44(lineas[0]);
+  callback(filasDesdeMatrizAC65(lineas.map(l=>partirCSVAC44(l,sep))),"CSV");
+ }catch(err){
+  console.error(err);
+  alert("NO SE HA PODIDO LEER EL ARCHIVO: "+(err&&err.message?err.message:err));
+ }
+};
+if(nombre.endsWith(".xlsx") || nombre.endsWith(".xls")) reader.readAsArrayBuffer(file); else reader.readAsText(file,"UTF-8");
+}
+function normalizarCifAC65(v){ return String(v||"").trim().toUpperCase().replace(/\s+/g,""); }
+function clientePorCodigoAC65(codigo){
+codigo=String(codigo||"").trim();
+return Object.values(clientes||{}).find(c=>String(c.codigo||"").trim()===codigo) || null;
+}
+function clientePorCifAC65(cif){
+cif=normalizarCifAC65(cif);
+if(!cif) return null;
+return Object.values(clientes||{}).find(c=>normalizarCifAC65(c.nif||c.cif)===cif) || null;
+}
+function importarClientesAC65(event){
+const file=event.target.files[0]; event.target.value="";
+leerArchivoTablaAC65(file,function(rows,hoja){
+ if(!rows.length){ alert("NO HAY CLIENTES PARA IMPORTAR"); return; }
+ let nuevos=0, actualizados=0, omitidos=0;
+ rows.forEach(r=>{
+  const nombre=valorFilaAC65(r,["nombre","cliente","razon_social"]);
+  if(!nombre){ omitidos++; return; }
+  const clave=claveCliente(nombre);
+  const existente=clientes[clave]||{};
+  clientes[clave]={
+   ...existente,
+   codigo:valorFilaAC65(r,["codigo"])||existente.codigo||generarCodigoCliente(),
+   nombre:clave,
+   nif:normalizarCifAC65(valorFilaAC65(r,["cif","nif","nif_cif"]))||existente.nif||"",
+   movil:valorFilaAC65(r,["movil","telefono_movil"])||existente.movil||"",
+   tfno:valorFilaAC65(r,["telefono","tfno"])||existente.tfno||"",
+   direccion:valorFilaAC65(r,["direccion","domicilio"])||existente.direccion||"",
+   poblacion:valorFilaAC65(r,["ciudad","poblacion","localidad"])||existente.poblacion||"",
+   email:valorFilaAC65(r,["email","e_mail","correo"])||existente.email||"",
+   formapago:valorFilaAC65(r,["forma_pago","formapago"])||existente.formapago||"",
+   ccc:valorFilaAC65(r,["iban_ccc","ccc","iban"])||existente.ccc||"",
+   bic:valorFilaAC65(r,["bic"])||existente.bic||"",
+   sepa_mandato:valorFilaAC65(r,["sepa_mandato"])||existente.sepa_mandato||"",
+   sepa_firma:valorFilaAC65(r,["sepa_firma"])||existente.sepa_firma||"",
+   sepa_tipo:valorFilaAC65(r,["sepa_tipo"])||existente.sepa_tipo||""
+  };
+  existente.nombre?nuevos+=0:nuevos++;
+  if(existente.nombre) actualizados++;
+ });
+ guardar();
+ alert("CLIENTES IMPORTADOS DESDE "+hoja+": "+(nuevos+actualizados)+" · NUEVOS: "+nuevos+" · ACTUALIZADOS: "+actualizados+(omitidos?" · OMITIDOS: "+omitidos:""));
+});
+}
+function importarVehiculosAC65(event){
+const file=event.target.files[0]; event.target.value="";
+leerArchivoTablaAC65(file,function(rows,hoja){
+ if(!rows.length){ alert("NO HAY VEHICULOS PARA IMPORTAR"); return; }
+ let nuevos=0, actualizados=0, omitidos=0, sinCliente=0;
+ rows.forEach(r=>{
+  const matricula=String(valorFilaAC65(r,["matricula","matrícula","placa"])||"").trim().toUpperCase().replace(/\s+/g,"");
+  if(!matricula){ omitidos++; return; }
+  const codigo=valorFilaAC65(r,["cliente_codigo","codigo_cliente"]);
+  const cif=valorFilaAC65(r,["cliente_cif","cif"]);
+  const nombre=valorFilaAC65(r,["cliente_nombre","nombre_cliente","cliente"]);
+  const cli=clientePorCodigoAC65(codigo)||clientePorCifAC65(cif)||(nombre?buscarFichaCliente(nombre):null);
+  if(!cli){ sinCliente++; return; }
+  const anterior=vehiculos[matricula]||{};
+  vehiculos[matricula]={
+   ...anterior,
+   matricula,
+   cliente:claveCliente(cli.nombre||nombre),
+   marca:String(valorFilaAC65(r,["marca"])||anterior.marca||"").trim().toUpperCase(),
+   modelo:String(valorFilaAC65(r,["modelo"])||anterior.modelo||"").trim().toUpperCase(),
+   fechaMatriculacion:valorFilaAC65(r,["fecha_matriculacion","fecha matriculacion"])||anterior.fechaMatriculacion||"",
+   telefono:valorFilaAC65(r,["telefono","movil"])||anterior.telefono||"",
+   notasVehiculo:anterior.notasVehiculo||""
+  };
+  anterior.matricula?actualizados++:nuevos++;
+ });
+ guardar();
+ alert("VEHICULOS IMPORTADOS DESDE "+hoja+": "+(nuevos+actualizados)+" · NUEVOS: "+nuevos+" · ACTUALIZADOS: "+actualizados+(sinCliente?" · OMITIDOS SIN CLIENTE: "+sinCliente:"")+(omitidos?" · OMITIDOS: "+omitidos:""));
+});
+}
+function importarProveedoresExcelAC65(event){
+const file=event.target.files[0]; event.target.value="";
+leerArchivoTablaAC65(file,function(rows,hoja){
+ if(!rows.length){ alert("NO HAY PROVEEDORES PARA IMPORTAR"); return; }
+ let nuevos=0, actualizados=0, omitidos=0;
+ rows.forEach(r=>{
+  const cif=normalizarCifAC65(valorFilaAC65(r,["cif","nif"]));
+  const nombre=String(valorFilaAC65(r,["nombre","proveedor","razon_social"])||"").trim().toUpperCase();
+  if(!cif || !nombre){ omitidos++; return; }
+  const p={
+   codigo:valorFilaAC65(r,["codigo"])||"",
+   nombre,
+   cif,
+   telefono:valorFilaAC65(r,["telefono","tfno"])||"",
+   movil:valorFilaAC65(r,["movil"])||"",
+   direccion:valorFilaAC65(r,["direccion"])||"",
+   ciudad:valorFilaAC65(r,["ciudad","poblacion"])||"",
+   email:valorFilaAC65(r,["email","correo"])||"",
+   forma_pago:valorFilaAC65(r,["forma_pago","formapago"])||""
+  };
+  const idx=(proveedores||[]).findIndex(x=>normalizarCifAC65(x.cif)===cif);
+  if(idx>=0){ proveedores[idx]={...proveedores[idx],...p}; actualizados++; }
+  else { proveedores.push(p); nuevos++; }
+ });
+ guardar();
+ alert("PROVEEDORES IMPORTADOS DESDE "+hoja+": "+(nuevos+actualizados)+" · NUEVOS: "+nuevos+" · ACTUALIZADOS: "+actualizados+(omitidos?" · OMITIDOS: "+omitidos:""));
+});
+}
+function filasExportacionAC65(tipo){
+if(tipo==="clientes") return Object.values(clientes||{}).map(c=>({codigo:c.codigo||"",nombre:c.nombre||"",cif:c.nif||"",telefono:c.tfno||"",movil:c.movil||"",direccion:c.direccion||"",ciudad:c.poblacion||"",email:c.email||"",forma_pago:c.formapago||"",iban_ccc:c.ccc||"",bic:c.bic||"",sepa_mandato:c.sepa_mandato||"",sepa_firma:c.sepa_firma||"",sepa_tipo:c.sepa_tipo||""}));
+if(tipo==="vehiculos") return Object.values(vehiculos||{}).map(v=>{ const c=buscarFichaCliente(v.cliente||"")||{}; return {matricula:v.matricula||"",marca:v.marca||"",modelo:v.modelo||"",fecha_matriculacion:v.fechaMatriculacion||"",cliente_codigo:c.codigo||"",cliente_cif:c.nif||"",cliente_nombre:v.cliente||"",tipo_vinculo:"PROGRAMA"}; });
+if(tipo==="articulos") return (articulos||[]).map(a=>({codigo:a.referencia||"",descripcion:a.descripcion||"",familia:a.familia||"",proveedor:a.proveedor||"",coste_compra:a.precio_compra||0,margen_pct:a.margen_pct||0,precio_venta:a.precio_venta||0,stock:a.stock||0,stock_minimo:a.stock_minimo||0}));
+if(tipo==="proveedores") return (proveedores||[]).map(p=>({codigo:p.codigo||"",nombre:p.nombre||"",cif:p.cif||"",telefono:p.telefono||"",movil:p.movil||"",direccion:p.direccion||"",ciudad:p.ciudad||"",email:p.email||"",forma_pago:p.forma_pago||""}));
+return [];
+}
+function exportarEntidadAC65(tipo){
+const filas=filasExportacionAC65(tipo);
+if(!filas.length){ alert("NO HAY DATOS PARA EXPORTAR: "+tipo.toUpperCase()); return; }
+const nombre="autoborja_"+tipo+"_"+fechaParaArchivoAC55()+".xlsx";
+const cabeceras=Array.from(new Set(filas.flatMap(o=>Object.keys(o))));
+if(window.XLSX){
+ const ws=XLSX.utils.json_to_sheet(filas,{header:cabeceras});
+ const wb=XLSX.utils.book_new();
+ XLSX.utils.book_append_sheet(wb,ws,tipo.charAt(0).toUpperCase()+tipo.slice(1));
+ XLSX.writeFile(wb,nombre);
+}else{
+ descargarTextoAC55(nombre.replace(".xlsx",".csv"),crearCSVAC55(cabeceras,filas),"text/csv;charset=utf-8");
+}
+}
+
 function editarClienteClaveAC49(clave){
   const c=clientes[clave];
   if(!c){ alert("CLIENTE NO ENCONTRADO"); return; }
@@ -5102,6 +5669,9 @@ contadores:contadores,
 clientes:clientes,
 vehiculos:vehiculos,
 articulos:articulos,
+proveedores:proveedores,
+albaranesCompra:albaranesCompra,
+facturasProveedor:facturasProveedor,
 fotosExpedientes:fotosExpedientes,
 operarios:operarios,
 cronoData:cronoData,
@@ -5111,6 +5681,9 @@ ot:ots.length,
 clientes:Object.keys(clientes).length,
 vehiculos:Object.keys(vehiculos).length,
 articulos:articulos.length,
+proveedores:proveedores.length,
+albaranesCompra:albaranesCompra.length,
+facturasProveedor:facturasProveedor.length,
 agenda:contadores.agenda||0,
 ordenesTrabajo:contadores.ot||0,
 facturas:contadores.factura||0,
@@ -5152,6 +5725,10 @@ contadores=validada.contadores;
 clientes=validada.clientes;
 vehiculos=validada.vehiculos;
 articulos=validada.articulos;
+familiasMaestras=validada.familiasMaestras||[];
+proveedores=validada.proveedores||[];
+albaranesCompra=validada.albaranesCompra||[];
+facturasProveedor=validada.facturasProveedor||[];
 fotosExpedientes=validada.fotosExpedientes||{};
 operarios=validada.operarios||[];
 if(datos.cronoData && typeof datos.cronoData==="object"){
@@ -5192,6 +5769,10 @@ contadores={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,a
 clientes={};
 vehiculos={};
 articulos=[];
+familiasMaestras=[];
+proveedores=[];
+albaranesCompra=[];
+facturasProveedor=[];
 fotosExpedientes={};
 operarios=[];
 try{ localStorage.removeItem(STORAGE_FOTOS); }catch(e){}
@@ -6000,6 +6581,31 @@ fin = new Date(document.getElementById("fechaFinG").value+"T23:59:59");
 }
 return { inicio, fin };
 }
+function calcularComprasPeriodoAC86(rango){
+const dentro=fecha=>{
+ if(!fecha) return false;
+ const f=new Date(String(fecha).slice(0,10)+"T12:00:00");
+ return !isNaN(f.getTime()) && f>=rango.inicio && f<=rango.fin;
+};
+const facturas=(facturasProveedor||[]).filter(f=>dentro(f.fecha));
+const albaranesRecibidos=(albaranesCompra||[]).filter(a=>(a.stockAplicado || String(a.estado||"").toUpperCase()==="RECIBIDO") && dentro(a.fecha));
+const albaranesSinFactura=albaranesRecibidos.filter(a=>!facturaProveedorPorAlbaranAC84(a.id));
+const porProveedor={};
+facturas.forEach(f=>{
+ const p=String(f.proveedorNombre||"SIN PROVEEDOR").trim().toUpperCase();
+ if(!porProveedor[p]) porProveedor[p]={proveedor:p,total:0,base:0,iva:0,facturas:0,albaranes:0};
+ porProveedor[p].total+=Number(f.total)||0;
+ porProveedor[p].base+=Number(f.totalBase)||0;
+ porProveedor[p].iva+=Number(f.totalIva)||0;
+ porProveedor[p].facturas+=1;
+ porProveedor[p].albaranes+=(f.albaranes||[]).length;
+});
+const totalFacturas=facturas.reduce((s,f)=>s+(Number(f.total)||0),0);
+const baseFacturas=facturas.reduce((s,f)=>s+(Number(f.totalBase)||0),0);
+const totalRecibido=albaranesRecibidos.reduce((s,a)=>s+(Number(a.total)||0),0);
+const totalSinFactura=albaranesSinFactura.reduce((s,a)=>s+(Number(a.total)||0),0);
+return {facturas,albaranesRecibidos,albaranesSinFactura,porProveedor:Object.values(porProveedor).sort((a,b)=>b.total-a.total),totalFacturas,baseFacturas,totalRecibido,totalSinFactura};
+}
 function renderGanancias(){
 // Rellenar selector de familias si está vacío
 const selFam = document.getElementById("familiaGanancias");
@@ -6021,6 +6627,7 @@ selFam.appendChild(opt);
 });
 }
 const rango = obtenerRangoFechas();
+const comprasPeriodoAC86 = calcularComprasPeriodoAC86(rango);
 const familiaFiltro = document.getElementById("familiaGanancias").value;
 // Filtrar facturas en el rango
 const facturas = ots.filter(ot => {
@@ -6111,7 +6718,28 @@ let html = `
 <div class="item" style="border-left-color:#9c27b0;"><b>🔧 Mano de obra</b><br>Beneficio: ${beneficioManoObra.toFixed(2)} €</div>
 <div class="item" style="border-left-color:#ff9800;"><b>🧩 Recambios</b><br>Beneficio: ${beneficioRecambios.toFixed(2)} €</div>
 </div>
+<h3 style="color:#ff7a1a;">🧾 Compras y coste real proveedor</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+<div class="item" style="border-left-color:#2196f3;"><b>Facturas proveedor</b><br>${comprasPeriodoAC86.facturas.length} · ${comprasPeriodoAC86.totalFacturas.toFixed(2)} €</div>
+<div class="item" style="border-left-color:#28a745;"><b>Albaranes recibidos</b><br>${comprasPeriodoAC86.albaranesRecibidos.length} · ${comprasPeriodoAC86.totalRecibido.toFixed(2)} €</div>
+<div class="item" style="border-left-color:${comprasPeriodoAC86.albaranesSinFactura.length?"#ffb000":"#28a745"};"><b>Recibidos sin factura</b><br>${comprasPeriodoAC86.albaranesSinFactura.length} · ${comprasPeriodoAC86.totalSinFactura.toFixed(2)} €</div>
+</div>
 `;
+if(comprasPeriodoAC86.porProveedor.length>0){
+html += `<div class="item" style="border-left-color:#2196f3;margin-bottom:14px;">
+<div style="display:grid;grid-template-columns:1fr auto auto auto;gap:6px 10px;font-size:13px;border-bottom:1px solid #3b4a63;padding-bottom:5px;margin-bottom:5px;">
+<span style="color:#aab4c8;">Proveedor</span><span style="color:#aab4c8;">Fact.</span><span style="color:#aab4c8;">Alb.</span><span style="color:#aab4c8;">Total</span>
+</div>`;
+comprasPeriodoAC86.porProveedor.slice(0,8).forEach(p=>{
+html += `<div style="display:grid;grid-template-columns:1fr auto auto auto;gap:6px 10px;border-bottom:1px solid #2a3a55;padding:5px 0;font-size:13px;">
+<span><b>${htmlSeguro(p.proveedor)}</b></span><span>${p.facturas}</span><span>${p.albaranes}</span><span>${p.total.toFixed(2)} €</span>
+</div>`;
+});
+html += `</div>`;
+}
+if(comprasPeriodoAC86.albaranesSinFactura.length>0){
+html += `<div class="ac62-compras-note" style="margin-bottom:14px;"><b>Atencion:</b> hay ${comprasPeriodoAC86.albaranesSinFactura.length} albaran(es) recibidos sin factura proveedor. Estan en stock, pero falta cerrar trazabilidad documental de coste.</div>`;
+}
 // Desglose por familia (solo si no hay filtro)
 if(!familiaFiltro && Object.keys(beneficioPorFamilia).length > 0){
 html += `<h3 style="color:#ff7a1a;">📦 Beneficio por familia</h3><div class="item" style="border-left-color:#ff7a1a;">`;
@@ -6613,4 +7241,1077 @@ if(!window._chRelojInterval){
 window._chRelojInterval=setInterval(()=>{ if(document.getElementById("controlHorario")&&!document.getElementById("controlHorario").classList.contains("hidden")) chActualizarReloj(); },30000);
 }
 }
+function activarPantallaCompletaAC58(){
+const el=document.documentElement;
+const fn=el.requestFullscreen||el.webkitRequestFullscreen||el.msRequestFullscreen;
+if(fn){
+try{ fn.call(el); }catch(e){ mostrarModalAlerta("No se ha podido activar pantalla completa. Puedes usar F11 en Windows."); }
+}else{
+mostrarModalAlerta("Pantalla completa no disponible en este navegador. Puedes usar F11 en Windows.");
+}
+}
+function simplificarNavegacionAC58(){
+const inicio=document.getElementById("inicio");
+if(inicio){
+inicio.innerHTML=`<div class="ac60-home-head"><h2>Bienvenido a AutoBorja</h2><button id="btnPantallaCompletaInicioAC58" class="secondary ac60-fullscreen" onclick="activarPantallaCompletaAC58()" type="button">⛶</button></div><div class="ac60-home-sub">Entrada sencilla por tipo de usuario.</div><div class="ac60-home-label">EMPRESA</div><div class="ac60-home-grid"><button class="icon-btn-r202 verde" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>AUTOBORJA</b><span>Gestión completa</span></span></button><button class="icon-btn-r202 naranja" onclick="solicitarAccesoIntegridadAC56()" type="button"><span class="ico-r202">🛡️</span><span class="txt-r202"><b>INTEGRIDAD</b><span>Copias y revisión</span></span></button></div><div class="ac60-home-label">TRABAJADORES</div><div class="ac60-home-grid"><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Ordenes de trabajo</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>FICHAJE</b><span>Control horario</span></span></button></div>`;
+}
+const portada=document.getElementById("portadaGestion");
+if(portada){
+portada.innerHTML=`<h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div style="color:#aab4c8;text-align:center;font-size:13px;line-height:1.35;margin:-6px 0 14px;">Accesos de uso diario. Las herramientas delicadas quedan agrupadas en Administracion.</div><button type="button" class="secondary" onclick="activarPantallaCompletaAC58()" style="margin:0 0 12px;">⛶ PANTALLA COMPLETA</button><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>AGENDA</b><span>Citas, pendientes y entradas del dia</span></span></button><button class="icon-btn-r202 azul" onclick="showTab('presupuesto')" type="button"><span class="ico-r202">🧾</span><span class="txt-r202"><b>PRESUPUESTOS</b><span>Activos, pasados a OT y rechazados</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('taller')" type="button"><span class="ico-r202">🔧</span><span class="txt-r202"><b>ORDENES DE TRABAJO</b><span>Trabajo activo de taller</span></span></button><button class="icon-btn-r202 verde" onclick="showTab('historial')" type="button"><span class="ico-r202">📄</span><span class="txt-r202"><b>FACTURAS</b><span>Historial, impresion y rectificativas</span></span></button><button class="icon-btn-r202 gris" onclick="showTab('almacen')" type="button"><span class="ico-r202">📦</span><span class="txt-r202"><b>ALMACEN</b><span>Articulos, stock y familias</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('mas')" type="button"><span class="ico-r202">📊</span><span class="txt-r202"><b>INFORMES</b><span>Prefacturas, rentabilidad e inventario</span></span></button><button class="icon-btn-r202 gris" onclick="showTab('herramientas')" type="button"><span class="ico-r202">⚙️</span><span class="txt-r202"><b>ADMINISTRACION</b><span>Copias, importaciones, seguridad y mantenimiento</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div>`;
+}
+const herramientas=document.getElementById("herramientas");
+if(herramientas){
+herramientas.innerHTML=`<button class="volver-r138" onclick="showTab('mas')" type="button">⬅️ VOLVER A +INFO</button><h2>⚙️ ADMINISTRACION</h2><div id="avisoCopia" style="background:#2a1a00;border-left:4px solid #ff7a1a;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:13px;color:#ffd580;"></div><h3 style="color:#ff7a1a;margin:12px 0 8px;">Copias y datos</h3><div class="grupo-r138"><button class="green" onclick="exportarCopia()" type="button">💾 HACER COPIA DE SEGURIDAD</button><input type="file" id="backupFile" accept=".json" style="display:none" onchange="importarCopia(event)"><button class="secondary" onclick="document.getElementById('backupFile').click()" type="button">📥 RESTAURAR COPIA</button></div><h3 style="color:#ff7a1a;margin:14px 0 8px;">Importacion general</h3><div class="grupo-r138"><input type="file" id="importExcelMaestroFile" accept=".xlsx" style="display:none" onchange="importarExcelMaestro(event)"><button class="secondary" onclick="document.getElementById('importExcelMaestroFile').click()" type="button">📊 IMPORTAR EXCEL MAESTRO</button></div><h3 style="color:#ff7a1a;margin:14px 0 8px;">Seguridad</h3><div class="grupo-r138"><button class="secondary" onclick="showTab('seguridad')" type="button">🔐 SEGURIDAD Y ACCESO</button></div><h3 style="color:#ff7a1a;margin:14px 0 8px;">Revision tecnica</h3><div class="grupo-r138"><button class="secondary" onclick="showTab('diagnostico')" type="button">🔧 DIAGNOSTICO Y OPTIMIZACION</button><button class="secondary" onclick="solicitarAccesoIntegridadAC56()" type="button">🛡️ CENTRO DE INTEGRIDAD</button><button class="danger" onclick="resetearPrograma()" type="button">BORRAR PRUEBAS / EMPEZAR DE CERO</button></div>`;
+}
+const mas=document.getElementById("mas");
+if(mas){
+mas.innerHTML=`<button class="secondary ac60-info-exit" onclick="showTab('portadaGestion')" type="button">🚪 SALIR DE +INFO</button><h2 class="ac60-info-title">+INFO</h2><div class="ac60-info-sub">Herramientas secundarias. Los documentos de trabajo estan arriba en la cinta.</div><div class="ac60-info-grid"><button onclick="showTab('almacen')" class="ac60-info-btn almacen" type="button"><b>ALMACEN</b><span>Articulos, precios, stock y familias</span></button><button onclick="showTab('herramientas')" class="ac60-info-btn admin" type="button"><b>ADMINISTRACION</b><span>Copias, importaciones, acceso y mantenimiento</span></button><button onclick="showTab('ganancias')" class="ac60-info-btn rentabilidad" type="button"><b>RENTABILIDAD</b><span>Beneficio por periodo, trabajos y familias</span></button><button onclick="showTab('estadisticas')" class="ac60-info-btn tiempos" type="button"><b>TIEMPOS</b><span>Operarios, fichajes y rendimiento</span></button><button onclick="showTab('inventario')" class="ac60-info-btn inventario" type="button"><b>INVENTARIO</b><span>Existencias, valor de almacen e impresion</span></button></div>`;
+}
+const tabsBar=document.getElementById("tabs");
+if(tabsBar){
+tabsBar.innerHTML=`<button onclick="showTab('agenda')" type="button">AGENDA</button><button onclick="showTab('presupuesto')" type="button">PRESUPUESTO</button><button onclick="showTab('taller')" type="button">OT</button><button onclick="showTab('prefactura')" type="button">PREFACTURA</button><button onclick="showTab('historial')" type="button">FACTURA</button><button onclick="showTab('compras')" type="button">COMPRAS</button><button onclick="showTab('mas')" class="tab-info-r203" type="button">+INFO</button>`;
+}
+}
+function marcarBarraDocumentalAC60(id){
+const tabsBar=document.getElementById("tabs");
+if(!tabsBar) return;
+const botones=tabsBar.querySelectorAll("button");
+botones.forEach(btn=>btn.classList.remove("activo"));
+let idx=-1;
+if(id==="agenda"||id==="agendaMovil") idx=0;
+else if(id==="presupuesto") idx=1;
+else if(id==="taller") idx=2;
+else if(id==="prefactura") idx=3;
+else if(id==="historial") idx=4;
+else if(id==="compras") idx=5;
+else if(id==="mas"||id==="almacen"||id==="herramientas"||id==="seguridad"||id==="diagnostico"||id==="ganancias"||id==="estadisticas"||id==="inventario") idx=6;
+else if(id==="nueva"){
+const estadoFormulario=estadoCanonico(document.getElementById("estado")?.value||"OT");
+idx=estadoFormulario==="CITA" ? 0 : estadoFormulario==="PRESUPUESTO" ? 1 : estadoFormulario==="PREFACTURA" ? 3 : estadoFormulario==="FACTURA" ? 4 : 2;
+}
+if(botones[idx]) botones[idx].classList.add("activo");
+}
+function aplicarLimpiezaVisualConceptualAC58(){
+if(!document.getElementById("limpiezaVisualAC58")){
+const st=document.createElement("style");
+st.id="limpiezaVisualAC58";
+st.textContent=`
+.ac58-intro{background:#0b1220;border-left:4px solid #2196f3;border-radius:10px;padding:9px 11px;margin:0 0 12px;color:#cfe3ff;font-size:13px;line-height:1.35}
+.ac58-admin-note{background:#101827;border:1px solid #3b4a63;border-radius:10px;padding:9px 11px;margin:8px 0 12px;color:#aab4c8;font-size:13px;line-height:1.35}
+.ac65-admin-note{background:#101827;border:1px solid #3b4a63;border-radius:10px;padding:9px 11px;margin:8px 0 12px;color:#aab4c8;font-size:13px;line-height:1.35}
+.tabs{max-width:1180px!important;gap:8px!important}
+.tabs button{min-width:0!important;margin:0!important;padding:13px 8px!important;border-radius:10px!important;font-size:14px!important;letter-spacing:0!important;white-space:nowrap}
+.tabs button.tab-info-r203{background:#b00020!important;color:white!important;border-color:#ff6b6b!important}
+.tabs button.activo{transform:none!important;border:4px solid white!important;box-shadow:0 0 12px white!important}
+.ac60-home-head{display:flex;align-items:center;justify-content:center;gap:10px;position:relative}
+.ac60-home-head h2{margin:0;color:#ff7a1a;text-align:center}
+.ac60-fullscreen{position:absolute;right:0;top:50%;transform:translateY(-50%);width:48px!important;height:40px;margin:0!important;padding:0!important;border-radius:10px!important}
+.ac60-home-sub{text-align:center;color:#cfe3ff;font-size:14px;margin:10px 0 16px}
+.ac60-home-label{color:#ff7a1a;font-weight:bold;font-size:13px;letter-spacing:.4px;margin:12px 0 8px;text-align:center}
+.ac60-home-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px}
+.ac60-home-grid .icon-btn-r202{min-height:104px!important}
+.ac60-info-title{text-align:center;color:#ff7a1a!important;margin:0 0 6px!important}
+.ac60-info-exit{width:auto!important;padding:9px 14px!important;margin:0 0 12px!important;background:#4a1b25!important;color:#ffd6d6!important}
+.ac60-info-sub{text-align:center;color:#aab4c8;font-size:13px;line-height:1.35;margin:0 0 16px}
+.ac60-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ac60-info-btn{margin:0!important;min-height:94px;border-radius:14px!important;color:white!important;padding:18px 16px!important;line-height:1.15!important}
+.ac60-info-btn b{display:block;font-size:18px}
+.ac60-info-btn span{display:block;font-size:12px;font-weight:normal;margin-top:5px;color:#e8edf7}
+.ac60-info-btn.almacen{background:#344d7a!important}
+.ac60-info-btn.admin{background:#3f4f6f!important}
+.ac60-info-btn.rentabilidad{background:#7b2fff!important}
+.ac60-info-btn.tiempos{background:#2196f3!important}
+.ac60-info-btn.inventario{background:#ff7a1a!important;color:#0f1728!important}
+.ac60-info-btn.inventario span{color:#1b2435}
+.ac60-info-grid .inventario{grid-column:1/-1}
+body:fullscreen .card,body:-webkit-full-screen .card{max-width:1180px}
+body:fullscreen .tabs,body:-webkit-full-screen .tabs{max-width:1180px}
+@media(min-width:900px){.card{max-width:980px}.portal-acceso-r202,.herramientas-r138,#portadaGestion,#mas,#compras{max-width:900px!important}}
+@media(max-width:760px){.tabs{flex-wrap:wrap}.tabs button{flex:1 1 31%;font-size:13px!important;padding:11px 6px!important}}
+@media(max-width:620px){.ac60-home-grid,.ac60-info-grid{grid-template-columns:1fr}.ac60-info-grid .inventario{grid-column:auto}}
+.acciones,.presupuesto-acciones,.ot-final-acciones-r124-visible,.ot-final-acciones-r123{gap:6px!important}
+.acciones button,.presupuesto-acciones button,.ot-final-acciones-r124-visible button,.ot-final-acciones-r123 button{border-radius:10px!important;min-height:42px!important;font-size:13px!important;padding:9px 8px!important}
+.item{border-radius:10px!important}
+.danger{background:#7d1b2a!important;color:#ffd6d6!important}
+.agenda-bloque-titulo{margin:16px 0 8px;padding:9px 12px;border-radius:10px;background:#0b1220;font-weight:bold;font-size:18px}
+.agenda-titulo-sin-fecha{color:#ffe1a3;border-left:5px solid #ffd580}
+.agenda-titulo-vencida{color:#ffd6d6;border-left:5px solid #ff4444}
+.agenda-titulo-48{color:#ffd49a;border-left:5px solid #ff7a1a}
+.agenda-titulo-37{color:#c8ffd6;border-left:5px solid #28a745}
+.agenda-titulo-futura{color:#cfe3ff;border-left:5px solid #2196f3}
+.agenda-mini.agenda-sin-fecha{border-left-color:#ffd580!important;background:#302400!important}
+.agenda-mini.agenda-vencida{border-left-color:#ff4444!important;background:#3a1014!important}
+.agenda-mini.agenda-48{border-left-color:#ff7a1a!important;background:#33240a!important}
+.agenda-mini.agenda-3-7{border-left-color:#28a745!important;background:#10281d!important}
+.agenda-mini.agenda-futura{border-left-color:#2196f3!important;background:#101827!important}
+.ot-ver-r120{background:#243b63!important}
+.icon-btn-r202{border-radius:14px!important;min-height:82px!important}
+.icon-btn-r202 .ico-r202{font-size:40px!important}
+.buscador-doc-r132{border-radius:12px!important}
+.ac62-compras-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+.ac62-compras-card{background:#101827;border:1px solid #3b4a63;border-radius:12px;padding:14px;min-height:118px}
+.ac62-compras-card b{display:block;color:#ff7a1a;font-size:17px;margin-bottom:6px}
+.ac62-compras-card span{display:block;color:#cfe3ff;font-size:13px;line-height:1.35}
+.ac62-compras-note{background:#2a1a00;border-left:4px solid #ff7a1a;border-radius:10px;padding:10px 12px;color:#ffd580;font-size:13px;line-height:1.35;margin-top:12px}
+.ac71-compras-head{display:flex;align-items:center;gap:14px;background:#ffd24a;border:2px solid #ffb000;border-radius:14px;padding:8px 12px;margin:0 0 10px;color:#0f1728}
+.ac71-compras-head .volver-r138{width:auto;padding:8px 14px;margin:0;background:#344d7a;color:white;flex:0 0 auto}
+.ac71-compras-head h2{margin:0;color:#0f1728;font-size:28px;line-height:1.05}
+.ac71-compras-sub{background:#fff0b8;border-left:5px solid #ff7a1a;border-radius:10px;padding:8px 12px;margin:0 0 10px;color:#3b2a00;font-size:13px;line-height:1.3;font-weight:bold}
+.ac63-compra-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ac63-compra-linea{background:#101827;border:1px solid #3b4a63;border-radius:10px;padding:10px;margin:8px 0}
+.ac63-compra-linea b{color:#ff7a1a}
+.ac70-linea-grid{display:grid;grid-template-columns:minmax(150px,.8fr) minmax(260px,1.2fr);gap:8px;align-items:start}
+.ac70-linea-grid>div{min-width:0}
+.ac70-linea-grid input{min-width:0}
+.ac70-linea-grid>div:focus-within label{color:#7CFF9B}
+.ac70-linea-grid>div:focus-within input{background:#10281d!important}
+.ac70-linea-grid:focus-within{border-left:4px solid #28a745;padding-left:8px;background:#0d1f19;border-radius:8px}
+.ac70-albaran-compacto{background:#101827;border-left:4px solid #ff7a1a;border-radius:8px;padding:8px 10px;margin:5px 0;font-size:13px}
+.ac70-albaran-top{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center}
+.ac70-albaran-main{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ac70-albaran-main b{color:#ff7a1a}
+.ac70-albaran-meta{color:#aab4c8;font-size:12px;line-height:1.25;margin-top:2px}
+.ac70-albaran-actions{display:flex;gap:6px;margin:0}
+.ac70-albaran-actions button{margin:0!important;padding:7px 9px!important;font-size:12px!important;min-width:0!important}
+.ac63-sugerencias-articulos{grid-column:1/-1;margin-top:-2px!important;margin-bottom:4px!important;max-height:190px!important;overflow-y:auto!important}
+.ac67-sugerencias-proveedor{display:none!important;margin-top:4px!important;margin-bottom:0!important;max-height:230px!important}
+.ac67-sugerencias-proveedor.visible{display:block!important}
+.ac66-sin-resultados{background:#101827;color:#ffd580;border-bottom:1px solid #23324a;padding:11px 12px;font-size:13px;line-height:1.35}
+.ac68-lista-limitada{background:#2a1a00;border-left:4px solid #ff7a1a;border-radius:10px;padding:10px 12px;color:#ffd580;font-size:13px;line-height:1.35;margin:0 0 12px}
+.ac69-coste-atencion{border-color:#ffd580!important;box-shadow:0 0 0 2px rgba(255,213,128,.15)!important;background:#1b2435!important}
+.ac70-linea-grid #ac63Coste{border-color:#28a745!important;background:#10281d!important}
+.ac69-coste-atencion:focus{border-color:#28a745!important;box-shadow:0 0 0 3px rgba(40,167,69,.25)!important;background:#10281d!important}
+.ac72-almacen-head{display:flex;align-items:center;gap:14px;margin:0 0 10px}
+.ac72-almacen-head h2{margin:0;color:#fff;font-size:28px;line-height:1.05}
+.ac72-almacen-sub{background:#0b1220;border-left:5px solid #2196f3;border-radius:10px;padding:9px 12px;margin:0 0 12px;color:#cfe3ff;font-size:13px;line-height:1.3}
+.ac72-almacen-actions{display:grid!important;grid-template-columns:minmax(160px,1.1fr) minmax(150px,1fr) minmax(150px,1fr) 54px;gap:8px!important;margin-bottom:12px!important;align-items:stretch}
+.ac72-almacen-actions button{margin:0!important;min-width:0!important}
+.ac72-import-mini{width:54px!important;padding:0!important;font-size:22px!important;display:flex!important;align-items:center;justify-content:center}
+.ac72-inventario-panel{border-color:#ff7a1a!important;margin-bottom:12px!important}
+.ac72-inventario-top{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.ac72-inventario-top button{margin:0!important;padding:10px 8px!important;font-size:13px!important;min-height:44px!important}
+.ac72-inventario-top button.activo{border:2px solid #fff!important;box-shadow:0 0 10px rgba(255,255,255,.35)!important}
+.ac72-inventario-filtros{display:grid;grid-template-columns:minmax(170px,.45fr) minmax(0,1fr);gap:10px;align-items:end;margin:8px 0 10px}
+.ac72-inventario-filtros select{margin:0!important}
+.ac72-inventario-resumen{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.ac72-kpi{background:#101827;border:1px solid #3b4a63;border-radius:10px;padding:10px;color:#e8edf7}
+.ac72-kpi b{display:block;color:#ff7a1a;font-size:13px;margin-bottom:4px}
+.ac72-kpi span{font-size:19px;font-weight:bold}
+.ac72-lista-mini{max-height:220px;overflow:auto;border-top:1px solid #3b4a63;margin-top:10px;padding-top:6px}
+.ac72-lista-mini div{display:grid;grid-template-columns:minmax(90px,.4fr) minmax(0,1fr) auto;gap:8px;border-bottom:1px solid #26344c;padding:7px 0;font-size:12px;align-items:center}
+.ac72-lista-mini b{color:#ff7a1a}
+.op-row-ac142 .ac73-familia-nombre{flex:1;text-align:left;font-size:16px!important;padding:10px!important;background:#0b1220!important;border:0!important;color:white!important}
+.op-row-ac142 .ac73-familia-nombre:hover{color:#ff7a1a!important;background:#101827!important}
+.op-row-ac142 .ac73-familia-nombre small{font-size:12px}
+.ac63-compra-grid input:focus,.ac63-compra-grid textarea:focus,.ac70-linea-grid input:focus{border-color:#28a745!important;box-shadow:0 0 0 2px rgba(40,167,69,.18)!important}
+.ac69-pendiente{border-color:#ff7a1a!important;box-shadow:0 0 0 2px rgba(255,122,26,.16)!important}
+.ac63-badge{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:bold;background:#344d7a;color:#e8edf7}
+.ac63-badge.recibido{background:#1f7a3a;color:white}
+.ac63-badge.pendiente{background:#7a4c12;color:#ffe5b0}
+.ac63-mini{font-size:12px;color:#aab4c8;line-height:1.35}
+.ac63-tabla{width:100%;border-collapse:collapse;font-size:13px}
+.ac63-tabla th,.ac63-tabla td{border-bottom:1px solid #3b4a63;padding:7px;text-align:left;vertical-align:top}
+.ac63-tabla th{color:#ff7a1a;background:#101827}
+.ac63-actions{display:flex;gap:8px;flex-wrap:wrap}
+.ac63-actions button{margin:0!important;flex:1;min-width:160px}
+#nueva.ac59-form-ancho{max-width:1180px!important}
+.ac59-form-grid{display:grid;grid-template-columns:minmax(330px,.85fr) minmax(440px,1.15fr);gap:16px;align-items:start}
+.ac59-col{background:#101827;border:1px solid #3b4a63;border-radius:12px;padding:12px}
+.ac59-col h3{color:#ff7a1a;margin:0 0 10px;font-size:16px}
+.ac59-field{margin-bottom:8px}
+.ac59-field>label{display:block;margin:0 0 4px}
+.ac59-field input,.ac59-field textarea,.ac59-field select{margin:0 0 8px}
+.ac59-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ac59-full{grid-column:1/-1}
+#nueva.ac59-form-ancho #panelLineasFactura{margin-top:10px}
+#nueva.ac59-form-ancho #btnGuardar{font-size:18px;min-height:54px}
+@media(max-width:900px){.ac59-form-grid,.ac62-compras-flow,.ac63-compra-grid,.ac70-linea-grid,.ac72-almacen-actions,.ac72-inventario-top,.ac72-inventario-filtros,.ac72-inventario-resumen{grid-template-columns:1fr}.ac72-import-mini{width:100%!important;min-height:44px!important}.ac59-two{grid-template-columns:1fr}#nueva.ac59-form-ancho{max-width:700px!important}}
+`;
+document.head.appendChild(st);
+}
+const intros={
+agenda:"Vista diaria de citas y entradas pendientes. Desde aqui se crea una cita y se programa su paso a presupuesto.",
+presupuesto:"Presupuestos activos y su seguimiento. Al crear una OT se conserva el presupuesto original como referencia.",
+taller:"Ordenes de trabajo activas. El detalle abre las acciones de taller sin mezclarlo con facturacion.",
+prefactura:"Documentos listos para revisar antes de emitir factura. La factura final queda protegida.",
+historial:"Facturas emitidas y rectificativas. Una factura no se edita: se corrige con FREC.",
+compras:"Entrada de albaranes, stock de compras y facturas de proveedor. Módulo preparado para desarrollarlo sin mezclarlo con ventas.",
+almacen:"Articulos, precios, familias y stock. El stock se descuenta al facturar, no al crear la OT.",
+ganancias:"Rentabilidad por periodo y familia. Es un informe, no modifica expedientes.",
+estadisticas:"Tiempos, operarios y rendimiento. Informacion de seguimiento.",
+inventario:"Resumen de existencias y valor del almacen para consulta e impresion.",
+herramientas:"Administracion protegida: copias, importaciones, seguridad y mantenimiento tecnico.",
+diagnostico:"Zona tecnica de revision. Usar solo para comprobar integridad o resolver incidencias.",
+seguridad:"Configuracion de acceso local. En la futura version servidor esto pasara a permisos por usuario."
+};
+Object.keys(intros).forEach(id=>{
+const panel=document.getElementById(id);
+if(!panel || panel.classList.contains("hidden") || panel.querySelector(".ac58-intro")) return;
+const h=panel.querySelector("h2");
+const div=document.createElement("div");
+div.className="ac58-intro";
+div.textContent=intros[id];
+if(h && h.parentNode) h.parentNode.insertBefore(div,h.nextSibling);
+});
+document.querySelectorAll("button").forEach(b=>{
+if(b.classList.contains("icon-btn-r202")) return;
+const t=(b.textContent||"").trim().replace(/\s+/g," ");
+const mapa={
+"EDITAR":"Abrir / editar",
+"IMPRIMIR":"Imprimir",
+"📷 FOTOS":"Fotos",
+"WHATSAPP":"WhatsApp",
+"FREC":"Rectificar",
+"PASAR A OT":"Crear OT",
+"RECHAZADO":"Rechazar",
+"PRE-FACT.":"Pre-factura",
+"⚖️ BENEFICIO":"Beneficio",
+"⬇️ EXPORTAR OT":"Exportar OT",
+"ANULAR OT":"Anular",
+"REACTIVAR":"Reactivar",
+"BORRAR PRUEBAS / EMPEZAR DE CERO":"Borrar pruebas"
+};
+if(mapa[t]) b.textContent=mapa[t];
+});
+}
+function aplicarFormularioAnchoAC59(){
+const nueva=document.getElementById("nueva");
+if(!nueva || document.getElementById("formularioGridAC59")) return;
+const anchor=document.getElementById("panelConceptosRectificativa")||document.getElementById("panelRectificativa");
+if(!anchor) return;
+nueva.classList.add("ac59-form-ancho");
+const grid=document.createElement("div");
+grid.id="formularioGridAC59";
+grid.className="ac59-form-grid";
+const left=document.createElement("div");
+left.className="ac59-col";
+left.innerHTML="<h3>Datos de entrada</h3>";
+const right=document.createElement("div");
+right.className="ac59-col";
+right.innerHTML="<h3>Trabajo y documento</h3>";
+grid.appendChild(left);
+grid.appendChild(right);
+anchor.insertAdjacentElement("afterend",grid);
+const labelByText=(txt)=>Array.from(nueva.querySelectorAll("label")).find(l=>(l.textContent||"").trim().toUpperCase()===txt.toUpperCase());
+const wrap=(parent,cls,nodes)=>{
+const box=document.createElement("div");
+box.className=cls||"ac59-field";
+nodes.filter(Boolean).forEach(n=>box.appendChild(n));
+parent.appendChild(box);
+return box;
+};
+const matricula=document.getElementById("matricula");
+wrap(left,"ac59-field",[labelByText("Matrícula *"),matricula?matricula.parentElement:null,document.getElementById("matriculaResultados"),Array.from(nueva.querySelectorAll("button")).find(b=>(b.textContent||"").trim().toUpperCase()==="BUSCAR MATRÍCULA"),document.getElementById("aviso")]);
+wrap(left,"ac59-field",[labelByText("Cliente *"),document.getElementById("cliente"),document.getElementById("clienteResultados")]);
+wrap(left,"ac59-field",[labelByText("Teléfono"),document.getElementById("telefono")]);
+const marcaModelo=document.createElement("div");
+marcaModelo.className="ac59-two";
+left.appendChild(marcaModelo);
+wrap(marcaModelo,"ac59-field",[labelByText("Marca"),document.getElementById("marca"),document.getElementById("marcaResultados")]);
+wrap(marcaModelo,"ac59-field",[labelByText("Modelo"),document.getElementById("modelo"),document.getElementById("modeloResultados")]);
+wrap(left,"ac59-field",[document.getElementById("km")?.closest(".row")]);
+wrap(left,"ac59-field",[document.getElementById("bloqueOperarioPrincipal")]);
+wrap(left,"ac59-field",[labelByText("Estado"),document.getElementById("estado")]);
+wrap(left,"ac59-field",[nueva.querySelector(".paneles-extra-ot"),document.getElementById("panelFichaVehiculo"),document.getElementById("panelHistorialVehiculo")]);
+wrap(right,"ac59-field",[document.getElementById("labelMotivoCita"),document.getElementById("motivoCita")]);
+wrap(right,"ac59-field",[document.getElementById("bloqueTrabajosPrincipal")]);
+wrap(right,"ac59-field",[labelByText("Observaciones"),document.getElementById("observaciones")]);
+wrap(right,"ac59-field",[document.getElementById("panelFotos")]);
+wrap(right,"ac59-field",[document.getElementById("panelLineasFactura")]);
+wrap(right,"ac59-field",[document.getElementById("btnGuardar")]);
+}
+function normalizarBotonesInicioAC60(){
+document.querySelectorAll("button").forEach(btn=>{
+const on=btn.getAttribute("onclick")||"";
+const txt=(btn.textContent||"").trim().toUpperCase();
+if(on.includes("showTab('portadaGestion')")||on.includes('showTab("portadaGestion")')){
+if(txt.includes("VOLVER A +INFO")) return;
+if(txt.includes("INICIO")||txt.includes("PORTADA")) btn.setAttribute("onclick","showTab('inicio')");
+}
+});
+}
+function normalizarPantallasSecundariasAC61(){
+const herramientas=document.getElementById("herramientas");
+if(herramientas && !document.getElementById("panelImportExportAC65")){
+ const aviso=herramientas.querySelector("#avisoCopia");
+ const panel=document.createElement("div");
+ panel.id="panelImportExportAC65";
+ panel.innerHTML=`<h3 style="color:#ff7a1a;margin:14px 0 8px;">Importaciones de prueba por entidad</h3><div class="ac65-admin-note">Usa archivos separados: clientes, vehiculos, articulos y proveedores. Es mas seguro que un Excel maestro unico y prepara mejor la futura base de datos.</div><div class="grupo-r138"><input type="file" id="importClientesAC65" accept=".xlsx,.xls,.csv,.txt" style="display:none" onchange="importarClientesAC65(event)"><button class="secondary" onclick="document.getElementById('importClientesAC65').click()" type="button">📥 IMPORTAR CLIENTES</button><input type="file" id="importVehiculosAC65" accept=".xlsx,.xls,.csv,.txt" style="display:none" onchange="importarVehiculosAC65(event)"><button class="secondary" onclick="document.getElementById('importVehiculosAC65').click()" type="button">📥 IMPORTAR VEHICULOS</button><input type="file" id="importArticulosAC65" accept=".xlsx,.xls,.csv,.txt" style="display:none" onchange="procesarArticulosExcelCSV(event.target.files[0]);event.target.value='';"><button class="secondary" onclick="document.getElementById('importArticulosAC65').click()" type="button">📥 IMPORTAR ARTICULOS</button><input type="file" id="importProveedoresXlsxAC65" accept=".xlsx,.xls,.csv,.txt" style="display:none" onchange="importarProveedoresExcelAC65(event)"><button class="secondary" onclick="document.getElementById('importProveedoresXlsxAC65').click()" type="button">📥 IMPORTAR PROVEEDORES</button></div><h3 style="color:#ff7a1a;margin:14px 0 8px;">Exportaciones por entidad</h3><div class="grupo-r138"><button class="secondary" onclick="exportarEntidadAC65('clientes')" type="button">📤 EXPORTAR CLIENTES XLSX</button><button class="secondary" onclick="exportarEntidadAC65('vehiculos')" type="button">📤 EXPORTAR VEHICULOS XLSX</button><button class="secondary" onclick="exportarEntidadAC65('articulos')" type="button">📤 EXPORTAR ARTICULOS XLSX</button><button class="secondary" onclick="exportarEntidadAC65('proveedores')" type="button">📤 EXPORTAR PROVEEDORES XLSX</button></div>`;
+ if(aviso && aviso.parentNode) aviso.insertAdjacentElement("afterend",panel);
+ else herramientas.insertBefore(panel,herramientas.children[2]||null);
+}
+const almacen=document.getElementById("almacen");
+if(almacen){
+let titulo=almacen.querySelector(":scope > h2");
+if(titulo && !document.getElementById("ac72AlmacenHead")){
+ const head=document.createElement("div");
+ head.id="ac72AlmacenHead";
+ head.className="ac72-almacen-head";
+ head.innerHTML=`<button type="button" class="secondary btn-inicio-seccion-r132" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2>Almacén</h2>`;
+ titulo.replaceWith(head);
+ const sub=document.createElement("div");
+ sub.id="ac72AlmacenSub";
+ sub.className="ac72-almacen-sub";
+ sub.textContent="Artículos, precios, familias y stock. El stock se descuenta al facturar, no al crear la OT.";
+ head.insertAdjacentElement("afterend",sub);
+}
+const introVieja=Array.from(almacen.querySelectorAll(".ac58-intro")).find(x=>(x.textContent||"").includes("Articulos"));
+if(introVieja) introVieja.remove();
+const barra=Array.from(almacen.children).find(el=>el.tagName==="DIV" && el.style && el.style.display==="flex" && el.querySelector("button"));
+if(barra){
+ barra.className="ac72-almacen-actions";
+ barra.removeAttribute("style");
+ barra.innerHTML=`<button type="button" class="green" onclick="abrirModalNuevoArticulo()">➕ NUEVO ARTÍCULO</button><button type="button" class="secondary" onclick="abrirGestionFamiliasAC52()">⚙️ FAMILIAS</button><button type="button" class="secondary" onclick="toggleInventarioAlmacenAC72()">📦 INVENTARIO</button><button id="importArticulosAlmacenAC61" type="button" class="secondary ac72-import-mini" onclick="importarArticulosCSVDesdeInicio()" title="Importar artículos">📥</button>`;
+}
+const analitica=document.getElementById("almacenAnalitica");
+if(analitica) analitica.style.display="none";
+const panelFamilias=document.getElementById("panelFamiliasAC52");
+if(panelFamilias && !document.getElementById("panelInventarioAlmacenAC72")){
+ const panel=document.createElement("div");
+ panel.id="panelInventarioAlmacenAC72";
+ panel.className="lineas-panel ac72-inventario-panel";
+ panel.style.display="none";
+ panel.innerHTML=`<h3>📦 INVENTARIO</h3><div class="ac63-mini">Consulta limpia del almacén: pendientes de precio, stock, bajo mínimo e inventario valorado.</div><div class="ac72-inventario-top"><button type="button" class="secondary" data-ac72-modo="sinPrecio" onclick="seleccionarInventarioAlmacenAC72('sinPrecio')">SIN PRECIO</button><button type="button" class="secondary" data-ac72-modo="utilidades" onclick="seleccionarInventarioAlmacenAC72('utilidades')">STOCK</button><button type="button" class="secondary" data-ac72-modo="bajoMinimo" onclick="seleccionarInventarioAlmacenAC72('bajoMinimo')">BAJO MÍNIMO</button><button type="button" class="secondary" data-ac72-modo="inventario" onclick="seleccionarInventarioAlmacenAC72('inventario')">INVENTARIO</button></div><div class="ac72-inventario-filtros"><div><label>Vista</label><select id="ac72InventarioFamilia" onchange="renderInventarioAlmacenAC72(modoInventarioAlmacenAC72);aplicarFiltroInventarioAlmacenAC72(modoInventarioAlmacenAC72);"><option value="">Todos</option></select></div><div class="ac63-mini">Cada apartado puede verse por todos los artículos o por familia. Stock e Inventario muestran valoración en euros.</div></div><div id="ac72InventarioContenido"></div>`;
+ panelFamilias.insertAdjacentElement("afterend",panel);
+}
+actualizarFamiliasInventarioAlmacenAC72();
+}
+const estadisticas=document.getElementById("estadisticas");
+if(estadisticas && !document.getElementById("accionesTiemposAC61")){
+const h=estadisticas.querySelector("h2");
+const box=document.createElement("div");
+box.id="accionesTiemposAC61";
+box.className="grupo-r138";
+box.style.margin="0 0 12px";
+box.innerHTML=`<button class="secondary" onclick="abrirGestionOperariosAC142()" type="button">👥 GESTIONAR OPERARIOS</button><button class="secondary" onclick="chExportarCSV()" type="button">📥 EXPORTAR CSV FICHAJES</button><div id="panelGestionOperariosAC142" class="gestion-operarios-ac142" style="display:none"></div>`;
+if(h && h.parentNode) h.parentNode.insertBefore(box,h.nextSibling);
+}
+}
+let albaranCompraEditandoAC63=null;
+let lineasCompraTempAC63=[];
+let cabeceraCompraTempAC68={};
+let proveedorArticuloSeleccionadoCompraAC70="";
+function numCompraAC63(v){
+const s=String(v??"").replace(",",".").trim();
+if(!s) return null;
+const n=Number(s);
+return Number.isFinite(n) ? n : null;
+}
+function redondearCompraAC63(n){
+return Math.round((Number(n)||0)*100)/100;
+}
+function normalizarCifProveedorAC64(cif){
+return String(cif||"").trim().toUpperCase().replace(/[\s-]/g,"");
+}
+function proveedorScoreAC64(p){
+return ["telefono","movil","direccion","ciudad","email","forma_pago"].reduce((n,k)=>n+(String(p&&p[k]||"").trim()?1:0),0);
+}
+function proveedorPorCifAC64(cif){
+const c=normalizarCifProveedorAC64(cif);
+return (proveedores||[]).find(p=>normalizarCifProveedorAC64(p.cif)===c)||null;
+}
+function proveedorPorNombreAC64(nombre){
+const n=String(nombre||"").trim().toUpperCase();
+if(!n) return null;
+return (proveedores||[]).find(p=>String(p.nombre||"").trim().toUpperCase()===n)||null;
+}
+function aplicarProveedoresBaseAC64(lista){
+const porCif={};
+(proveedores||[]).forEach(p=>{
+const cif=normalizarCifProveedorAC64(p.cif);
+if(cif) porCif[cif]=p;
+});
+let nuevos=0, actualizados=0, descartados=0;
+(lista||[]).forEach(raw=>{
+const p={
+codigo:String(raw.codigo||raw.CODIGO||"").trim(),
+nombre:String(raw.nombre||raw.NOMBRE||raw.nombre_fiscal||raw.NOMBREF||"").trim().toUpperCase(),
+cif:normalizarCifProveedorAC64(raw.cif||raw.CIF),
+telefono:String(raw.telefono||raw.TELEFONO||"").trim(),
+movil:String(raw.movil||raw.MOVIL||"").trim(),
+direccion:String(raw.direccion||raw.DIRECCION||"").trim(),
+ciudad:String(raw.ciudad||raw.CIUDAD||"").trim(),
+email:String(raw.email||raw.CORREOE||raw.EMAIL||"").trim().toLowerCase(),
+forma_pago:String(raw.forma_pago||raw.FORMAPAGO||"").trim().toUpperCase()
+};
+if(!/^[AB][0-9A-Z]{8}$/.test(p.cif) || !p.nombre){ descartados++; return; }
+if(porCif[p.cif]){
+if(proveedorScoreAC64(p)>proveedorScoreAC64(porCif[p.cif])) Object.assign(porCif[p.cif],p);
+actualizados++;
+}else{
+proveedores.push(p);
+porCif[p.cif]=p;
+nuevos++;
+}
+});
+proveedores.sort((a,b)=>String(a.nombre||"").localeCompare(String(b.nombre||""),"es"));
+guardar();
+return {nuevos,actualizados,descartados,total:proveedores.length};
+}
+function parseCSVProveedoresAC64(texto){
+const lineas=String(texto||"").replace(/^\uFEFF/,"").split(/\r?\n/).filter(l=>l.trim());
+if(!lineas.length) return [];
+const parseLinea=(linea)=>{
+const out=[]; let cur="", q=false;
+for(let i=0;i<linea.length;i++){
+const ch=linea[i];
+if(ch==='"' && linea[i+1]==='"'){ cur+='"'; i++; }
+else if(ch==='"'){ q=!q; }
+else if(ch==="," && !q){ out.push(cur); cur=""; }
+else cur+=ch;
+}
+out.push(cur);
+return out;
+};
+const cab=parseLinea(lineas[0]).map(h=>h.trim());
+return lineas.slice(1).map(l=>{
+const vals=parseLinea(l);
+const o={};
+cab.forEach((h,i)=>o[h]=vals[i]||"");
+return o;
+});
+}
+function importarProveedoresAC64(event){
+const file=event.target.files[0];
+if(!file) return;
+leerArchivoTexto(file,function(texto){
+try{
+let lista=[];
+if(file.name.toLowerCase().endsWith(".json")) lista=JSON.parse(texto);
+else lista=parseCSVProveedoresAC64(texto);
+if(!Array.isArray(lista)) throw new Error("Formato no valido");
+const r=aplicarProveedoresBaseAC64(lista);
+mostrarModalAlerta("Proveedores importados por CIF.\nNuevos: "+r.nuevos+"\nActualizados/fusionados: "+r.actualizados+"\nDescartados: "+r.descartados+"\nTotal base: "+r.total);
+renderComprasAC63(false);
+}catch(e){
+mostrarModalAlerta("No se pudo importar la base de proveedores. Revisa que sea CSV o JSON depurado.");
+console.error(e);
+}
+event.target.value="";
+});
+}
+function cargarProveedorCompraAC64(){
+const nombre=document.getElementById("ac63Proveedor")?.value||"";
+const cif=document.getElementById("ac63ProveedorCif")?.value||"";
+const p=proveedorPorCifAC64(cif)||proveedorPorNombreAC64(nombre);
+if(!p) return;
+document.getElementById("ac63Proveedor").value=p.nombre||"";
+document.getElementById("ac63ProveedorCif").value=p.cif||"";
+}
+function sugerirProveedoresCompraAC67(){
+const box=document.getElementById("ac63ProveedorSugerencias");
+if(!box) return;
+const texto=(document.getElementById("ac63Proveedor")?.value||"").trim();
+if(!texto){ box.classList.remove("visible"); box.style.display="none"; box.innerHTML=""; return; }
+if(!Array.isArray(proveedores) || !proveedores.length){
+ box.innerHTML=`<div class="ac66-sin-resultados">No hay proveedores cargados. Importa proveedores desde Compras o Administracion.</div>`;
+ box.style.display="block";
+ box.classList.add("visible");
+ return;
+}
+const lista=ordenarPorBusquedaAC66(proveedores,texto,p=>[(p.nombre||""),(p.cif||""),(p.telefono||""),(p.ciudad||"")].join(" ")).slice(0,5);
+if(!lista.length){
+ box.innerHTML=`<div class="ac66-sin-resultados">Sin proveedores para "${htmlSeguro(texto)}". Puedes escribirlo manualmente.</div>`;
+ box.style.display="block";
+ box.classList.add("visible");
+ return;
+}
+box.innerHTML=lista.map(p=>`<button type="button" onclick="seleccionarProveedorCompraAC67('${jsSeguro(p.cif)}')"><div class="autocomplete-mat">${htmlSeguro(p.nombre||"")}</div><div class="autocomplete-cli">${htmlSeguro(p.cif||"")}${p.telefono?" · "+htmlSeguro(p.telefono):""}${p.ciudad?" · "+htmlSeguro(p.ciudad):""}</div></button>`).join("");
+box.style.display="block";
+box.classList.add("visible");
+}
+function seleccionarProveedorCompraAC67(cif){
+const p=proveedorPorCifAC64(cif);
+const box=document.getElementById("ac63ProveedorSugerencias");
+if(box){ box.classList.remove("visible"); box.style.display="none"; box.innerHTML=""; }
+if(!p) return;
+document.getElementById("ac63Proveedor").value=p.nombre||"";
+document.getElementById("ac63ProveedorCif").value=p.cif||"";
+}
+function conectarBuscadorProveedorCompraAC67(){
+const el=document.getElementById("ac63Proveedor");
+if(el && !el.dataset.ac67Proveedor){
+ el.dataset.ac67Proveedor="1";
+ el.addEventListener("input",sugerirProveedoresCompraAC67);
+ el.addEventListener("keyup",sugerirProveedoresCompraAC67);
+ el.addEventListener("focus",sugerirProveedoresCompraAC67);
+ el.addEventListener("blur",()=>setTimeout(cargarProveedorCompraAC64,150));
+}
+}
+function articuloCompraAC63(ref,prov){
+ref=String(ref||"").trim().toUpperCase();
+prov=String(prov||"").trim().toUpperCase();
+if(!ref) return null;
+return (articulos||[]).find(a=>String(a.referencia||"").trim().toUpperCase()===ref && (!prov || String(a.proveedor||"").trim().toUpperCase()===prov)) || null;
+}
+function sugerirArticulosCompraAC66(){
+const box=document.getElementById("ac63ArticuloSugerencias");
+if(!box) return;
+const refEl=document.getElementById("ac63Ref");
+if(refEl) refEl.dataset.proveedorArticulo="";
+proveedorArticuloSeleccionadoCompraAC70="";
+const ref=(document.getElementById("ac63Ref")?.value||"").trim();
+const desc=(document.getElementById("ac63Desc")?.value||"").trim();
+const texto=ref || desc;
+if(!texto){ box.classList.remove("visible"); box.style.display="none"; box.innerHTML=""; return; }
+if(!Array.isArray(articulos) || !articulos.length){
+ box.innerHTML=`<div class="ac66-sin-resultados">No hay articulos cargados en el programa. Primero importa articulos desde Administracion o Almacen.</div>`;
+ box.style.display="block";
+ box.classList.add("visible");
+ return;
+}
+const lista=ordenarPorBusquedaAC66(articulos,texto,a=>[(a.referencia||""),(a.descripcion||""),(a.proveedor||""),(a.familia||"")].join(" ")).slice(0,5);
+if(!lista.length){
+ box.innerHTML=`<div class="ac66-sin-resultados">Sin coincidencias para "${htmlSeguro(texto)}". Si es nuevo, escribe descripcion y se creara al recibir.</div>`;
+ box.style.display="block";
+ box.classList.add("visible");
+ return;
+}
+box.innerHTML=lista.map(a=>`<button type="button" onclick="seleccionarArticuloCompraAC66('${jsSeguro(a.referencia)}','${jsSeguro(a.proveedor)}')"><div class="autocomplete-mat">${htmlSeguro(a.referencia||"")}</div><div class="autocomplete-cli">${htmlSeguro(a.descripcion||"")}${a.proveedor?" · "+htmlSeguro(a.proveedor):""}${a.stock!==undefined?" · stock "+htmlSeguro(a.stock):""}</div></button>`).join("");
+box.style.display="block";
+box.classList.add("visible");
+}
+function seleccionarArticuloCompraAC66(ref,prov){
+const a=articuloCompraAC63(ref,prov) || (articulos||[]).find(x=>String(x.referencia||"").toUpperCase()===String(ref||"").toUpperCase());
+const box=document.getElementById("ac63ArticuloSugerencias");
+if(box){ box.classList.remove("visible"); box.style.display="none"; box.innerHTML=""; }
+if(!a) return;
+document.getElementById("ac63Ref").value=a.referencia||"";
+document.getElementById("ac63Ref").dataset.proveedorArticulo=a.proveedor||prov||"";
+proveedorArticuloSeleccionadoCompraAC70=a.proveedor||prov||"";
+document.getElementById("ac63Desc").value=a.descripcion||"";
+document.getElementById("ac63Familia").value=a.familia||"";
+renderFamiliasCompraAC83(a.familia||"");
+document.getElementById("ac63Coste").value=a.precio_compra!==null&&a.precio_compra!==undefined ? a.precio_compra : "";
+document.getElementById("ac63Margen").value=a.margen_pct!==null&&a.margen_pct!==undefined ? a.margen_pct : "";
+document.getElementById("ac63Pvp").value=a.precio_venta!==null&&a.precio_venta!==undefined ? a.precio_venta : "";
+document.getElementById("ac63Iva").value=a.iva!==undefined ? a.iva : 21;
+recalcularPreciosCompraAC69("articulo");
+marcarCamposCompraAC69();
+setTimeout(()=>document.getElementById("ac63Coste")?.focus(),80);
+}
+function renderFamiliasCompraAC83(actual){
+const sel=document.getElementById("ac63FamiliaSelect");
+const hid=document.getElementById("ac63Familia");
+const nueva=document.getElementById("ac63FamiliaNueva");
+if(!sel || !hid || !nueva) return;
+const valor=String(actual||hid.value||"").trim().toUpperCase();
+const familias=familiasArticuloAC51(valor);
+sel.innerHTML='<option value="">-- Familia --</option>'+familias.map(f=>`<option value="${htmlSeguro(f)}">${htmlSeguro(f)}</option>`).join("")+'<option value="__NUEVA__">➕ CREAR FAMILIA NUEVA</option>';
+if(valor){ sel.value=valor; hid.value=valor; nueva.style.display="none"; nueva.value=""; }
+else { sel.value=""; hid.value=""; nueva.style.display="none"; nueva.value=""; }
+}
+function manejarFamiliaCompraAC83(){
+const sel=document.getElementById("ac63FamiliaSelect");
+const hid=document.getElementById("ac63Familia");
+const nueva=document.getElementById("ac63FamiliaNueva");
+if(!sel || !hid || !nueva) return;
+if(sel.value==="__NUEVA__"){
+ nueva.style.display="block";
+ nueva.value="";
+ hid.value="";
+ setTimeout(()=>nueva.focus(),80);
+}else{
+ nueva.style.display="none";
+ nueva.value="";
+ hid.value=sel.value;
+}
+}
+function familiaCompraFormularioAC83(){
+const sel=document.getElementById("ac63FamiliaSelect");
+const hid=document.getElementById("ac63Familia");
+const nueva=document.getElementById("ac63FamiliaNueva");
+let fam="";
+if(sel && sel.value==="__NUEVA__") fam=(nueva&&nueva.value?nueva.value:"");
+else fam=(sel&&sel.value?sel.value:(hid&&hid.value?hid.value:""));
+fam=familiaClaveAC52(fam);
+if(hid) hid.value=fam;
+if(fam && fam!=="SIN FAMILIA") guardarFamiliaMaestraAC74(fam);
+return fam || "SIN FAMILIA";
+}
+function prepararFamiliaCompraAC83(){
+const hid=document.getElementById("ac63Familia");
+if(!hid || hid.dataset.ac83Preparado) return;
+const cont=hid.parentElement;
+if(!cont) return;
+hid.type="hidden";
+hid.dataset.ac83Preparado="1";
+const sel=document.createElement("select");
+sel.id="ac63FamiliaSelect";
+sel.onchange=manejarFamiliaCompraAC83;
+const nueva=document.createElement("input");
+nueva.id="ac63FamiliaNueva";
+nueva.placeholder="Nueva familia...";
+nueva.style.display="none";
+nueva.style.marginTop="6px";
+nueva.setAttribute("autocapitalize","characters");
+nueva.addEventListener("input",()=>{ hid.value=String(nueva.value||"").toUpperCase(); });
+cont.appendChild(sel);
+cont.appendChild(nueva);
+renderFamiliasCompraAC83(hid.value);
+}
+function recalcularPreciosCompraAC69(origen){
+const costeEl=document.getElementById("ac63Coste");
+const margenEl=document.getElementById("ac63Margen");
+const pvpEl=document.getElementById("ac63Pvp");
+if(!costeEl || !margenEl || !pvpEl) return;
+const coste=numCompraAC63(costeEl.value);
+const margen=numCompraAC63(margenEl.value);
+const pvp=numCompraAC63(pvpEl.value);
+if((origen==="margen" || origen==="coste" || origen==="articulo") && coste!==null && margen!==null){
+ pvpEl.value=redondearCompraAC63(coste*(1+margen/100)).toFixed(2);
+}else if(origen==="pvp" && coste!==null && coste>0 && pvp!==null){
+ margenEl.value=redondearCompraAC63(((pvp/coste)-1)*100).toFixed(2);
+}else if(origen==="coste" && coste!==null && coste>0 && pvp!==null){
+ margenEl.value=redondearCompraAC63(((pvp/coste)-1)*100).toFixed(2);
+}
+marcarCamposCompraAC69();
+}
+function marcarCamposCompraAC69(){
+["ac63Proveedor","ac63Fecha","ac63Ref","ac63Desc","ac63Cantidad","ac63Coste"].forEach(id=>{
+ const el=document.getElementById(id);
+ if(!el) return;
+ const vacio=String(el.value||"").trim()==="";
+ el.classList.toggle("ac69-pendiente",vacio);
+});
+const coste=document.getElementById("ac63Coste");
+if(coste) coste.classList.add("ac69-coste-atencion");
+}
+function conectarCalculosCompraAC69(){
+const mapa={ac63Coste:"coste",ac63Margen:"margen",ac63Pvp:"pvp"};
+Object.keys(mapa).forEach(id=>{
+ const el=document.getElementById(id);
+ if(el && !el.dataset.ac69Calc){
+  el.dataset.ac69Calc="1";
+  el.addEventListener("input",()=>recalcularPreciosCompraAC69(mapa[id]));
+  el.addEventListener("change",()=>recalcularPreciosCompraAC69(mapa[id]));
+ }
+});
+["ac63Proveedor","ac63Fecha","ac63Ref","ac63Desc","ac63Cantidad","ac63Coste"].forEach(id=>{
+ const el=document.getElementById(id);
+ if(el && !el.dataset.ac69Pendiente){
+  el.dataset.ac69Pendiente="1";
+  el.addEventListener("input",marcarCamposCompraAC69);
+  el.addEventListener("change",marcarCamposCompraAC69);
+  el.addEventListener("blur",marcarCamposCompraAC69);
+ }
+});
+marcarCamposCompraAC69();
+}
+function conectarBuscadorCompraAC66(){
+["ac63Ref","ac63Desc"].forEach(id=>{
+ const el=document.getElementById(id);
+ if(el && !el.dataset.ac66Buscador){
+  el.dataset.ac66Buscador="1";
+  el.addEventListener("input",sugerirArticulosCompraAC66);
+  el.addEventListener("keyup",sugerirArticulosCompraAC66);
+  el.addEventListener("focus",sugerirArticulosCompraAC66);
+ }
+});
+}
+function totalesCompraAC63(lineas){
+let base=0, iva=0;
+(lineas||[]).forEach(l=>{
+const cantidad=Number(l.cantidad)||0;
+const coste=Number(l.costeUnitario)||0;
+const dto=Number(l.descuento)||0;
+const ivaPct=Number(l.iva)||0;
+const sub=Math.max(0,(cantidad*coste)-dto);
+base+=sub;
+iva+=sub*(ivaPct/100);
+});
+return {base:redondearCompraAC63(base),iva:redondearCompraAC63(iva),total:redondearCompraAC63(base+iva)};
+}
+function siguienteNumeroAlbaranCompraAC63(){
+let max=0;
+(albaranesCompra||[]).forEach(a=>{ max=Math.max(max,Number(a.numeroInterno)||0); });
+return max+1;
+}
+function leerCabeceraCompraAC68(){
+return {
+ proveedorNombre:(document.getElementById("ac63Proveedor")?.value||"").trim().toUpperCase(),
+ proveedorCif:(document.getElementById("ac63ProveedorCif")?.value||"").trim().toUpperCase(),
+ numeroProveedor:(document.getElementById("ac63NumeroProveedor")?.value||"").trim().toUpperCase(),
+ fecha:(document.getElementById("ac63Fecha")?.value||"").trim(),
+ observaciones:(document.getElementById("ac63Obs")?.value||"").trim().toUpperCase()
+};
+}
+function guardarCabeceraCompraTempAC68(){
+const c=leerCabeceraCompraAC68();
+cabeceraCompraTempAC68={...cabeceraCompraTempAC68,...c};
+return cabeceraCompraTempAC68;
+}
+function cabeceraCompraParaRenderAC68(alb,hoy){
+return {
+ proveedorNombre:(cabeceraCompraTempAC68.proveedorNombre!==undefined?cabeceraCompraTempAC68.proveedorNombre:(alb?.proveedorNombre||"")),
+ proveedorCif:(cabeceraCompraTempAC68.proveedorCif!==undefined?cabeceraCompraTempAC68.proveedorCif:(alb?.proveedorCif||"")),
+ numeroProveedor:(cabeceraCompraTempAC68.numeroProveedor!==undefined?cabeceraCompraTempAC68.numeroProveedor:(alb?.numeroProveedor||"")),
+ fecha:(cabeceraCompraTempAC68.fecha!==undefined?cabeceraCompraTempAC68.fecha:(alb?.fecha||hoy)),
+ observaciones:(cabeceraCompraTempAC68.observaciones!==undefined?cabeceraCompraTempAC68.observaciones:(alb?.observaciones||""))
+};
+}
+function nuevaCompraAC63(){
+albaranCompraEditandoAC63=null;
+lineasCompraTempAC63=[];
+cabeceraCompraTempAC68={};
+renderComprasAC63(true);
+}
+function editarAlbaranCompraAC63(id){
+const alb=(albaranesCompra||[]).find(a=>String(a.id)===String(id));
+if(!alb){ mostrarModalAlerta("No se encuentra el albaran."); return; }
+albaranCompraEditandoAC63=alb.id;
+lineasCompraTempAC63=(alb.lineas||[]).map(l=>({...l}));
+cabeceraCompraTempAC68={};
+renderComprasAC63(true,alb);
+}
+function cancelarAlbaranCompraAC63(){
+albaranCompraEditandoAC63=null;
+lineasCompraTempAC63=[];
+cabeceraCompraTempAC68={};
+renderComprasAC63(false);
+}
+function limpiarLineaCompraAC63(){
+["ac63Ref","ac63Desc","ac63Familia","ac63Cantidad","ac63Coste","ac63Margen","ac63Pvp","ac63Iva"].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=""; });
+renderFamiliasCompraAC83("");
+const refEl=document.getElementById("ac63Ref"); if(refEl) refEl.dataset.proveedorArticulo="";
+proveedorArticuloSeleccionadoCompraAC70="";
+const iva=document.getElementById("ac63Iva"); if(iva) iva.value="21";
+const cant=document.getElementById("ac63Cantidad"); if(cant) cant.value="1";
+}
+function agregarLineaCompraAC63(){
+guardarCabeceraCompraTempAC68();
+const prov=(document.getElementById("ac63Proveedor")?.value||"").trim().toUpperCase();
+const ref=(document.getElementById("ac63Ref")?.value||"").trim().toUpperCase();
+const provArticulo=(document.getElementById("ac63Ref")?.dataset.proveedorArticulo||proveedorArticuloSeleccionadoCompraAC70||"").trim().toUpperCase();
+const coincidenciasRef=(articulos||[]).filter(a=>String(a.referencia||"").trim().toUpperCase()===ref);
+const art=articuloCompraAC63(ref,provArticulo) || articuloCompraAC63(ref,prov) || (coincidenciasRef.length===1 ? coincidenciasRef[0] : null);
+let desc=(document.getElementById("ac63Desc")?.value||"").trim().toUpperCase();
+let familia=familiaCompraFormularioAC83();
+const cantidad=numCompraAC63(document.getElementById("ac63Cantidad")?.value);
+const coste=numCompraAC63(document.getElementById("ac63Coste")?.value);
+const margen=numCompraAC63(document.getElementById("ac63Margen")?.value);
+let pvp=numCompraAC63(document.getElementById("ac63Pvp")?.value);
+const iva=numCompraAC63(document.getElementById("ac63Iva")?.value) ?? 21;
+marcarCamposCompraAC69();
+if(!ref){ mostrarModalAlerta("Falta la referencia del articulo."); return; }
+if(!provArticulo && coincidenciasRef.length>1){
+mostrarModalAlerta("Esta referencia existe en varios proveedores. Elige una opcion del desplegable para aplicar el coste y el stock al proveedor correcto.");
+sugerirArticulosCompraAC66();
+return;
+}
+if(art){
+if(!desc) desc=String(art.descripcion||"").toUpperCase();
+if((!familia || familia==="SIN FAMILIA") && art.familia) familia=String(art.familia||"").toUpperCase();
+if(pvp===null && margen!==null && coste!==null) pvp=redondearCompraAC63(coste*(1+margen/100));
+}else if(!desc){
+mostrarModalAlerta("El articulo no existe: escribe una descripcion para poder crear la ficha al recibir.");
+return;
+}
+if(cantidad===null || cantidad<=0){ mostrarModalAlerta("Cantidad no valida."); return; }
+if(coste===null || coste<0){ mostrarModalAlerta("Coste de compra no valido."); document.getElementById("ac63Coste")?.focus(); return; }
+lineasCompraTempAC63.push({
+referencia:ref,
+descripcion:desc,
+proveedor:(art ? art.proveedor : "") || provArticulo || prov,
+familia:familia || "SIN FAMILIA",
+cantidad:redondearCompraAC63(cantidad),
+costeUnitario:redondearCompraAC63(coste),
+margenPct:margen,
+precioVenta:pvp,
+iva:iva,
+descuento:0,
+articuloExiste:!!art
+});
+limpiarLineaCompraAC63();
+renderComprasAC63(true);
+}
+function quitarLineaCompraAC63(idx){
+guardarCabeceraCompraTempAC68();
+lineasCompraTempAC63.splice(idx,1);
+renderComprasAC63(true);
+}
+function revertirStockAlbaranCompraAC70(alb){
+if(!alb || !alb.stockAplicado) return {revertidos:0};
+let revertidos=0;
+(alb.lineas||[]).forEach(l=>{
+const art=articuloCompraAC63(l.referencia,l.proveedor) || (articulos||[]).find(a=>String(a.referencia||"").trim().toUpperCase()===String(l.referencia||"").trim().toUpperCase());
+if(!art) return;
+const antes=Number(art.stock)||0;
+const cantidad=Number(l.cantidad)||0;
+art.stock=redondearCompraAC63(antes-cantidad);
+l.stockAntesAjuste=antes;
+l.stockDespuesAjuste=art.stock;
+revertidos++;
+});
+alb.stockAplicado=false;
+alb.estado="PENDIENTE";
+alb.fechaAjusteStock=new Date().toISOString();
+return {revertidos};
+}
+function guardarAlbaranCompraAC63(aplicarStock){
+const debeAplicarStock=aplicarStock!==false;
+guardarCabeceraCompraTempAC68();
+const proveedor=(document.getElementById("ac63Proveedor")?.value||"").trim().toUpperCase();
+const cif=(document.getElementById("ac63ProveedorCif")?.value||"").trim().toUpperCase();
+const numeroProveedor=(document.getElementById("ac63NumeroProveedor")?.value||"").trim().toUpperCase();
+const fecha=(document.getElementById("ac63Fecha")?.value||"").trim();
+const obs=(document.getElementById("ac63Obs")?.value||"").trim().toUpperCase();
+if(!proveedor){ mostrarModalAlerta("Falta el proveedor."); return; }
+if(!fecha){ mostrarModalAlerta("Falta la fecha del albaran."); return; }
+if(!lineasCompraTempAC63.length){ mostrarModalAlerta("Anade al menos una linea de articulo."); return; }
+let alb=(albaranesCompra||[]).find(a=>String(a.id)===String(albaranCompraEditandoAC63));
+const estabaRecibido=!!(alb && (alb.stockAplicado || alb.estado==="RECIBIDO"));
+if(estabaRecibido) revertirStockAlbaranCompraAC70(alb);
+const tot=totalesCompraAC63(lineasCompraTempAC63);
+if(!alb){
+alb={id:generarIdUnico(),numeroInterno:siguienteNumeroAlbaranCompraAC63(),estado:"PENDIENTE",stockAplicado:false,creadoEn:new Date().toISOString()};
+albaranesCompra.push(alb);
+}
+Object.assign(alb,{
+proveedorNombre:proveedor,
+proveedorCif:cif,
+numeroProveedor:numeroProveedor,
+fecha:fecha,
+observaciones:obs,
+lineas:lineasCompraTempAC63.map(l=>({...l})),
+totalBase:tot.base,
+totalIva:tot.iva,
+total:tot.total,
+modificadoEn:new Date().toISOString()
+});
+guardar();
+albaranCompraEditandoAC63=alb.id;
+if(debeAplicarStock){
+marcarAlbaranRecibidoAC63(alb.id,true,estabaRecibido);
+}else{
+alb.estado="PENDIENTE";
+alb.stockAplicado=false;
+guardar();
+mostrarModalAlerta((estabaRecibido?"Albaran guardado como pendiente. El stock anterior ha sido revertido.":"Albaran guardado como pendiente. No entra en stock hasta pulsar ACEPTAR / RECIBIDO."));
+renderComprasAC63(false);
+}
+}
+function marcarAlbaranRecibidoAC63(id,sinConfirmacion,esAjuste){
+const alb=(albaranesCompra||[]).find(a=>String(a.id)===String(id));
+if(!alb){ mostrarModalAlerta("No se encuentra el albaran."); return; }
+if(alb.stockAplicado || alb.estado==="RECIBIDO"){ mostrarModalAlerta("Este albaran ya esta recibido. No se puede aplicar dos veces."); return; }
+if(!sinConfirmacion && !confirm("MARCAR RECIBIDO / ENTRAR A STOCK: se sumaran las unidades al almacen. ¿Continuar?")) return;
+let creados=0, actualizados=0;
+(alb.lineas||[]).forEach(l=>{
+let art=articuloCompraAC63(l.referencia,l.proveedor);
+if(!art){
+art={
+referencia:String(l.referencia||"").trim().toUpperCase(),
+descripcion:String(l.descripcion||"").trim().toUpperCase(),
+proveedor:String(l.proveedor||alb.proveedorNombre||"SIN PROVEEDOR").trim().toUpperCase(),
+familia:String(l.familia||"SIN FAMILIA").trim().toUpperCase(),
+precio_compra:Number(l.costeUnitario)||0,
+margen_pct:l.margenPct!==null&&l.margenPct!==undefined ? Number(l.margenPct) : null,
+precio_venta:l.precioVenta!==null&&l.precioVenta!==undefined ? Number(l.precioVenta) : null,
+iva:Number(l.iva)||21,
+stock:0,
+stock_minimo:0,
+observaciones:"CREADO DESDE ALBARAN "+(alb.numeroProveedor||alb.numeroInterno||"")
+};
+articulos.push(art);
+creados++;
+}else{
+art.precio_compra=Number(l.costeUnitario)||0;
+if(l.margenPct!==null && l.margenPct!==undefined) art.margen_pct=Number(l.margenPct);
+if(l.precioVenta!==null && l.precioVenta!==undefined) art.precio_venta=Number(l.precioVenta);
+if(l.iva!==null && l.iva!==undefined) art.iva=Number(l.iva)||21;
+if(l.familia) art.familia=String(l.familia).trim().toUpperCase();
+actualizados++;
+}
+const antes=Number(art.stock)||0;
+const cantidad=Number(l.cantidad)||0;
+art.stock=redondearCompraAC63(antes+cantidad);
+l.stockAntes=antes;
+l.stockDespues=art.stock;
+});
+alb.estado="RECIBIDO";
+alb.stockAplicado=true;
+alb.fechaRecepcion=new Date().toISOString();
+guardar();
+if(document.getElementById("almacen") && !document.getElementById("almacen").classList.contains("hidden")) renderAlmacen();
+mostrarModalAlerta((esAjuste?"Albaran ajustado. Stock recalculado.":"Albaran aceptado. Stock actualizado.")+" Articulos creados: "+creados+" · actualizados: "+actualizados);
+renderComprasAC63(false);
+}
+function siguienteNumeroFacturaProveedorAC84(){
+let max=0;
+(facturasProveedor||[]).forEach(f=>{ max=Math.max(max,Number(f.numeroInterno)||0); });
+return max+1;
+}
+function facturaProveedorPorAlbaranAC84(idAlb){
+return (facturasProveedor||[]).find(f=>(f.albaranes||[]).some(a=>String(a.id)===String(idAlb))) || null;
+}
+function crearFacturaProveedorDesdeAlbaranAC84(idAlb){
+const alb=(albaranesCompra||[]).find(a=>String(a.id)===String(idAlb));
+if(!alb){ mostrarModalAlerta("No se encuentra el albaran."); return; }
+if(!(alb.stockAplicado || alb.estado==="RECIBIDO")){ mostrarModalAlerta("Primero hay que aceptar el albaran y entrar el stock."); return; }
+const existente=facturaProveedorPorAlbaranAC84(idAlb);
+if(existente){ mostrarModalAlerta("Este albaran ya esta vinculado a la factura proveedor FP-"+String(existente.numeroInterno||0).padStart(4,"0")); return; }
+crearFacturaProveedorAlbaranesAC86([alb.id],alb.numeroProveedor||"");
+}
+function albaranesFacturablesProveedorAC86(proveedorNombre,proveedorCif){
+const nombre=String(proveedorNombre||"").trim().toUpperCase();
+const cif=String(proveedorCif||"").trim().toUpperCase();
+return (albaranesCompra||[]).filter(a=>{
+ if(!(a.stockAplicado || String(a.estado||"").toUpperCase()==="RECIBIDO")) return false;
+ if(facturaProveedorPorAlbaranAC84(a.id)) return false;
+ const an=String(a.proveedorNombre||"").trim().toUpperCase();
+ const ac=String(a.proveedorCif||"").trim().toUpperCase();
+ if(cif && ac) return ac===cif;
+ return an===nombre;
+}).sort((a,b)=>String(a.fecha||"").localeCompare(String(b.fecha||"")) || ((a.numeroInterno||0)-(b.numeroInterno||0)));
+}
+function crearFacturaProveedorAlbaranesAC86(ids,numeroSugerido){
+const seleccion=(ids||[]).map(id=>(albaranesCompra||[]).find(a=>String(a.id)===String(id))).filter(Boolean);
+if(!seleccion.length){ mostrarModalAlerta("No hay albaranes seleccionados para facturar."); return; }
+const proveedor=seleccion[0].proveedorNombre||"";
+const cif=seleccion[0].proveedorCif||"";
+const distintos=seleccion.some(a=>String(a.proveedorCif||a.proveedorNombre||"").trim().toUpperCase()!==String(cif||proveedor||"").trim().toUpperCase());
+if(distintos){ mostrarModalAlerta("Solo se pueden agrupar albaranes del mismo proveedor."); return; }
+const yaFacturado=seleccion.find(a=>facturaProveedorPorAlbaranAC84(a.id));
+if(yaFacturado){ mostrarModalAlerta("Hay un albaran ya facturado. Revisa la seleccion."); return; }
+const noRecibido=seleccion.find(a=>!(a.stockAplicado || String(a.estado||"").toUpperCase()==="RECIBIDO"));
+if(noRecibido){ mostrarModalAlerta("Solo se pueden facturar albaranes recibidos."); return; }
+mostrarModalInput("Numero de factura del proveedor:",numeroSugerido||"",function(numeroFactura){
+ if(numeroFactura===null) return;
+ numeroFactura=String(numeroFactura||"").trim().toUpperCase();
+ if(!numeroFactura){ mostrarModalAlerta("Numero de factura obligatorio."); return; }
+ mostrarModalInput("Fecha factura proveedor (AAAA-MM-DD):",new Date().toISOString().slice(0,10),function(fecha){
+  if(fecha===null) return;
+  fecha=String(fecha||"").trim();
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(fecha)){ mostrarModalAlerta("Fecha no valida. Usa formato AAAA-MM-DD."); return; }
+  const totalBase=seleccion.reduce((s,a)=>s+(Number(a.totalBase)||0),0);
+  const totalIva=seleccion.reduce((s,a)=>s+(Number(a.totalIva)||0),0);
+  const total=seleccion.reduce((s,a)=>s+(Number(a.total)||0),0);
+  const fac={
+   id:generarIdUnico(),
+   numeroInterno:siguienteNumeroFacturaProveedorAC84(),
+   numeroFacturaProveedor:numeroFactura,
+   fecha:fecha,
+   proveedorNombre:proveedor,
+   proveedorCif:cif,
+   albaranes:seleccion.map(a=>({id:a.id,numeroInterno:a.numeroInterno,numeroProveedor:a.numeroProveedor||"",fecha:a.fecha||"",total:Number(a.total)||0})),
+   totalBase:redondearCompraAC63(totalBase),
+   totalIva:redondearCompraAC63(totalIva),
+   total:redondearCompraAC63(total),
+   creadoEn:new Date().toISOString()
+  };
+  facturasProveedor.push(fac);
+  seleccion.forEach(alb=>{
+   alb.facturaProveedorId=fac.id;
+   alb.facturaProveedorNumero=numeroFactura;
+   alb.estadoFacturaProveedor="FACTURADO";
+  });
+  guardar();
+  mostrarModalAlerta("Factura proveedor creada y vinculada a "+seleccion.length+" albaran(es).");
+  renderComprasAC63(false);
+ });
+});
+}
+function prepararFacturaProveedorAC86(idAlb){
+const alb=(albaranesCompra||[]).find(a=>String(a.id)===String(idAlb));
+if(!alb){ mostrarModalAlerta("No se encuentra el albaran."); return; }
+const candidatos=albaranesFacturablesProveedorAC86(alb.proveedorNombre,alb.proveedorCif);
+if(candidatos.length<=1){ crearFacturaProveedorDesdeAlbaranAC84(idAlb); return; }
+const seleccionados=candidatos.map(a=>`ALB-${String(a.numeroInterno||0).padStart(4,"0")} ${a.fecha||""} ${a.numeroProveedor||""} ${(Number(a.total)||0).toFixed(2)} €`).join("\n");
+if(confirm("Hay "+candidatos.length+" albaranes recibidos sin factura de este proveedor.\n\n"+seleccionados+"\n\n¿Crear UNA factura proveedor agrupando todos?")){
+ crearFacturaProveedorAlbaranesAC86(candidatos.map(a=>a.id),alb.numeroProveedor||"");
+}else{
+ crearFacturaProveedorDesdeAlbaranAC84(idAlb);
+}
+}
+function renderFacturasProveedorAC84(){
+const lista=(facturasProveedor||[]).slice().sort((a,b)=>String(b.fecha||"").localeCompare(String(a.fecha||"")) || ((b.numeroInterno||0)-(a.numeroInterno||0)));
+if(!lista.length) return `<div class="ac63-mini">No hay facturas de proveedor todavia.</div>`;
+return lista.map(f=>`<div class="ac70-albaran-compacto"><div class="ac70-albaran-top"><div class="ac70-albaran-main"><b>FP-${String(f.numeroInterno||0).padStart(4,"0")}</b> ${htmlSeguro(f.proveedorNombre||"SIN PROVEEDOR")} · ${htmlSeguro(f.numeroFacturaProveedor||"")}</div><div><b>${(Number(f.total)||0).toFixed(2)} €</b></div></div><div class="ac70-albaran-meta">${htmlSeguro(f.fecha||"")} · Albaranes: ${(f.albaranes||[]).map(a=>"ALB-"+String(a.numeroInterno||0).padStart(4,"0")).join(", ")}</div></div>`).join("");
+}
+function filtroAlbaranesCompraAC70(){
+return (document.getElementById("ac70BuscarAlbProveedor")?.value||"").trim().toUpperCase();
+}
+function renderComprasAC63(mostrarForm,alb){
+const panel=document.getElementById("comprasContenidoAC63");
+if(!panel) return;
+alb=alb || (albaranesCompra||[]).find(a=>String(a.id)===String(albaranCompraEditandoAC63)) || null;
+const hoy=new Date().toISOString().slice(0,10);
+const cabecera=cabeceraCompraParaRenderAC68(alb,hoy);
+const lineas=lineasCompraTempAC63||[];
+const tot=totalesCompraAC63(lineas);
+const filasLineas=lineas.length ? `<table class="ac63-tabla"><thead><tr><th>Ref.</th><th>Articulo</th><th>Cant.</th><th>Coste</th><th>PVP</th><th></th></tr></thead><tbody>${lineas.map((l,i)=>`<tr><td>${htmlSeguro(l.referencia)}</td><td>${htmlSeguro(l.descripcion)}<div class="ac63-mini">${htmlSeguro(l.familia||"")} · ${l.articuloExiste?"Existe":"Nuevo"}</div></td><td>${Number(l.cantidad)||0}</td><td>${(Number(l.costeUnitario)||0).toFixed(2)} €</td><td>${l.precioVenta!==null&&l.precioVenta!==undefined ? Number(l.precioVenta).toFixed(2)+" €" : "PENDIENTE"}</td><td><button class="danger" type="button" onclick="quitarLineaCompraAC63(${i})">QUITAR</button></td></tr>`).join("")}</tbody></table>` : `<div class="ac63-mini">Sin lineas todavia.</div>`;
+const form=mostrarForm ? `<div class="ac63-compra-linea"><h3 style="color:#ff7a1a;margin-top:0;">${alb?"Editar albaran":"Nuevo albaran"} <span class="ac63-badge ${alb&&alb.estado==="RECIBIDO"?"recibido":"pendiente"}">${alb&&alb.estado==="RECIBIDO"?"RECIBIDO":"PENDIENTE"}</span></h3><div class="ac63-compra-grid"><div><label>Proveedor</label><input id="ac63Proveedor" value="${htmlSeguro(cabecera.proveedorNombre||"")}" placeholder="NOMBRE PROVEEDOR" autocomplete="off" oninput="sugerirProveedoresCompraAC67()" onfocus="sugerirProveedoresCompraAC67()" onblur="setTimeout(cargarProveedorCompraAC64,150)"><div id="ac63ProveedorSugerencias" class="autocomplete-dropdown ac67-sugerencias-proveedor"></div></div><div><label>CIF</label><input id="ac63ProveedorCif" value="${htmlSeguro(cabecera.proveedorCif||"")}" placeholder="Opcional" onblur="cargarProveedorCompraAC64()"></div><div><label>Fecha</label><input id="ac63Fecha" type="date" value="${htmlSeguro(cabecera.fecha||hoy)}"></div><div><label>Nº albaran proveedor</label><input id="ac63NumeroProveedor" value="${htmlSeguro(cabecera.numeroProveedor||"")}" placeholder="Opcional"></div></div><label>Observaciones</label><textarea id="ac63Obs" rows="2">${htmlSeguro(cabecera.observaciones||"")}</textarea><h3 style="color:#ff7a1a;">Lineas</h3><div class="ac70-linea-grid"><div><label>Referencia</label><input id="ac63Ref" placeholder="REF" oninput="sugerirArticulosCompraAC66()"></div><div><label>Descripcion</label><input id="ac63Desc" placeholder="DESCRIPCION" oninput="sugerirArticulosCompraAC66()"></div><div id="ac63ArticuloSugerencias" class="autocomplete-dropdown ac63-sugerencias-articulos"></div><div><label>Familia</label><input id="ac63Familia" placeholder="FAMILIA"></div><div><label>Cantidad</label><input id="ac63Cantidad" type="number" step="0.01" value="1"></div><div><label>Coste compra</label><input id="ac63Coste" type="number" step="0.01"></div><div><label>Margen %</label><input id="ac63Margen" type="number" step="0.01"></div><div><label>Precio venta</label><input id="ac63Pvp" type="number" step="0.01"></div><div><label>IVA %</label><input id="ac63Iva" type="number" step="0.01" value="21"></div></div><div class="ac63-actions" style="margin:10px 0;"><button class="secondary" type="button" onclick="agregarLineaCompraAC63()">ANADIR LINEA</button></div>${filasLineas}<div class="ac62-compras-note"><b>Total albaran:</b> Base ${tot.base.toFixed(2)} € · IVA ${tot.iva.toFixed(2)} € · Total ${tot.total.toFixed(2)} €. <b>Guardar pendiente</b> no toca stock. <b>Aceptar / recibido</b> entra unidades en almacen; si editas uno recibido, se ajusta por diferencia.</div><div class="ac63-actions" style="margin-top:10px;"><button class="secondary" type="button" onclick="guardarAlbaranCompraAC63(false)">GUARDAR PENDIENTE</button><button class="green" type="button" onclick="guardarAlbaranCompraAC63(true)">ACEPTAR / RECIBIDO</button><button class="secondary" type="button" onclick="cancelarAlbaranCompraAC63()">CANCELAR</button></div></div>` : "";
+const filtroProveedor=filtroAlbaranesCompraAC70();
+const albaranesFiltrados=(albaranesCompra||[]).filter(a=>{
+if(!filtroProveedor) return true;
+return String((a.proveedorNombre||"")+" "+(a.proveedorCif||"")+" "+(a.numeroProveedor||"")).toUpperCase().includes(filtroProveedor);
+}).slice().sort((a,b)=>String(b.fecha||"").localeCompare(String(a.fecha||"")) || ((b.numeroInterno||0)-(a.numeroInterno||0)));
+const lista=albaranesFiltrados.map(a=>{
+const estado=String(a.estado||"PENDIENTE").toUpperCase();
+const badge=`<span class="ac63-badge ${estado==="RECIBIDO"?"recibido":"pendiente"}">${htmlSeguro(estado)}</span>`;
+const factura=facturaProveedorPorAlbaranAC84(a.id);
+const btnFactura=estado==="RECIBIDO" && !factura ? `<button class="secondary" type="button" onclick="prepararFacturaProveedorAC86(${JSON.stringify(a.id)})">FACTURA PROV.</button>` : "";
+const metaFactura=factura ? ` · Factura proveedor: FP-${String(factura.numeroInterno||0).padStart(4,"0")}` : "";
+return `<div class="ac70-albaran-compacto"><div class="ac70-albaran-top"><div class="ac70-albaran-main"><b>ALB-${String(a.numeroInterno||0).padStart(4,"0")}</b> ${badge} ${htmlSeguro(a.proveedorNombre||"SIN PROVEEDOR")}</div><div><b>${(Number(a.total)||0).toFixed(2)} €</b></div><div class="ac70-albaran-actions"><button class="secondary" type="button" onclick="editarAlbaranCompraAC63(${JSON.stringify(a.id)})">EDITAR</button>${btnFactura}</div></div><div class="ac70-albaran-meta">${htmlSeguro(a.fecha||"")} · Nº prov: ${htmlSeguro(a.numeroProveedor||"")} · Lineas: ${(a.lineas||[]).length}${metaFactura}</div></div>`;
+}).join("") || `<div class="ac63-mini">No hay albaranes de compra para este filtro.</div>`;
+panel.innerHTML=`<div class="ac63-actions"><button class="green" type="button" onclick="nuevaCompraAC63()">➕ NUEVO ALBARAN</button></div><div class="ac63-mini" style="margin:8px 0 12px;">Proveedores cargados: ${(proveedores||[]).length}. Base limpia: CIF unico.</div>${form}<h3 style="color:#ff7a1a;">Albaranes</h3><input id="ac70BuscarAlbProveedor" value="${htmlSeguro(filtroProveedor)}" placeholder="Buscar albaranes por proveedor, CIF o nº proveedor..." oninput="renderComprasAC63(false)" style="margin:0 0 8px;">${lista}<h3 style="color:#ff7a1a;margin-top:16px;">Facturas proveedor</h3>${renderFacturasProveedorAC84()}`;
+if(filtroProveedor) setTimeout(()=>{ const b=document.getElementById("ac70BuscarAlbProveedor"); if(b){ b.focus(); b.setSelectionRange(b.value.length,b.value.length); } },0);
+prepararFamiliaCompraAC83();
+conectarBuscadorCompraAC66();
+conectarBuscadorProveedorCompraAC67();
+conectarCalculosCompraAC69();
+}
+function asegurarComprasAC62(){
+if(document.getElementById("compras")) return document.getElementById("compras");
+const panel=document.createElement("div");
+panel.id="compras";
+panel.className="card hidden";
+panel.innerHTML=`<div class="ac71-compras-head"><button class="volver-r138" onclick="showTab('agenda')" type="button">⬅️ INICIO</button><h2>Compras</h2></div><div class="ac71-compras-sub">Entrada de albaranes y stock de compras. ACEPTAR entra el albaran en almacen; si editas un albaran recibido, se ajusta el stock por diferencia.</div><div id="comprasContenidoAC63"></div>`;
+const tabs=document.getElementById("tabs");
+if(tabs && tabs.parentNode) tabs.parentNode.insertBefore(panel,tabs.nextSibling);
+else document.body.appendChild(panel);
+setTimeout(()=>renderComprasAC63(false),0);
+return panel;
+}
+const showTabBaseAC58=showTab;
+showTab=function(id){
+if(id==="portadaGestion") id="agenda";
+if(id==="agendaMovil") id="agenda";
+const compras=asegurarComprasAC62();
+if(id!=="compras" && compras) compras.classList.add("hidden");
+if(id==="compras"){
+if(accesoR138!=="gestion"){
+alert("ACCESO BLOQUEADO. ENTRA DESDE AUTOBORJA.");
+id="inicio";
+}else{
+showTabBaseAC58("mas");
+document.getElementById("mas")?.classList.add("hidden");
+compras.classList.remove("hidden");
+const tabsBar=document.getElementById("tabs");
+if(tabsBar) tabsBar.style.display="flex";
+marcarBarraDocumentalAC60("compras");
+renderComprasAC63(false);
+setTimeout(()=>{ aplicarLimpiezaVisualConceptualAC58(); normalizarBotonesInicioAC60(); },0);
+setTimeout(normalizarPantallasSecundariasAC61,0);
+return;
+}
+}
+showTabBaseAC58(id);
+const tabsBar=document.getElementById("tabs");
+if(tabsBar && ["agenda","agendaMovil","presupuesto","taller","prefactura","historial","compras","mas","almacen","herramientas","seguridad","diagnostico","ganancias","estadisticas","inventario","nueva"].includes(id)){
+tabsBar.style.display="flex";
+}
+marcarBarraDocumentalAC60(id);
+setTimeout(()=>{ aplicarLimpiezaVisualConceptualAC58(); normalizarBotonesInicioAC60(); },0);
+setTimeout(normalizarPantallasSecundariasAC61,0);
+setTimeout(aplicarFormularioAnchoAC59,0);
+};
+simplificarNavegacionAC58();
 showTab('inicio');</script></body></html>
+
+
+
+
+
+
