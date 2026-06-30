@@ -1,4 +1,56 @@
 <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Autoborja</title><link rel="apple-touch-icon" href="icono.png"><style>body{font-family:Arial,sans-serif;background:#0f1728;margin:0;padding:16px;color:#e8edf7}.card{background:#1c2940;padding:18px;border-radius:18px;max-width:700px;margin:0 auto 18px;box-shadow:0 2px 10px #0004;border:2px solid #ff7a1a}h1{text-align:center;color:#ff7a1a;background:#0b1220;margin:-16px -16px 16px;padding:22px 10px;font-size:26px}h2{margin:8px 0 14px;color:#ffffff}.tabs{display:flex;gap:8px;max-width:700px;margin:0 auto 14px}.tabs button{flex:1;background:#1c2940;color:#e8edf7;border:1px solid #ff7a1a;transition:0.15s}.tabs button.activo{border:4px solid white;transform:scale(1.08);box-shadow:0 0 12px white}input,textarea,select,button{width:100%;box-sizing:border-box;padding:13px;margin:6px 0 12px;border-radius:12px;border:1px solid #3b4a63;font-size:16px;background:#101827;color:#e8edf7}button{background:#ff7a1a;color:#0f1728;font-weight:bold;border:none}button.secondary{background:#344d7a;color:white}button.green{background:#28a745;color:white}button.danger{background:#b00020;color:white}.acciones{display:flex;gap:6px;margin-top:10px}.acciones button{margin:0;padding:10px 6px;font-size:13px;flex:1}label{font-weight:bold;color:#ff7a1a}.hidden{display:none}.item{background:#101827;color:#e8edf7;padding:12px;margin-top:10px;border-radius:12px;border-left:5px solid #ff7a1a}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}.row input{width:100%;max-width:100%}.results button{background:#101827;color:#e8edf7;text-align:left;border-radius:0;margin:0;border-bottom:1px solid #3b4a63}.notice{background:#10281d;border-left:5px solid #28a745;padding:10px;border-radius:10px;margin-bottom:12px;font-weight:bold;color:#e8edf7}input[type="datetime-local"]{min-width:0;font-size:14px;padding:12px 8px}@media(max-width:520px){.row{grid-template-columns:1fr}}#estado{font-weight:bold}#estado option{font-weight:bold}.estado-citado{background:#2196f3;color:white}.estado-entaller{background:#ff7a1a;color:white}.estado-finalizado{background:#28a745;color:white}#modalCamara{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000d;z-index:10000;overflow-y:auto;padding:16px}#modalCamaraBox{background:#0f1728;border:2px solid #ff7a1a;border-radius:18px;padding:16px;max-width:500px;margin:20px auto}#modalCamaraBox h2{color:#ff7a1a;margin-top:0;text-align:center}#videoOCR{width:100%;border-radius:12px;border:2px solid #3b4a63;background:#000;display:block;max-height:260px;object-fit:cover}#overlayMat{text-align:center;font-size:28px;font-weight:bold;letter-spacing:6px;color:#ff7a1a;background:#0f1728;border-radius:10px;padding:12px 6px;margin:10px 0;min-height:54px;border:2px solid #ff7a1a}#estadoOCR{text-align:center;font-size:14px;color:#aab4c8;margin-bottom:10px;min-height:20px}#panelHistorialCamara{background:#101827;border-radius:12px;padding:10px;margin-top:10px;border:1px solid #3b4a63;display:none}#panelHistorialCamara h3{color:#ff7a1a;margin:0 0 8px;font-size:15px}#listadoHistCamara{font-size:13px;color:#e8edf7;max-height:160px;overflow-y:auto}.item-hist-cam{border-left:3px solid #ff7a1a;padding:6px 8px;margin-bottom:6px;background:#1c2940;border-radius:8px}#botoneraCamara{display:flex;gap:10px;margin-top:12px}#modalCliente{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000a;z-index:9999;overflow-y:auto;padding:20px}#modalClienteBox{background:#1c2940;border:2px solid #ff7a1a;border-radius:18px;padding:20px;max-width:500px;margin:40px auto}#modalClienteBox h2{color:#ff7a1a;margin-top:0}#modalClienteBox label{font-weight:bold;color:#ff7a1a;display:block;margin-top:10px}#modalClienteBox input{margin:4px 0 10px}.version-app{position:absolute;top:8px;right:12px;font-size:12px;color:#aab4c8;font-weight:bold;background:#0b1220;border:1px solid #3b4a63;border-radius:8px;padding:4px 8px;z-index:10}.version-app button{all:unset;cursor:pointer}.resumen-frec{background:#101827;border:2px solid #ff7a1a;border-radius:14px;padding:12px;margin-bottom:12px;color:#e8edf7}.resumen-frec h3{margin:0 0 10px;color:#ff7a1a;font-size:17px}.resumen-frec .mini{background:#0b1220;border:1px solid #3b4a63;border-radius:10px;padding:10px;margin:8px 0;white-space:pre-wrap;line-height:1.35}.resumen-frec .aviso{background:#16233a;border-left:4px solid #2196f3;padding:9px;border-radius:8px;font-size:13px;color:#cfe3ff;margin-bottom:10px}.aviso-modal{background:#2a1a00;border-left:4px solid #ff7a1a;padding:10px;border-radius:8px;font-size:14px;margin-bottom:14px;color:#ffd580}.lineas-panel{background:#101827;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin-top:16px}.lineas-panel h3{color:#ff7a1a;margin:0 0 8px}.lineas-tabla{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}#contenedorLineas{overflow-x:auto}.lineas-concepto{white-space:pre-wrap;line-height:1.35}.lineas-ref{font-weight:bold;color:#ff7a1a;white-space:nowrap}.lineas-tabla th{text-align:left;color:#aab4c8;font-weight:normal;border-bottom:1px solid #3b4a63;padding:6px 4px}.lineas-tabla td{padding:6px 4px;border-bottom:1px solid #2a3a55}.lineas-tabla .eliminar{background:none;border:none;color:#b00020;font-size:18px;cursor:pointer;padding:0 4px;width:auto;margin:0}.lineas-totales{display:flex;gap:20px;flex-wrap:wrap;margin-top:10px;font-weight:bold}.lineas-totales span{background:#0b1220;padding:6px 12px;border-radius:8px}.btn-anadir{background:#344d7a;color:white;margin:4px 4px 4px 0;padding:8px 14px;font-size:14px;width:auto;display:inline-block}#modalSeleccionArticulo{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000a;z-index:9999;padding:20px;overflow-y:auto}#modalSeleccionArticuloBox{background:#1c2940;border:2px solid #ff7a1a;border-radius:18px;padding:20px;max-width:600px;margin:40px auto}#modalSeleccionArticuloBox h2{color:#ff7a1a;margin-top:0}.lista-articulos-modal{max-height:300px;overflow-y:auto}.lista-articulos-modal button{background:#101827;color:#e8edf7;border-bottom:1px solid #3b4a63;border-radius:0;margin:0;text-align:left;padding:10px}#tituloApp{font-size:clamp(34px,8.8vw,48px);line-height:1.05;letter-spacing:1px;padding:26px 8px;margin:-16px -16px 16px;white-space:normal;word-break:keep-all}.inicio-gestion{display:flex;gap:10px;align-items:stretch;margin-top:6px;margin-bottom:12px}.inicio-gestion .btn-gestion{flex:1 1 100%;font-size:24px;padding:20px;margin:0;width:100%}.inicio-gestion .btn-fecha{flex:0 0 112px;font-size:14px;line-height:1.2;padding:10px 8px;margin:0;background:#344d7a;color:white}.cabecera-formulario{display:flex;align-items:center;gap:12px;margin-bottom:16px}.cabecera-formulario .btn-inicio{width:auto;padding:8px 16px;margin:0;flex:0 0 auto}.cabecera-formulario h2{margin:0;color:#ffffff}.fecha-formulario{background:#344d7a;color:white;border-radius:14px;padding:12px 18px;font-size:24px;font-weight:bold;flex:1;text-align:center;line-height:1.1;box-sizing:border-box}.separador-materiales-print{font-weight:bold;border-top:1px solid #aaa;border-bottom:1px solid #aaa;padding:6px 4px;background:#f7f7f7;letter-spacing:.5px}.vehiculo-panel{background:#101827;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin:10px 0 14px}.vehiculo-panel h3{color:#ff7a1a;margin:0 0 10px;font-size:17px}.vehiculo-panel .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.vehiculo-panel textarea{min-height:70px}.historial-vehiculo{background:#0b1220;border-left:4px solid #2196f3;border-radius:10px;padding:10px;margin:10px 0 0;font-size:14px;line-height:1.35}.historial-vehiculo h4{margin:0 0 8px;color:#cfe3ff}.aviso-mantenimiento{background:#2a1a00;border-left:4px solid #ff7a1a;padding:8px;border-radius:8px;margin:6px 0;color:#ffd580;font-weight:bold}.aviso-mantenimiento.ok{background:#10281d;border-left-color:#28a745;color:#b9ffd0;font-weight:normal}.agenda-mini{position:relative;background:#101827;border-left:5px solid #2196f3;border-radius:12px;padding:9px 64px 9px 12px;margin-top:8px;min-height:66px;box-shadow:0 1px 6px #0003}.agenda-mini .fecha{font-size:15px;font-weight:bold;color:#cfe3ff;line-height:1.2}.agenda-mini .mat{font-size:18px;font-weight:bold;color:#ffffff;letter-spacing:.5px;line-height:1.25}.agenda-mini .cli{font-size:15px;color:#e8edf7;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.agenda-edit{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:46px;height:46px;margin:0;padding:0;border-radius:14px;background:#344d7a;color:white;font-size:24px;display:flex;align-items:center;justify-content:center}.agenda-detalle{margin-top:8px;padding-top:8px;border-top:1px solid #3b4a63;font-size:14px;line-height:1.45;color:#e8edf7}.btn-presupuesto-rapido{background:#28a745!important;color:white!important;border-radius:13px!important;font-size:17px!important;padding:13px!important;margin:10px auto 0!important;width:78%!important;display:block!important}.presupuesto-card-pendiente{border-left-color:#00a6a6!important;background:#0f2730!important}.presupuesto-card-convertido{border-left-color:#ff7a1a!important;background:#2a1a00!important}.presupuesto-card-rechazado{border-left-color:#777!important;background:#20242b!important;color:#d0d3d8!important}.estado-presupuesto{display:inline-block;margin-top:6px;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:bold;letter-spacing:.3px}.estado-presupuesto.pendiente{background:#00a6a6;color:white}.estado-presupuesto.convertido{background:#ff7a1a;color:#0f1728}.estado-presupuesto.rechazado{background:#777;color:white}.presupuesto-acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.presupuesto-acciones button{margin:0;flex:1;min-width:120px;padding:11px 8px;font-size:14px}.presupuesto-datos{font-size:14px;line-height:1.45;margin-top:8px}.presupuesto-ref{font-size:16px;color:#fff;font-weight:bold}.presupuesto-mat{font-size:19px;color:#fff;font-weight:bold;letter-spacing:.5px}.presupuesto-trabajo{margin-top:8px;border-top:1px solid #3b4a63;padding-top:8px}.paneles-extra-ot{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.paneles-extra-ot button{flex:1;min-width:150px;margin:0;padding:12px 8px;font-size:14px}.acciones{flex-wrap:wrap}.acciones button{min-width:82px;white-space:normal;line-height:1.15}.acciones.ot-acciones button{min-width:90px;font-size:12px;padding:10px 5px}.acciones.ot-acciones .btn-prefactura{background:#28a745;color:white}.acciones.ot-acciones .btn-rentabilidad-ot{background:#9c27b0;color:white}.acciones.ot-acciones .btn-prefactura.compacto,.acciones.ot-acciones .btn-rentabilidad-ot.compacto{flex:1 1 0;min-width:118px;font-size:12px;padding:10px 6px;min-height:48px;display:flex;align-items:center;justify-content:center;text-align:center}.ot-acciones-par-r134{display:flex;gap:8px;width:100%;margin:0;align-items:stretch}.ot-acciones-par-r134 button{flex:1 1 0!important;width:0!important;min-width:0!important;min-height:48px!important;margin:0!important;padding:10px 6px!important;font-size:13px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;line-height:1.12!important}.ot-acciones-par-r134 .btn-prefactura{background:#28a745;color:white}.ot-acciones-par-r134 .btn-rentabilidad-ot{background:#9c27b0;color:white}.acciones.ot-acciones .btn-anular{background:#b00020;color:white}.agenda-mini{padding:7px 50px 7px 10px!important;min-height:54px!important;margin-top:6px!important}.agenda-mini .fecha{font-size:13px!important}.agenda-mini .mat{font-size:17px!important}.agenda-mini .cli{font-size:14px!important}.agenda-edit{width:38px!important;height:38px!important;border-radius:12px!important;font-size:20px!important;right:8px!important}.lineas-tabla{min-width:620px!important;table-layout:fixed}.lineas-tabla th:nth-child(1),.lineas-tabla td:nth-child(1){width:70px}.lineas-tabla th:nth-child(2),.lineas-tabla td:nth-child(2){width:270px}.lineas-concepto{white-space:normal!important;word-break:break-word;overflow-wrap:anywhere;line-height:1.25}.lineas-ref{white-space:normal!important;word-break:break-word;font-size:12px}.ot-card-r120{padding:10px 12px!important;margin-top:8px!important}.ot-top-r120{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.ot-ref-r120{font-size:15px;color:#ffd580;font-weight:bold;white-space:nowrap}.ot-mat-r120{font-size:22px;font-weight:bold;color:#fff;letter-spacing:.7px;line-height:1.05}.ot-cli-r120{font-size:15px;color:#e8edf7;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px}.ot-veh-r120{font-size:13px;color:#aab4c8;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:270px}.ot-meta-r120{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;font-size:12px;color:#cfe3ff}.ot-chip-r120{background:#0b1220;border:1px solid #3b4a63;border-radius:999px;padding:4px 7px;line-height:1.1}.ot-total-r120{font-weight:bold;color:#28a745;font-size:16px;text-align:right;white-space:nowrap}.ot-origen-r120{margin-top:7px;padding:7px 9px;border-radius:10px;background:#2a1a00;color:#ffd580;font-weight:bold;font-size:13px;line-height:1.25}.ot-detalle-r120{margin-top:9px;border-top:1px solid #3b4a63;padding-top:8px}.ot-ver-r120{background:#344d7a!important;color:white!important;margin:8px 0 0!important;padding:9px!important;font-size:14px!important}.ot-anular-zona-r120{margin-top:8px;text-align:right}.ot-anular-zona-r120 button{width:auto!important;padding:7px 11px!important;font-size:12px!important;margin:0!important;background:#4a1b25!important;color:#ffd6d6!important}.aviso.localizado-r120{background:#10281d;border-left-color:#28a745;color:#b9ffd0;line-height:1.35}.agenda-mini.agenda-24{border-left-color:#ff2d2d!important;background:#3a1014!important}.agenda-mini.agenda-24 .fecha{color:#ffd6d6!important}.agenda-mini.agenda-48{border-left-color:#ffb000!important;background:#33240a!important}.agenda-mini.agenda-48 .fecha{color:#ffe2a6!important}.agenda-mini.agenda-72{border-left-color:#28a745!important;background:#10281d!important}.agenda-mini.agenda-72 .fecha{color:#b9ffd0!important}.agenda-mini.agenda-tarde{border-left-color:#2196f3!important}.operario-ot-form{background:#101827;border:1px solid #3b4a63;border-radius:12px;padding:10px 12px;margin:8px 0 12px}.operario-ot-form label{display:block;margin:0 0 4px}.operario-chip-r122{display:inline-block;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:bold;line-height:1.1;white-space:nowrap;border:1px solid #ffffff33}.operario-chip-r122.sin{background:#20242b;color:#cfd6e6}.operario-chip-r122.jose{background:#1e3a8a;color:white}.operario-chip-r122.javier{background:#14532d;color:white}.operario-chip-r122.domingo{background:#7c2d12;color:white}.operario-chip-r122.jorge{background:#581c87;color:white}.operario-chip-r122.ruben{background:#7f1d1d;color:white}.ot-ref-line-r122{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.ot-final-acciones-r123{display:flex;gap:8px;margin-top:8px;align-items:stretch}.ot-final-acciones-r123 button{margin:0!important;border-radius:12px!important;line-height:1.15!important}.ot-exportar-r123{flex:1;background:#344d7a!important;color:white!important;font-size:13px!important;padding:10px 8px!important}.ot-anular-r123{flex:0 0 96px;background:#4a1b25!important;color:#ffd6d6!important;font-size:11px!important;padding:8px 6px!important}@media(max-width:420px){.ot-anular-r123{flex-basis:82px;font-size:10px!important}.ot-exportar-r123{font-size:12px!important}}@media(max-width:420px){.lineas-tabla{min-width:560px!important;font-size:12px}.lineas-tabla th:nth-child(1),.lineas-tabla td:nth-child(1){width:56px}.lineas-tabla th:nth-child(2),.lineas-tabla td:nth-child(2){width:240px}.ot-cli-r120{max-width:190px}.ot-veh-r120{max-width:220px}}@media(max-width:520px){.vehiculo-panel .mini-grid{grid-template-columns:1fr}}@media(max-width:420px){#tituloApp{font-size:34px}.inicio-gestion .btn-gestion{font-size:22px}.inicio-gestion .btn-fecha{flex-basis:102px;font-size:13px}.fecha-formulario{font-size:20px;padding:12px 10px}}.ot-final-acciones-r123{display:flex;gap:8px;margin-top:8px;align-items:stretch;flex-wrap:wrap}.ot-final-acciones-r123 button{margin:0!important;border-radius:12px!important;line-height:1.15!important}.ot-final-acciones-r123 .ot-exportar-r123{flex:1 1 170px;background:#344d7a!important;color:white!important;font-size:13px!important;padding:10px 8px!important}.ot-final-acciones-r123 .ot-anular-r123{flex:0 0 auto;width:auto!important;background:#4a1b25!important;color:#ffd6d6!important;font-size:12px!important;padding:8px 12px!important}.operario-input-row-r124{display:flex;gap:8px;align-items:stretch}.operario-input-row-r124 select{flex:1;margin:0 0 8px}.operario-input-row-r124 button{flex:0 0 auto;width:auto;margin:0 0 8px;padding:8px 12px;font-size:13px;background:#344d7a;color:white}.ot-operario-r124{margin-top:3px}.ot-final-acciones-r124-visible{display:flex;gap:8px;margin-top:9px;align-items:stretch;flex-wrap:wrap}.ot-final-acciones-r124-visible button{margin:0!important;border-radius:12px!important;line-height:1.15!important}.ot-final-acciones-r124-visible .ot-exportar-r123{flex:1 1 170px;background:#344d7a!important;color:white!important;font-size:13px!important;padding:10px 8px!important}.ot-final-acciones-r124-visible .ot-anular-r123{flex:0 0 auto;width:auto!important;background:#4a1b25!important;color:#ffd6d6!important;font-size:12px!important;padding:8px 12px!important}.ot-operario-r124{display:flex;gap:5px;flex-wrap:wrap;align-items:center}.ot-operario-r124 .operario-chip-r122{margin-top:3px}.cabecera-seccion-r132{display:flex;align-items:center;gap:12px;margin-bottom:10px}.cabecera-seccion-r132 .btn-inicio-seccion-r132{width:auto;padding:8px 16px;margin:0;flex:0 0 auto}.cabecera-seccion-r132 h2{margin:0;color:#ffffff}.buscador-doc-r132{background:#0f1728;border:2px solid #3b4a63;border-radius:16px;padding:10px;margin:0 0 14px;box-shadow:inset 0 0 0 1px #0003}.buscador-tabs-r132{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}.buscador-tabs-r132 button{flex:1;padding:8px 4px;font-size:13px;background:#1c2940;color:#e8edf7;border:2px solid #3b4a63;border-radius:10px;margin:0;min-width:78px}.buscador-tabs-r132 button.activo{background:#ff7a1a!important;color:#0f1728!important;border-color:#ff7a1a!important;font-weight:bold}.buscador-tabs-r132 button.morado.activo{background:#7b2fff!important;color:white!important;border-color:#7b2fff!important}.buscador-doc-r132 input{margin:0}@media(max-width:420px){.buscador-tabs-r132 button{font-size:12px;min-width:68px}.cabecera-seccion-r132{gap:8px}.cabecera-seccion-r132 .btn-inicio-seccion-r132{padding:8px 12px}}.portada-r138{display:grid;gap:12px;margin-top:6px}.portada-r138 button{margin:0;padding:21px 14px;font-size:22px;line-height:1.15}.portada-r138 .btn-herramientas-r138{background:#344d7a;color:white}.portada-r138 .btn-salir-r138{background:#4a1b25;color:#ffd6d6}.herramientas-r138 h2{text-align:center;color:#ff7a1a;margin-bottom:18px}.herramientas-r138 .volver-r138{width:auto;padding:9px 14px;margin:0 0 14px;background:#344d7a;color:white}.herramientas-r138 .grupo-r138{display:grid;gap:2px}.herramientas-r138 .grupo-r138 button{margin:5px 0}@media(max-width:420px){.portada-r138 button{font-size:20px;padding:19px 12px}}
+<!--
+  LIMPIEZA DE CÓDIGO — registro técnico interno
+  Fecha: 2026-06-30
+  Se ha eliminado código muerto y duplicado detectado por auditoría:
+  - Versión antigua duplicada del Centro de Integridad (renderizado, reparaciones,
+    certificación y diagnóstico) sustituida por la versión activa AC95/AC57.
+  - Cola de código inalcanzable en anularOT() posterior al return (norma v-22:
+    una OT no se anula, retrocede a Presupuesto).
+  - Estado OT_ANULADA retirado por completo del modelo (color, validación de copias,
+    nombre de exportación, filtros de tiempos): ya no es alcanzable desde ningún flujo.
+  - 22 funciones sin ninguna referencia en el archivo (eliminarOT, salirSeguro,
+    importarProveedoresAC64, exportarAgendaFusionAC85/importarAgendaFusionAC85,
+    borrarPresupuestoYAgenda, inicializarPrueba, recalcularContadoresDesdeDatos y otras
+    funciones internas menores).
+  Total: ~390 líneas eliminadas. Sin cambios de comportamiento para el usuario.
+-->
+<!--
+  AGENDA MÓVIL — cierre funcional (puntos 1-4 de la auditoría)
+  Fecha: 2026-06-30
+  - Quitado el alias que redirigía "agendaMovil" a la agenda completa de gestión
+    (estaba duplicado: en showTab() original y en su versión parcheada AC58).
+  - Nuevo nivel de acceso "movil" con código propio, independiente del código
+    de gestión (gestionable desde Seguridad → "Agenda móvil").
+  - Botón de entrada propio en la portada inicial.
+  - El botón "EDITAR" de cada cita ya no abre el formulario completo de OT:
+    abre el propio formulario de agenda móvil (editarCitaMovilAC80), y se ha
+    añadido "ELIMINAR" acotado a citas (eliminarCitaMovilAC80).
+  - Pendiente, no resuelto aquí: cada dispositivo guarda en su propio
+    localStorage. Sin servidor, las citas creadas en un móvil no se ven en
+    los puestos fijos hasta exportar/importar copia. Es la pieza que resuelve
+    la migración a servidor.
+-->
+<!--
+  TRAZABILIDAD Y USUARIOS DE GESTIÓN (v-28)
+  Fecha: 2026-06-30
+  - Sustituido el código compartido de "ENTRAR A AUTOBORJA" por identificación
+    individual: hasta 3 personas, cada una con su nombre y su PIN propio
+    (Seguridad → "Usuarios de gestión" → solo editable estando ya dentro
+    de gestión). Si no hay usuarios configurados, se mantiene como respaldo
+    el código compartido antiguo, marcando esas acciones como "sin identificar".
+  - Cada expediente guarda ahora creadoPor / fechaCreacion / modificadoPor /
+    fechaModificacion. Se completa en: alta y edición desde el formulario
+    principal (guardarOT), conversión de presupuesto a OT/Prefactura/Factura,
+    creación de FREC, y alta/edición desde agenda móvil.
+  - No cubierto todavía: los botones de retroceso de capa (volver a agenda/
+    presupuesto/OT) no actualizan modificadoPor, porque ahí el contenido se
+    borra, no se edita. Si interesa registrar "quién retrocedió", es un punto
+    aparte.
+  - La trazabilidad se muestra en el propio formulario al editar un
+    expediente (banner morado superior). Los expedientes creados antes de
+    esta versión no tienen estos datos y lo indican así en pantalla.
+-->
 .portal-acceso-r202{text-align:center}.portal-acceso-r202 .subtitulo-r202{color:#aab4c8;font-size:14px;line-height:1.35;margin:-4px 0 14px}.icon-grid-r202{display:grid;grid-template-columns:1fr;gap:12px}.icon-btn-r202{display:flex!important;align-items:center;justify-content:center;gap:14px;min-height:92px;margin:0!important;border-radius:20px!important;font-size:18px!important;line-height:1.1!important;box-shadow:0 2px 10px #0004}.icon-btn-r202 .ico-r202{font-size:48px;line-height:1;display:block;filter:drop-shadow(0 2px 2px #0006)}.icon-btn-r202 .txt-r202{display:block;text-align:left}.icon-btn-r202 .txt-r202 b{display:block;font-size:19px}.icon-btn-r202 .txt-r202 span{display:block;font-size:12px;color:#dbe7ff;font-weight:normal;margin-top:4px}.icon-btn-r202.verde{background:#28a745;color:white}.icon-btn-r202.azul{background:#2196f3;color:white}.icon-btn-r202.morado{background:#7b2fff;color:white}.icon-btn-r202.gris{background:#344d7a;color:white}.icon-btn-r202.naranja{background:#ff7a1a;color:#0f1728}.icon-btn-r202.rojo{background:#4a1b25;color:#ffd6d6}.icon-btn-r202:active{transform:scale(.98)}@media(min-width:560px){.icon-grid-r202{grid-template-columns:1fr 1fr}.icon-grid-r202 .ancho-r202{grid-column:1/-1}}@media(max-width:420px){.icon-btn-r202{min-height:86px}.icon-btn-r202 .ico-r202{font-size:44px}.icon-btn-r202 .txt-r202 b{font-size:17px}}
 .portada-r138 .btn-operarios-r139{background:#2196f3;color:white}.operarios-r139 h2{text-align:center;color:#ff7a1a;margin-bottom:18px}.operario-lista-r139{display:grid;gap:8px;margin-top:10px}.operario-lista-r139 button{margin:0;background:#101827;color:#e8edf7;border:1px solid #3b4a63;text-align:left;padding:14px}.operario-card-r139{background:#101827;border-left:5px solid #2196f3;border-radius:12px;padding:12px;margin-top:10px}.operario-card-r139 .ref{color:#ffd580;font-weight:bold}.operario-card-r139 .mat{font-size:21px;font-weight:bold;color:#fff;letter-spacing:.5px}.operario-card-r139 .mini{color:#aab4c8;font-size:13px;line-height:1.35}.operario-card-r139 .trabajo{border-top:1px solid #3b4a63;margin-top:8px;padding-top:8px;white-space:pre-wrap;line-height:1.3}.operario-lineas-r140{margin-top:10px;border-top:1px solid #3b4a63;padding-top:8px}.operario-lineas-r140 h4{margin:8px 0 6px;color:#ffd580;font-size:15px}.operario-lineas-r140 table{width:100%;border-collapse:collapse;font-size:13px}.operario-lineas-r140 th{color:#aab4c8;font-weight:normal;text-align:left;border-bottom:1px solid #3b4a63;padding:5px 4px}.operario-lineas-r140 td{border-bottom:1px solid #2a3a55;padding:6px 4px;vertical-align:top}.operario-lineas-r140 .ref{color:#ff7a1a;font-weight:bold;width:76px;word-break:break-word}.operario-lineas-r140 .uds{text-align:center;width:44px;color:#fff;font-weight:bold}.apuntes-operario-r140{margin-top:10px;background:#0b1220;border:1px solid #3b4a63;border-radius:10px;padding:9px;white-space:pre-wrap;line-height:1.35}.btn-apunte-r140{background:#344d7a!important;color:white!important;margin-top:10px!important}
 /* ===== CRONÓMETRO POR OT AC05 ===== */
@@ -105,12 +157,8 @@ function ejecutarDiagnostico(){
 
 function _diagTexto(v){ return textoPlanoR39(v).trim(); }
 function _diagNumeroDoc(v){ return parseInt(_diagTexto(v).replace(/\D/g,""),10)||0; }
-function _diagFechaValida(v){ if(!v) return false; const d=new Date(v); return !isNaN(d.getTime()); }
 function _diagClonar(obj){ return JSON.parse(JSON.stringify(obj||{})); }
-function _diagEsObjetoPlano(v){ return v && typeof v==="object" && !Array.isArray(v); }
-function _diagEstadosDocumento(){ return new Set(["CITA","PRESUPUESTO","OT","PREFACTURA","FACTURA","OT_ANULADA"]); }
-function _diagComprobarArray(nombre,arr,errores){ if(!Array.isArray(arr)){ errores.push({cat:"ESTRUCTURA",msg:nombre+" no es una lista válida",fix:null}); return false; } return true; }
-function _diagReferenciaNumerica(ot){ return Math.max(_diagNumeroDoc(ot.numeroAgenda),_diagNumeroDoc(ot.numeroPresupuesto),_diagNumeroDoc(ot.numeroOT),_diagNumeroDoc(ot.numeroPrefactura),_diagNumeroDoc(ot.numeroFactura),_diagNumeroDoc(ot.numeroRectificativa)); }
+function _diagEstadosDocumento(){ return new Set(["CITA","PRESUPUESTO","OT","PREFACTURA","FACTURA"]); }
 function _diagLineasInvalidas(ot){ return (ot.lineas||[]).filter(l=>!l || typeof l!=="object" || Number(l.cantidad)<0 || Number(l.precio)<0 || Number(l.iva)<0); }
 function _diagCalcularTamanoProyectado(obj){ try{return tamanoBytesTexto(JSON.stringify(obj));}catch(e){return 0;} }
 
@@ -399,7 +447,6 @@ function _diagNormalizarTextoClave(v){
 }
 function _diagSoloDigitos(v){ return String(v||"").replace(/\D/g,""); }
 function _diagNormalizarEmail(v){ return String(v||"").trim().toLowerCase(); }
-function _diagNormalizarIban(v){ return String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,""); }
 function _diagNombreTokens(nombre){
   const stop=new Set(["DE","DEL","LA","LAS","LOS","EL","Y","E","DA","DAS","DOS","SAN","SANTA"]);
   return _diagNormalizarTextoClave(nombre).split(" ").filter(t=>t && !stop.has(t));
@@ -414,13 +461,6 @@ function _diagNombresCompatibles(a,b){
   if(pa===pb) return true;
   // Permite errores mínimos reales: JOSE/JOSÉ ya se normaliza; aquí solo letras muy próximas.
   return pa.length>=5 && pb.length>=5 && _similitud(pa,pb)>0.90;
-}
-function _diagNombreCompletoMuyParecido(a,b){
-  const na=_diagNormalizarTextoClave(a), nb=_diagNormalizarTextoClave(b);
-  if(!na || !nb || na===nb) return false;
-  if(!_diagNombresCompatibles(na,nb)) return false;
-  // Con primer nombre compatible, sí aceptamos similitud alta del nombre completo.
-  return _similitud(na,nb)>0.88;
 }
 function _buscarDuplicadosClientesInteligente(clientesObj){
   // AC31: criterio de diagnóstico seguro para AutoBorja.
@@ -489,60 +529,6 @@ function _distanciaEdicion(s,t){
   return dp[m][n];
 }
 
-function _renderizarInforme(inf){
-  const progreso=document.getElementById("diagProgreso");
-  const resumen=document.getElementById("diagResumen");
-  const detalle=document.getElementById("diagDetalle");
-  progreso.style.display="none";
-
-  const numErr=inf.errores.length, numAdv=inf.advertencias.length;
-  const estadoGlobal=numErr>0?"❌ ERRORES DETECTADOS":numAdv>0?"⚠️ ADVERTENCIAS":"✅ SISTEMA ÓPTIMO";
-  const colorGlobal=numErr>0?"#b00020":numAdv>0?"#ff7a1a":"#28a745";
-  const bgGlobal=numErr>0?"#3a1014":numAdv>0?"#2a1a00":"#10281d";
-  const siguientePaso=numErr>0
-    ? "Hay incidencias que conviene revisar contigo antes de tocar datos reales. Exporta el informe o revisamos la primera incidencia paso a paso."
-    : (numAdv>0
-      ? "No hay errores criticos. Revisa los avisos y decidimos si los corregimos ahora o los dejamos controlados."
-      : "No hay incidencias. El sistema queda listo para seguir trabajando.");
-  const incidencias=inf.errores.length?inf.errores:inf.advertencias;
-
-  resumen.style.display="block";
-  resumen.innerHTML=`
-    <div style="background:${bgGlobal};border:2px solid ${colorGlobal};border-radius:14px;padding:16px;margin-bottom:14px;text-align:center;">
-      <div style="font-size:22px;font-weight:bold;color:${colorGlobal};">${estadoGlobal}</div>
-      <div style="color:#aab4c8;font-size:13px;margin-top:4px;">Análisis del ${inf.fecha}</div>
-      <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
-        <span style="background:#3a1014;border:1px solid #b00020;border-radius:8px;padding:6px 12px;color:#ffd6d6;font-weight:bold;">❌ ${numErr} error${numErr!==1?"es":""}</span>
-        <span style="background:#2a1a00;border:1px solid #ff7a1a;border-radius:8px;padding:6px 12px;color:#ffd580;font-weight:bold;">⚠️ ${numAdv} aviso${numAdv!==1?"s":""}</span>
-        <span style="background:#10281d;border:1px solid #28a745;border-radius:8px;padding:6px 12px;color:#b9ffd0;font-weight:bold;">✅ ${inf.info.length} OK</span>
-      </div>
-    </div>
-    <div style="background:#0b1220;border:1px solid ${colorGlobal};border-radius:12px;padding:12px;margin-bottom:14px;line-height:1.4;">
-      <div style="color:${colorGlobal};font-weight:bold;margin-bottom:5px;">Siguiente paso</div>
-      <div style="color:#e8edf7;font-size:13px;">${siguientePaso}</div>
-      ${incidencias.length?`<div style="margin-top:10px;color:#aab4c8;font-size:12px;">Primera incidencia: <b style="color:#ffd580;">[${incidencias[0].cat}]</b> ${incidencias[0].msg}</div>`:""}
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
-      ${[["📋","Expedientes",inf.totales.expedientes],["👤","Clientes",inf.totales.clientes],["🚗","Vehículos",inf.totales.vehiculos],["📦","Artículos",inf.totales.articulos]].map(([ico,lab,val])=>
-        `<div style="background:#101827;border:1px solid #3b4a63;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:20px;">${ico}</div><div style="font-size:22px;font-weight:bold;color:#ff7a1a;">${val}</div><div style="font-size:12px;color:#aab4c8;">${lab}</div></div>`
-      ).join("")}
-    </div>
-    ${inf.reparaciones.length?`<div style="background:#162030;border:1px solid #4a9eff;border-radius:12px;padding:12px;margin-bottom:14px;"><div style="color:#4a9eff;font-weight:bold;margin-bottom:8px;">🔧 REPARACIONES DISPONIBLES</div><div style="display:flex;flex-direction:column;gap:6px;">${inf.reparaciones.map(r=>`<button type="button" onclick="ejecutarReparacion('${r}')" style="background:#1a3a5c;color:white;border:1px solid #4a9eff;border-radius:8px;padding:9px;font-size:13px;text-align:left;">${_textoReparacion(r)}</button>`).join("")}</div></div>`:""}
-  `;
-
-  detalle.style.display="block";
-  const secciones=[
-    {titulo:"❌ ERRORES",items:inf.errores,bg:"#3a1014",borde:"#b00020",color:"#ffd6d6"},
-    {titulo:"⚠️ ADVERTENCIAS",items:inf.advertencias,bg:"#2a1a00",borde:"#ff7a1a",color:"#ffd580"},
-    {titulo:"✅ INFORMACIÓN",items:inf.info,bg:"#101827",borde:"#3b4a63",color:"#e8edf7"},
-  ];
-  detalle.innerHTML=secciones.filter(s=>s.items.length).map(s=>`
-    <div style="margin-bottom:12px;">
-      <div style="font-weight:bold;color:${s.color};margin-bottom:6px;font-size:14px;">${s.titulo}</div>
-      ${s.items.map(it=>`<div style="background:${s.bg};border-left:3px solid ${s.borde};border-radius:8px;padding:9px 12px;margin-bottom:5px;font-size:13px;color:${s.color};"><b>[${it.cat}]</b> ${it.msg}${(it.acciones&&it.acciones.length)?`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">${it.acciones.map(a=>`<button type="button" onclick="${a.fn}" style="width:auto;margin:0;padding:7px 9px;font-size:12px;background:#344d7a;color:white;border:1px solid #4a9eff;border-radius:8px;">${htmlSeguro(a.txt)}</button>`).join("")}</div>`:""}</div>`).join("")}
-    </div>
-  `).join("");
-}
 
 function _textoReparacion(clave){
   const map={
@@ -556,71 +542,6 @@ function _textoReparacion(clave){
   return map[clave]||clave;
 }
 
-function ejecutarReparacion(clave){
-  if(!confirm("¿Ejecutar reparación: "+_textoReparacion(clave)+"?\nSe guardará automáticamente.")) return;
-  try{
-    if(clave==="repararContadores"){
-      const maxFact=ots.filter(o=>o.numeroFactura).reduce((m,o)=>{
-        const n=parseInt(String(o.numeroFactura||"").replace(/\D/g,""))||0; return Math.max(m,n);
-      },0);
-      const maxOT=ots.filter(o=>o.numeroOT).reduce((m,o)=>{
-        const n=parseInt((o.numeroOT||"").replace(/\D/g,""))||0; return Math.max(m,n);
-      },0);
-      const maxPres=ots.filter(o=>o.numeroPresupuesto).reduce((m,o)=>{
-        const n=parseInt((o.numeroPresupuesto||"").replace(/\D/g,""))||0; return Math.max(m,n);
-      },0);
-      if(maxFact>contadores.factura) contadores.factura=maxFact;
-      if(maxOT>contadores.ot) contadores.ot=maxOT;
-      if(maxPres>contadores.presupuesto) contadores.presupuesto=maxPres;
-      guardar();
-      alert("✅ Contadores corregidos.");
-    }
-    else if(clave==="crearFichasVehiculosHuerfanos"){
-      const matsEnOTs=[...new Set(ots.map(o=>o.matricula).filter(Boolean))];
-      let creados=0;
-      matsEnOTs.forEach(mat=>{
-        if(!vehiculos[mat]){
-          const ot=[...ots].reverse().find(o=>o.matricula===mat)||{};
-          guardarFichaVehiculo({matricula:mat,cliente:ot.cliente||"",marca:ot.marca||"",modelo:ot.modelo||""});
-          creados++;
-        }
-      });
-      guardar();
-      alert(`✅ ${creados} ficha(s) de vehículo creadas.`);
-    }
-    else if(clave==="limpiarFotosHuerfanas"){
-      const clavesEnOTs=new Set(ots.map(o=>o.fotoExpedienteKey).filter(Boolean));
-      let eliminadas=0;
-      Object.keys(fotosExpedientes||{}).forEach(k=>{
-        if(!clavesEnOTs.has(k)&&(fotosExpedientes[k]||[]).length>0){
-          delete fotosExpedientes[k]; eliminadas++;
-        }
-      });
-      guardar();
-      alert(`✅ ${eliminadas} expediente(s) fotográfico(s) huérfano(s) eliminados.`);
-    }
-    else if(clave==="repararIdsDuplicados"){
-      const vistos=new Set();
-      let reparados=0;
-      ots.forEach(o=>{
-        if(vistos.has(o.id)){ o.id=generarIdUnico(); reparados++; }
-        else vistos.add(o.id);
-      });
-      guardar();
-      alert(`✅ ${reparados} ID(s) duplicado(s) reparados.`);
-    }
-    else if(clave==="eliminarArticulosVacios"){
-      const antes=articulos.length;
-      articulos=articulos.filter(a=>a.descripcion&&a.descripcion.trim());
-      guardar();
-      alert(`✅ ${antes-articulos.length} artículo(s) sin descripción eliminados.`);
-    }
-    // Re-ejecutar diagnóstico tras reparación
-    ejecutarDiagnostico();
-  }catch(e){
-    alert("Error durante la reparación: "+e.message);
-  }
-}
 
 function simularCargaFuncionalTotal(){
   avisoTrabajoAC96("Ejecutando auditor de estres... puede tardar unos segundos.", "diagnostico");
@@ -821,7 +742,7 @@ function exportarInformeDiagnostico(){
   URL.revokeObjectURL(url);
 }
 
-</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">v-12</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('prefactura')">PREFACTURA</button><button onclick="showTab('historial')">FACTURA</button><button onclick="showTab('mas')">+INFO</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button><button class="icon-btn-r202 naranja" onclick="solicitarAccesoIntegridadAC56()" type="button"><span class="ico-r202">🛡️</span><span class="txt-r202"><b>CENTRO DE INTEGRIDAD</b><span>Certificación, simulador, copias y auditoría</span></span></button></div></div><div id="integridadPrograma" class="card hidden herramientas-r138"><button class="volver-r138" onclick="showTab('inicio')" type="button">⬅️ VOLVER A PORTADA</button><h2>🛡️ CENTRO DE INTEGRIDAD AC57</h2><div class="aviso-modal">Centro independiente de certificación. No modifica el flujo normal del taller: analiza, simula, exporta, verifica copias y protege el programa.</div><div id="integridadEstadoAC57" style="background:#0b1220;border:2px solid #28a745;border-radius:16px;padding:14px;margin-bottom:14px;line-height:1.45;"><b>Estado del sistema:</b><br>Abre el centro y pulsa <b>Actualizar estado</b> o <b>Certificar AutoBorja</b>.</div><div class="grupo-r138"><button class="green" onclick="certificarAutoBorjaAC56('rapida')" type="button">✅ CERTIFICAR INTEGRIDAD AC57</button><button class="secondary" onclick="actualizarEstadoIntegridadAC56()" type="button">🔎 ACTUALIZAR ESTADO</button><button class="secondary" onclick="simularCargaFuncionalTotal()" type="button" style="background:#7b2fff;color:white;">🧪 SIMULADOR / AUDITOR DE ESTRÉS</button><button class="secondary" onclick="ejecutarDiagnosticoDesdeIntegridadAC56()" type="button">🔧 DIAGNÓSTICO PROFUNDO</button></div><h3 style="color:#ff7a1a;">1) Seguridad del Centro</h3><div class="grupo-r138"><button class="secondary" onclick="editarCodigoIntegridadAC56()" type="button">🔐 CAMBIAR CÓDIGO DE INTEGRIDAD</button></div><h3 style="color:#ff7a1a;">2) Copias y protección</h3><div class="grupo-r138"><button class="secondary" onclick="exportarProgramaVirgenAC55()" type="button">📦 EXPORTAR PROGRAMA VIRGEN</button><button class="secondary" onclick="exportarPaqueteModularAC55()" type="button">🧰 EXPORTAR PAQUETE MODULAR JSON</button><button class="secondary" onclick="exportarCopia()" type="button">💾 EXPORTAR COPIA COMPLETA</button></div><h3 style="color:#ff7a1a;">3) Exportación individual Excel/CSV</h3><label>Módulo</label><select id="integridadModuloAC55"><option value="clientes">Clientes</option><option value="vehiculos">Vehículos</option><option value="agenda">Agenda</option><option value="presupuestos">Presupuestos</option><option value="ot">Órdenes de trabajo</option><option value="prefacturas">Prefacturas</option><option value="facturas">Facturas</option><option value="articulos">Artículos</option><option value="stock">Stock / almacén</option><option value="operarios">Operarios</option><option value="fichajes">Control horario</option><option value="cronometros">Cronómetros</option></select><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Nº desde</label><input id="integridadNumDesdeAC55" type="number" placeholder="Opcional"></div><div><label>Nº hasta</label><input id="integridadNumHastaAC55" type="number" placeholder="Opcional"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Fecha desde</label><input id="integridadFechaDesdeAC55" type="date"></div><div><label>Fecha hasta</label><input id="integridadFechaHastaAC55" type="date"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;"><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('mes')" style="margin:0;flex:1;">ESTE MES</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('ano')" style="margin:0;flex:1;">ESTE AÑO</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('todo')" style="margin:0;flex:1;">TODO</button></div><button type="button" class="green" onclick="exportarModuloExcelAC55()">📄 EXPORTAR MÓDULO CSV/EXCEL</button><h3 style="color:#ff7a1a;">4) Copias regulares</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Frecuencia</label><select id="integridadFrecuenciaAC55"><option value="manual">Manual</option><option value="diaria">Diaria</option><option value="semanal">Semanal</option></select></div><div><label>Hora</label><input id="integridadHoraAC55" type="time" value="20:00"></div></div><button type="button" class="secondary" onclick="guardarPlanCopiasAC55()">💾 GUARDAR PLAN DE COPIAS</button><h3 style="color:#ff7a1a;">5) Informe</h3><div id="integridadResultadoAC55" style="background:#0b1220;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin-top:12px;color:#e8edf7;font-size:14px;line-height:1.45;">Sin certificaciones todavía.</div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
+</script><script src="https://cdn.jsdelivr.net/npm/ibantools@4.3.5/lib/ibantools.umd.min.js"></script></head><body><div id="versionApp" class="version-app"><button type="button" onclick="mostrarVersion()">v-28</button></div><h1 id="tituloApp">TALLERES AUTOBORJA</h1><div id="tabs" class="tabs"><button onclick="showTab('agenda')">AGENDA</button><button onclick="showTab('presupuesto')">PRESUPUESTO</button><button onclick="showTab('taller')">OT</button><button onclick="showTab('prefactura')">PREFACTURA</button><button onclick="showTab('historial')">FACTURA</button><button onclick="showTab('mas')">+INFO</button></div><div id="inicio" class="card hidden portal-acceso-r202"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">Bienvenido a AutoBorja</h2><div class="subtitulo-r202">Acceso principal protegido. Operarios y control horario quedan disponibles para uso diario.</div><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>ENTRAR A AUTOBORJA</b><span>Código configurable o entrada libre si está vacío</span></span></button><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Entrada rápida con iniciales</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>CONTROL HORARIO</b><span>Fichaje con iniciales de operario</span></span></button><button class="icon-btn-r202 naranja" onclick="solicitarAccesoIntegridadAC56()" type="button"><span class="ico-r202">🛡️</span><span class="txt-r202"><b>CENTRO DE INTEGRIDAD</b><span>Certificación, simulador, copias y auditoría</span></span></button><button class="icon-btn-r202 azul ancho-r202" onclick="solicitarAccesoMovilR210()" type="button"><span class="ico-r202">📱</span><span class="txt-r202"><b>AGENDA MÓVIL</b><span>Solo citas — código propio, sin acceso al resto del programa</span></span></button></div></div><div id="integridadPrograma" class="card hidden herramientas-r138"><button class="volver-r138" onclick="showTab('inicio')" type="button">⬅️ VOLVER A PORTADA</button><h2>🛡️ CENTRO DE INTEGRIDAD AC57</h2><div class="aviso-modal">Centro independiente de certificación. No modifica el flujo normal del taller: analiza, simula, exporta, verifica copias y protege el programa.</div><div id="integridadEstadoAC57" style="background:#0b1220;border:2px solid #28a745;border-radius:16px;padding:14px;margin-bottom:14px;line-height:1.45;"><b>Estado del sistema:</b><br>Abre el centro y pulsa <b>Actualizar estado</b> o <b>Certificar AutoBorja</b>.</div><div class="grupo-r138"><button class="green" onclick="certificarAutoBorjaAC56('rapida')" type="button">✅ CERTIFICAR INTEGRIDAD AC57</button><button class="secondary" onclick="actualizarEstadoIntegridadAC56()" type="button">🔎 ACTUALIZAR ESTADO</button><button class="secondary" onclick="simularCargaFuncionalTotal()" type="button" style="background:#7b2fff;color:white;">🧪 SIMULADOR / AUDITOR DE ESTRÉS</button><button class="secondary" onclick="ejecutarDiagnosticoDesdeIntegridadAC56()" type="button">🔧 DIAGNÓSTICO PROFUNDO</button></div><h3 style="color:#ff7a1a;">1) Seguridad del Centro</h3><div class="grupo-r138"><button class="secondary" onclick="editarCodigoIntegridadAC56()" type="button">🔐 CAMBIAR CÓDIGO DE INTEGRIDAD</button></div><h3 style="color:#ff7a1a;">2) Copias y protección</h3><div class="grupo-r138"><button class="secondary" onclick="exportarProgramaVirgenAC55()" type="button">📦 EXPORTAR PROGRAMA VIRGEN</button><button class="secondary" onclick="exportarPaqueteModularAC55()" type="button">🧰 EXPORTAR PAQUETE MODULAR JSON</button><button class="secondary" onclick="exportarCopia()" type="button">💾 EXPORTAR COPIA COMPLETA</button></div><h3 style="color:#ff7a1a;">3) Exportación individual Excel/CSV</h3><label>Módulo</label><select id="integridadModuloAC55"><option value="clientes">Clientes</option><option value="vehiculos">Vehículos</option><option value="agenda">Agenda</option><option value="presupuestos">Presupuestos</option><option value="ot">Órdenes de trabajo</option><option value="prefacturas">Prefacturas</option><option value="facturas">Facturas</option><option value="articulos">Artículos</option><option value="stock">Stock / almacén</option><option value="operarios">Operarios</option><option value="fichajes">Control horario</option><option value="cronometros">Cronómetros</option></select><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Nº desde</label><input id="integridadNumDesdeAC55" type="number" placeholder="Opcional"></div><div><label>Nº hasta</label><input id="integridadNumHastaAC55" type="number" placeholder="Opcional"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Fecha desde</label><input id="integridadFechaDesdeAC55" type="date"></div><div><label>Fecha hasta</label><input id="integridadFechaHastaAC55" type="date"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;"><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('mes')" style="margin:0;flex:1;">ESTE MES</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('ano')" style="margin:0;flex:1;">ESTE AÑO</button><button type="button" class="secondary" onclick="filtroIntegridadPeriodoAC55('todo')" style="margin:0;flex:1;">TODO</button></div><button type="button" class="green" onclick="exportarModuloExcelAC55()">📄 EXPORTAR MÓDULO CSV/EXCEL</button><h3 style="color:#ff7a1a;">4) Copias regulares</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label>Frecuencia</label><select id="integridadFrecuenciaAC55"><option value="manual">Manual</option><option value="diaria">Diaria</option><option value="semanal">Semanal</option></select></div><div><label>Hora</label><input id="integridadHoraAC55" type="time" value="20:00"></div></div><button type="button" class="secondary" onclick="guardarPlanCopiasAC55()">💾 GUARDAR PLAN DE COPIAS</button><h3 style="color:#ff7a1a;">5) Informe</h3><div id="integridadResultadoAC55" style="background:#0b1220;border:1px solid #3b4a63;border-radius:12px;padding:12px;margin-top:12px;color:#e8edf7;font-size:14px;line-height:1.45;">Sin certificaciones todavía.</div></div><div id="portadaGestion" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-top:0;">AutoBorja</h2><div class="icon-grid-r202"><button class="icon-btn-r202 verde ancho-r202" onclick="showTab('agenda')" type="button"><span class="ico-r202">📅</span><span class="txt-r202"><b>GESTIÓN</b><span>Abre directamente Agenda</span></span></button><button class="icon-btn-r202 gris" onclick="exportarCopia()" type="button"><span class="ico-r202">💾</span><span class="txt-r202"><b>COPIA DE SEGURIDAD</b><span>Exportar copia completa</span></span></button><button class="icon-btn-r202 naranja" onclick="showTab('herramientas')" type="button"><span class="ico-r202">🛠</span><span class="txt-r202"><b>HERRAMIENTAS</b><span>Importar, almacén y mantenimiento</span></span></button><button class="icon-btn-r202 morado" onclick="showTab('seguridad')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>SEGURIDAD</b><span>Contraseña y recuperación</span></span></button><button class="icon-btn-r202 rojo ancho-r202" onclick="volverPortadaR138()" type="button"><span class="ico-r202">🚪</span><span class="txt-r202"><b>SALIR</b><span>Volver a la pantalla de acceso</span></span></button></div></div><div id="controlHorario" class="card hidden">
 <button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button>
 <h2 style="text-align:center;color:#ff7a1a;">⏱ CONTROL HORARIO</h2>
 <div id="chOperarioNombre" class="ch-operario-nombre"></div>
@@ -848,7 +769,7 @@ function exportarInformeDiagnostico(){
 <button class="ch-export-btn" type="button" onclick="chExportarCSV()">📥 EXPORTAR CSV FICHAJES</button>
 <div id="chHistorialLista"></div>
 </div>
-</div><div id="operarios" class="card hidden operarios-r139"><button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button><h2>👨‍🔧 OPERARIOS</h2><div id="operariosListaR139" class="operario-lista-r139"></div><div id="operariosOTR139"></div></div><div id="seguridad" class="card hidden herramientas-r138"><button class="volver-r138" onclick="showTab('portadaGestion')" type="button">⬅️ VOLVER A PORTADA GESTIÓN</button><h2>🔐 SEGURIDAD</h2><div class="aviso-modal">La contraseña principal solo sirve para entrar desde la pantalla Bienvenido AutoBorja. Aquí no se pide código porque ya estás dentro de Gestión.</div><div class="grupo-r138"><button class="secondary" onclick="editarCodigoAccesoR202()" type="button">CAMBIAR CONTRASEÑA DE ENTRADA</button><button class="secondary" onclick="editarPreguntaRecuperacionR203()" type="button">CAMBIAR PREGUNTA DE RECUPERACIÓN</button><button class="secondary" onclick="probarRecuperacionR203()" type="button">PROBAR / RESTAURAR CONTRASEÑA</button></div></div><div id="herramientas" class="card hidden herramientas-r138"><button class="volver-r138" onclick="showTab('portadaGestion')" type="button">⬅️ VOLVER A PORTADA GESTIÓN</button><h2>🛠 HERRAMIENTAS</h2><div id="avisoCopia" style="background:#2a1a00;border-left:4px solid #ff7a1a;padding:10px 14px;border-radius:10px;margin-bottom:10px;font-size:13px;color:#ffd580;"></div><div class="grupo-r138"><button class="secondary" onclick="exportarCopia()" type="button">EXPORTAR COPIA</button><input type="file" id="backupFile" accept=".json" style="display:none" onchange="importarCopia(event)"><button class="secondary" onclick="document.getElementById('backupFile').click()" type="button">IMPORTAR COPIA</button><input type="file" id="importArticulosFile" accept=".csv,.txt,.xls,.xlsx" style="display:none"><button class="secondary" onclick="importarArticulosCSVDesdeInicio()" type="button">IMPORTAR ARTÍCULOS XLSX/CSV</button><input type="file" id="importExcelMaestroFile" accept=".xlsx" style="display:none" onchange="importarExcelMaestro(event)"><button class="secondary" onclick="document.getElementById('importExcelMaestroFile').click()" type="button" style="background:#1a4a2e;border:1px solid #28a745;color:#28a745;">📊 IMPORTAR EXCEL MAESTRO</button><button class="secondary" onclick="showTab('almacen')" type="button">📦 ALMACÉN</button><button class="secondary" onclick="showTab('estadisticas')" type="button">⏱ TIEMPOS OPERARIOS</button><button class="secondary" onclick="chExportarCSV()" type="button">📥 EXPORTAR CSV FICHAJES</button><button class="danger" onclick="resetearPrograma()" type="button">BORRAR PRUEBAS / EMPEZAR DE CERO</button><button onclick="showTab('diagnostico')" type="button" style="background:linear-gradient(135deg,#1a3a5c,#2d5a8e);color:white;border:2px solid #4a9eff;margin-top:8px;">🔧 DIAGNÓSTICO Y OPTIMIZACIÓN</button><button class="secondary" onclick="abrirGestionOperariosAC142()" type="button">👥 GESTIONAR OPERARIOS</button><div id="panelGestionOperariosAC142" class="gestion-operarios-ac142" style="display:none"></div></div></div><div id="diagnostico" class="card hidden"><button class="volver-r138" onclick="showTab('herramientas')" type="button">⬅️ VOLVER A HERRAMIENTAS</button><h2 style="text-align:center;color:#4a9eff;margin-bottom:4px;">🔧 DIAGNÓSTICO Y OPTIMIZACIÓN</h2><p style="text-align:center;color:#aab4c8;font-size:13px;margin:0 0 16px;">Análisis completo de integridad, coherencia y salud del sistema</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;"><button type="button" onclick="ejecutarDiagnostico()" style="flex:2;background:linear-gradient(135deg,#1a3a5c,#2d5a8e);color:white;border:2px solid #4a9eff;">🔍 EJECUTAR DIAGNÓSTICO</button><button type="button" onclick="exportarInformeDiagnostico()" class="secondary" style="flex:1;" id="btnExportarDiag">📄 EXPORTAR</button><button type="button" onclick="simularCargaFuncionalTotal()" class="secondary" style="flex:1;background:#7b2fff;color:white;" id="btnSimularCarga">🧪 SIMULADOR/AUDITOR AC56</button></div><div id="diagProgreso" style="display:none;text-align:center;padding:20px;color:#4a9eff;font-size:15px;">⏳ Analizando...</div><div id="diagResumen" style="display:none;"></div><div id="diagDetalle" style="display:none;"></div></div><div id="nueva" class="card hidden"><div class="cabecera-formulario"><button type="button" class="secondary btn-inicio" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2 id="tituloFormulario" class="fecha-formulario">--/--/----</h2></div><div id="bannerEdicion" style="display:none;background:#7b2fff;color:white;font-weight:bold;font-size:15px;padding:12px 14px;border-radius:12px;margin-bottom:12px;text-align:center;"> ✏️ MODO EDICIÓN — <span id="bannerEdicionRef"></span><button type="button" onclick="cancelarEdicion()" style="width:auto;padding:6px 14px;margin:0 0 0 12px;font-size:13px;background:white;color:#7b2fff;border-radius:8px;">✕ CANCELAR</button></div><div id="panelRectificativa" style="display:none;background:#2a0015;border:2px solid #b00020;border-radius:14px;padding:12px;margin-bottom:12px;color:#ffd6e7;"><div id="tituloRectificativa" style="font-weight:bold;font-size:18px;color:white;margin-bottom:8px;">FACTURA RECTIFICATIVA</div><div id="datosFacturaOriginal" style="font-size:14px;line-height:1.45;margin-bottom:10px;"></div><label style="color:#ff9cff;">Motivo de rectificación *</label><textarea id="motivoRectificativa" rows="3" placeholder="Ej: Corrección de importe, abono de pieza, corrección de concepto..." style="border:1px solid #b00020;"></textarea></div><div id="panelConceptosRectificativa" class="resumen-frec" style="display:none;"></div><label>Matrícula *</label><div style="display:flex;gap:8px;align-items:flex-start;"><input id="matricula" placeholder="0000ABC" autocomplete="off" autocapitalize="characters" oninput="normalizarMatriculaYAutocompletar(this)" style="flex:1;margin:6px 0 12px;"><button type="button" onclick="abrirCamara()" style="flex:0 0 auto;width:auto;padding:13px 16px;margin:6px 0 12px;font-size:20px;line-height:1;" title="Seleccionar foto de matrícula">📷</button></div><div id="matriculaResultados" class="results autocomplete-dropdown"></div><button onclick="buscarMatricula()" type="button">BUSCAR MATRÍCULA</button><div id="aviso" class="notice hidden"></div><label>Cliente *</label><input id="cliente" placeholder="Nombre y apellidos" autocomplete="off" autocapitalize="characters" oninput="normalizarClienteYAutocompletar(this)"><div id="clienteResultados" class="results autocomplete-dropdown"></div><label>Teléfono</label><input id="telefono" type="tel" inputmode="tel" placeholder="📱 Móvil  ·  📞 Fijo" onblur="normalizarTelefonoFormularioAC53(this)" style="background:#101827;color:#e8edf7;cursor:text;"><label>Marca</label><input id="marca" placeholder="Escribe marca"><div id="marcaResultados" class="results"></div><label>Modelo</label><input id="modelo" placeholder="Escribe modelo"><div id="modeloResultados" class="results"></div><div class="row"><div><label>KM</label><input id="km" type="number" inputmode="numeric" placeholder="KM"></div><div><label>Fecha / cita</label><input id="fecha" type="datetime-local"></div></div><div id="bloqueOperarioPrincipal" class="operario-ot-form"><label>Operario asignado</label><div class="operario-input-row-r124"><select id="operarioAsignado"></select><button type="button" onclick="nuevoOperarioDesdeFormulario()">➕</button></div><div style="color:#aab4c8;font-size:12px;line-height:1.3;">Se guarda en la base de datos y aparecerá en futuras OT.</div></div><label>Estado</label><select id="estado" onchange="irGuardar();actualizarColorEstado();actualizarTextoBotonGuardar();actualizarVisibilidadPorEstado();"><option>CITA</option><option>PRESUPUESTO</option><option>OT</option><option>PREFACTURA</option><option>FACTURA</option></select><label id="labelMotivoCita">Motivo de la cita *</label><textarea id="motivoCita" rows="4" placeholder="Motivo inicial por el que entra el vehículo"></textarea><div id="bloqueTrabajosPrincipal"><label id="labelTrabajosPrincipal">Trabajos *</label><textarea id="trabajos" rows="5"></textarea></div><label>Observaciones</label><textarea id="observaciones" rows="4"></textarea><div id="panelFotos" class="lineas-panel"><h3>📷 EXPEDIENTE FOTOGRÁFICO</h3><div style="color:#aab4c8;font-size:13px;margin-bottom:8px;">Fotos vinculadas a este expediente y fecha. Si el vehículo vuelve otro día, tendrá otro expediente.</div><input type="file" id="inputFotosExpediente" accept="image/*" multiple style="display:none" onchange="procesarFotosExpediente(event)"><button type="button" class="secondary" onclick="document.getElementById('inputFotosExpediente').click()">📷 AÑADIR FOTOS</button><div id="galeriaFotosExpediente" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px;"></div></div><div id="panelLineasFactura" class="lineas-panel"><h3 id="tituloLineasFactura">🧾 LÍNEAS DE TRABAJO / FACTURA</h3><div id="ayudaLineasFactura" style="color:#aab4c8;font-size:13px;margin-bottom:8px;">Añade mano de obra y materiales en presupuestos, OT y pre-facturas.</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><button type="button" class="btn-anadir green" onclick="abrirModalSeleccionArticulo()">➕ AÑADIR ARTÍCULO</button><button type="button" class="btn-anadir secondary" onclick="anadirLineaManoObra()">➕ AÑADIR MANO DE OBRA</button></div><div id="contenedorLineas"><table class="lineas-tabla" id="tablaLineas"><thead><tr><th>Ref.</th><th>Concepto</th><th>Uds.</th><th>Precio</th><th>Dto.</th><th>Base</th><th>IVA</th><th>Total</th><th style="width:30px"></th></tr></thead><tbody id="cuerpoLineas"></tbody></table></div><div id="lineasVacio" style="color:#aab4c8;font-size:14px;padding:8px 0;">No hay líneas añadidas.</div><div class="lineas-totales" id="totalesLineas"><span>Base: <b id="totalBase">0,00 €</b></span><span>IVA (21%): <b id="totalIva">0,00 €</b></span><span>Total: <b id="totalFactura">0,00 €</b></span></div></div><button id="btnGuardar" class="green" onclick="guardarOT()" type="button">GUARDAR OT</button><div class="paneles-extra-ot"><button type="button" class="secondary" onclick="toggleFichaVehiculo()">🚗 FICHA VEHÍCULO</button><button type="button" class="secondary" onclick="toggleHistorialVehiculo()">📁 HISTORIAL</button></div><div id="panelFichaVehiculo" class="vehiculo-panel hidden"><h3>🚗 FICHA VEHÍCULO</h3><div class="mini-grid"><div><label>Bastidor</label><input id="bastidor" placeholder="Número de bastidor" autocapitalize="characters"></div><div><label>Combustible</label><select id="combustible"><option value="">Seleccionar</option><option>GASOLINA</option><option>DIÉSEL</option><option>HÍBRIDO</option><option>ELÉCTRICO</option><option>GLP</option><option>OTROS</option></select></div></div><div class="mini-grid"><div><label>Cambio</label><select id="cambio"><option value="">Seleccionar</option><option>MANUAL</option><option>AUTOMÁTICO</option></select></div><div></div></div><div class="mini-grid"><div><label>Fecha matriculación</label><input id="fechaMatriculacion" type="date"></div><div><label>Próxima ITV</label><input id="proximaItv" type="date"></div></div><div class="mini-grid"><div><label>Próx. aceite KM</label><input id="aceiteKm" type="number" inputmode="numeric" placeholder="Ej: 180000"></div><div><label>Próx. aceite fecha</label><input id="aceiteFecha" type="date"></div></div><div class="mini-grid"><div><label>Distribución KM</label><input id="distribucionKm" type="number" inputmode="numeric" placeholder="Ej: 210000"></div><div><label>Distribución fecha</label><input id="distribucionFecha" type="date"></div></div><label>Notas vehículo</label><textarea id="notasVehiculo" placeholder="Ej: correa hecha, neumáticos, avisos del cliente..."></textarea></div><div id="panelHistorialVehiculo" class="vehiculo-panel hidden"><h3>📁 HISTORIAL VEHÍCULO</h3><div id="historialVehiculoBox" class="historial-vehiculo hidden"></div></div></div><div id="historial" class="card hidden"><div class="cabecera-seccion-r132"><button type="button" class="secondary btn-inicio-seccion-r132" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2>Facturas</h2></div><div class="buscador-doc-r132"><div id="filtroTabs" class="buscador-tabs-r132"><button type="button" id="ftbMatricula" onclick="setFiltro('matricula')">MATRÍCULA</button><button type="button" id="ftbCliente" onclick="setFiltro('cliente')">CLIENTE</button><button type="button" id="ftbFecha" onclick="setFiltro('fecha')">FECHA</button><button type="button" id="ftbFactura" onclick="setFiltro('factura')">Nº FACTURA</button><button type="button" id="ftbFrec" class="morado" onclick="setFiltro('frec')">FREC</button></div><input id="buscar" placeholder="Buscar matrícula..." oninput="renderHistorial()"></div><div id="lista"></div><div id="paginacionHistorial" style="display:flex;justify-content:center;gap:10px;margin-top:12px;"></div></div><div id="presupuesto" class="card hidden"><div class="cabecera-seccion-r132"><button type="button" class="secondary btn-inicio-seccion-r132" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2>Presupuestos</h2></div><div class="buscador-doc-r132"><div id="filtroTabsPresupuesto" class="buscador-tabs-r132"><button type="button" id="presupuestoFiltroMatricula" onclick="setFiltroDoc('presupuesto','matricula')">MATRÍCULA</button><button type="button" id="presupuestoFiltroCliente" onclick="setFiltroDoc('presupuesto','cliente')">CLIENTE</button><button type="button" id="presupuestoFiltroFecha" onclick="setFiltroDoc('presupuesto','fecha')">FECHA</button><button type="button" id="presupuestoFiltroNumero" onclick="setFiltroDoc('presupuesto','numero')">Nº PRES.</button></div><input id="buscarPresupuesto" placeholder="Buscar matrícula..." oninput="renderPresupuesto()"></div><div id="presupuestoVistasR137" class="buscador-tabs-r132" style="margin-bottom:12px;"><button type="button" id="pvActivos" onclick="setVistaPresupuesto('activos')">PRESUPUESTOS</button><button type="button" id="pvPasados" onclick="setVistaPresupuesto('pasados')">PASADOS A OT</button><button type="button" id="pvRechazados" onclick="setVistaPresupuesto('rechazados')">RECHAZADOS</button></div><button type="button" class="green" onclick="nuevaConEstado('PRESUPUESTO')">➕ NUEVO PRESUPUESTO</button><div id="presupuestoLista"></div></div><div id="agenda" class="card hidden"><div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><button type="button" class="secondary" onclick="showTab('portadaGestion')" style="width:auto;padding:8px 16px;margin:0;flex:0 0 auto;">⬅️ INICIO</button><h2 style="margin:0;color:#ffffff;">Agenda</h2></div><button type="button" class="green" onclick="nuevaConEstado('CITA')">➕ NUEVA CITA</button><div id="agendaLista"></div></div><div id="taller" class="card hidden"><div class="cabecera-seccion-r132"><button type="button" class="secondary btn-inicio-seccion-r132" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2>O.T. activas</h2></div><div class="buscador-doc-r132"><div id="filtroTabsTaller" class="buscador-tabs-r132"><button type="button" id="tallerFiltroMatricula" onclick="setFiltroDoc('taller','matricula')">MATRÍCULA</button><button type="button" id="tallerFiltroCliente" onclick="setFiltroDoc('taller','cliente')">CLIENTE</button><button type="button" id="tallerFiltroFecha" onclick="setFiltroDoc('taller','fecha')">FECHA</button><button type="button" id="tallerFiltroNumero" onclick="setFiltroDoc('taller','numero')">Nº OT</button></div><input id="buscarTaller" placeholder="Buscar matrícula..." oninput="renderTaller()"></div><button type="button" class="green" onclick="nuevaConEstado('OT')">➕ NUEVA OT</button><div id="tallerLista"><p>No hay O.T. activas.</p></div></div><div id="mas" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-bottom:24px;">MÁS OPCIONES</h2><button onclick="showTab('prefactura')" style="font-size:18px;padding:24px;margin-bottom:14px;background:#344d7a;color:white;">🧾 PRE-FACTURA</button><button onclick="showTab('historial')" style="font-size:18px;padding:24px;margin-bottom:14px;background:#28a745;color:white;">🧾 FACTURAS</button><button onclick="showTab('estadisticas')" style="font-size:18px;padding:24px;margin-bottom:14px;background:#2196f3;color:white;">📊 ESTADÍSTICAS</button><button onclick="showTab('ganancias')" style="font-size:18px;padding:24px;margin-bottom:14px;background:#9c27b0;color:white;">💰 RENTABILIDAD</button><button onclick="showTab('inventario')" style="font-size:18px;padding:24px;margin-bottom:14px;background:#ff7a1a;color:#0f1728;">📦 INVENTARIO</button></div><div id="prefactura" class="card hidden"><div class="cabecera-seccion-r132"><button type="button" class="secondary btn-inicio-seccion-r132" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2>Pre-Factura</h2></div><div class="buscador-doc-r132"><div id="filtroTabsPrefactura" class="buscador-tabs-r132"><button type="button" id="prefacturaFiltroMatricula" onclick="setFiltroDoc('prefactura','matricula')">MATRÍCULA</button><button type="button" id="prefacturaFiltroCliente" onclick="setFiltroDoc('prefactura','cliente')">CLIENTE</button><button type="button" id="prefacturaFiltroFecha" onclick="setFiltroDoc('prefactura','fecha')">FECHA</button><button type="button" id="prefacturaFiltroNumero" onclick="setFiltroDoc('prefactura','numero')">Nº PF</button></div><input id="buscarPrefactura" placeholder="Buscar matrícula..." oninput="renderPrefactura()"></div><button type="button" class="green" onclick="nuevaConEstado('PREFACTURA')">➕ NUEVA PRE-FACTURA</button><div id="prefacturaLista"></div></div><div id="almacen" class="card hidden"><h2>📦 Almacén</h2><div style="display:flex;gap:8px;margin-bottom:10px;"><button type="button" class="secondary" onclick="showTab('herramientas')" style="margin:0;flex:1;">⬅️ HERRAMIENTAS</button><button type="button" class="green" onclick="abrirModalNuevoArticulo()" style="margin:0;flex:1;">➕ NUEVO ARTÍCULO</button><button type="button" class="secondary" onclick="abrirGestionFamiliasAC52()" style="margin:0;flex:1;">⚙️ FAMILIAS</button></div><div id="panelFamiliasAC52" class="lineas-panel" style="display:none;margin-bottom:12px;"></div><div style="display:flex;gap:8px;margin-bottom:0;"><select id="campoBusquedaArticulo" onchange="renderAlmacen()" style="flex:0 0 auto;width:auto;margin:6px 0 12px;padding:13px 10px;font-size:15px;background:#101827;color:#ff7a1a;border:1px solid #ff7a1a;border-radius:12px;font-weight:bold;"><option value="referencia">REFERENCIA</option><option value="descripcion">DESCRIPCIÓN</option><option value="proveedor">PROVEEDOR</option><option value="familia">FAMILIA</option></select><input id="buscarArticulo" placeholder="Buscar..." oninput="filtroAlmacenEspecial='';renderAlmacen()" style="flex:1;margin:6px 0 12px;"></div><select id="familiaAlmacen" onchange="filtroAlmacenEspecial='';renderAlmacen()" style="margin:0 0 12px;background:#101827;color:#e8edf7;border:1px solid #3b4a63;border-radius:12px;"><option value="">Todas las familias</option></select><div id="almacenAnalitica" style="background:#0b1220;border:1px solid #3b4a63;border-radius:12px;padding:10px;margin-bottom:12px;"><div id="almacenResumen" style="color:#e8edf7;font-weight:bold;margin-bottom:8px;">Analítica almacén</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button type="button" class="secondary" onclick="analizarAlmacenPendiente('sinPrecio')" style="margin:0;flex:1;min-width:140px;">💶 SIN PRECIO</button><button type="button" class="secondary" onclick="analizarAlmacenPendiente('bajoStock')" style="margin:0;flex:1;min-width:140px;">📉 BAJO STOCK</button><button type="button" class="secondary" onclick="analizarAlmacenPendiente('todos')" style="margin:0;flex:1;min-width:120px;">📦 TODOS</button></div></div><div id="almacenLista"></div></div><div id="estadisticas" class="card hidden"><div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><button type="button" class="secondary" onclick="showTab('portadaGestion')" style="width:auto;padding:8px 16px;margin:0;flex:0 0 auto;">⬅️ INICIO</button><h2 style="margin:0;color:#ffffff;">📊 ESTADÍSTICAS</h2></div><div id="estadisticasContenido"></div></div><div id="ganancias" class="card hidden"><div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><button type="button" class="secondary" onclick="showTab('portadaGestion')" style="width:auto;padding:8px 16px;margin:0;flex:0 0 auto;">⬅️ INICIO</button><h2 style="margin:0;color:#ffffff;">💰 RENTABILIDAD</h2></div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:15px;"><div style="flex:1;min-width:120px;"><label>Período</label><select id="periodoGanancias" onchange="cambiarPeriodo()"><option value="semana">Semana actual</option><option value="mes">Mes actual</option><option value="personalizado">Personalizado</option></select></div><div style="flex:1;min-width:120px;display:none;" id="fechasPersonalizadas"><label>Desde</label><input type="date" id="fechaInicioG"><label>Hasta</label><input type="date" id="fechaFinG"></div><div style="flex:1;min-width:120px;"><label>Familia</label><select id="familiaGanancias"><option value="">Todas</option></select></div><button class="green" onclick="renderGanancias()" style="width:auto;padding:8px 20px;align-self:flex-end;">📊 CALCULAR</button></div><div id="resultadoGanancias"></div></div><div id="inventario" class="card hidden"><div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><button type="button" class="secondary" onclick="showTab('portadaGestion')" style="width:auto;padding:8px 16px;margin:0;flex:0 0 auto;">⬅️ INICIO</button><h2 style="margin:0;color:#ffffff;">📦 INVENTARIO</h2></div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;"><div style="flex:1;min-width:130px;"><label>Familia</label><select id="familiaInventario" onchange="renderInventario()"><option value="">Todas</option></select></div><div style="flex:1;min-width:130px;"><label>Proveedor</label><select id="proveedorInventario" onchange="renderInventario()"><option value="">Todos</option></select></div><div style="flex:1;min-width:130px;"><label>Vista</label><select id="vistaInventario" onchange="renderInventario()"><option value="familias">Por familias</option><option value="constock">Listado con stock</option><option value="bajo">Stock bajo mínimo</option><option value="cero">Stock cero</option><option value="completo">Listado completo (todos)</option></select></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;"><button type="button" class="green" onclick="imprimirInventario('actual')" style="width:auto;padding:10px 14px;margin:0;">📄 IMPRIMIR VISTA</button><button type="button" class="secondary" onclick="imprimirInventario('bajo')" style="width:auto;padding:10px 14px;margin:0;">📄 IMPRIMIR STOCK BAJO</button></div><div id="inventarioContenido"></div></div><input type="file" id="inputFotoCamara" accept="image/*" style="display:none" onchange="procesarFotoMatricula(event)"><div id="modalCamara"><div id="modalCamaraBox"><h2>📷 ESCÁNER DE MATRÍCULA</h2><div id="overlayMat">— — — — — —</div><div id="estadoOCR">Procesando imagen...</div><div id="previewFoto" style="display:none;margin:10px 0;"><img id="imgPreview" style="width:100%;border-radius:10px;border:2px solid #3b4a63;"></div><div id="panelHistorialCamara"><h3>📁 HISTORIAL DEL VEHÍCULO</h3><div id="listadoHistCamara"></div></div><div id="botoneraCamara"><button type="button" class="green" id="btnAceptarCamara" onclick="aceptarMatriculaEscaneada()" style="margin:0;display:none;">✅ ACEPTAR</button><button type="button" id="btnRepetirFoto" onclick="repetirFoto()" style="margin:0;display:none;background:#344d7a;color:white;">🔄 REPETIR</button><button type="button" class="danger" onclick="cerrarCamara()" style="margin:0;">❌ CERRAR</button></div></div></div><div id="modalArticulo" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000a;z-index:10002;overflow-y:auto;padding:20px;"><div style="background:#1c2940;border:2px solid #ff7a1a;border-radius:18px;padding:20px;max-width:500px;margin:40px auto;"><h2 id="modalArticuloTitulo" style="color:#ff7a1a;margin-top:0;">✏️ ARTÍCULO</h2><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Referencia</label><input id="maRef" placeholder="REF-001 / vacío = ART automático" style="margin:4px 0 10px;"><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Descripción *</label><input id="maDesc" placeholder="Descripción del artículo"><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Proveedor</label><input id="maProv" placeholder="Nombre del proveedor / opcional"><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Familia</label><input id="maFam" type="hidden"><select id="maFamSelect" onchange="manejarFamiliaArticuloAC51()" style="margin:4px 0 10px;"></select><input id="maFamNueva" placeholder="Nueva familia..." style="display:none;margin:4px 0 10px;" autocapitalize="characters" oninput="document.getElementById('maFam').value=this.value.toUpperCase()"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Precio compra (€)</label><input id="maPcomp" type="number" step="0.01" min="0" placeholder="0.00" oninput="calcularPVP()"></div><div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Margen (%)</label><input id="maMargen" type="number" step="0.1" min="0" placeholder="30" oninput="calcularPVP()"></div></div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Precio venta (€)</label><input id="maPventa" type="number" step="0.01" min="0" placeholder="0.00"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;"><div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">IVA (%)</label><input id="maIva" type="number" step="1" min="0" value="21" placeholder="21"></div><div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Stock</label><input id="maStock" type="number" step="1" min="0" placeholder="0"></div><div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Stock mín.</label><input id="maStockMin" type="number" step="1" min="0" placeholder="0"></div></div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Observaciones</label><textarea id="maObs" rows="2" placeholder="Notas..." style="width:100%;box-sizing:border-box;resize:vertical;"></textarea><input type="hidden" id="maClaveOriginal"><input type="hidden" id="maContextoOrigen"><div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;"><button type="button" class="green" onclick="guardarArticuloModal()" style="margin:0;flex:2;">💾 GUARDAR</button><button type="button" class="danger" onclick="eliminarArticuloModal()" style="margin:0;flex:1;">🗑 ELIMINAR</button><button type="button" class="secondary" onclick="cerrarModalArticulo()" style="margin:0;flex:1;">CANCELAR</button></div></div></div><div id="modalSeleccionArticulo"><div id="modalSeleccionArticuloBox"><h2>🔍 SELECCIONAR ARTÍCULO</h2><input id="buscarArticuloModal" placeholder="Buscar por referencia o descripción..." oninput="renderListaArticulosModal()"><div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px;"><button type="button" class="green" onclick="abrirModalNuevoArticuloDesdeOT()" style="margin:0;flex:1;">➕ CREAR ARTÍCULO</button><button type="button" class="secondary" onclick="anadirArticuloManualSinReferencia()" style="margin:0;flex:1;">➕ VENTA PUNTUAL INT</button></div><div id="listaArticulosModal" class="lista-articulos-modal"></div><div style="display:flex;gap:10px;margin-top:16px;"><button type="button" class="danger" onclick="cerrarModalSeleccionArticulo()" style="margin:0;">CANCELAR</button></div></div></div><div id="modalCliente"><div id="modalClienteBox"><h2>📋 FICHA DE CLIENTE</h2><div class="aviso-modal">⚠️ Para emitir una factura válida es obligatorio completar el NIF/NIE y la dirección del cliente.<br>Estos datos quedan guardados para futuras facturas.</div><div id="modalClienteNombre" style="font-weight:bold;font-size:17px;color:#fff;margin-bottom:10px;"></div><label>NIF / NIE *</label><input id="mcNif" placeholder="12345678A" maxlength="20" autocomplete="off" autocapitalize="characters" oninput="normalizarCampoNif(this);calcularLetraNif(this)"><label>Dirección *</label><input id="mcDireccion" placeholder="Calle, número, piso..." autocapitalize="words" oninput="normalizarCampoNombre(this)"><label>C. Postal - Ciudad</label><input id="mcPoblacion" placeholder="50540 - Borja" autocapitalize="words" oninput="normalizarCampoNombre(this)"><div style="display:flex;gap:10px;"><div style="flex:1;"><label>Móvil</label><input id="mcMovil" type="tel" inputmode="numeric" maxlength="11" placeholder="600 123 456" oninput="normalizarCampoTelefono(this)"></div><div style="flex:1;"><label>Tfno</label><input id="mcTfno" type="tel" inputmode="numeric" maxlength="11" placeholder="976 000 000" oninput="normalizarCampoTelefono(this)"></div></div><label>E-mail</label><input id="mcEmail" type="email" placeholder="cliente@correo.com"><label>Observaciones</label><textarea id="mcObservaciones" placeholder="Notas sobre el cliente..." rows="3" style="width:100%;box-sizing:border-box;resize:vertical;"></textarea><div style="border-top:1px solid #2a3a55;margin:14px 0 10px;padding-top:12px;"><div style="color:#ff7a1a;font-weight:bold;font-size:13px;margin-bottom:10px;">💳 DATOS DE PAGO Y BANCARIOS</div><datalist id="dlFormapago"><option>ALLIANZ</option><option>CONTADO</option><option>MAPFRE</option><option>PELAYO</option><option>RECIBO DOMICILIADO</option><option>TARJETA DE CRÉDITO</option><option>TRANSFERENCIA</option><option>ZURICH</option></datalist><datalist id="dlVencimiento"><option>RECIBO BANCARIO</option><option>30 DÍAS</option><option>60 DÍAS</option><option>90 DÍAS</option><option>30-60 DÍAS</option><option>30-60-90 DÍAS</option></datalist><div style="display:flex;gap:10px;"><div style="flex:1;"><label>Forma de pago</label><input id="mcFormapago" list="dlFormapago" placeholder="Seleccionar o escribir..." autocapitalize="characters" oninput="this.value=this.value.toUpperCase()"></div><div style="flex:1;"><label>Vencimiento</label><input id="mcDiaspago" list="dlVencimiento" placeholder="Seleccionar o escribir..." autocapitalize="characters" oninput="this.value=this.value.toUpperCase()"></div></div><label>Nombre del banco</label><input id="mcNombreBanco" placeholder="Ej: BANCO SANTANDER, IBERCAJA..." autocapitalize="characters" maxlength="50" oninput="this.value=this.value.toUpperCase()"><label>Nº Cuenta (CCC / IBAN)</label><input id="mcCcc" placeholder="ES12 1234 5678 9012 3456 7890" autocapitalize="characters" maxlength="34" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');detectarBicDesdeIban(this.value)"><div style="display:flex;gap:10px;"><div style="flex:1;"><label>BIC / SWIFT</label><input id="mcBic" placeholder="BSCHESMMXXX" autocapitalize="characters" maxlength="11" oninput="this.value=this.value.toUpperCase()"></div><div style="flex:1;"><label>SEPA Tipo</label><input id="mcSepaTipo" placeholder="CORE / B2B" maxlength="10" oninput="this.value=this.value.toUpperCase()"></div></div><div style="display:flex;gap:10px;"><div style="flex:1;"><label>SEPA Mandato</label><input id="mcSepaMandato" placeholder="Referencia mandato" maxlength="35"></div><div style="flex:1;"><label>SEPA Firma</label><input id="mcSepaFirma" placeholder="Fecha firma" maxlength="20"></div></div></div><div style="display:flex;gap:10px;margin-top:14px;"><button type="button" class="green" onclick="confirmarFicha()" style="margin:0;">GUARDAR Y CONTINUAR</button><button type="button" class="danger" onclick="cancelarFicha()" style="margin:0;flex:0.5;">CANCELAR</button></div></div></div>
+</div><div id="operarios" class="card hidden operarios-r139"><button class="secondary" onclick="showTab('inicio')" type="button" style="width:auto;padding:9px 14px;margin:0 0 14px;">⬅️ PORTADA</button><h2>👨‍🔧 OPERARIOS</h2><div id="operariosListaR139" class="operario-lista-r139"></div><div id="operariosOTR139"></div></div><div id="seguridad" class="card hidden herramientas-r138"><button class="volver-r138" onclick="showTab('portadaGestion')" type="button">⬅️ VOLVER A PORTADA GESTIÓN</button><h2>🔐 SEGURIDAD</h2><div class="aviso-modal">La contraseña principal solo sirve para entrar desde la pantalla Bienvenido AutoBorja. Aquí no se pide código porque ya estás dentro de Gestión.</div><div class="grupo-r138"><button class="secondary" onclick="editarCodigoAccesoR202()" type="button">CAMBIAR CONTRASEÑA DE ENTRADA</button><button class="secondary" onclick="editarPreguntaRecuperacionR203()" type="button">CAMBIAR PREGUNTA DE RECUPERACIÓN</button><button class="secondary" onclick="probarRecuperacionR203()" type="button">PROBAR / RESTAURAR CONTRASEÑA</button></div><h3 style="color:#ff7a1a;">Agenda móvil</h3><div class="grupo-r138"><button class="secondary" onclick="editarCodigoAccesoMovilR210()" type="button">📱 CAMBIAR CÓDIGO DE AGENDA MÓVIL</button></div><h3 style="color:#ff7a1a;">Usuarios de gestión</h3><div class="aviso-modal" style="font-size:13px;">Hasta 3 personas con acceso completo, cada una con su propio PIN. Tú decides quién está en la lista; cada uno solo necesita su nombre y su PIN para entrar.</div><div class="grupo-r138"><button class="secondary" onclick="gestionarUsuariosGestionR211()" type="button">👥 GESTIONAR USUARIOS Y PINs</button></div></div><div id="herramientas" class="card hidden herramientas-r138"><button class="volver-r138" onclick="showTab('portadaGestion')" type="button">⬅️ VOLVER A PORTADA GESTIÓN</button><h2>🛠 HERRAMIENTAS</h2><div id="avisoCopia" style="background:#2a1a00;border-left:4px solid #ff7a1a;padding:10px 14px;border-radius:10px;margin-bottom:10px;font-size:13px;color:#ffd580;"></div><div class="grupo-r138"><button class="secondary" onclick="exportarCopia()" type="button">EXPORTAR COPIA</button><input type="file" id="backupFile" accept=".json" style="display:none" onchange="importarCopia(event)"><button class="secondary" onclick="document.getElementById('backupFile').click()" type="button">IMPORTAR COPIA</button><input type="file" id="importArticulosFile" accept=".csv,.txt,.xls,.xlsx" style="display:none"><button class="secondary" onclick="importarArticulosCSVDesdeInicio()" type="button">IMPORTAR ARTÍCULOS XLSX/CSV</button><input type="file" id="importExcelMaestroFile" accept=".xlsx" style="display:none" onchange="importarExcelMaestro(event)"><button class="secondary" onclick="document.getElementById('importExcelMaestroFile').click()" type="button" style="background:#1a4a2e;border:1px solid #28a745;color:#28a745;">📊 IMPORTAR EXCEL MAESTRO</button><button class="secondary" onclick="showTab('almacen')" type="button">📦 ALMACÉN</button><button class="secondary" onclick="showTab('estadisticas')" type="button">⏱ TIEMPOS OPERARIOS</button><button class="secondary" onclick="chExportarCSV()" type="button">📥 EXPORTAR CSV FICHAJES</button><button class="danger" onclick="resetearPrograma()" type="button">BORRAR PRUEBAS / EMPEZAR DE CERO</button><button onclick="showTab('diagnostico')" type="button" style="background:linear-gradient(135deg,#1a3a5c,#2d5a8e);color:white;border:2px solid #4a9eff;margin-top:8px;">🔧 DIAGNÓSTICO Y OPTIMIZACIÓN</button><button class="secondary" onclick="abrirGestionOperariosAC142()" type="button">👥 GESTIONAR OPERARIOS</button><div id="panelGestionOperariosAC142" class="gestion-operarios-ac142" style="display:none"></div></div></div><div id="diagnostico" class="card hidden"><button class="volver-r138" onclick="showTab('herramientas')" type="button">⬅️ VOLVER A HERRAMIENTAS</button><h2 style="text-align:center;color:#4a9eff;margin-bottom:4px;">🔧 DIAGNÓSTICO Y OPTIMIZACIÓN</h2><p style="text-align:center;color:#aab4c8;font-size:13px;margin:0 0 16px;">Análisis completo de integridad, coherencia y salud del sistema</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;"><button type="button" onclick="ejecutarDiagnostico()" style="flex:2;background:linear-gradient(135deg,#1a3a5c,#2d5a8e);color:white;border:2px solid #4a9eff;">🔍 EJECUTAR DIAGNÓSTICO</button><button type="button" onclick="exportarInformeDiagnostico()" class="secondary" style="flex:1;" id="btnExportarDiag">📄 EXPORTAR</button><button type="button" onclick="simularCargaFuncionalTotal()" class="secondary" style="flex:1;background:#7b2fff;color:white;" id="btnSimularCarga">🧪 SIMULADOR/AUDITOR AC56</button></div><div id="diagProgreso" style="display:none;text-align:center;padding:20px;color:#4a9eff;font-size:15px;">⏳ Analizando...</div><div id="diagResumen" style="display:none;"></div><div id="diagDetalle" style="display:none;"></div></div><div id="nueva" class="card hidden"><div class="cabecera-formulario"><button type="button" class="secondary btn-inicio" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2 id="tituloFormulario" class="fecha-formulario">--/--/----</h2></div><div id="bannerEdicion" style="display:none;background:#7b2fff;color:white;font-weight:bold;font-size:15px;padding:12px 14px;border-radius:12px;margin-bottom:12px;text-align:center;"> ✏️ MODO EDICIÓN — <span id="bannerEdicionRef"></span><button type="button" onclick="cancelarEdicion()" style="width:auto;padding:6px 14px;margin:0 0 0 12px;font-size:13px;background:white;color:#7b2fff;border-radius:8px;">✕ CANCELAR</button><div id="bannerTrazabilidadR211" style="font-size:12px;font-weight:normal;margin-top:6px;opacity:.9;"></div></div><div id="panelRectificativa" style="display:none;background:#2a0015;border:2px solid #b00020;border-radius:14px;padding:12px;margin-bottom:12px;color:#ffd6e7;"><div id="tituloRectificativa" style="font-weight:bold;font-size:18px;color:white;margin-bottom:8px;">FACTURA RECTIFICATIVA</div><div id="datosFacturaOriginal" style="font-size:14px;line-height:1.45;margin-bottom:10px;"></div><label style="color:#ff9cff;">Motivo de rectificación *</label><textarea id="motivoRectificativa" rows="3" placeholder="Ej: Corrección de importe, abono de pieza, corrección de concepto..." style="border:1px solid #b00020;"></textarea></div><div id="panelConceptosRectificativa" class="resumen-frec" style="display:none;"></div><label>Matrícula *</label><div style="display:flex;gap:8px;align-items:flex-start;"><input id="matricula" placeholder="0000ABC" autocomplete="off" autocapitalize="characters" oninput="normalizarMatriculaYAutocompletar(this)" style="flex:1;margin:6px 0 12px;"><button type="button" onclick="abrirCamara()" style="flex:0 0 auto;width:auto;padding:13px 16px;margin:6px 0 12px;font-size:20px;line-height:1;" title="Seleccionar foto de matrícula">📷</button></div><div id="matriculaResultados" class="results autocomplete-dropdown"></div><button onclick="buscarMatricula()" type="button">BUSCAR MATRÍCULA</button><div id="aviso" class="notice hidden"></div><label>Cliente *</label><input id="cliente" placeholder="Nombre y apellidos" autocomplete="off" autocapitalize="characters" oninput="normalizarClienteYAutocompletar(this)"><div id="clienteResultados" class="results autocomplete-dropdown"></div><label>Teléfono</label><input id="telefono" type="tel" inputmode="tel" placeholder="📱 Móvil  ·  📞 Fijo" onblur="normalizarTelefonoFormularioAC53(this)" style="background:#101827;color:#e8edf7;cursor:text;"><label>Marca</label><input id="marca" placeholder="Escribe marca"><div id="marcaResultados" class="results"></div><label>Modelo</label><input id="modelo" placeholder="Escribe modelo"><div id="modeloResultados" class="results"></div><div class="row"><div><label>KM</label><input id="km" type="number" inputmode="numeric" placeholder="KM"></div><div><label>Fecha / cita</label><input id="fecha" type="datetime-local"></div></div><div id="bloqueOperarioPrincipal" class="operario-ot-form"><label>Operario asignado</label><div class="operario-input-row-r124"><select id="operarioAsignado"></select><button type="button" onclick="nuevoOperarioDesdeFormulario()">➕</button></div><div style="color:#aab4c8;font-size:12px;line-height:1.3;">Se guarda en la base de datos y aparecerá en futuras OT.</div></div><label>Estado</label><select id="estado" onchange="irGuardar();actualizarColorEstado();actualizarTextoBotonGuardar();actualizarVisibilidadPorEstado();"><option>CITA</option><option>PRESUPUESTO</option><option>OT</option><option>PREFACTURA</option><option>FACTURA</option></select><label id="labelMotivoCita">Motivo de la cita *</label><textarea id="motivoCita" rows="4" placeholder="Motivo inicial por el que entra el vehículo"></textarea><div id="bloqueTrabajosPrincipal"><label id="labelTrabajosPrincipal">Trabajos *</label><textarea id="trabajos" rows="5"></textarea></div><label>Observaciones</label><textarea id="observaciones" rows="4"></textarea><div id="panelFotos" class="lineas-panel"><h3>📷 EXPEDIENTE FOTOGRÁFICO</h3><div style="color:#aab4c8;font-size:13px;margin-bottom:8px;">Fotos vinculadas a este expediente y fecha. Si el vehículo vuelve otro día, tendrá otro expediente.</div><input type="file" id="inputFotosExpediente" accept="image/*" multiple style="display:none" onchange="procesarFotosExpediente(event)"><button type="button" class="secondary" onclick="document.getElementById('inputFotosExpediente').click()">📷 AÑADIR FOTOS</button><div id="galeriaFotosExpediente" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px;"></div></div><div id="panelLineasFactura" class="lineas-panel"><h3 id="tituloLineasFactura">🧾 LÍNEAS DE TRABAJO / FACTURA</h3><div id="ayudaLineasFactura" style="color:#aab4c8;font-size:13px;margin-bottom:8px;">Añade mano de obra y materiales en presupuestos, OT y pre-facturas.</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><button type="button" class="btn-anadir green" onclick="abrirModalSeleccionArticulo()">➕ AÑADIR ARTÍCULO</button><button type="button" class="btn-anadir secondary" onclick="anadirLineaManoObra()">➕ AÑADIR MANO DE OBRA</button></div><div id="contenedorLineas"><table class="lineas-tabla" id="tablaLineas"><thead><tr><th>Ref.</th><th>Concepto</th><th>Uds.</th><th>Precio</th><th>Dto.</th><th>Base</th><th>IVA</th><th>Total</th><th style="width:30px"></th></tr></thead><tbody id="cuerpoLineas"></tbody></table></div><div id="lineasVacio" style="color:#aab4c8;font-size:14px;padding:8px 0;">No hay líneas añadidas.</div><div class="lineas-totales" id="totalesLineas"><span>Base: <b id="totalBase">0,00 €</b></span><span>IVA (21%): <b id="totalIva">0,00 €</b></span><span>Total: <b id="totalFactura">0,00 €</b></span></div></div><button id="btnGuardar" class="green" onclick="guardarOT()" type="button">GUARDAR OT</button><div class="paneles-extra-ot"><button type="button" class="secondary" onclick="toggleFichaVehiculo()">🚗 FICHA VEHÍCULO</button><button type="button" class="secondary" onclick="toggleHistorialVehiculo()">📁 HISTORIAL</button></div><div id="panelFichaVehiculo" class="vehiculo-panel hidden"><h3>🚗 FICHA VEHÍCULO</h3><div class="mini-grid"><div><label>Bastidor</label><input id="bastidor" placeholder="Número de bastidor" autocapitalize="characters"></div><div><label>Combustible</label><select id="combustible"><option value="">Seleccionar</option><option>GASOLINA</option><option>DIÉSEL</option><option>HÍBRIDO</option><option>ELÉCTRICO</option><option>GLP</option><option>OTROS</option></select></div></div><div class="mini-grid"><div><label>Cambio</label><select id="cambio"><option value="">Seleccionar</option><option>MANUAL</option><option>AUTOMÁTICO</option></select></div><div></div></div><div class="mini-grid"><div><label>Fecha matriculación</label><input id="fechaMatriculacion" type="date"></div><div><label>Próxima ITV</label><input id="proximaItv" type="date"></div></div><div class="mini-grid"><div><label>Próx. aceite KM</label><input id="aceiteKm" type="number" inputmode="numeric" placeholder="Ej: 180000"></div><div><label>Próx. aceite fecha</label><input id="aceiteFecha" type="date"></div></div><div class="mini-grid"><div><label>Distribución KM</label><input id="distribucionKm" type="number" inputmode="numeric" placeholder="Ej: 210000"></div><div><label>Distribución fecha</label><input id="distribucionFecha" type="date"></div></div><label>Notas vehículo</label><textarea id="notasVehiculo" placeholder="Ej: correa hecha, neumáticos, avisos del cliente..."></textarea></div><div id="panelHistorialVehiculo" class="vehiculo-panel hidden"><h3>📁 HISTORIAL VEHÍCULO</h3><div id="historialVehiculoBox" class="historial-vehiculo hidden"></div></div></div><div id="historial" class="card hidden"><div class="cabecera-seccion-r132"><button type="button" class="secondary btn-inicio-seccion-r132" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2>Facturas</h2></div><div class="buscador-doc-r132"><div id="filtroTabs" class="buscador-tabs-r132"><button type="button" id="ftbMatricula" onclick="setFiltro('matricula')">MATRÍCULA</button><button type="button" id="ftbCliente" onclick="setFiltro('cliente')">CLIENTE</button><button type="button" id="ftbFecha" onclick="setFiltro('fecha')">FECHA</button><button type="button" id="ftbFactura" onclick="setFiltro('factura')">Nº FACTURA</button><button type="button" id="ftbFrec" class="morado" onclick="setFiltro('frec')">FREC</button></div><input id="buscar" placeholder="Buscar matrícula..." oninput="renderHistorial()"></div><div id="lista"></div><div id="paginacionHistorial" style="display:flex;justify-content:center;gap:10px;margin-top:12px;"></div></div><div id="presupuesto" class="card hidden"><div class="cabecera-seccion-r132"><button type="button" class="secondary btn-inicio-seccion-r132" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2>Presupuestos</h2></div><div class="buscador-doc-r132"><div id="filtroTabsPresupuesto" class="buscador-tabs-r132"><button type="button" id="presupuestoFiltroMatricula" onclick="setFiltroDoc('presupuesto','matricula')">MATRÍCULA</button><button type="button" id="presupuestoFiltroCliente" onclick="setFiltroDoc('presupuesto','cliente')">CLIENTE</button><button type="button" id="presupuestoFiltroFecha" onclick="setFiltroDoc('presupuesto','fecha')">FECHA</button><button type="button" id="presupuestoFiltroNumero" onclick="setFiltroDoc('presupuesto','numero')">Nº PRES.</button></div><input id="buscarPresupuesto" placeholder="Buscar matrícula..." oninput="renderPresupuesto()"></div><div id="presupuestoVistasR137" class="buscador-tabs-r132" style="margin-bottom:12px;"><button type="button" id="pvActivos" onclick="setVistaPresupuesto('activos')">PRESUPUESTOS</button><button type="button" id="pvPasados" onclick="setVistaPresupuesto('pasados')">PASADOS A OT</button><button type="button" id="pvRechazados" onclick="setVistaPresupuesto('rechazados')">RECHAZADOS</button></div><button type="button" class="green" onclick="nuevaConEstado('PRESUPUESTO')">➕ NUEVO PRESUPUESTO</button><div id="presupuestoLista"></div></div><div id="agenda" class="card hidden"><div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><button type="button" class="secondary" onclick="showTab('portadaGestion')" style="width:auto;padding:8px 16px;margin:0;flex:0 0 auto;">⬅️ INICIO</button><h2 style="margin:0;color:#ffffff;">Agenda</h2></div><button type="button" class="green" onclick="nuevaConEstado('CITA')">➕ NUEVA CITA</button><div id="agendaLista"></div></div><div id="taller" class="card hidden"><div class="cabecera-seccion-r132"><button type="button" class="secondary btn-inicio-seccion-r132" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2>O.T. activas</h2></div><div class="buscador-doc-r132"><div id="filtroTabsTaller" class="buscador-tabs-r132"><button type="button" id="tallerFiltroMatricula" onclick="setFiltroDoc('taller','matricula')">MATRÍCULA</button><button type="button" id="tallerFiltroCliente" onclick="setFiltroDoc('taller','cliente')">CLIENTE</button><button type="button" id="tallerFiltroFecha" onclick="setFiltroDoc('taller','fecha')">FECHA</button><button type="button" id="tallerFiltroNumero" onclick="setFiltroDoc('taller','numero')">Nº OT</button></div><input id="buscarTaller" placeholder="Buscar matrícula..." oninput="renderTaller()"></div><button type="button" class="green" onclick="nuevaConEstado('OT')">➕ NUEVA OT</button><div id="tallerLista"><p>No hay O.T. activas.</p></div></div><div id="mas" class="card hidden"><h2 style="text-align:center;color:#ff7a1a;margin-bottom:24px;">MÁS OPCIONES</h2><button onclick="showTab('prefactura')" style="font-size:18px;padding:24px;margin-bottom:14px;background:#344d7a;color:white;">🧾 PRE-FACTURA</button><button onclick="showTab('historial')" style="font-size:18px;padding:24px;margin-bottom:14px;background:#28a745;color:white;">🧾 FACTURAS</button><button onclick="showTab('estadisticas')" style="font-size:18px;padding:24px;margin-bottom:14px;background:#2196f3;color:white;">📊 ESTADÍSTICAS</button><button onclick="showTab('ganancias')" style="font-size:18px;padding:24px;margin-bottom:14px;background:#9c27b0;color:white;">💰 RENTABILIDAD</button><button onclick="showTab('inventario')" style="font-size:18px;padding:24px;margin-bottom:14px;background:#ff7a1a;color:#0f1728;">📦 INVENTARIO</button></div><div id="prefactura" class="card hidden"><div class="cabecera-seccion-r132"><button type="button" class="secondary btn-inicio-seccion-r132" onclick="showTab('portadaGestion')">⬅️ INICIO</button><h2>Pre-Factura</h2></div><div class="buscador-doc-r132"><div id="filtroTabsPrefactura" class="buscador-tabs-r132"><button type="button" id="prefacturaFiltroMatricula" onclick="setFiltroDoc('prefactura','matricula')">MATRÍCULA</button><button type="button" id="prefacturaFiltroCliente" onclick="setFiltroDoc('prefactura','cliente')">CLIENTE</button><button type="button" id="prefacturaFiltroFecha" onclick="setFiltroDoc('prefactura','fecha')">FECHA</button><button type="button" id="prefacturaFiltroNumero" onclick="setFiltroDoc('prefactura','numero')">Nº PF</button></div><input id="buscarPrefactura" placeholder="Buscar matrícula..." oninput="renderPrefactura()"></div><button type="button" class="green" onclick="nuevaConEstado('PREFACTURA')">➕ NUEVA PRE-FACTURA</button><div id="prefacturaLista"></div></div><div id="almacen" class="card hidden"><h2>📦 Almacén</h2><div style="display:flex;gap:8px;margin-bottom:10px;"><button type="button" class="secondary" onclick="showTab('herramientas')" style="margin:0;flex:1;">⬅️ HERRAMIENTAS</button><button type="button" class="green" onclick="abrirModalNuevoArticulo()" style="margin:0;flex:1;">➕ NUEVO ARTÍCULO</button><button type="button" class="secondary" onclick="abrirGestionFamiliasAC52()" style="margin:0;flex:1;">⚙️ FAMILIAS</button></div><div id="panelFamiliasAC52" class="lineas-panel" style="display:none;margin-bottom:12px;"></div><div style="display:flex;gap:8px;margin-bottom:0;"><select id="campoBusquedaArticulo" onchange="renderAlmacen()" style="flex:0 0 auto;width:auto;margin:6px 0 12px;padding:13px 10px;font-size:15px;background:#101827;color:#ff7a1a;border:1px solid #ff7a1a;border-radius:12px;font-weight:bold;"><option value="referencia">REFERENCIA</option><option value="descripcion">DESCRIPCIÓN</option><option value="proveedor">PROVEEDOR</option><option value="familia">FAMILIA</option></select><input id="buscarArticulo" placeholder="Buscar..." oninput="filtroAlmacenEspecial='';renderAlmacen()" style="flex:1;margin:6px 0 12px;"></div><select id="familiaAlmacen" onchange="filtroAlmacenEspecial='';renderAlmacen()" style="margin:0 0 12px;background:#101827;color:#e8edf7;border:1px solid #3b4a63;border-radius:12px;"><option value="">Todas las familias</option></select><div id="almacenAnalitica" style="background:#0b1220;border:1px solid #3b4a63;border-radius:12px;padding:10px;margin-bottom:12px;"><div id="almacenResumen" style="color:#e8edf7;font-weight:bold;margin-bottom:8px;">Analítica almacén</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button type="button" class="secondary" onclick="analizarAlmacenPendiente('sinPrecio')" style="margin:0;flex:1;min-width:140px;">💶 SIN PRECIO</button><button type="button" class="secondary" onclick="analizarAlmacenPendiente('bajoStock')" style="margin:0;flex:1;min-width:140px;">📉 BAJO STOCK</button><button type="button" class="secondary" onclick="analizarAlmacenPendiente('todos')" style="margin:0;flex:1;min-width:120px;">📦 TODOS</button></div></div><div id="almacenLista"></div></div><div id="estadisticas" class="card hidden"><div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><button type="button" class="secondary" onclick="showTab('portadaGestion')" style="width:auto;padding:8px 16px;margin:0;flex:0 0 auto;">⬅️ INICIO</button><h2 style="margin:0;color:#ffffff;">📊 ESTADÍSTICAS</h2></div><div id="estadisticasContenido"></div></div><div id="ganancias" class="card hidden"><div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><button type="button" class="secondary" onclick="showTab('portadaGestion')" style="width:auto;padding:8px 16px;margin:0;flex:0 0 auto;">⬅️ INICIO</button><h2 style="margin:0;color:#ffffff;">💰 RENTABILIDAD</h2></div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:15px;"><div style="flex:1;min-width:120px;"><label>Período</label><select id="periodoGanancias" onchange="cambiarPeriodo()"><option value="semana">Semana actual</option><option value="mes">Mes actual</option><option value="personalizado">Personalizado</option></select></div><div style="flex:1;min-width:120px;display:none;" id="fechasPersonalizadas"><label>Desde</label><input type="date" id="fechaInicioG"><label>Hasta</label><input type="date" id="fechaFinG"></div><div style="flex:1;min-width:120px;"><label>Familia</label><select id="familiaGanancias"><option value="">Todas</option></select></div><button class="green" onclick="renderGanancias()" style="width:auto;padding:8px 20px;align-self:flex-end;">📊 CALCULAR</button></div><div id="resultadoGanancias"></div></div><div id="inventario" class="card hidden"><div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><button type="button" class="secondary" onclick="showTab('portadaGestion')" style="width:auto;padding:8px 16px;margin:0;flex:0 0 auto;">⬅️ INICIO</button><h2 style="margin:0;color:#ffffff;">📦 INVENTARIO</h2></div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;"><div style="flex:1;min-width:130px;"><label>Familia</label><select id="familiaInventario" onchange="renderInventario()"><option value="">Todas</option></select></div><div style="flex:1;min-width:130px;"><label>Proveedor</label><select id="proveedorInventario" onchange="renderInventario()"><option value="">Todos</option></select></div><div style="flex:1;min-width:130px;"><label>Vista</label><select id="vistaInventario" onchange="renderInventario()"><option value="familias">Por familias</option><option value="constock">Listado con stock</option><option value="bajo">Stock bajo mínimo</option><option value="cero">Stock cero</option><option value="completo">Listado completo (todos)</option></select></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;"><button type="button" class="green" onclick="imprimirInventario('actual')" style="width:auto;padding:10px 14px;margin:0;">📄 IMPRIMIR VISTA</button><button type="button" class="secondary" onclick="imprimirInventario('bajo')" style="width:auto;padding:10px 14px;margin:0;">📄 IMPRIMIR STOCK BAJO</button></div><div id="inventarioContenido"></div></div><input type="file" id="inputFotoCamara" accept="image/*" style="display:none" onchange="procesarFotoMatricula(event)"><div id="modalCamara"><div id="modalCamaraBox"><h2>📷 ESCÁNER DE MATRÍCULA</h2><div id="overlayMat">— — — — — —</div><div id="estadoOCR">Procesando imagen...</div><div id="previewFoto" style="display:none;margin:10px 0;"><img id="imgPreview" style="width:100%;border-radius:10px;border:2px solid #3b4a63;"></div><div id="panelHistorialCamara"><h3>📁 HISTORIAL DEL VEHÍCULO</h3><div id="listadoHistCamara"></div></div><div id="botoneraCamara"><button type="button" class="green" id="btnAceptarCamara" onclick="aceptarMatriculaEscaneada()" style="margin:0;display:none;">✅ ACEPTAR</button><button type="button" id="btnRepetirFoto" onclick="repetirFoto()" style="margin:0;display:none;background:#344d7a;color:white;">🔄 REPETIR</button><button type="button" class="danger" onclick="cerrarCamara()" style="margin:0;">❌ CERRAR</button></div></div></div><div id="modalArticulo" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000a;z-index:10002;overflow-y:auto;padding:20px;"><div style="background:#1c2940;border:2px solid #ff7a1a;border-radius:18px;padding:20px;max-width:500px;margin:40px auto;"><h2 id="modalArticuloTitulo" style="color:#ff7a1a;margin-top:0;">✏️ ARTÍCULO</h2><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Referencia</label><input id="maRef" placeholder="REF-001 / vacío = ART automático" style="margin:4px 0 10px;"><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Descripción *</label><input id="maDesc" placeholder="Descripción del artículo"><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Proveedor</label><input id="maProv" placeholder="Nombre del proveedor / opcional"><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Familia</label><input id="maFam" type="hidden"><select id="maFamSelect" onchange="manejarFamiliaArticuloAC51()" style="margin:4px 0 10px;"></select><input id="maFamNueva" placeholder="Nueva familia..." style="display:none;margin:4px 0 10px;" autocapitalize="characters" oninput="document.getElementById('maFam').value=this.value.toUpperCase()"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Precio compra (€)</label><input id="maPcomp" type="number" step="0.01" min="0" placeholder="0.00" oninput="calcularPVP()"></div><div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Margen (%)</label><input id="maMargen" type="number" step="0.1" min="0" placeholder="30" oninput="calcularPVP()"></div></div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Precio venta (€)</label><input id="maPventa" type="number" step="0.01" min="0" placeholder="0.00"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;"><div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">IVA (%)</label><input id="maIva" type="number" step="1" min="0" value="21" placeholder="21"></div><div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Stock</label><input id="maStock" type="number" step="1" min="0" placeholder="0"></div><div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Stock mín.</label><input id="maStockMin" type="number" step="1" min="0" placeholder="0"></div></div><label style="font-weight:bold;color:#ff7a1a;display:block;margin-top:8px;">Observaciones</label><textarea id="maObs" rows="2" placeholder="Notas..." style="width:100%;box-sizing:border-box;resize:vertical;"></textarea><input type="hidden" id="maClaveOriginal"><input type="hidden" id="maContextoOrigen"><div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;"><button type="button" class="green" onclick="guardarArticuloModal()" style="margin:0;flex:2;">💾 GUARDAR</button><button type="button" class="danger" onclick="eliminarArticuloModal()" style="margin:0;flex:1;">🗑 ELIMINAR</button><button type="button" class="secondary" onclick="cerrarModalArticulo()" style="margin:0;flex:1;">CANCELAR</button></div></div></div><div id="modalSeleccionArticulo"><div id="modalSeleccionArticuloBox"><h2>🔍 SELECCIONAR ARTÍCULO</h2><input id="buscarArticuloModal" placeholder="Buscar por referencia o descripción..." oninput="renderListaArticulosModal()"><div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px;"><button type="button" class="green" onclick="abrirModalNuevoArticuloDesdeOT()" style="margin:0;flex:1;">➕ CREAR ARTÍCULO</button><button type="button" class="secondary" onclick="anadirArticuloManualSinReferencia()" style="margin:0;flex:1;">➕ VENTA PUNTUAL INT</button></div><div id="listaArticulosModal" class="lista-articulos-modal"></div><div style="display:flex;gap:10px;margin-top:16px;"><button type="button" class="danger" onclick="cerrarModalSeleccionArticulo()" style="margin:0;">CANCELAR</button></div></div></div><div id="modalCliente"><div id="modalClienteBox"><h2>📋 FICHA DE CLIENTE</h2><div class="aviso-modal">⚠️ Para emitir una factura válida es obligatorio completar el NIF/NIE y la dirección del cliente.<br>Estos datos quedan guardados para futuras facturas.</div><div id="modalClienteNombre" style="font-weight:bold;font-size:17px;color:#fff;margin-bottom:10px;"></div><label>NIF / NIE *</label><input id="mcNif" placeholder="12345678A" maxlength="20" autocomplete="off" autocapitalize="characters" oninput="normalizarCampoNif(this);calcularLetraNif(this)"><label>Dirección *</label><input id="mcDireccion" placeholder="Calle, número, piso..." autocapitalize="words" oninput="normalizarCampoNombre(this)"><label>C. Postal - Ciudad</label><input id="mcPoblacion" placeholder="50540 - Borja" autocapitalize="words" oninput="normalizarCampoNombre(this)"><div style="display:flex;gap:10px;"><div style="flex:1;"><label>Móvil</label><input id="mcMovil" type="tel" inputmode="numeric" maxlength="11" placeholder="600 123 456" oninput="normalizarCampoTelefono(this)"></div><div style="flex:1;"><label>Tfno</label><input id="mcTfno" type="tel" inputmode="numeric" maxlength="11" placeholder="976 000 000" oninput="normalizarCampoTelefono(this)"></div></div><label>E-mail</label><input id="mcEmail" type="email" placeholder="cliente@correo.com"><label>Observaciones</label><textarea id="mcObservaciones" placeholder="Notas sobre el cliente..." rows="3" style="width:100%;box-sizing:border-box;resize:vertical;"></textarea><div style="border-top:1px solid #2a3a55;margin:14px 0 10px;padding-top:12px;"><div style="color:#ff7a1a;font-weight:bold;font-size:13px;margin-bottom:10px;">💳 DATOS DE PAGO Y BANCARIOS</div><datalist id="dlFormapago"><option>ALLIANZ</option><option>CONTADO</option><option>MAPFRE</option><option>PELAYO</option><option>RECIBO DOMICILIADO</option><option>TARJETA DE CRÉDITO</option><option>TRANSFERENCIA</option><option>ZURICH</option></datalist><datalist id="dlVencimiento"><option>RECIBO BANCARIO</option><option>30 DÍAS</option><option>60 DÍAS</option><option>90 DÍAS</option><option>30-60 DÍAS</option><option>30-60-90 DÍAS</option></datalist><div style="display:flex;gap:10px;"><div style="flex:1;"><label>Forma de pago</label><input id="mcFormapago" list="dlFormapago" placeholder="Seleccionar o escribir..." autocapitalize="characters" oninput="this.value=this.value.toUpperCase()"></div><div style="flex:1;"><label>Vencimiento</label><input id="mcDiaspago" list="dlVencimiento" placeholder="Seleccionar o escribir..." autocapitalize="characters" oninput="this.value=this.value.toUpperCase()"></div></div><label>Nombre del banco</label><input id="mcNombreBanco" placeholder="Ej: BANCO SANTANDER, IBERCAJA..." autocapitalize="characters" maxlength="50" oninput="this.value=this.value.toUpperCase()"><label>Nº Cuenta (CCC / IBAN)</label><input id="mcCcc" placeholder="ES12 1234 5678 9012 3456 7890" autocapitalize="characters" maxlength="34" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');detectarBicDesdeIban(this.value)"><div style="display:flex;gap:10px;"><div style="flex:1;"><label>BIC / SWIFT</label><input id="mcBic" placeholder="BSCHESMMXXX" autocapitalize="characters" maxlength="11" oninput="this.value=this.value.toUpperCase()"></div><div style="flex:1;"><label>SEPA Tipo</label><input id="mcSepaTipo" placeholder="CORE / B2B" maxlength="10" oninput="this.value=this.value.toUpperCase()"></div></div><div style="display:flex;gap:10px;"><div style="flex:1;"><label>SEPA Mandato</label><input id="mcSepaMandato" placeholder="Referencia mandato" maxlength="35"></div><div style="flex:1;"><label>SEPA Firma</label><input id="mcSepaFirma" placeholder="Fecha firma" maxlength="20"></div></div></div><div style="display:flex;gap:10px;margin-top:14px;"><button type="button" class="green" onclick="confirmarFicha()" style="margin:0;">GUARDAR Y CONTINUAR</button><button type="button" class="danger" onclick="cancelarFicha()" style="margin:0;flex:0.5;">CANCELAR</button></div></div></div>
 <!-- MODAL INPUT iOS-SAFE -->
 <div id="modalInputOverlay">
 <div id="modalInputBox">
@@ -898,7 +819,6 @@ function estadoCanonico(estado){
 if(estado==="CITADO") return "CITA";
 if(estado==="EN TALLER") return "OT";
 if(estado==="FINALIZADO") return "FACTURA";
-if(estado==="OT ANULADA" || estado==="OT_ANULADA" || estado==="ANULADA") return "OT_ANULADA";
 return estado||"CITA";
 }
 function esCita(ot){ return estadoCanonico(ot.estado)==="CITA"; }
@@ -906,7 +826,7 @@ function esPresupuesto(ot){ return estadoCanonico(ot.estado)==="PRESUPUESTO"; }
 function esOT(ot){ return estadoCanonico(ot.estado)==="OT"; }
 function esPrefactura(ot){ return estadoCanonico(ot.estado)==="PREFACTURA"; }
 function esFactura(ot){ return estadoCanonico(ot.estado)==="FACTURA"; }
-function textoEstado(estado){ return estadoCanonico(estado)==="OT_ANULADA" ? "OT ANULADA" : estadoCanonico(estado); }
+function textoEstado(estado){ return estadoCanonico(estado); }
 function colorEstado(estado){
 const e=estadoCanonico(estado);
 if(e==="CITA") return "#2196f3";
@@ -914,7 +834,6 @@ if(e==="PRESUPUESTO") return "#00a6a6";
 if(e==="OT") return "#ff7a1a";
 if(e==="PREFACTURA") return "#344d7a";
 if(e==="FACTURA") return "#28a745";
-if(e==="OT_ANULADA") return "#777";
 return "#ff7a1a";
 }
 function conservarCursor(input,fn){
@@ -942,14 +861,7 @@ const m=v.match(/(\d{4})([BCDFGHJKLMNPRSTVWXYZ]{3})/);
 if(m) return m[1]+m[2];
 return v.slice(0,8);
 }
-function normalizarCampoMatricula(input){ conservarCursor(input,normalizarMatricula); }
 
-function cerrarTodosLosDropdowns(){
-  const d1=document.getElementById("matriculaResultados");
-  const d2=document.getElementById("clienteResultados");
-  if(d1){ d1.classList.remove("visible"); d1.innerHTML=""; }
-  if(d2){ d2.classList.remove("visible"); d2.innerHTML=""; }
-}
 document.addEventListener("click", function(e){
   if(!e.target.closest("#matriculaResultados") && e.target.id!=="matricula")
     { const d=document.getElementById("matriculaResultados"); if(d){ d.classList.remove("visible"); d.innerHTML=""; } }
@@ -1278,7 +1190,7 @@ if(!hist.classList.contains("hidden")){
 setTimeout(()=>hist.scrollIntoView({behavior:"smooth",block:"start"}),50);
 }
 }
-const APP_VERSION="v-26";
+const APP_VERSION="v-28";
 const COPIA_VERSION=4;
 const APP_FECHA="29/06/2026";
 const APP_NOTAS="v-20: Centro de Integridad ejecutable; separa Tiempos de Rendimiento, compacta documentos y mejora rentabilidad por familia/articulo." ;
@@ -1319,6 +1231,7 @@ let agendaExpandidaId=null;
 let detalleOTAbierto={};
 let operarioSeleccionadoR139=null;
 let accesoR138="";
+let usuarioActivoR211=null;
 const MARCAS=["ABARTH","ALFA ROMEO","ALPINE","AUDI","BMW","BYD","CITROEN","CUPRA","DACIA","DAIHATSU","DS AUTOMOBILES","FIAT","FORD","GENESIS","HONDA","HYUNDAI","INFINITI","ISUZU","JAGUAR","JAECOO","KGM","KIA","LAND ROVER","LEXUS","LYNK & CO","MAZDA","MERCEDES","MG","MINI","MITSUBISHI","NISSAN","OPEL","PEUGEOT","POLESTAR","PORSCHE","RENAULT","SEAT","SKODA","SMART","SSANGYONG","SUBARU","SUZUKI","TESLA","TOYOTA","VOLKSWAGEN","VOLVO"];
 const MODELOS={
 "ABARTH":["500","595","695"],
@@ -1510,7 +1423,7 @@ if(facturasProveedor.length>30000) return {ok:false,msg:"COPIA NO VÁLIDA: demas
 if(operarios.length>MAX_ITEMS.operarios) return {ok:false,msg:"COPIA NO VÁLIDA: demasiados operarios."};
 const otsValidas=datos.ots.every(o=>o && typeof o==="object" && !Array.isArray(o));
 if(!otsValidas) return {ok:false,msg:"COPIA NO VÁLIDA: hay OTs dañadas."};
-const estadosValidos=new Set(["CITA","CITADO","PRESUPUESTO","OT","EN TALLER","PREFACTURA","FACTURA","FINALIZADO","OT_ANULADA","OT ANULADA","ANULADA"]);
+const estadosValidos=new Set(["CITA","CITADO","PRESUPUESTO","OT","EN TALLER","PREFACTURA","FACTURA","FINALIZADO"]);
 const estadoMalo=datos.ots.find(o=>o.estado && !estadosValidos.has(String(o.estado).toUpperCase()));
 if(estadoMalo) return {ok:false,msg:"COPIA NO VÁLIDA: contiene estados desconocidos. Revisa la copia antes de importar."};
 const ids=datos.ots.map(o=>o.id).filter(Boolean);
@@ -1579,9 +1492,6 @@ return String(v||"").trim().toUpperCase();
 }
 function esc(v){
 return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function escAttr(v){
-return esc(v).replace(/`/g,"&#96;");
 }
 function unicosTextoPagoAC103(lista){
 return Array.from(new Set((Array.isArray(lista)?lista:[]).map(limpiarTextoPagoAC103).filter(Boolean))).sort((a,b)=>a.localeCompare(b,"es"));
@@ -1988,30 +1898,6 @@ if(r&&!r.bloqueado){ renderTaller(); renderPrefactura(); showTab(r.tab||"taller"
 function completarNumeracionExistente(){
 ots.slice().sort((a,b)=>(a.id||0)-(b.id||0)).forEach(ot=>asegurarNumeracion(ot));
 }
-function recalcularContadoresDesdeDatos(){
-const maximos={agenda:0,presupuesto:0,ot:0,prefactura:0,factura:0,rectificativa:0,articuloInterno:Number(contadores.articuloInterno)||0};
-(ots||[]).forEach(o=>{
-maximos.agenda=Math.max(maximos.agenda, Number(o.numeroAgenda)||0);
-maximos.presupuesto=Math.max(maximos.presupuesto, Number(o.numeroPresupuesto)||0);
-maximos.ot=Math.max(maximos.ot, Number(o.numeroOT)||0);
-maximos.prefactura=Math.max(maximos.prefactura, Number(o.numeroPrefactura)||0);
-maximos.factura=Math.max(maximos.factura, Number(o.numeroFactura)||0);
-maximos.rectificativa=Math.max(maximos.rectificativa, Number(o.numeroRectificativa)||0);
-});
-(articulos||[]).forEach(a=>{
-const m=String(a.referencia||"").match(/^INT-(\d+)$/);
-if(m) maximos.articuloInterno=Math.max(maximos.articuloInterno, parseInt(m[1],10)||0);
-});
-contadores={
-agenda:Math.max(Number(contadores.agenda)||0,maximos.agenda),
-presupuesto:Math.max(Number(contadores.presupuesto)||0,maximos.presupuesto),
-ot:Math.max(Number(contadores.ot)||0,maximos.ot),
-prefactura:Math.max(Number(contadores.prefactura)||0,maximos.prefactura),
-factura:Math.max(Number(contadores.factura)||0,maximos.factura),
-rectificativa:Math.max(Number(contadores.rectificativa)||0,maximos.rectificativa),
-articuloInterno:Math.max(Number(contadores.articuloInterno)||0,maximos.articuloInterno)
-};
-}
 function claveCliente(nombre){ return textoPlanoR39(nombre).trim().toUpperCase(); }
 function quitarTildes(s){ return String(s===undefined||s===null?"":s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim(); }
 function buscarFichaCliente(nombre){
@@ -2255,14 +2141,6 @@ const op=normalizarOperario(nombre);
 return (ots||[]).filter(ot=>esOT(ot) && operariosIntervinientesOT(ot).some(x=>normalizarOperario(x)===op))
 .sort((a,b)=>(fechaDocumento(b)?new Date(fechaDocumento(b)).getTime():b.id)-(fechaDocumento(a)?new Date(fechaDocumento(a)).getTime():a.id));
 }
-function resumenLineasOperarioR139(ot,nombre){
-const op=normalizarOperario(nombre);
-const propias=(ot.lineas||[]).filter(l=>l && l.tipo==="mano_obra" && normalizarOperario(l.operario)===op);
-if(propias.length){
-return propias.map(l=>"• "+(l.referencia||l.codigo_mo||"MO")+" — "+(l.descripcion||"")).join("\n");
-}
-return ot.trabajos||motivoCitaOT(ot)||"SIN TRABAJOS";
-}
 function bloqueLineasOperarioR140(ot){
 const grupos=lineasOrdenadasPorTipo(ot.lineas||[]);
 const tabla=function(lineas,titulo){
@@ -2369,6 +2247,126 @@ return String(valor||"")
 const CODIGO_ACCESO_KEY=STORAGE+"_CODIGO_ACCESO";
 const PREGUNTA_RECUPERACION_KEY=STORAGE+"_PREGUNTA_RECUPERACION";
 const RESPUESTA_RECUPERACION_KEY=STORAGE+"_RESPUESTA_RECUPERACION";
+const CODIGO_ACCESO_MOVIL_KEY=STORAGE+"_CODIGO_ACCESO_MOVIL";
+function obtenerCodigoAccesoMovilR210(){
+return localStorage.getItem(CODIGO_ACCESO_MOVIL_KEY)||"";
+}
+function guardarCodigoAccesoMovilR210(valor){
+localStorage.setItem(CODIGO_ACCESO_MOVIL_KEY,normalizarCodigoR138(valor));
+}
+function editarCodigoAccesoMovilR210(){
+const actual=obtenerCodigoAccesoMovilR210();
+if(actual){
+const comprobar=prompt("Código actual de agenda móvil:");
+if(comprobar===null) return;
+if(normalizarCodigoR138(comprobar)!==actual){ alert("CÓDIGO INCORRECTO"); return; }
+}
+const nuevo=prompt("Nuevo código para AGENDA MÓVIL (distinto del código de gestión). Déjalo en blanco para acceso libre:",actual);
+if(nuevo===null) return;
+const nuevoNorm=normalizarCodigoR138(nuevo);
+if(nuevoNorm){
+const repetir=prompt("Repite el nuevo código de agenda móvil:");
+if(repetir===null) return;
+if(normalizarCodigoR138(repetir)!==nuevoNorm){ alert("LOS CÓDIGOS NO COINCIDEN"); return; }
+}
+guardarCodigoAccesoMovilR210(nuevoNorm);
+alert(nuevoNorm ? "CÓDIGO DE AGENDA MÓVIL GUARDADO" : "AGENDA MÓVIL SIN CONTRASEÑA ACTIVADO");
+}
+function solicitarAccesoMovilR210(){
+const guardado=obtenerCodigoAccesoMovilR210();
+if(guardado){
+const codigo=prompt("Código de AGENDA MÓVIL:");
+if(codigo===null) return;
+if(normalizarCodigoR138(codigo)!==guardado){
+alert("CÓDIGO INCORRECTO");
+return;
+}
+}
+accesoR138="movil";
+showTab("agendaMovil");
+}
+
+const USUARIOS_GESTION_KEY=STORAGE+"_USUARIOS_GESTION";
+function obtenerUsuariosGestionR211(){
+try{
+const raw=localStorage.getItem(USUARIOS_GESTION_KEY);
+const arr=raw?JSON.parse(raw):null;
+if(Array.isArray(arr) && arr.length===3) return arr;
+}catch(e){}
+return [{nombre:"",pin:""},{nombre:"",pin:""},{nombre:"",pin:""}];
+}
+function guardarUsuariosGestionR211(lista){
+localStorage.setItem(USUARIOS_GESTION_KEY,JSON.stringify(lista));
+}
+function usuariosGestionConfiguradosR211(){
+return obtenerUsuariosGestionR211().filter(u=>u && u.nombre && u.pin);
+}
+function gestionarUsuariosGestionR211(){
+const usuarios=obtenerUsuariosGestionR211();
+for(let i=0;i<3;i++){
+const actual=usuarios[i]||{nombre:"",pin:""};
+const nombre=prompt("Usuario "+(i+1)+" de 3 — nombre (déjalo igual para no tocarlo, o vacío para desactivar esta plaza):",actual.nombre||"");
+if(nombre===null){ alert("Edición cancelada. No se ha guardado ningún cambio."); return; }
+const nombreNorm=textoPlanoR39(nombre).trim().toUpperCase();
+if(!nombreNorm){ usuarios[i]={nombre:"",pin:""}; continue; }
+let pinFinal=actual.pin||"";
+const pin=prompt("PIN para "+nombreNorm+" (solo números — deja en blanco para mantener el PIN actual):","");
+if(pin!==null && pin.trim()!==""){
+const pinNorm=normalizarCodigoR138(pin);
+const repetir=prompt("Repite el PIN de "+nombreNorm+" para confirmarlo:");
+if(repetir===null || normalizarCodigoR138(repetir)!==pinNorm){
+alert("PIN no confirmado: se mantiene el PIN anterior para "+nombreNorm+".");
+}else{
+pinFinal=pinNorm;
+}
+}
+usuarios[i]={nombre:nombreNorm,pin:pinFinal};
+}
+guardarUsuariosGestionR211(usuarios);
+const resumen=usuarios.filter(u=>u.nombre).map(u=>"• "+u.nombre+(u.pin?" (PIN configurado)":" (SIN PIN — no podrá entrar hasta que se lo pongas)")).join("\n");
+alert("Usuarios de gestión actualizados:\n"+(resumen||"Ninguno configurado."));
+}
+function solicitarAccesoGestionR211(){
+const usuarios=usuariosGestionConfiguradosR211();
+if(!usuarios.length){
+const guardado=obtenerCodigoAccesoR202();
+if(guardado){
+const codigo=prompt("Aún no hay usuarios individuales configurados.\nCódigo maestro de entrada:");
+if(codigo===null) return;
+if(normalizarCodigoR138(codigo)!==guardado){ alert("CÓDIGO INCORRECTO"); return; }
+}
+accesoR138="gestion";
+usuarioActivoR211=null;
+mostrarModalAlerta("Has entrado sin identificarte de forma individual. Ve a Seguridad → Usuarios de gestión para configurar a las 3 personas con acceso y dejar de usar este acceso genérico.");
+showTab("agenda");
+return;
+}
+const lista=usuarios.map((u,i)=>(i+1)+". "+u.nombre).join("\n");
+const eleccion=prompt("¿Quién eres?\n"+lista+"\n\nEscribe el número o el nombre:");
+if(eleccion===null) return;
+const norm=normalizarCodigoR138(eleccion);
+const usuario=usuarios.find((u,i)=>String(i+1)===norm || normalizarCodigoR138(u.nombre)===norm);
+if(!usuario){ alert("No reconozco ese nombre."); return; }
+const pin=prompt("PIN de "+usuario.nombre+":");
+if(pin===null) return;
+if(normalizarCodigoR138(pin)!==usuario.pin){ alert("PIN INCORRECTO"); return; }
+accesoR138="gestion";
+usuarioActivoR211=usuario.nombre;
+showTab("agenda");
+}
+function marcarTrazabilidadR211(ot, anterior){
+const usuario = usuarioActivoR211 || (accesoR138==="movil" ? "AGENDA MÓVIL" : "(sin identificar)");
+const ahora = ahoraLocalInput();
+if(anterior && anterior.creadoPor){
+ot.creadoPor=anterior.creadoPor;
+ot.fechaCreacion=anterior.fechaCreacion||ahora;
+}else{
+ot.creadoPor=usuario;
+ot.fechaCreacion=ahora;
+}
+ot.modificadoPor=usuario;
+ot.fechaModificacion=ahora;
+}
 function obtenerCodigoAccesoR202(){
 return localStorage.getItem(CODIGO_ACCESO_KEY)||"";
 }
@@ -2436,6 +2434,10 @@ function probarRecuperacionR203(){
 recuperarAccesoR203();
 }
 function solicitarAccesoR138(destino){
+if(destino==="gestion"){
+solicitarAccesoGestionR211();
+return;
+}
 const guardado=obtenerCodigoAccesoR202();
 if(guardado){
 const codigo=prompt("Código de entrada a AutoBorja. Escribe RECUPERAR si lo has olvidado:");
@@ -2496,7 +2498,7 @@ if(btn){
  btn.onclick=volverDesdeDiagnosticoAC110;
 }
 }
-function showTab(id){ if(id==="agendaMovil") id="agenda";
+function showTab(id){
 const pantallaAnteriorAC110=pantallaVisibleAC110();
 if(id==="diagnostico" && pantallaAnteriorAC110 && pantallaAnteriorAC110!=="diagnostico"){
  origenDiagnosticoAC110=pantallaAnteriorAC110==="integridadPrograma" ? "integridadPrograma" : "herramientas";
@@ -2514,7 +2516,12 @@ if((id==="herramientas"||id==="seguridad"||id==="almacen"||id==="diagnostico") &
 alert("ACCESO BLOQUEADO. ENTRA DESDE AUTOBORJA.");
 id="inicio";
 }
-if(id==="inicio"){ accesoR138=""; operarioSeleccionadoR139=null; }
+if(id==="agendaMovil" && accesoR138!=="movil" && accesoR138!=="gestion"){
+alert("ACCESO BLOQUEADO. ENTRA CON EL CÓDIGO DE AGENDA MÓVIL.");
+id="inicio";
+}
+if(id==="inicio"){ accesoR138=""; usuarioActivoR211=null; operarioSeleccionadoR139=null; }
+if(id==="agendaMovil") renderAgendaMovilAC80();
 ["inicio","portadaGestion","integridadPrograma","operarios","controlHorario","herramientas","seguridad","nueva","presupuesto","historial","agenda","agendaMovil","taller","prefactura","almacen","estadisticas","ganancias","inventario","mas","diagnostico"].forEach(t=>{
 const el=document.getElementById(t);
 if(el) el.classList.toggle("hidden", t!==id);
@@ -3115,32 +3122,6 @@ ot.presupuestoEstado="PENDIENTE";
 guardar();
 renderPresupuesto();
 }
-function borrarPresupuestoYAgenda(id){
-const ot=ots.find(x=>x.id===id);
-if(!ot || !esPresupuesto(ot)) return;
-alert("Norma documental v-22: un presupuesto no se borra. Si procede, vuelve a Agenda y desde Agenda se puede eliminar.");
-volverPresupuestoAAgendaAC108(id);
-return;
-const destino=ots.find(x=>x.origenPresupuestoId===ot.id && (esOT(x)||esPrefactura(x)||esFactura(x)));
-if(presupuestoConvertidoOT(ot) || destino){
-alert("NO SE PUEDE BORRAR DIRECTAMENTE: este presupuesto ya tiene flujo posterior. Abre la reparacion de flujo o la OT vinculada para conservar trazabilidad.");
-return;
-}
-const ref=referenciaOT(ot);
-const texto=`Vas a borrar ${ref}.\n\nEsto elimina el presupuesto y tambien la cita/entrada de Agenda de la que procede, porque en este prototipo son el mismo expediente.\n\nNo se borran OT, prefacturas ni facturas porque este presupuesto no debe tenerlas vinculadas.\n\n¿Continuar?`;
-if(!confirm(texto)) return;
-const fotoKey=ot.fotoExpedienteKey||"";
-liberarNumeroSiUltimo("presupuesto",ot.numeroPresupuesto);
-liberarNumeroSiUltimo("agenda",ot.numeroAgenda);
-ots=ots.filter(x=>x.id!==ot.id);
-if(fotoKey && fotosExpedientes && fotosExpedientes[fotoKey] && !ots.some(x=>x.fotoExpedienteKey===fotoKey)){
- delete fotosExpedientes[fotoKey];
-}
-guardar();
-renderAgenda();
-renderPresupuesto();
-alert(ref+" borrado. La entrada de Agenda vinculada tambien queda eliminada.");
-}
 function pasarOTAPrefactura(id){
 const ot=ots.find(x=>x.id===id);
 if(!ot || !esOT(ot)) return;
@@ -3191,7 +3172,7 @@ aviso:"Archivo individual de OT para conservar o mover a carpeta OT inválidas s
 const blob=new Blob([JSON.stringify(expediente,null,2)],{type:"application/json;charset=utf-8"});
 const a=document.createElement("a");
 a.href=URL.createObjectURL(blob);
-a.download=nombreArchivoOT(ot, estadoCanonico(ot.estado)==="OT_ANULADA" ? "ANULADA" : "EXPEDIENTE");
+a.download=nombreArchivoOT(ot, "EXPEDIENTE");
 document.body.appendChild(a);
 a.click();
 setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500);
@@ -3202,23 +3183,6 @@ if(!ot || !esOT(ot)) return;
 alert("Norma documental v-22: una OT no se anula ni se borra desde el flujo normal. Debe volver a Presupuesto.");
 volverOTAPresupuestoAC108(id);
 return;
-if(!confirm("Zona delicada: vas a ANULAR "+referenciaOT(ot)+".\n\nNo se borra, pero sale de OT activas. ¿Continuar?")) return;
-const motivo=prompt("Motivo obligatorio de anulación:\nEj: cliente no autoriza, discrepancia, vehículo retirado, error administrativo...");
-if(motivo===null) return;
-const limpio=(motivo||"").trim();
-if(!limpio){ alert("Para anular una OT debes indicar un motivo."); return; }
-const codigo=prompt("Escribe ANULAR para confirmar definitivamente:");
-if((codigo||"").trim().toUpperCase()!=="ANULAR"){
-alert("Anulación cancelada. No se ha modificado la OT.");
-return;
-}
-restaurarStockOT(ot);
-ot.estado="OT_ANULADA";
-ot.motivoAnulacion=limpio.toUpperCase();
-ot.fechaAnulacion=ahoraLocalInput();
-guardar();
-renderTaller();
-alert("OT ANULADA Y CONSERVADA EN EL HISTÓRICO INTERNO.");
 }
 function renderAgenda(){
 asegurarFusionAgendaAC85();
@@ -3327,58 +3291,11 @@ w.document.close();
 w.focus();
 w.print();
 }
-function exportarAgendaFusionAC85(){
-const citas=(ots||[]).filter(esCita).map(o=>({...o}));
-const paquete={tipo:"AGENDA_AUTOBORJA_AC85",version:APP_VERSION,fecha:new Date().toISOString(),citas:citas};
-const blob=new Blob([JSON.stringify(paquete,null,2)],{type:"application/json;charset=utf-8"});
-const url=URL.createObjectURL(blob);
-const a=document.createElement("a");
-a.href=url;
-a.download="agenda_autoborja_fusion_"+new Date().toISOString().slice(0,16).replace(/[-:T]/g,"")+".json";
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-URL.revokeObjectURL(url);
-}
-function importarAgendaFusionAC85(event){
-const file=event.target.files[0];
-if(!file) return;
-leerArchivoTexto(file,function(texto){
- try{
-  const datos=JSON.parse(texto);
-  const origen=Array.isArray(datos) ? datos : (Array.isArray(datos.citas) ? datos.citas : (Array.isArray(datos.ots) ? datos.ots.filter(esCita) : []));
-  if(!origen.length){ mostrarModalAlerta("No se han encontrado citas para fusionar."); event.target.value=""; return; }
-  if(!confirm("Se añadiran solo citas nuevas. No se borrara ni sustituira la Agenda actual. ¿Continuar?")){ event.target.value=""; return; }
-  const existentes=new Set((ots||[]).filter(esCita).map(claveCitaFusionAC85));
-  let nuevas=0, duplicadas=0;
-  origen.filter(esCita).forEach(c=>{
-   const clave=claveCitaFusionAC85(c);
-   if(existentes.has(clave)){ duplicadas++; return; }
-   const nueva={...c};
-   nueva.id=generarIdUnico();
-   nueva.estado="CITA";
-   nueva.numeroAgenda=siguienteNumeroTextoAC92("agenda");
-   nueva.origenFusionAgenda={fecha:new Date().toISOString(),idOriginal:c.id||null,numeroOriginal:c.numeroAgenda||null};
-   if(!Array.isArray(nueva.lineas)) nueva.lineas=[];
-   nueva.stockDescontado=false;
-   ots.push(nueva);
-   existentes.add(clave);
-   nuevas++;
-  });
-  guardar();
-  renderAgenda();
-  mostrarModalAlerta("Fusion de Agenda terminada. Nuevas: "+nuevas+" · duplicadas omitidas: "+duplicadas);
- }catch(e){
-  mostrarModalAlerta("No se pudo fusionar Agenda: archivo JSON no valido.");
- }
- event.target.value="";
-});
-}
-function asegurarBotonAgendaMovilAC81(){
-const btn=document.getElementById("btnAgendaMovilAC81");
-if(btn) btn.remove();
-}
 let filtroAgendaMovilAC80="hoy";
+let am80EditandoId=null;
+function volverDesdeAgendaMovilAC80(){
+showTab(accesoR138==="gestion" ? "agenda" : "inicio");
+}
 function asegurarAgendaMovilAC80(){
 if(document.getElementById("agendaMovil")) return;
 const st=document.createElement("style");
@@ -3387,11 +3304,13 @@ document.head.appendChild(st);
 const panel=document.createElement("div");
 panel.id="agendaMovil";
 panel.className="card hidden";
-panel.innerHTML=`<div class="am80-head"><button type="button" onclick="showTab('agenda')">AGENDA</button><h2>Agenda móvil</h2></div><div class="am80-mini">Vista de prueba para el móvil. Guarda en este navegador, igual que el resto del programa.</div><div class="am80-form"><div class="am80-alert">Para pruebas: si abres el archivo en el móvil, esos datos quedan en el móvil hasta que exportes/importes copia.</div><div class="am80-grid"><div><label>Fecha</label><input id="am80Fecha" type="date"></div><div><label>Hora</label><input id="am80Hora" type="time"></div></div><label>Matrícula</label><input id="am80Matricula" placeholder="0000ABC" autocapitalize="characters" oninput="autocompletarMatriculaAgendaMovilAC82(this)" onblur="autocompletarMatriculaAgendaMovilAC82(this)"><div id="am80InfoMatricula" class="am80-mini" style="margin:0 0 8px;"></div><label>Cliente</label><input id="am80Cliente" placeholder="Nombre cliente" autocapitalize="characters"><label>Teléfono</label><input id="am80Telefono" type="tel" inputmode="tel" placeholder="600 123 456"><label>Motivo</label><textarea id="am80Motivo" placeholder="Motivo de la cita"></textarea><div class="am80-actions"><button type="button" class="green" onclick="guardarCitaMovilAC80()">GUARDAR CITA</button><button type="button" class="secondary" onclick="limpiarCitaMovilAC80()">LIMPIAR</button></div></div><input id="am80Buscar" placeholder="Buscar matrícula o cliente" oninput="renderAgendaMovilAC80()"><div class="am80-tabs"><button type="button" data-am80="hoy" onclick="setFiltroAgendaMovilAC80('hoy')">HOY</button><button type="button" data-am80="manana" onclick="setFiltroAgendaMovilAC80('manana')">MAÑANA</button><button type="button" data-am80="todas" onclick="setFiltroAgendaMovilAC80('todas')">TODAS</button></div><div id="am80Lista"></div>`;
+panel.innerHTML=`<div class="am80-head"><button type="button" onclick="volverDesdeAgendaMovilAC80()">⬅️ VOLVER</button><h2>Agenda móvil</h2></div><div class="am80-mini">Solo citas. Crear, ver y editar — sin acceso a presupuestos, OT ni facturación.</div><div class="am80-form"><div id="am80ModoEdicion" class="am80-mini" style="display:none;color:#ffb000;"></div><div class="am80-grid"><div><label>Fecha</label><input id="am80Fecha" type="date"></div><div><label>Hora</label><input id="am80Hora" type="time"></div></div><label>Matrícula</label><input id="am80Matricula" placeholder="0000ABC" autocapitalize="characters" oninput="autocompletarMatriculaAgendaMovilAC82(this)" onblur="autocompletarMatriculaAgendaMovilAC82(this)"><div id="am80InfoMatricula" class="am80-mini" style="margin:0 0 8px;"></div><label>Cliente</label><input id="am80Cliente" placeholder="Nombre cliente" autocapitalize="characters"><label>Teléfono</label><input id="am80Telefono" type="tel" inputmode="tel" placeholder="600 123 456"><label>Motivo</label><textarea id="am80Motivo" placeholder="Motivo de la cita"></textarea><div class="am80-actions"><button type="button" class="green" onclick="guardarCitaMovilAC80()">GUARDAR CITA</button><button type="button" class="secondary" onclick="limpiarCitaMovilAC80()">LIMPIAR</button></div></div><input id="am80Buscar" placeholder="Buscar matrícula o cliente" oninput="renderAgendaMovilAC80()"><div class="am80-tabs"><button type="button" data-am80="hoy" onclick="setFiltroAgendaMovilAC80('hoy')">HOY</button><button type="button" data-am80="manana" onclick="setFiltroAgendaMovilAC80('manana')">MAÑANA</button><button type="button" data-am80="todas" onclick="setFiltroAgendaMovilAC80('todas')">TODAS</button></div><div id="am80Lista"></div>`;
 document.body.appendChild(panel);
 limpiarCitaMovilAC80();
 }
 function limpiarCitaMovilAC80(){
+am80EditandoId=null;
+const modo=document.getElementById("am80ModoEdicion"); if(modo){ modo.style.display="none"; modo.textContent=""; }
 const fecha=document.getElementById("am80Fecha");
 const hora=document.getElementById("am80Hora");
 const ahora=ahoraLocalInput();
@@ -3448,14 +3367,58 @@ const telefono=textoPlanoR39((document.getElementById("am80Telefono")?.value||da
 const motivo=textoPlanoR39((document.getElementById("am80Motivo")?.value||"").trim()).toUpperCase();
 if(!fechaDia){ alert("Pon fecha para la cita."); return; }
 if(!matricula && !cliente){ alert("Escribe matrícula o cliente."); return; }
+if(am80EditandoId){
+const ot=ots.find(x=>x.id===am80EditandoId);
+if(!ot || !esCita(ot)){
+alert("Esta cita ya no está disponible en agenda móvil (puede haber avanzado a presupuesto).");
+limpiarCitaMovilAC80();
+renderAgendaMovilAC80();
+return;
+}
+ot.fecha=fecha; ot.matricula=matricula; ot.cliente=cliente; ot.telefono=telefono;
+if(datosMat.marca) ot.marca=datosMat.marca;
+if(datosMat.modelo) ot.modelo=datosMat.modelo;
+ot.motivoCita=motivo;
+marcarTrazabilidadR211(ot, ot);
+guardar();
+const ref=referenciaOT(ot);
+limpiarCitaMovilAC80();
+renderAgendaMovilAC80();
+renderAgenda();
+mostrarModalAlerta("Cita móvil actualizada: "+ref);
+return;
+}
 const ot={id:generarIdUnico(),estado:"CITA",matricula,cliente,telefono,marca:datosMat.marca||"",modelo:datosMat.modelo||"",km:"",fecha,operarioAsignado:"",motivoCita:motivo,trabajos:"",observaciones:"CREADA DESDE AGENDA",lineas:[],stockDescontado:false};
 asegurarNumeracion(ot);
+marcarTrazabilidadR211(ot, null);
 ots.push(ot);
 guardar();
 limpiarCitaMovilAC80();
 renderAgendaMovilAC80();
 renderAgenda();
 mostrarModalAlerta("Cita móvil guardada: "+referenciaOT(ot));
+}
+function editarCitaMovilAC80(id){
+const ot=ots.find(x=>x.id===id);
+if(!ot || !esCita(ot)){ alert("Esta cita ya no está disponible en agenda móvil."); renderAgendaMovilAC80(); return; }
+am80EditandoId=id;
+const f=String(ot.fecha||"");
+const fechaEl=document.getElementById("am80Fecha"), horaEl=document.getElementById("am80Hora");
+if(fechaEl) fechaEl.value=f.slice(0,10);
+if(horaEl) horaEl.value=f.slice(11,16);
+const set=(elId,val)=>{ const el=document.getElementById(elId); if(el) el.value=val||""; };
+set("am80Matricula",ot.matricula);
+set("am80Cliente",ot.cliente);
+set("am80Telefono",ot.telefono);
+set("am80Motivo",motivoCitaOT(ot));
+const modo=document.getElementById("am80ModoEdicion");
+if(modo){ modo.style.display="block"; modo.textContent="✏️ Editando "+referenciaOT(ot)+" — pulsa GUARDAR CITA para confirmar."; }
+window.scrollTo({top:0,behavior:"smooth"});
+}
+function eliminarCitaMovilAC80(id){
+eliminarCitaAgenda(id);
+if(am80EditandoId===id) limpiarCitaMovilAC80();
+renderAgendaMovilAC80();
 }
 function citasAgendaMovilAC80(){
 const q=normalizarBusquedaAC66(document.getElementById("am80Buscar")?.value||"");
@@ -3484,7 +3447,7 @@ const lista=document.getElementById("am80Lista");
 if(!lista) return;
 const citas=citasAgendaMovilAC80();
 if(!citas.length){ lista.innerHTML=`<div class="am80-mini" style="padding:12px 0;">No hay citas para esta vista.</div>`; return; }
-lista.innerHTML=citas.map(ot=>`<div class="am80-card ${claseCitaMovilAC80(ot)}"><div class="hora">${htmlSeguro(fechaAgendaCorta(ot.fecha))} · ${htmlSeguro(referenciaOT(ot))}</div><div class="mat">${htmlSeguro(ot.matricula||"SIN MATRICULA")}</div><div class="cli">${htmlSeguro(ot.cliente||"SIN CLIENTE")}</div>${ot.telefono?`<div class="cli">${htmlSeguro(ot.telefono)}</div>`:""}<div class="mot">${htmlSeguro(resumenTrabajo(motivoCitaOT(ot)||ot.observaciones||"SIN MOTIVO"))}</div><button type="button" class="secondary" onclick="editarOT(${ot.id})">EDITAR</button></div>`).join("");
+lista.innerHTML=citas.map(ot=>`<div class="am80-card ${claseCitaMovilAC80(ot)}"><div class="hora">${htmlSeguro(fechaAgendaCorta(ot.fecha))} · ${htmlSeguro(referenciaOT(ot))}</div><div class="mat">${htmlSeguro(ot.matricula||"SIN MATRICULA")}</div><div class="cli">${htmlSeguro(ot.cliente||"SIN CLIENTE")}</div>${ot.telefono?`<div class="cli">${htmlSeguro(ot.telefono)}</div>`:""}<div class="mot">${htmlSeguro(resumenTrabajo(motivoCitaOT(ot)||ot.observaciones||"SIN MOTIVO"))}</div><div style="display:flex;gap:8px;"><button type="button" class="secondary" style="flex:1;" onclick="editarCitaMovilAC80(${ot.id})">EDITAR</button><button type="button" class="danger" style="flex:1;" onclick="eliminarCitaMovilAC80(${ot.id})">ELIMINAR</button></div></div>`).join("");
 }
 function setVistaPresupuesto(vista){
 vistaPresupuesto=vista||"activos";
@@ -3539,9 +3502,6 @@ lineasHtml += `</tbody></table></div>`;
 return lineasHtml;
 }
 return `<b>TRABAJOS:</b><br>${htmlSeguro(ot.trabajos||motivoCitaOT(ot)||"SIN TRABAJOS")}`;
-}
-function claseOperarioAsignado(op){
-return normalizarOperario(op) ? "" : "sin";
 }
 function operariosIntervinientesOT(ot){
 const lista=[];
@@ -4612,6 +4572,7 @@ destino.fechaFinalizacion=(existente && existente.fechaFinalizacion) ? existente
 }
 asegurarNumeracion(destino);
 sincronizarFiscalDesdeFicha(destino);
+marcarTrazabilidadR211(destino, existente);
 if(existente){
 const idx=ots.findIndex(x=>x.id===existente.id);
 if(idx>=0) ots[idx]=destino;
@@ -4743,6 +4704,7 @@ ot.observaciones=(obsFormulario+(obsFormulario?"\n":"")+lineasOp.join("\n")).tri
 }
 sincronizarFiscalDesdeFicha(ot);
 asegurarNumeracion(ot);
+marcarTrazabilidadR211(ot, anterior);
 if(convertirPresupuestoATrabajo){
 anterior.presupuestoEstado="CONVERTIDO_OT";
 asegurarNumeracion(ot);
@@ -4786,6 +4748,7 @@ ot.fechaFinalizacion=ahoraLocalInput();
 ot.motivoRectificativa=ot.motivoRectificativa || (document.getElementById("motivoRectificativa") ? document.getElementById("motivoRectificativa").value.trim().toUpperCase() : "");
 sincronizarFiscalDesdeFicha(ot);
 asegurarNumeracion(ot);
+marcarTrazabilidadR211(ot, null);
 aplicarStockFacturaSiProcede(ot); // R129: descuenta una sola vez al emitir FREC
 ots.push(ot);
 if(!guardar()){ ots=ots.filter(x=>x.id!==ot.id); guardandoOT=false; return; }
@@ -4803,6 +4766,7 @@ ot.fechaFinalizacion=ahoraLocalInput();
 }
 sincronizarFiscalDesdeFicha(ot);
 asegurarNumeracion(ot);
+marcarTrazabilidadR211(ot, null);
 aplicarStockFacturaSiProcede(ot); // R129: solo descuenta stock si se emite factura
 ots.push(ot);
 if(!guardar()){ ots=ots.filter(x=>x.id!==ot.id); guardandoOT=false; return; }
@@ -4885,50 +4849,15 @@ prepararFormularioNormal(esFactura(ot) ? "Editar factura" : (esPrefactura(ot) ? 
 document.getElementById("aviso").classList.add("hidden");
 const banner=document.getElementById("bannerEdicion");
 document.getElementById("bannerEdicionRef").textContent=referenciaOT(ot)+" — "+ot.matricula;
+const trazaEl=document.getElementById("bannerTrazabilidadR211");
+if(trazaEl){
+const partes=[];
+if(ot.creadoPor) partes.push("Creado por "+ot.creadoPor+(ot.fechaCreacion?" ("+fechaAgendaCorta(ot.fechaCreacion)+")":""));
+if(ot.modificadoPor) partes.push("Última edición: "+ot.modificadoPor+(ot.fechaModificacion?" ("+fechaAgendaCorta(ot.fechaModificacion)+")":""));
+trazaEl.textContent=partes.join(" · ")||"Sin datos de trazabilidad (expediente anterior a esta función).";
+}
 banner.style.display="block";
 window.scrollTo({top:0,behavior:"smooth"});
-}
-function eliminarOT(id){
-const ot=ots.find(x=>x.id===id);
-if(!ot) return;
-const ref=referenciaOT(ot);
-if(esCita(ot)){
- eliminarCitaAgenda(id);
- return;
-}
-if(esPresupuesto(ot)){
- volverPresupuestoAAgendaAC108(id);
- return;
-}
-if(esOT(ot)){
- volverOTAPresupuestoAC108(id);
- return;
-}
-if(esPrefactura(ot)){
- volverPrefacturaAOTAC108(id);
- return;
-}
-if(esFactura(ot)){
-alert("NO SE PUEDE BORRAR UNA FACTURA EMITIDA. Crea una FREC si hay que corregirla.");
-return;
-}
-if(!confirm("¿ELIMINAR "+ref+" — "+ot.matricula+" ("+ot.cliente+")? Esta acción no se puede deshacer.")) return;
-// Restaurar stock de artículos antes de eliminar
-restaurarStockOT(ot);
-ots=ots.filter(x=>x.id!==id);
-guardar();
-const activas=["agenda","presupuesto","taller","prefactura","historial"];
-activas.forEach(v=>{
-const el=document.getElementById(v);
-if(el && !el.classList.contains("hidden")){
-if(v==="agenda") renderAgenda();
-if(v==="presupuesto") renderPresupuesto();
-if(v==="taller") renderTaller();
-if(v==="prefactura") renderPrefactura();
-if(v==="historial") renderHistorial();
-}
-});
-alert("OT ELIMINADA: "+ref);
 }
 function rectificarFactura(id){
 const original=ots.find(x=>x.id===id);
@@ -6075,7 +6004,6 @@ function solicitarAccesoIntegridadAC56(){
   setTimeout(actualizarEstadoIntegridadAC57,120);
  } else alert("CÓDIGO INCORRECTO");
 }
-function solicitarAccesoIntegridadAC55(){ return solicitarAccesoIntegridadAC56(); }
 function editarCodigoIntegridadAC56(){
  const actual=codigoIntegridadAC55();
  const nuevo=prompt("Nuevo código para el Centro de Integridad:", actual);
@@ -6085,7 +6013,6 @@ function editarCodigoIntegridadAC56(){
  localStorage.setItem(CODIGO_INTEGRIDAD_KEY_AC55,limpio);
  alert("Código de integridad actualizado.");
 }
-function editarCodigoIntegridadAC55(){ return editarCodigoIntegridadAC56(); }
 function fechaParaArchivoAC55(){ return new Date().toISOString().slice(0,19).replace(/[-:T]/g,""); }
 function descargarTextoAC55(nombre,contenido,tipo){
  const blob=new Blob([contenido],{type:tipo||"text/plain;charset=utf-8"});
@@ -6187,7 +6114,6 @@ function cargarPlanCopiasAC55(){
 }
 function mostrarResultadoIntegridadAC55(html){ const el=document.getElementById("integridadResultadoAC55"); if(el) el.innerHTML=html; }
 
-function conteoModuloAC56(m){ try{return datosModuloAC55(m).length;}catch(e){return 0;} }
 function rendimientoBasicoAC57(){
  const t0=performance.now();
  let bytes=0, busquedaMs=0, guardadoVirtualMs=0;
@@ -6273,40 +6199,11 @@ function resumenEstadoIntegridadAC56(){
  const r=pruebasCertificacionAC57();
  return {conteos:r.conteos,informe:{errores:r.errores,advertencias:r.advertencias,info:r.info},errores:r.errores.length,adv:r.advertencias.length,salud:r.salud,certificado:r.certificado,rendimiento:r.rendimiento,totales:r.totales};
 }
-function actualizarEstadoIntegridadAC56(){
- const r=resumenEstadoIntegridadAC56();
- const el=document.getElementById("integridadEstadoAC56");
- if(!el) return;
- const color=r.errores?"#b00020":(r.adv?"#ff7a1a":"#28a745");
- const estado=r.errores?"❌ NO CERTIFICADO":(r.adv?"⚠️ CERTIFICABLE CON ADVERTENCIAS":"✅ CERTIFICABLE");
- el.style.borderColor=color;
- el.innerHTML=`<b>Estado general AutoBorja ${APP_VERSION}</b><br>${estado}<br>Salud técnica: <b>${r.salud}%</b><br>Errores críticos: <b>${r.errores}</b> · Advertencias: <b>${r.adv}</b><br><br><b>Registros:</b><br>Clientes: ${r.conteos.clientes} · Vehículos: ${r.conteos.vehiculos} · Artículos: ${r.conteos.articulos}<br>Agenda: ${r.conteos.agenda} · Presupuestos: ${r.conteos.presupuestos} · OT: ${r.conteos.ot}<br>Prefacturas: ${r.conteos.prefacturas} · Facturas: ${r.conteos.facturas}<br><br><b>Rendimiento:</b><br>Tamaño: ${r.rendimiento.mb} MB · Guardado virtual: ${r.rendimiento.guardadoVirtualMs} ms · Búsqueda: ${r.rendimiento.busquedaMs} ms<br><br>Última revisión: ${new Date().toLocaleString()}`;
- mostrarResultadoIntegridadAC55(`🔎 Estado actualizado.<br>Resultado: <b>${estado}</b><br>Salud: <b>${r.salud}%</b><br>Errores: <b>${r.errores}</b><br>Advertencias: <b>${r.adv}</b>`);
-}
-function certificarAutoBorjaAC56(nivel){
- const r=pruebasCertificacionAC57();
- const total=Object.values(r.conteos||{}).reduce((a,b)=>a+(Number(b)||0),0);
- const estado=r.certificado?(r.advertencias.length?"⚠️ CERTIFICADO CON ADVERTENCIAS":"✅ AUTOBORJA CERTIFICADO") : "❌ NO CERTIFICADO";
- const color=r.certificado?(r.advertencias.length?"#ff7a1a":"#28a745"):"#b00020";
- const certificado={tipo:"CERTIFICADO_INTEGRIDAD_AUTOBORJA_AC57",version:APP_VERSION,nivel:nivel||"integral",fecha:r.fecha,resultado:estado,salud:r.salud,certificado:r.certificado,certificadoPleno:r.certificadoPleno,errores:r.errores,advertencias:r.advertencias,conteos:r.conteos,totales:r.totales,rendimiento:r.rendimiento};
- try{ localStorage.setItem("RTP_ULTIMA_CERTIFICACION_AC57",JSON.stringify(certificado)); }catch(e){}
- let listaErrores=r.errores.slice(0,8).map(e=>`<div style="background:#3a1014;border-left:4px solid #b00020;border-radius:8px;padding:7px;margin:5px 0;color:#ffd6d6;"><b>[${htmlSeguro(e.cat||'ERROR')}]</b> ${htmlSeguro(e.msg||e)}</div>`).join("");
- let listaAdv=r.advertencias.slice(0,8).map(e=>`<div style="background:#2a1a00;border-left:4px solid #ff7a1a;border-radius:8px;padding:7px;margin:5px 0;color:#ffd580;"><b>[${htmlSeguro(e.cat||'AVISO')}]</b> ${htmlSeguro(e.msg||e)}</div>`).join("");
- const html=`<div style="border:2px solid ${color};border-radius:14px;padding:14px;background:#0b1220;"><b style="font-size:18px;color:${color};">CERTIFICACIÓN INTEGRAL ${APP_VERSION}</b><br><br><b>Resultado:</b> ${estado}<br><b>Índice de salud:</b> ${r.salud}%<br><b>Registros revisados/exportables:</b> ${total}<br><b>Expedientes reales:</b> ${r.totales.expedientes}<br><b>Clientes:</b> ${r.totales.clientes} · <b>Vehículos:</b> ${r.totales.vehiculos} · <b>Artículos:</b> ${r.totales.articulos}<br><b>Facturas:</b> ${r.totales.facturas} · <b>FREC:</b> ${r.totales.rectificativas}<br><br><b>Pruebas realizadas:</b><br>✅ Flujo documental<br>✅ Numeraciones<br>✅ Stock<br>✅ Clientes y vehículos<br>✅ Copias restaurables<br>✅ Exportaciones modulares<br>✅ Capacidad y rendimiento<br><br><b>Rendimiento:</b><br>Tamaño ${r.rendimiento.mb} MB · Guardado virtual ${r.rendimiento.guardadoVirtualMs} ms · Búsqueda ${r.rendimiento.busquedaMs} ms<br><br><b>Fecha:</b> ${r.fechaLocal}</div>${listaErrores?`<h4 style="color:#ffd6d6;">Errores que impiden certificar</h4>${listaErrores}`:""}${listaAdv?`<h4 style="color:#ffd580;">Advertencias</h4>${listaAdv}`:""}<br><button type="button" class="secondary" onclick="exportarInformeCertificacionAC56()">📄 EXPORTAR CERTIFICADO / INFORME AC57</button>`;
- mostrarResultadoIntegridadAC55(html);
- actualizarEstadoIntegridadAC56();
-}
 function exportarInformeCertificacionAC56(){
  const r=pruebasCertificacionAC57();
  const informe={tipo:"INFORME_CERTIFICACION_INTEGRAL_AUTOBORJA_AC57",version:APP_VERSION,fecha:r.fecha,resultado:r.certificado?(r.advertencias.length?"CERTIFICADO CON ADVERTENCIAS":"AUTOBORJA CERTIFICADO"):"NO CERTIFICADO",salud:r.salud,certificado:r.certificado,certificadoPleno:r.certificadoPleno,errores:r.errores,advertencias:r.advertencias,info:r.info,conteos:r.conteos,totales:r.totales,rendimiento:r.rendimiento};
  descargarTextoAC55("autoborja_certificacion_integral_"+APP_VERSION+"_"+fechaParaArchivoAC55()+".json",JSON.stringify(informe,null,2),"application/json;charset=utf-8");
  mostrarResultadoIntegridadAC55("✅ Informe de certificación AC57 exportado en JSON.");
-}
-function ejecutarDiagnosticoDesdeIntegridadAC56(){
- accesoR138="integridad";
- origenDiagnosticoAC110="integridadPrograma";
- showTab("diagnostico");
- setTimeout(()=>{ try{ ejecutarDiagnostico(); }catch(e){ alert("No se pudo ejecutar diagnóstico: "+e.message); } },150);
 }
 
 function reparacionesUnicasAC95(inf){
@@ -6492,14 +6389,6 @@ function ejecutarDiagnosticoDesdeIntegridadAC56(){
  setTimeout(()=>{ try{ ejecutarDiagnostico(); }catch(e){ alert("No se pudo ejecutar diagnostico: "+e.message); } },150);
 }
 
-function salirSeguro(){
-const hacerCopia=confirm("¿Quieres hacer una copia de seguridad antes de salir?\n\nAceptar = hacer copia ahora.\nCancelar = volver a la portada sin copia.");
-try{ guardar(); }catch(e){}
-if(hacerCopia) exportarCopia();
-accesoR138="";
-showTab("inicio");
-alert("PROGRAMA BLOQUEADO EN LA PORTADA PRINCIPAL");
-}
 function exportarCopia(){
 cronoCargar();
 chCargar();
@@ -7129,10 +7018,9 @@ operarios[op].coste += (linea.cantidad || 0) * (linea.coste_unitario || 0);
 });
 }
 });
-// Cruzar tiempos reales del cronómetro (excluye OTs anuladas)
+// Cruzar tiempos reales del cronómetro
 ots.forEach(ot => {
 if (!ot.tiemposOperario) return;
-if (estadoCanonico(ot.estado)==="OT_ANULADA") return;
 Object.entries(ot.tiemposOperario).forEach(([op, dat]) => {
 if (!operarios[op]) operarios[op] = { horas: 0, facturado: 0, coste: 0, minsReal: 0, otsTrabajadas: 0 };
 operarios[op].minsReal += (dat.mins || 0);
@@ -7629,25 +7517,6 @@ html += `<tr style="border-bottom:1px solid #2a3a55;">
 html += `</tbody></table></div>`;
 contenedor.innerHTML = html;
 }
-function inicializarPrueba(){
-if(ots.length>0) return;
-ots.push({
-id:Date.now(),
-matricula:"0000ASD",
-cliente:"JOSE AGOIZ DUARTE",
-telefono:"600000000",
-marca:"OPEL",
-modelo:"ZAFIRA",
-km:"350000",
-fecha:"",
-estado:"CITA",
-motivoCita:"PRUEBA INICIAL",
-trabajos:"",
-observaciones:"REGISTRO DE PRUEBA",
-lineas: []
-});
-guardar();
-}
 asegurarOperariosBase();
 (ots||[]).forEach(o=>{ if(!o.motivoCita && esCita(o) && o.trabajos){ o.motivoCita=o.trabajos; o.trabajos=""; } });
 completarNumeracionExistente();
@@ -8099,7 +7968,7 @@ mostrarModalAlerta("Pantalla completa no disponible en este navegador. Puedes us
 function simplificarNavegacionAC58(){
 const inicio=document.getElementById("inicio");
 if(inicio){
-inicio.innerHTML=`<div class="ac60-home-head"><h2>Bienvenido a AutoBorja</h2><button id="btnPantallaCompletaInicioAC58" class="secondary ac60-fullscreen" onclick="activarPantallaCompletaAC58()" type="button">⛶</button></div><div class="ac60-home-sub">Entrada sencilla por tipo de usuario.</div><div class="ac60-home-label">EMPRESA</div><div class="ac60-home-grid"><button class="icon-btn-r202 verde" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>AUTOBORJA</b><span>Gestión completa</span></span></button><button class="icon-btn-r202 naranja" onclick="solicitarAccesoIntegridadAC56()" type="button"><span class="ico-r202">🛡️</span><span class="txt-r202"><b>INTEGRIDAD</b><span>Copias y revisión</span></span></button></div><div class="ac60-home-label">TRABAJADORES</div><div class="ac60-home-grid"><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Ordenes de trabajo</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>FICHAJE</b><span>Control horario</span></span></button></div>`;
+inicio.innerHTML=`<div class="ac60-home-head"><h2>Bienvenido a AutoBorja</h2><button id="btnPantallaCompletaInicioAC58" class="secondary ac60-fullscreen" onclick="activarPantallaCompletaAC58()" type="button">⛶</button></div><div class="ac60-home-sub">Entrada sencilla por tipo de usuario.</div><div class="ac60-home-label">EMPRESA</div><div class="ac60-home-grid"><button class="icon-btn-r202 verde" onclick="solicitarAccesoR138('gestion')" type="button"><span class="ico-r202">🔐</span><span class="txt-r202"><b>AUTOBORJA</b><span>Gestión completa</span></span></button><button class="icon-btn-r202 naranja" onclick="solicitarAccesoIntegridadAC56()" type="button"><span class="ico-r202">🛡️</span><span class="txt-r202"><b>INTEGRIDAD</b><span>Copias y revisión</span></span></button></div><div class="ac60-home-label">TRABAJADORES</div><div class="ac60-home-grid"><button class="icon-btn-r202 azul" onclick="accesoOperarioR203('operarios')" type="button"><span class="ico-r202">👨‍🔧</span><span class="txt-r202"><b>OPERARIOS</b><span>Ordenes de trabajo</span></span></button><button class="icon-btn-r202 morado" onclick="accesoOperarioR203('controlHorario')" type="button"><span class="ico-r202">⏱</span><span class="txt-r202"><b>FICHAJE</b><span>Control horario</span></span></button></div><div class="ac60-home-label">MÓVIL</div><div class="ac60-home-grid"><button class="icon-btn-r202 azul" onclick="solicitarAccesoMovilR210()" type="button"><span class="ico-r202">📱</span><span class="txt-r202"><b>AGENDA MÓVIL</b><span>Solo citas, código propio</span></span></button></div>`;
 }
 const portada=document.getElementById("portadaGestion");
 if(portada){
@@ -8651,25 +8520,6 @@ const vals=parseLinea(l);
 const o={};
 cab.forEach((h,i)=>o[h]=vals[i]||"");
 return o;
-});
-}
-function importarProveedoresAC64(event){
-const file=event.target.files[0];
-if(!file) return;
-leerArchivoTexto(file,function(texto){
-try{
-let lista=[];
-if(file.name.toLowerCase().endsWith(".json")) lista=JSON.parse(texto);
-else lista=parseCSVProveedoresAC64(texto);
-if(!Array.isArray(lista)) throw new Error("Formato no valido");
-const r=aplicarProveedoresBaseAC64(lista);
-mostrarModalAlerta("Proveedores importados por CIF.\nNuevos: "+r.nuevos+"\nActualizados/fusionados: "+r.actualizados+"\nDescartados: "+r.descartados+"\nTotal base: "+r.total);
-renderComprasAC63(false);
-}catch(e){
-mostrarModalAlerta("No se pudo importar la base de proveedores. Revisa que sea CSV o JSON depurado.");
-console.error(e);
-}
-event.target.value="";
 });
 }
 function cargarProveedorCompraAC64(){
@@ -9887,7 +9737,6 @@ agregarDetalleArticulosFamiliaAC93();
 const showTabBaseAC58=showTab;
 showTab=function(id){
 if(id==="portadaGestion") id="agenda";
-if(id==="agendaMovil") id="agenda";
 document.body.classList.toggle("modo-formulario-ac90", id==="nueva");
 const pantallasDocumentalesAC91=["agenda","agendaMovil","presupuesto","taller","prefactura","historial","compras","mas","ganancias","estadisticas","tiemposOperarios","inventario","nueva"];
 const activarCintaDocumentalAC91=(tab)=>document.body.classList.toggle("modo-documental-ac91", pantallasDocumentalesAC91.includes(tab) && accesoR138==="gestion");
@@ -9937,6 +9786,8 @@ showTabBaseAC58(id);
 activarCintaDocumentalAC91(id);
 const tabsBar=document.getElementById("tabs");
 if(tabsBar && (id==="inicio" || id==="portadaGestion")){
+tabsBar.style.display="none";
+}else if(tabsBar && id==="agendaMovil" && accesoR138!=="gestion"){
 tabsBar.style.display="none";
 }else if(tabsBar && ["agenda","agendaMovil","presupuesto","taller","prefactura","historial","compras","mas","almacen","herramientas","seguridad","diagnostico","ganancias","estadisticas","tiemposOperarios","inventario","nueva"].includes(id)){
 tabsBar.style.display="flex";
